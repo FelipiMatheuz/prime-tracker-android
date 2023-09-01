@@ -1,0 +1,21 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="Theme.Warframeprimehunt" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/gold_500</item>
+        <item name="colorPrimaryVariant">@color/gold_700</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Surface brand color. (Primary equivalent) -->
+        <item name="colorSurface">?attr/colorPrimary</item>
+        <item name="colorOnSurface">?attr/colorOnPrimary</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/cyan_200</item>
+        <item name="colorSecondaryVariant">@color/cyan_700</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+        <item name="android:fontFamily">@font/andika_regular</item>
+        <item name="fontFamily">@font/andika_regular</item>
+    </style>
+</resources>

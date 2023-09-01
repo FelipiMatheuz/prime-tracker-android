@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+    <TextView
+            tools:text="Ember Prime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_comp_name"
+            android:textStyle="italic"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="16dp"/>
+
+    <HorizontalScrollView
+            app:layout_constraintTop_toBottomOf="@id/tv_comp_name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fillViewport="true">
+
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="top">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="@+id/tv_blueprint"
+                        app:layout_constraintTop_toTopOf="@+id/tv_blueprint"
+                        android:layout_marginTop="-8dp"
+                        android:layout_marginEnd="-8dp"
+                        tools:src="@drawable/check_circle"
+                        android:id="@+id/iv_blueprint"
+                        android:contentDescription="@string/default_content_description"/>
+
+                <TextView
+                        android:id="@+id/tv_blueprint"
+                        android:text="@string/comp_blueprint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/tv_blueprint_relics"
+                        app:layout_constraintStart_toStartOf="@+id/tv_blueprint_relics"
+                        app:drawableTopCompat="@drawable/prime_blueprint"/>
+
+                <TextView
+                        android:id="@+id/tv_blueprint_relics"
+                        tools:text="Meso M99\nMeso M99\nMeso M99"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/relic_background"
+                        android:layout_marginTop="8dp"
+                        android:padding="8dp"
+                        android:layout_marginEnd="8dp"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_blueprint"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="@+id/tv_comp_1"
+                        app:layout_constraintTop_toTopOf="@+id/tv_comp_1"
+                        android:layout_marginTop="-8dp"
+                        android:layout_marginEnd="-8dp"
+                        tools:src="@drawable/progress_circle"
+                        android:id="@+id/iv_comp_1"
+                        android:contentDescription="@string/default_content_description"/>
+
+                <TextView
+                        android:id="@+id/tv_comp_1"
+                        tools:text="Ornament 2x"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:drawableTop="@android:drawable/btn_star_big_on"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/tv_comp_1_relics"
+                        app:layout_constraintStart_toStartOf="@+id/tv_comp_1_relics"/>
+
+                <TextView
+                        android:id="@+id/tv_comp_1_relics"
+                        tools:text="Meso M99\nMeso M99"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/relic_background"
+                        android:layout_marginTop="8dp"
+                        android:padding="8dp"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_comp_1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginEnd="8dp"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="@+id/tv_comp_2"
+                        app:layout_constraintTop_toTopOf="@+id/tv_comp_2"
+                        android:layout_marginTop="-8dp"
+                        android:layout_marginEnd="-8dp"
+                        tools:src="@drawable/progress_circle"
+                        android:id="@+id/iv_comp_2"
+                        android:contentDescription="@string/default_content_description"/>
+
+                <TextView
+                        android:id="@+id/tv_comp_2"
+                        tools:text="Ornament 2x"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:drawableTop="@android:drawable/btn_star_big_on"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/tv_comp_2_relics"
+                        app:layout_constraintStart_toStartOf="@+id/tv_comp_2_relics"/>
+
+                <TextView
+                        android:id="@+id/tv_comp_2_relics"
+                        tools:text="Meso M99\nMeso M99"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/relic_background"
+                        android:layout_marginTop="8dp"
+                        android:padding="8dp"
+                        android:layout_marginEnd="8dp"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_comp_2"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="@+id/tv_comp_3"
+                        app:layout_constraintTop_toTopOf="@+id/tv_comp_3"
+                        android:layout_marginTop="-8dp"
+                        android:layout_marginEnd="-8dp"
+                        tools:src="@drawable/progress_circle"
+                        android:id="@+id/iv_comp_3"
+                        android:contentDescription="@string/default_content_description"/>
+
+                <TextView
+                        android:id="@+id/tv_comp_3"
+                        tools:text="Ornament 2x"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:drawableTop="@android:drawable/btn_star_big_on"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/tv_comp_3_relics"
+                        app:layout_constraintStart_toStartOf="@+id/tv_comp_3_relics"/>
+
+                <TextView
+                        android:id="@+id/tv_comp_3_relics"
+                        tools:text="Meso M99\nMeso M99"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/relic_background"
+                        android:layout_marginTop="8dp"
+                        android:padding="8dp"
+                        android:layout_marginEnd="8dp"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_comp_3"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="@+id/tv_comp_4"
+                        app:layout_constraintTop_toTopOf="@+id/tv_comp_4"
+                        android:layout_marginTop="-8dp"
+                        android:layout_marginEnd="-8dp"
+                        tools:src="@drawable/progress_circle"
+                        android:id="@+id/iv_comp_4"
+                        android:contentDescription="@string/default_content_description"/>
+
+                <TextView
+                        android:id="@+id/tv_comp_4"
+                        tools:text="Ornament 2x"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:drawableTop="@android:drawable/btn_star_big_on"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/tv_comp_4_relics"
+                        app:layout_constraintStart_toStartOf="@+id/tv_comp_4_relics"/>
+
+                <TextView
+                        android:id="@+id/tv_comp_4_relics"
+                        tools:text="Meso M99\nMeso M99"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/relic_background"
+                        android:layout_marginTop="8dp"
+                        android:padding="8dp"
+                        android:layout_marginEnd="4dp"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_comp_4"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+    </HorizontalScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

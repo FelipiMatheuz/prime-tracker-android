@@ -1,0 +1,46 @@
+package com.felipimatheuz.primehunt.model.resources
+
+import com.fasterxml.jackson.databind.DeserializationFeature
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.felipimatheuz.primehunt.model.sets.PrimeSet
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import java.net.URL
+
+
+class PrimeSetApi {
+    private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
+    private var setData: List<PrimeSet> = listOf()
+
+    suspend fun setSetData() {
+        return coroutineScope {
+            val resultData = async(defaultDispatcher) { loadData() }
+            setData = resultData.await()
+        }
+    }
+
+    fun getSetData(): List<PrimeSet> = setData
+
+    private fun loadData(): List<PrimeSet> {
+        val origin = "https://data.mongodb-api.com"
+        val path = "/app/data-wgnuq/endpoint/checklist"
+        val mapper = jacksonObjectMapper()
+        val url = URL("$origin$path")
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+        val result = mutableListOf<PrimeSet>()
+        for (l in mapper.readValue(url, List::class.java)) {
+            result.add(mapper.convertValue(l, PrimeSet::class.java))
+        }
+        return result
+    }
+
+    companion object {
+        suspend fun singleInstance(): PrimeSetApi {
+            val primeSetApi = PrimeSetApi()
+            primeSetApi.setSetData()
+            return primeSetApi
+        }
+    }
+}
