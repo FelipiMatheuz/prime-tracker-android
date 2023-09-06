@@ -3,7 +3,8 @@
     <string name="default_content_description">Illustrated Image</string>
 
     <!--Internet-->
-    <string name="by_owner">by CybermanStudios</string>
+    <string name="by_owner">by Cyberman Studios</string>
+    <string name="logo" translatable="false">Image Logo</string>
     <string name="loading_content">Loading External Content…</string>
     <string name="check_updates">Checking Updates…</string>
     <string name="connection_failed">Connection Failed</string>
@@ -72,7 +73,9 @@
     <string name="help">Help</string>
 
     <!--Other-->
-    <string name="overall_stats">Total: [T]\nIn Progress: [P]\nCompleted: [C]</string>
+    <string name="overall_stats">Total:  %1$s\nIn Progress:  %2$s\nCompleted:  %3$s</string>
+    <string name="overall">Overall</string>
+    <string name="detailed">Detailed</string>
     <string name="search_items_by_name">Search items by name</string>
     <string name="lith_relics">Lith Relics</string>
     <string name="meso_relics">Meso Relics</string>
@@ -82,5 +85,5 @@
 
     <!-- Help -->
     <string name="title_basics">How to Use</string>
-    <string name="basics_content">[MENU SET] / [MENU OTHER]:\n-Long press one of the items to check/uncheck all items within the set\n-Click on one of the items to see details\n\tClick on a prime component to mark/unmark the item\n-Use the filter in the toolbar to ease your search\n\n[MENU RELIC]:\n-Click on the relic to see the details\n-Disabled relics indicate that you already have all the primes that the relic offers\n-Enabled relics indicate that it contains items not yet obtained\n-The number next to the relic indicates how many prime items have not been obtained\n-Use the filter in the toolbar to ease your search</string>
+    <string name="basics_content">%1$s / %2$s:\n-Long press one of the items to check/uncheck all items within the set\n-Click on one of the items to see details\n\tClick on a prime component to mark/unmark the item\n-Use the filter in the toolbar to ease your search\n\n%3$s:\n-Click on the relic to see the details\n-Disabled relics indicate that you already have all the primes that the relic offers\n-Enabled relics indicate that it contains items not yet obtained\n-The number next to the relic indicates how many prime items have not been obtained\n-Use the filter in the toolbar to ease your search</string>
 </resources>

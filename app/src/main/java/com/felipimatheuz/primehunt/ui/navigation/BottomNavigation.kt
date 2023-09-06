@@ -18,19 +18,13 @@ import com.felipimatheuz.primehunt.ui.theme.WarframeprimehuntTheme
 
 @Composable
 fun BottomNav(navController: NavController) {
-    val items = listOf(
-        BottomNavItem.Overview,
-        BottomNavItem.PrimeSets,
-        BottomNavItem.OtherPrimes,
-        BottomNavItem.Relics
-    )
     BottomNavigation(
         backgroundColor = MaterialTheme.colorScheme.secondary,
         contentColor = MaterialTheme.colorScheme.onSecondary
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
-        items.forEach { item ->
+        BottomNavItem.getList().forEach { item ->
             BottomNavigationItem(
                 icon = { Icon(painterResource(id = item.icon), contentDescription = null)},
                 label = {

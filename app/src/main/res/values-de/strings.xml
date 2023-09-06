@@ -53,7 +53,9 @@
     <string name="menu_other_prime">Andere Primes</string>
     <string name="menu_relics">Reliktes</string>
     <string name="help">Helfen</string>
-    <string name="overall_stats">Gesamt: [T]\nIn Bearbeitung: [P]\nAbgeschlossen: [C]</string>
+    <string name="overall_stats">Gesamt: %1$s\nIn Bearbeitung: %2$s\nAbgeschlossen: %3$s</string>
+    <string name="overall">Gesamt</string>
+    <string name="detailed">Detailliert</string>
     <string name="search_items_by_name">Suchen Sie nach Artikeln nach Namen</string>
     <string name="lith_relics">Lith Relikte</string>
     <string name="meso_relics">Meso Relikte</string>
@@ -61,5 +63,5 @@
     <string name="axi_relics">Axi Relikte</string>
     <string name="forma_blueprint">Forma Blaupause</string>
     <string name="title_basics">Wie Benutzt man</string>
-    <string name="basics_content">[MENU SET] / [MENU OTHER]:\n-Drücken Sie lange auf eines der Elemente, um alle Elemente im Set zu aktivieren/deaktivieren\n-Klicken Sie auf eines der Elemente, um Details anzuzeigen\n\tKlicken Sie auf eine Hauptkomponente, um sie zu markieren /Markierung des Elements aufheben\n-Verwenden Sie den Filter in der Symbolleiste, um Ihre Suche zu vereinfachen\n\n[MENU RELIC]:\n-Klicken Sie auf das Relikt, um die Details anzuzeigen\n-Deaktivierte Relikte zeigen an, dass Sie bereits alle Primzahlen haben dass das Relikt bietet\n-Aktivierte Relikte zeigen an, dass es Gegenstände enthält, die noch nicht erhalten wurden\n-Die Zahl neben dem Relikt gibt an, wie viele erstklassige Gegenstände noch nicht erhalten wurden\n-Verwenden Sie den Filter in der Symbolleiste, um Ihre Suche zu vereinfachen</string>
+    <string name="basics_content">%1$s / %2$s:\n-Drücken Sie lange auf eines der Elemente, um alle Elemente im Set zu aktivieren/deaktivieren\n-Klicken Sie auf eines der Elemente, um Details anzuzeigen\n\tKlicken Sie auf eine Hauptkomponente, um sie zu markieren /Markierung des Elements aufheben\n-Verwenden Sie den Filter in der Symbolleiste, um Ihre Suche zu vereinfachen\n\n%3$s:\n-Klicken Sie auf das Relikt, um die Details anzuzeigen\n-Deaktivierte Relikte zeigen an, dass Sie bereits alle Primzahlen haben dass das Relikt bietet\n-Aktivierte Relikte zeigen an, dass es Gegenstände enthält, die noch nicht erhalten wurden\n-Die Zahl neben dem Relikt gibt an, wie viele erstklassige Gegenstände noch nicht erhalten wurden\n-Verwenden Sie den Filter in der Symbolleiste, um Ihre Suche zu vereinfachen</string>
 </resources>

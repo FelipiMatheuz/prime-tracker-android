@@ -15,20 +15,22 @@ class SplashViewModel : ViewModel() {
 
     @OptIn(DelicateCoroutinesApi::class)
     fun loadResource(textRes: Int) {
-        try {
-            if (textRes == R.string.loading_content) {
-                GlobalScope.launch {
-                    apiRelic = PrimeRelicApi.singleInstance()
-                    loadState.value = LoadState.LoadSet
+        GlobalScope.launch(Dispatchers.Main) {
+            try {
+                if (textRes == R.string.loading_content) {
+                    GlobalScope.async {
+                        apiRelic = PrimeRelicApi.singleInstance()
+                        loadState.value = LoadState.LoadSet
+                    }.await()
+                } else {
+                    GlobalScope.async {
+                        apiData = PrimeSetApi.singleInstance()
+                        loadState.value = LoadState.Ready
+                    }.await()
                 }
-            } else {
-                GlobalScope.launch {
-                    apiData = PrimeSetApi.singleInstance()
-                    loadState.value = LoadState.Ready
-                }
+            } catch (e: Exception) {
+                loadState.value = LoadState.Error(textRes)
             }
-        } catch (e: Exception) {
-            loadState.value = LoadState.Error(textRes)
         }
     }
 }

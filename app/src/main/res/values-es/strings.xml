@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="by_owner">por CybermanStudios</string>
+    <string name="by_owner">por Cyberman Studios</string>
     <string name="loading_content">Cargando contenido externo…</string>
     <string name="prime_set_template">Conjunto ITEM Prime</string>
     <string name="status_resurgence">Varzia (Resurgimiento)</string>
@@ -39,6 +39,8 @@
     <string name="unavailable">Indisponible</string>
     <string name="incomplete">Incompleto</string>
     <string name="complete">Completo</string>
+    <string name="overall">General</string>
+    <string name="detailed">Detalle</string>
     <string name="search_items_by_name">Buscar elementos por nombre</string>
     <string name="comp_chain">Cadena</string>
     <string name="default_content_description">Imagen Ilustrativa</string>
@@ -60,6 +62,6 @@
     <string name="forma_blueprint">Plano Forma</string>
     <string name="help">Ayuda</string>
     <string name="title_basics">Cómo Utilizar</string>
-    <string name="basics_content">[MENU SET] / [MENU OTHER]:\n-Mantenga presionado uno de los elementos para marcar/desmarcar todos los elementos dentro del conjunto\n-Haga clic en uno de los elementos para ver los detalles\n\tHaga clic en un componente principal para marcar /desmarcar el elemento\n-Use el filtro en la barra de herramientas para facilitar su búsqueda\n\n[MENU RELIC]:\n-Haz clic en la reliquia para ver los detalles\n-Las reliquias eliminadas indican que ya tienes todos los primos que ofrece la reliquia\n-Las reliquias iluminadas indican que contiene elementos aún no obtenidos\n: el número junto a la reliquia indica cuántos elementos principales no se han obtenido\n-Use el filtro en la barra de herramientas para facilitar su búsqueda</string>
-    <string name="overall_stats">Total: [T]\nEn progreso: [P]\nCompletado: [C]</string>
+    <string name="basics_content">%1$s / %2$s:\n-Mantenga presionado uno de los elementos para marcar/desmarcar todos los elementos dentro del conjunto\n-Haga clic en uno de los elementos para ver los detalles\n\tHaga clic en un componente principal para marcar /desmarcar el elemento\n-Use el filtro en la barra de herramientas para facilitar su búsqueda\n\n%3$s:\n-Haz clic en la reliquia para ver los detalles\n-Las reliquias eliminadas indican que ya tienes todos los primos que ofrece la reliquia\n-Las reliquias iluminadas indican que contiene elementos aún no obtenidos\n: el número junto a la reliquia indica cuántos elementos principales no se han obtenido\n-Use el filtro en la barra de herramientas para facilitar su búsqueda</string>
+    <string name="overall_stats">Total: %1$s\nEn progreso: %2$s\nCompletado: %3$s</string>
 </resources>

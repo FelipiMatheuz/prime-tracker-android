@@ -8,4 +8,10 @@ sealed class BottomNavItem(var title: Int, var icon: Int, var screenRoute: Strin
     object PrimeSets : BottomNavItem(R.string.menu_prime_sets, R.drawable.ic_excalibur_prime, "prime_sets")
     object OtherPrimes : BottomNavItem(R.string.menu_other_prime, R.drawable.ic_lato_prime, "other_primes")
     object Relics : BottomNavItem(R.string.menu_relics, R.drawable.ic_relic, "relic_list")
+
+        companion object {
+        fun getList() = listOf(
+            Overview, PrimeSets, OtherPrimes, Relics
+        )
+    }
 }

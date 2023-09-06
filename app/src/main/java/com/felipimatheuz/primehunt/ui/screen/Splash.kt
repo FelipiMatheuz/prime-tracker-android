@@ -27,7 +27,7 @@ import com.felipimatheuz.primehunt.viewmodel.SplashViewModel
 @Composable
 fun SplashScreen(onReady: () -> Unit) {
     ConstraintLayout(modifier = Modifier.fillMaxSize()) {
-        val (loadItem) = createRefs()
+        val (loadItem, bottomLogo) = createRefs()
         Column(modifier = Modifier.constrainAs(loadItem) {
             top.linkTo(parent.top)
             bottom.linkTo(parent.bottom)
@@ -44,6 +44,22 @@ fun SplashScreen(onReady: () -> Unit) {
                 LoadState.Ready -> onReady()
             }
         }
+
+        Row(modifier = Modifier.constrainAs(bottomLogo) {
+            bottom.linkTo(parent.bottom)
+            start.linkTo(parent.start)
+            end.linkTo(parent.end)
+        }.padding(bottom = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                text = stringResource(R.string.by_owner),
+                Modifier.padding(end = 8.dp),
+                style = MaterialTheme.typography.labelLarge.copy(
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            )
+            Image(painterResource(R.drawable.cs_logo), contentDescription = stringResource(R.string.logo))
+        }
+
     }
 }
 
@@ -51,9 +67,11 @@ fun SplashScreen(onReady: () -> Unit) {
 @Composable
 private fun ShowLoading(textRes: Int, viewModel: SplashViewModel) {
     GlideImage(model = R.drawable.fx_loading, contentDescription = null)
-    Text(text = stringResource(textRes), style = MaterialTheme.typography.labelLarge.copy(
-        color = MaterialTheme.colorScheme.onSurface
-    ))
+    Text(
+        text = stringResource(textRes), style = MaterialTheme.typography.labelLarge.copy(
+            color = MaterialTheme.colorScheme.onSurface
+        )
+    )
     viewModel.loadResource(textRes)
 }
 
@@ -77,7 +95,7 @@ private fun ShowError(viewModel: SplashViewModel, textRes: Int) {
             Button(onClick = {
                 viewModel.loadResource(textRes)
             }, content = {
-                Text(text = stringResource(R.string.connection_retry))
+                Text(text = stringResource(R.string.connection_retry), color = MaterialTheme.colorScheme.onSurface)
             })
         },
         shape = RoundedCornerShape(10.dp)

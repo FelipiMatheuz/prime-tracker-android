@@ -39,6 +39,8 @@
     <string name="unavailable">Indisponible</string>
     <string name="incomplete">Incomplet</string>
     <string name="complete">Complet</string>
+    <string name="overall">Général</string>
+    <string name="detailed">Minutieux</string>
     <string name="search_items_by_name">Rechercher des éléments par nom</string>
     <string name="comp_chain">Chaîne</string>
     <string name="default_content_description">Image Illustrée</string>
@@ -60,6 +62,6 @@
     <string name="forma_blueprint">Schéma Forma</string>
     <string name="help">Aider</string>
     <string name="title_basics">" Comment Utiliser"</string>
-    <string name="basics_content">[MENU SET] / [MENU OTHER] :\n-Appuyez longuement sur l\'un des éléments pour cocher/décocher tous les éléments de l\'ensemble\n-Cliquez sur l\'un des éléments pour voir les détails\n\tCliquez sur un composant principal à marquer /décochez l\'objet\n-Utilisez le filtre dans la barre d\'outils pour faciliter votre recherche\n\n[MENU RELIC] :\n-Cliquez sur la relique pour voir les détails\n-Les reliques supprimées indiquent que vous avez déjà tous les nombres premiers que la relique offre\n-Les reliques éclairées indiquent qu\'elle contient objets non encore obtenus\n-Le nombre à côté de la relique indique combien d\'objets principaux n\'ont pas encore été obtenus\n-Utilisez le filtre dans la barre d\'outils pour faciliter votre recherche</string>
-    <string name="overall_stats">Total : [T]\nEn cours : [P]\nTerminé : [C]</string>
+    <string name="basics_content">%1$s / %2$s:\n-Appuyez longuement sur l\'un des éléments pour cocher/décocher tous les éléments de l\'ensemble\n-Cliquez sur l\'un des éléments pour voir les détails\n\tCliquez sur un composant principal à marquer /décochez l\'objet\n-Utilisez le filtre dans la barre d\'outils pour faciliter votre recherche\n\n%3$s:\n-Cliquez sur la relique pour voir les détails\n-Les reliques supprimées indiquent que vous avez déjà tous les nombres premiers que la relique offre\n-Les reliques éclairées indiquent qu\'elle contient objets non encore obtenus\n-Le nombre à côté de la relique indique combien d\'objets principaux n\'ont pas encore été obtenus\n-Utilisez le filtre dans la barre d\'outils pour faciliter votre recherche</string>
+    <string name="overall_stats">Total: %1$s\nEn cours: %2$s\nTerminé: %3$s</string>
 </resources>
