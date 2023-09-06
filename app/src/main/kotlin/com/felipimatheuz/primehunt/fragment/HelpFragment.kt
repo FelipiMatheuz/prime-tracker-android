@@ -23,7 +23,7 @@ class HelpFragment : Fragment() {
         binding.helpBasicsContent.text = getString(R.string.basics_content)
             .replace("[MENU SET]",getString(R.string.menu_prime_sets))
             .replace("[MENU OTHER]",getString(R.string.menu_other_prime))
-            .replace("[MENU RELIC]",getString(R.string.menu_relic_list))
+            .replace("[MENU RELIC]",getString(R.string.menu_relics))
     }
 
     override fun onCreateView(

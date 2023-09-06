@@ -65,9 +65,10 @@
     <string name="unavailable">Unavailable</string>
     <string name="incomplete">Incomplete</string>
     <string name="complete">Complete</string>
+    <string name="menu_overview">Overview</string>
     <string name="menu_prime_sets">Prime Sets</string>
     <string name="menu_other_prime">Other Primes</string>
-    <string name="menu_relic_list">Relic List</string>
+    <string name="menu_relics">Relics</string>
     <string name="help">Help</string>
 
     <!--Other-->

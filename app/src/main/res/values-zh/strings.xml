@@ -52,9 +52,10 @@
     <string name="meso_relics">Meso 文物</string>
     <string name="neo_relics">Neo 文物</string>
     <string name="axi_relics">Axi 文物</string>
+    <string name="menu_overview">概貌</string>
     <string name="menu_prime_sets">质数集</string>
     <string name="menu_other_prime">其他 Primes</string>
-    <string name="menu_relic_list">文物名录</string>
+    <string name="menu_relics">文物</string>
     <string name="relic_template">ITEM 文物</string>
     <string name="forma_blueprint">Forma 蓝图</string>
     <string name="help">帮助</string>

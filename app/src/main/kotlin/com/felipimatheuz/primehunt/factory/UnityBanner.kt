@@ -13,7 +13,7 @@ import com.unity3d.services.banners.UnityBannerSize
 
 class UnityBanner : IUnityAdsInitializationListener {
     private var unityGameID = "5401575"
-    private var testMode = false
+    private var testMode = true
     private var adUnitId = "Banner_Android"
 
     private val bannerListener: IListener = object : IListener {

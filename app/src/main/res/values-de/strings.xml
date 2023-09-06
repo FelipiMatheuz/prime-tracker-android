@@ -48,9 +48,10 @@
     <string name="unavailable">Nicht Verfügbar</string>
     <string name="incomplete">Unvollständig</string>
     <string name="complete">Vollständig</string>
+    <string name="menu_overview">Überblick</string>
     <string name="menu_prime_sets">Prime Sets</string>
     <string name="menu_other_prime">Andere Primes</string>
-    <string name="menu_relic_list">Reliktliste</string>
+    <string name="menu_relics">Reliktes</string>
     <string name="help">Helfen</string>
     <string name="overall_stats">Gesamt: [T]\nIn Bearbeitung: [P]\nAbgeschlossen: [C]</string>
     <string name="search_items_by_name">Suchen Sie nach Artikeln nach Namen</string>

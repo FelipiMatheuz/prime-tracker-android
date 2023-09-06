@@ -14,48 +14,48 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/Theme.Warframeprimehunt"
-            tools:targetApi="31">
+            tools:targetApi="33">
+        <activity
+                android:name=".PrimeApplication"
+                android:exported="true"
+                android:theme="@style/Theme.Warframeprimehunt">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
         <activity
                 android:name=".activity.HelpActivity"
-                android:label="@string/help"
-                android:exported="false"/>
+                android:exported="false"
+                android:label="@string/help"/>
         <activity
                 android:name=".activity.SetListActivity"
-                android:label="@string/menu_prime_sets"
-                android:exported="false">
+                android:exported="false"
+                android:label="@string/menu_prime_sets">
             <meta-data
                     android:name="android.app.lib_name"
                     android:value=""/>
         </activity>
         <activity
                 android:name=".activity.RelicListActivity"
-                android:label="@string/menu_relic_list"
-                android:exported="false">
+                android:exported="false"
+                android:label="@string/menu_relics">
             <meta-data
                     android:name="android.app.lib_name"
                     android:value=""/>
         </activity>
         <activity
                 android:name=".activity.OtherListActivity"
-                android:label="@string/menu_other_prime"
-                android:exported="false">
+                android:exported="false"
+                android:label="@string/menu_other_prime">
             <meta-data
                     android:name="android.app.lib_name"
                     android:value=""/>
         </activity>
-
-        <meta-data
-                android:name="com.google.android.gms.ads.APPLICATION_ID"
-                android:value="ca-app-pub-8413285563514695~1709064653"/>
-
         <activity
                 android:name=".activity.MainActivity"
-                android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+                android:exported="false">
         </activity>
     </application>
 

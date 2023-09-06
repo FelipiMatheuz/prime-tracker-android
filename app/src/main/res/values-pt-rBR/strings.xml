@@ -54,9 +54,10 @@
     <string name="meso_relics">Relíquias Meso</string>
     <string name="neo_relics">Relíquias Neo</string>
     <string name="axi_relics">Relíquias Axi</string>
+    <string name="menu_overview">Visão Geral</string>
     <string name="menu_prime_sets">Conjuntos Prime</string>
     <string name="menu_other_prime">Demais Primes</string>
-    <string name="menu_relic_list">Lista de Relíquias</string>
+    <string name="menu_relics">Relíquias</string>
     <string name="relic_template">Relíquia ITEM</string>
     <string name="forma_blueprint">Diagrama Forma</string>
     <string name="help">Ajuda</string>
