@@ -34,6 +34,7 @@
     <string name="comp_guard">把守</string>
     <string name="comp_boot">长靴</string>
     <string name="filter">筛选</string>
+    <string name="close">关闭</string>
     <string name="show_all">显示所有</string>
     <string name="available">可用的</string>
     <string name="unavailable">不可用</string>
@@ -61,7 +62,9 @@
     <string name="relic_template">ITEM 文物</string>
     <string name="forma_blueprint">Forma 蓝图</string>
     <string name="help">帮助</string>
-    <string name="title_basics">如何使用</string>
-    <string name="basics_content">%1$s / %2$s：\n-长按其中一项可选中/取消选中该组中的所有项目\n-单击其中一项可查看详细信息\n\t单击主要组件进行标记/取消标记该项目\n-使用工具栏中的过滤器来简化搜索\n\n%3$s：\n-单击文物以查看详细信息\n-删除的文物表明您已经拥有该文物提供的所有素数\n-点亮的文物表明它包含尚未获得的物品\n-遗物旁边的数字表示尚未获得的主要物品数量\n-使用工具栏中的过滤器来简化搜索</string>
+    <string name="help_content">%1$s / %2$s：\n-长按其中一项可选中/取消选中该组中的所有项目\n-单击其中一项可查看详细信息\n\t单击主要组件进行标记/取消标记该项目\n-使用工具栏中的过滤器来简化搜索\n\n%3$s：\n-单击文物以查看详细信息\n-删除的文物表明您已经拥有该文物提供的所有素数\n-点亮的文物表明它包含尚未获得的物品\n-遗物旁边的数字表示尚未获得的主要物品数量\n-使用工具栏中的过滤器来简化搜索</string>
     <string name="overall_stats">总计：%1$s\n进行中：%2$s\n已完成：%3$s</string>
+    <string name="rendering_content">渲染组件…</string>
+    <string name="about">关于</string>
+    <string name="about_content">应用版本：%1$s\\n创建者：Cyber​​man Studios</string>
 </resources>

@@ -34,6 +34,7 @@
     <string name="comp_guard">Escudo</string>
     <string name="comp_boot">Bota</string>
     <string name="filter">Filtrar</string>
+    <string name="close">Cerrar</string>
     <string name="show_all">Mostrar Todo</string>
     <string name="available">Disponible</string>
     <string name="unavailable">Indisponible</string>
@@ -61,7 +62,9 @@
     <string name="relic_template">Reliquia ITEM</string>
     <string name="forma_blueprint">Plano Forma</string>
     <string name="help">Ayuda</string>
-    <string name="title_basics">Cómo Utilizar</string>
-    <string name="basics_content">%1$s / %2$s:\n-Mantenga presionado uno de los elementos para marcar/desmarcar todos los elementos dentro del conjunto\n-Haga clic en uno de los elementos para ver los detalles\n\tHaga clic en un componente principal para marcar /desmarcar el elemento\n-Use el filtro en la barra de herramientas para facilitar su búsqueda\n\n%3$s:\n-Haz clic en la reliquia para ver los detalles\n-Las reliquias eliminadas indican que ya tienes todos los primos que ofrece la reliquia\n-Las reliquias iluminadas indican que contiene elementos aún no obtenidos\n: el número junto a la reliquia indica cuántos elementos principales no se han obtenido\n-Use el filtro en la barra de herramientas para facilitar su búsqueda</string>
+    <string name="help_content">%1$s / %2$s:\n-Mantenga presionado uno de los elementos para marcar/desmarcar todos los elementos dentro del conjunto\n-Haga clic en uno de los elementos para ver los detalles\n\tHaga clic en un componente principal para marcar /desmarcar el elemento\n-Use el filtro en la barra de herramientas para facilitar su búsqueda\n\n%3$s:\n-Haz clic en la reliquia para ver los detalles\n-Las reliquias eliminadas indican que ya tienes todos los primos que ofrece la reliquia\n-Las reliquias iluminadas indican que contiene elementos aún no obtenidos\n: el número junto a la reliquia indica cuántos elementos principales no se han obtenido\n-Use el filtro en la barra de herramientas para facilitar su búsqueda</string>
     <string name="overall_stats">Total: %1$s\nEn progreso: %2$s\nCompletado: %3$s</string>
+    <string name="rendering_content">Representando los componentes...</string>
+    <string name="about">Acerca</string>
+    <string name="about_content">" Versión de la aplicación: %1$s\\nCreado por: Cyberman Studios"</string>
 </resources>

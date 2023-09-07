@@ -21,7 +21,7 @@
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/title_basics"
+                    android:text="@string/help"
                     android:layout_margin="8dp"
                     android:textSize="24sp"
                     android:textStyle="bold"
@@ -34,7 +34,7 @@
                     android:id="@+id/help_basics_content"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/basics_content"
+                    android:text="@string/help_content"
                     android:padding="8dp"
                     app:layout_constraintEnd_toEndOf="@+id/help_basics_title"
                     app:layout_constraintStart_toStartOf="@+id/help_basics_title"

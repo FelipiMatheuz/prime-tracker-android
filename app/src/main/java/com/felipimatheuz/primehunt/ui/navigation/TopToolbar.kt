@@ -17,7 +17,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.state.BottomNavItem
-import com.felipimatheuz.primehunt.ui.component.PrimeHelpDialog
+import com.felipimatheuz.primehunt.state.MenuDialogState
+import com.felipimatheuz.primehunt.ui.component.PrimeInfoDialog
 import com.felipimatheuz.primehunt.ui.theme.WarframeprimehuntTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -26,7 +27,8 @@ fun TopToolbar(navController: NavHostController) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val item =
         BottomNavItem.getList().firstOrNull { navBackStackEntry?.destination?.route == it.screenRoute }
-    var showHelp by remember { mutableStateOf(false) }
+    var expanded by remember { mutableStateOf(false) }
+    var showInfo by remember { mutableStateOf<MenuDialogState>(MenuDialogState.None) }
     TopAppBar(
         title = {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -44,37 +46,54 @@ fun TopToolbar(navController: NavHostController) {
                 Text(
                     text = stringResource(
                         item?.title ?: R.string.app_name
-                    )
+                    ), color = MaterialTheme.colorScheme.onPrimary
                 )
             }
         },
         actions = {
             if (item != null) {
-                IconButton(onClick = {
-                    if (item.title == R.string.menu_overview) {
-                        showHelp = true
-                    } else {
-                        //TODO
-                    }
-                }) {
+                IconButton(onClick = { expanded = !expanded }) {
                     Icon(
                         painterResource(
                             if (item.title == R.string.menu_overview) {
-                                R.drawable.ic_help
+                                R.drawable.ic_menu
                             } else {
                                 R.drawable.filter
                             }
                         ),
                         contentDescription = stringResource(R.string.filter),
-                        tint = MaterialTheme.colorScheme.onSurface
+                        tint = MaterialTheme.colorScheme.onPrimary
                     )
+                }
+
+                DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+                    if (item.title == R.string.menu_overview) {
+                        val dialogState = listOf(MenuDialogState.Help, MenuDialogState.Info)
+                        dialogState.forEach {
+                            DropdownMenuItem(
+                                leadingIcon = {
+                                    Icon(
+                                        painter = painterResource(it.icon),
+                                        contentDescription = stringResource(it.title)
+                                    )
+                                },
+                                text = { Text(text = stringResource(it.title)) },
+                                onClick = {
+                                    expanded = false
+                                    showInfo = it
+                                }
+                            )
+                        }
+                    } else {
+                        //TODO filter
+                    }
                 }
             }
         },
         colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = MaterialTheme.colorScheme.primary)
     )
-    if (showHelp) {
-        PrimeHelpDialog { showHelp = false }
+    if (showInfo != MenuDialogState.None) {
+        PrimeInfoDialog(showInfo) { showInfo = MenuDialogState.None }
     }
 }
 

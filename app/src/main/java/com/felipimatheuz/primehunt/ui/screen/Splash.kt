@@ -38,10 +38,21 @@ fun SplashScreen(onReady: () -> Unit) {
             val loadState = viewModel.loadState.collectAsState()
 
             when (loadState.value) {
-                LoadState.LoadRelic -> ShowLoading(R.string.loading_content, viewModel)
-                LoadState.LoadSet -> ShowLoading(R.string.check_updates, viewModel)
+                LoadState.LoadRelic -> {
+                    ShowLoading(R.string.loading_content)
+                    viewModel.loadResource(R.string.loading_content)
+                }
+
+                LoadState.LoadSet -> {
+                    ShowLoading(R.string.check_updates)
+                    viewModel.loadResource(R.string.check_updates)
+                }
+
                 is LoadState.Error -> ShowError(viewModel, (loadState.value as LoadState.Error).lastTextRes)
-                LoadState.Ready -> onReady()
+                LoadState.Ready -> {
+                    ShowLoading(R.string.rendering_content)
+                    onReady()
+                }
             }
         }
 
@@ -65,14 +76,13 @@ fun SplashScreen(onReady: () -> Unit) {
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-private fun ShowLoading(textRes: Int, viewModel: SplashViewModel) {
+private fun ShowLoading(textRes: Int) {
     GlideImage(model = R.drawable.fx_loading, contentDescription = null)
     Text(
         text = stringResource(textRes), style = MaterialTheme.typography.labelLarge.copy(
             color = MaterialTheme.colorScheme.onSurface
         )
     )
-    viewModel.loadResource(textRes)
 }
 
 @Composable

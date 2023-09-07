@@ -20,7 +20,7 @@ class HelpFragment : Fragment() {
     }
 
     private fun replaceStringMenus() {
-        binding.helpBasicsContent.text = getString(R.string.basics_content)
+        binding.helpBasicsContent.text = getString(R.string.help_content)
             .replace("[MENU SET]",getString(R.string.menu_prime_sets))
             .replace("[MENU OTHER]",getString(R.string.menu_other_prime))
             .replace("[MENU RELIC]",getString(R.string.menu_relics))

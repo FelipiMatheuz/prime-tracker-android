@@ -7,6 +7,7 @@
     <string name="logo" translatable="false">Image Logo</string>
     <string name="loading_content">Loading External Content…</string>
     <string name="check_updates">Checking Updates…</string>
+    <string name="rendering_content">Rendering The Components…</string>
     <string name="connection_failed">Connection Failed</string>
     <string name="connection_failed_message">Please check your Internet Connection</string>
     <string name="connection_retry">Try Again</string>
@@ -61,6 +62,7 @@
 
     <!--Menu items-->
     <string name="filter">Filter</string>
+    <string name="close">Close</string>
     <string name="show_all">Show All</string>
     <string name="available">Available</string>
     <string name="unavailable">Unavailable</string>
@@ -70,7 +72,6 @@
     <string name="menu_prime_sets">Prime Sets</string>
     <string name="menu_other_prime">Other Primes</string>
     <string name="menu_relics">Relics</string>
-    <string name="help">Help</string>
 
     <!--Other-->
     <string name="overall_stats">Total:  %1$s\nIn Progress:  %2$s\nCompleted:  %3$s</string>
@@ -83,7 +84,9 @@
     <string name="axi_relics">Axi Relics</string>
     <string name="forma_blueprint">Forma Blueprint</string>
 
-    <!-- Help -->
-    <string name="title_basics">How to Use</string>
-    <string name="basics_content">%1$s / %2$s:\n-Long press one of the items to check/uncheck all items within the set\n-Click on one of the items to see details\n\tClick on a prime component to mark/unmark the item\n-Use the filter in the toolbar to ease your search\n\n%3$s:\n-Click on the relic to see the details\n-Disabled relics indicate that you already have all the primes that the relic offers\n-Enabled relics indicate that it contains items not yet obtained\n-The number next to the relic indicates how many prime items have not been obtained\n-Use the filter in the toolbar to ease your search</string>
+    <!-- Dialog Info -->
+    <string name="help">Help</string>
+    <string name="about">About</string>
+    <string name="help_content">%1$s / %2$s:\n-Long press one of the items to check/uncheck all items within the set\n-Click on one of the items to see details\n\tClick on a prime component to mark/unmark the item\n-Use the filter in the toolbar to ease your search\n\n%3$s:\n-Click on the relic to see the details\n-Disabled relics indicate that you already have all the primes that the relic offers\n-Enabled relics indicate that it contains items not yet obtained\n-The number next to the relic indicates how many prime items have not been obtained\n-Use the filter in the toolbar to ease your search</string>
+    <string name="about_content">App version: %1$s\nCreated by: Cyberman Studios</string>
 </resources>

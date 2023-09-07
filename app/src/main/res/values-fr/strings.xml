@@ -34,6 +34,7 @@
     <string name="comp_guard">Quillon</string>
     <string name="comp_boot">Botte</string>
     <string name="filter">Filtre</string>
+    <string name="close">Fermer</string>
     <string name="show_all">Afficher tout</string>
     <string name="available">Disponible</string>
     <string name="unavailable">Indisponible</string>
@@ -61,7 +62,9 @@
     <string name="relic_template">Relique ITEM</string>
     <string name="forma_blueprint">Schéma Forma</string>
     <string name="help">Aider</string>
-    <string name="title_basics">" Comment Utiliser"</string>
-    <string name="basics_content">%1$s / %2$s:\n-Appuyez longuement sur l\'un des éléments pour cocher/décocher tous les éléments de l\'ensemble\n-Cliquez sur l\'un des éléments pour voir les détails\n\tCliquez sur un composant principal à marquer /décochez l\'objet\n-Utilisez le filtre dans la barre d\'outils pour faciliter votre recherche\n\n%3$s:\n-Cliquez sur la relique pour voir les détails\n-Les reliques supprimées indiquent que vous avez déjà tous les nombres premiers que la relique offre\n-Les reliques éclairées indiquent qu\'elle contient objets non encore obtenus\n-Le nombre à côté de la relique indique combien d\'objets principaux n\'ont pas encore été obtenus\n-Utilisez le filtre dans la barre d\'outils pour faciliter votre recherche</string>
+    <string name="help_content">%1$s / %2$s:\n-Appuyez longuement sur l\'un des éléments pour cocher/décocher tous les éléments de l\'ensemble\n-Cliquez sur l\'un des éléments pour voir les détails\n\tCliquez sur un composant principal à marquer /décochez l\'objet\n-Utilisez le filtre dans la barre d\'outils pour faciliter votre recherche\n\n%3$s:\n-Cliquez sur la relique pour voir les détails\n-Les reliques supprimées indiquent que vous avez déjà tous les nombres premiers que la relique offre\n-Les reliques éclairées indiquent qu\'elle contient objets non encore obtenus\n-Le nombre à côté de la relique indique combien d\'objets principaux n\'ont pas encore été obtenus\n-Utilisez le filtre dans la barre d\'outils pour faciliter votre recherche</string>
     <string name="overall_stats">Total: %1$s\nEn cours: %2$s\nTerminé: %3$s</string>
+    <string name="rendering_content">" Rendu des composants…"</string>
+    <string name="about">À propos</string>
+    <string name="about_content">" Version de l'application : %1$s\\nCréé par : Cyberman Studios"</string>
 </resources>

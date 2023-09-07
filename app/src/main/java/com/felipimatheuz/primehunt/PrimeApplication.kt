@@ -19,6 +19,7 @@ import com.felipimatheuz.primehunt.state.BottomNavItem
 import com.felipimatheuz.primehunt.ui.navigation.BottomNav
 import com.felipimatheuz.primehunt.ui.navigation.TopToolbar
 import com.felipimatheuz.primehunt.ui.screen.OverviewScreen
+import com.felipimatheuz.primehunt.ui.screen.PrimeSetScreen
 import com.felipimatheuz.primehunt.ui.screen.SplashScreen
 import com.felipimatheuz.primehunt.ui.theme.WarframeprimehuntTheme
 
@@ -56,7 +57,7 @@ class PrimeApplication : ComponentActivity() {
                 OverviewScreen(padding)
             }
             composable(BottomNavItem.PrimeSets.screenRoute) {
-                //PrimeSetScreen()
+                PrimeSetScreen(padding)
             }
             composable(BottomNavItem.OtherPrimes.screenRoute) {
                 //OtherPrimeScreen()

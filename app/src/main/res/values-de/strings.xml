@@ -43,6 +43,7 @@
     <string name="comp_boot">Stiefel</string>
     <string name="comp_chain">Kette</string>
     <string name="filter">Filter</string>
+    <string name="close">Schließen</string>
     <string name="show_all">Zeige Alles</string>
     <string name="available">Verfügbar</string>
     <string name="unavailable">Nicht Verfügbar</string>
@@ -62,6 +63,8 @@
     <string name="neo_relics">Neo Relikte</string>
     <string name="axi_relics">Axi Relikte</string>
     <string name="forma_blueprint">Forma Blaupause</string>
-    <string name="title_basics">Wie Benutzt man</string>
-    <string name="basics_content">%1$s / %2$s:\n-Drücken Sie lange auf eines der Elemente, um alle Elemente im Set zu aktivieren/deaktivieren\n-Klicken Sie auf eines der Elemente, um Details anzuzeigen\n\tKlicken Sie auf eine Hauptkomponente, um sie zu markieren /Markierung des Elements aufheben\n-Verwenden Sie den Filter in der Symbolleiste, um Ihre Suche zu vereinfachen\n\n%3$s:\n-Klicken Sie auf das Relikt, um die Details anzuzeigen\n-Deaktivierte Relikte zeigen an, dass Sie bereits alle Primzahlen haben dass das Relikt bietet\n-Aktivierte Relikte zeigen an, dass es Gegenstände enthält, die noch nicht erhalten wurden\n-Die Zahl neben dem Relikt gibt an, wie viele erstklassige Gegenstände noch nicht erhalten wurden\n-Verwenden Sie den Filter in der Symbolleiste, um Ihre Suche zu vereinfachen</string>
+    <string name="help_content">%1$s / %2$s:\n-Drücken Sie lange auf eines der Elemente, um alle Elemente im Set zu aktivieren/deaktivieren\n-Klicken Sie auf eines der Elemente, um Details anzuzeigen\n\tKlicken Sie auf eine Hauptkomponente, um sie zu markieren /Markierung des Elements aufheben\n-Verwenden Sie den Filter in der Symbolleiste, um Ihre Suche zu vereinfachen\n\n%3$s:\n-Klicken Sie auf das Relikt, um die Details anzuzeigen\n-Deaktivierte Relikte zeigen an, dass Sie bereits alle Primzahlen haben dass das Relikt bietet\n-Aktivierte Relikte zeigen an, dass es Gegenstände enthält, die noch nicht erhalten wurden\n-Die Zahl neben dem Relikt gibt an, wie viele erstklassige Gegenstände noch nicht erhalten wurden\n-Verwenden Sie den Filter in der Symbolleiste, um Ihre Suche zu vereinfachen</string>
+    <string name="rendering_content">Rendern der Komponenten…</string>
+    <string name="about">Um</string>
+    <string name="about_content">" App-version: %1$s\\nErstellt von: Cyberman Studios"</string>
 </resources>
