@@ -1,7 +1,5 @@
 package com.felipimatheuz.primehunt.util
 
-import android.animation.ArgbEvaluator
-import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Paint
 import android.graphics.drawable.Drawable
@@ -13,69 +11,45 @@ import android.text.style.StrikethroughSpan
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat
+import androidx.compose.ui.graphics.Color
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.model.sets.*
+import com.felipimatheuz.primehunt.model.core.*
+import com.felipimatheuz.primehunt.ui.theme.*
 import kotlin.math.roundToInt
 
-
-fun toggleLoading(target: View, isLoading: Boolean) {
-    target.visibility = if (isLoading) {
-        View.VISIBLE
+fun updateStatusColor(primeSet: PrimeSet): Color {
+    val totalPercent = if (primeSet.primeItem2 != null) {
+        (getPercent(primeSet.warframe) + getPercent(primeSet.primeItem1) + getPercent(primeSet.primeItem2!!)) / 3
     } else {
-        View.GONE
-    }
-}
-
-fun updateStatusColor(
-    warframe: CharSequence,
-    item1: CharSequence,
-    item2: CharSequence
-): Int {
-    val totalPercent = if (item2.isNotBlank()) {
-        (getPercent(warframe) + getPercent(item1) + getPercent(item2)) / 3
-    } else {
-        (getPercent(warframe) + getPercent(item1)) / 2
+        (getPercent(primeSet.warframe) + getPercent(primeSet.primeItem1)) / 2
     }
     return if (totalPercent == 0) {
-        R.color.status_zero
+        Zero
     } else if (totalPercent <= 50) {
-        R.color.status_low
+        Low
     } else if (totalPercent < 100) {
-        R.color.status_high
+        High
     } else {
-        R.color.status_complete
+        Complete
     }
 }
 
 fun updateStatusColor(
-    item: CharSequence
-): Int {
+    item: PrimeItem
+): Color {
     val percent = getPercent(item)
     return if (percent == 0) {
-        R.color.status_zero
+        Zero
     } else if (percent <= 50) {
-        R.color.status_low
+        Low
     } else if (percent < 100) {
-        R.color.status_high
+        High
     } else {
-        R.color.status_complete
+        Complete
     }
 }
 
-fun updateCardBackground(cardView: CardView, statusColor: Int) {
-    val colorFrom: Int = cardView.cardBackgroundColor.defaultColor
-    val colorTo: Int = ContextCompat.getColor(cardView.context, statusColor)
-    val colorAnimation = ValueAnimator.ofObject(ArgbEvaluator(), colorFrom, colorTo)
-    colorAnimation.duration = 1000
-    colorAnimation.addUpdateListener { animator -> cardView.setCardBackgroundColor(animator.animatedValue as Int) }
-    colorAnimation.start()
-}
-
-private fun getPercent(percentString: CharSequence) = percentString.toString().replace("%", "").toInt()
-
-fun formatPercentText(textView: TextView, target: PrimeItem) {
+fun getPercent(target: PrimeItem): Int {
     val total = target.components.size + 1
     var obtained = target.components.count {
         it.obtained
@@ -84,34 +58,22 @@ fun formatPercentText(textView: TextView, target: PrimeItem) {
         obtained++
     }
     val percent = (obtained.toFloat() / total.toFloat()) * 100
-    textView.text = percent.roundToInt().toString().plus("%")
+    return percent.roundToInt()
 }
 
-fun getStatusText(textView: TextView, status: PrimeStatus) {
-    val statusText = when (status) {
-        PrimeStatus.VAULT -> R.string.status_vault
-        PrimeStatus.ACTIVE -> R.string.status_active
-        PrimeStatus.BARO -> R.string.status_baro
-        PrimeStatus.RESURGENCE -> R.string.status_resurgence
-    }
-    textView.text = textView.context.getString(statusText)
+fun getCompCount(primeItem: PrimeItem): Map<ItemPart?, Int> {
+    val components = mutableMapOf<ItemPart?, Int>(null to 1)
+    components.putAll(primeItem.components.groupingBy { it.part }.eachCount().filter { it.value > 1 })
+    return components
 }
 
-fun formatCardText(textView: TextView, itemName: String, isSet: Boolean) {
-    val template = if (isSet) {
-        R.string.prime_set_template
-    } else {
-        R.string.prime_template
-    }
-    textView.text = textView.context.getString(template)
-        .replace("ITEM", itemName)
+fun getCompGroup(primeItem: PrimeItem): List<ItemComponent?> {
+    val components = mutableListOf<ItemComponent?>(null)
+    components.addAll(primeItem.components.distinctBy { it.part })
+    return components
 }
 
-fun formatCardRelicText(textView: TextView, relicName: String) {
-    textView.text = textView.context.getString(R.string.relic_template).replace("ITEM", relicName)
-}
-
-fun formatItemPartText(textView: TextView, part: ItemPart, quantity: Int?) {
+fun formatItemPartText(context: Context, part: ItemPart, quantity: Int?): String {
     val partText = when (part) {
         ItemPart.NEUROPTICS -> R.string.comp_neuroptics
         ItemPart.CHASSIS -> R.string.comp_chassis
@@ -152,18 +114,11 @@ fun formatItemPartText(textView: TextView, part: ItemPart, quantity: Int?) {
     } else {
         ""
     }
-    textView.text = textView.context.getString(partText).plus(quantityText)
-
-    textView.setCompoundDrawablesWithIntrinsicBounds(
-        null,
-        getItemPartIcon(textView.context, part),
-        null,
-        null
-    )
+    return context.getString(partText).plus(quantityText)
 }
 
-private fun getItemPartIcon(context: Context, part: ItemPart): Drawable? {
-    val partDrawable = when (part) {
+fun getItemPartIcon(part: ItemPart): Int {
+    return when (part) {
         ItemPart.NEUROPTICS, ItemPart.CEREBRUM -> R.drawable.prime_neuroptics
         ItemPart.CHASSIS, ItemPart.CARAPACE -> R.drawable.prime_chassis
         ItemPart.SYSTEMS -> R.drawable.prime_systems
@@ -180,46 +135,40 @@ private fun getItemPartIcon(context: Context, part: ItemPart): Drawable? {
         ItemPart.WINGS -> R.drawable.prime_wings
         ItemPart.BRONCO, ItemPart.LEX, ItemPart.VASTO -> R.drawable.pistol
     }
-    return AppCompatResources.getDrawable(context, partDrawable)
 }
 
-fun formatRelicListText(textView: TextView, itemName: String, itemComp: String) {
-    val searchText = textView.context.getString(R.string.prime_template)
-        .replace("ITEM", itemName).plus(" ").plus(itemComp)
-    val resultSearch = apiRelic.getRelicPerItemComp(searchText)
-    if (resultSearch.isNotEmpty()) {
-        val spanBuilder = SpannableStringBuilder()
-        for (result in resultSearch.sortedBy { it.vaulted }) {
-            val relicName = SpannableString(result.name.subSequence(0, result.name.lastIndexOf(" ")))
-            if (result.vaulted) {
-                relicName.setSpan(StrikethroughSpan(), 0, relicName.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            }
-            val colorRes = getColorForeground(result.rewards, searchText)
-            colorRes?.let { textView.context.getColor(it) }?.let {
-                relicName.setSpan(
-                    ForegroundColorSpan(it),
-                    0,
-                    relicName.length,
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                )
-            }
-            spanBuilder.append(relicName).append("\n")
+fun getRelicList(searchText: String): List<ApiData> {
+    return apiRelic.getRelicPerItemComp(searchText).sortedBy { it.vaulted }
+}
+
+fun getCompName(context: Context, primeItem: PrimeItem, comp: ItemComponent?): String {
+    val compName = if (comp == null) {
+        if(primeItem.name == "Kavasa"){
+            "Kubrow Collar BLUEPRINT"
+        } else {
+            "BLUEPRINT"
         }
-        textView.setText(spanBuilder.subSequence(0, spanBuilder.lastIndexOf("\n")), TextView.BufferType.SPANNABLE)
+    } else if (comp.part == ItemPart.CIRCUIT) {
+        ItemPart.SYSTEMS.toString()
+    } else if (comp.part == ItemPart.ULIMB) {
+        "UPPER LIMB"
+    } else if (comp.part == ItemPart.LLIMB) {
+        "LOWER LIMB"
     } else {
-        textView.visibility = View.INVISIBLE
+        comp.part.toString()
     }
+    return context.getString(R.string.prime_template, primeItem.name).plus(" ").plus(compName)
 }
 
-private fun getColorForeground(rewards: List<Reward>, searchText: String): Int? {
+fun getColorForeground(rewards: List<Reward>, searchText: String): Color? {
     val result = rewards.filter { it.item.name.contains(searchText, true) }
     return if (result.isEmpty()) {
         null
     } else {
         when (result[0].chance) {
-            25.33f -> R.color.common
-            11f -> R.color.uncommon
-            2f -> R.color.rare
+            25.33f -> Common
+            11f -> Uncommon
+            2f -> Rare
             else -> null
         }
     }

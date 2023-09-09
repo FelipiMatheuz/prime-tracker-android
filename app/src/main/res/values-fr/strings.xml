@@ -2,7 +2,7 @@
 <resources>
     <string name="by_owner">par Cyberman Studios</string>
     <string name="loading_content">Chargement du contenu externe…</string>
-    <string name="prime_set_template">Ensemble ITEM Prime</string>
+    <string name="prime_set_template">Ensemble %1$s Prime</string>
     <string name="status_resurgence">Varzia (Réapparition)</string>
     <string name="comp_blueprint">Schéma</string>
     <string name="comp_blade">Lame</string>
@@ -59,7 +59,7 @@
     <string name="menu_prime_sets">Ensembles Prime</string>
     <string name="menu_other_prime">Autres Primes</string>
     <string name="menu_relics">Reliques</string>
-    <string name="relic_template">Relique ITEM</string>
+    <string name="relic_template">Relique %1$s</string>
     <string name="forma_blueprint">Schéma Forma</string>
     <string name="help">Aider</string>
     <string name="help_content">%1$s / %2$s:\n-Appuyez longuement sur l\'un des éléments pour cocher/décocher tous les éléments de l\'ensemble\n-Cliquez sur l\'un des éléments pour voir les détails\n\tCliquez sur un composant principal à marquer /décochez l\'objet\n-Utilisez le filtre dans la barre d\'outils pour faciliter votre recherche\n\n%3$s:\n-Cliquez sur la relique pour voir les détails\n-Les reliques supprimées indiquent que vous avez déjà tous les nombres premiers que la relique offre\n-Les reliques éclairées indiquent qu\'elle contient objets non encore obtenus\n-Le nombre à côté de la relique indique combien d\'objets principaux n\'ont pas encore été obtenus\n-Utilisez le filtre dans la barre d\'outils pour faciliter votre recherche</string>

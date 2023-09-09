@@ -1,4 +1,4 @@
-package com.felipimatheuz.primehunt.model.sets
+package com.felipimatheuz.primehunt.model.core
 
 data class Relic(
     val name: String,

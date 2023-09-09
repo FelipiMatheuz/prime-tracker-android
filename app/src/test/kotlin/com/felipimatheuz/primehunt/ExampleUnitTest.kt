@@ -1,6 +1,6 @@
 package com.felipimatheuz.primehunt
 
-import com.felipimatheuz.primehunt.model.resources.PrimeSetApi
+import com.felipimatheuz.primehunt.model.external.PrimeSetApi
 import org.junit.Test
 
 /**

@@ -7,8 +7,8 @@
     <string name="connection_failed">Verbindung fehlgeschlagen</string>
     <string name="connection_failed_message">Bitte überprüfe deine Internetverbindung</string>
     <string name="connection_retry">Versuchen Sie es erneut</string>
-    <string name="prime_set_template">ITEM Prime Set</string>
-    <string name="relic_template">ITEM Relikt</string>
+    <string name="prime_set_template">%1$s Prime Set</string>
+    <string name="relic_template">%1$s Relikt</string>
     <string name="status_vault">Gewölbe</string>
     <string name="status_baro">Baro (Händler)</string>
     <string name="status_resurgence">Varzia (Wiederaufleben)</string>

@@ -1,12 +1,12 @@
-package com.felipimatheuz.primehunt.model.resources
+package com.felipimatheuz.primehunt.model.external
 
 import androidx.annotation.Keep
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.felipimatheuz.primehunt.model.sets.ApiData
-import com.felipimatheuz.primehunt.model.sets.Relic
-import com.felipimatheuz.primehunt.model.sets.RelicTier
-import com.felipimatheuz.primehunt.model.sets.Reward
+import com.felipimatheuz.primehunt.model.core.ApiData
+import com.felipimatheuz.primehunt.model.core.Relic
+import com.felipimatheuz.primehunt.model.core.RelicTier
+import com.felipimatheuz.primehunt.model.core.Reward
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async

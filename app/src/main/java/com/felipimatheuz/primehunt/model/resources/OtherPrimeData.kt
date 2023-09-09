@@ -2,8 +2,8 @@ package com.felipimatheuz.primehunt.model.resources
 
 import android.content.Context
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.felipimatheuz.primehunt.model.sets.ItemComponent
-import com.felipimatheuz.primehunt.model.sets.PrimeItem
+import com.felipimatheuz.primehunt.model.core.ItemComponent
+import com.felipimatheuz.primehunt.model.core.PrimeItem
 import com.felipimatheuz.primehunt.util.otherData
 
 class OtherPrimeData(context: Context) {

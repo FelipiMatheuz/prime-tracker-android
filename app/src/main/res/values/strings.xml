@@ -13,10 +13,10 @@
     <string name="connection_retry">Try Again</string>
 
     <!--Templates-->
-    <string name="prime_set_template">ITEM Prime Set</string>
-    <string name="prime_template" translatable="false">ITEM Prime</string>
-    <string name="relic_template">ITEM Relic</string>
-    <string name="relic_item_template" translatable="false">ITEM PrimeCOMP BP</string>
+    <string name="prime_set_template">%1$s Prime Set</string>
+    <string name="prime_template" translatable="false">%1$s Prime</string>
+    <string name="relic_template">%1$s Relic</string>
+    <string name="relic_item_template" translatable="false">%1$s Prime %2$s %3$s</string>
 
     <!--Prime Set Status-->
     <string name="status_vault">Vault</string>

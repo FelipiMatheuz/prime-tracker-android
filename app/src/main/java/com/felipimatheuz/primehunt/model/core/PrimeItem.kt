@@ -1,4 +1,4 @@
-package com.felipimatheuz.primehunt.model.sets
+package com.felipimatheuz.primehunt.model.core
 
 import androidx.annotation.Keep
 import com.fasterxml.jackson.annotation.JsonProperty

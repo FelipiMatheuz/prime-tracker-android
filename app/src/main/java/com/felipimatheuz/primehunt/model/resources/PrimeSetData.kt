@@ -3,9 +3,9 @@ package com.felipimatheuz.primehunt.model.resources
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.felipimatheuz.primehunt.model.sets.ItemPart
-import com.felipimatheuz.primehunt.model.sets.PrimeItem
-import com.felipimatheuz.primehunt.model.sets.PrimeSet
+import com.felipimatheuz.primehunt.model.core.ItemPart
+import com.felipimatheuz.primehunt.model.core.PrimeItem
+import com.felipimatheuz.primehunt.model.core.PrimeSet
 import com.felipimatheuz.primehunt.util.apiData
 
 class PrimeSetData(context: Context) {
@@ -49,7 +49,7 @@ class PrimeSetData(context: Context) {
         editor.apply()
     }
 
-    private fun getPrimeSetData(name: String): PrimeSet {
+    fun getPrimeSetData(name: String): PrimeSet {
         val setData = localData.getString(name, null)
         return jacksonObjectMapper().readValue(setData, PrimeSet::class.java)
     }
@@ -95,8 +95,7 @@ class PrimeSetData(context: Context) {
         }
     }
 
-    fun togglePrimeSet(primeSet: PrimeSet) {
-        val obtained = !primeSet.warframe.blueprint
+    fun togglePrimeSet(primeSet: PrimeSet, obtained: Boolean) {
         changeStatusSet(primeSet, obtained)
         setPrimeSetData(primeSet.warframe.name, primeSet)
     }

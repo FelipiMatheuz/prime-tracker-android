@@ -2,7 +2,7 @@
 <resources>
     <string name="by_owner">por Cyberman Studios</string>
     <string name="loading_content">Cargando contenido externo…</string>
-    <string name="prime_set_template">Conjunto ITEM Prime</string>
+    <string name="prime_set_template">Conjunto %1$s Prime</string>
     <string name="status_resurgence">Varzia (Resurgimiento)</string>
     <string name="comp_blueprint">Plano</string>
     <string name="comp_blade">Hoja</string>
@@ -59,7 +59,7 @@
     <string name="menu_prime_sets">Conjuntos Prime</string>
     <string name="menu_other_prime">Otros Primes</string>
     <string name="menu_relics">Reliquias</string>
-    <string name="relic_template">Reliquia ITEM</string>
+    <string name="relic_template">Reliquia %1$s</string>
     <string name="forma_blueprint">Plano Forma</string>
     <string name="help">Ayuda</string>
     <string name="help_content">%1$s / %2$s:\n-Mantenga presionado uno de los elementos para marcar/desmarcar todos los elementos dentro del conjunto\n-Haga clic en uno de los elementos para ver los detalles\n\tHaga clic en un componente principal para marcar /desmarcar el elemento\n-Use el filtro en la barra de herramientas para facilitar su búsqueda\n\n%3$s:\n-Haz clic en la reliquia para ver los detalles\n-Las reliquias eliminadas indican que ya tienes todos los primos que ofrece la reliquia\n-Las reliquias iluminadas indican que contiene elementos aún no obtenidos\n: el número junto a la reliquia indica cuántos elementos principales no se han obtenido\n-Use el filtro en la barra de herramientas para facilitar su búsqueda</string>

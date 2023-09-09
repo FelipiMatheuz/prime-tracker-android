@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -15,10 +17,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navigation
 import com.felipimatheuz.primehunt.state.BottomNavItem
 import com.felipimatheuz.primehunt.ui.navigation.BottomNav
 import com.felipimatheuz.primehunt.ui.navigation.TopToolbar
 import com.felipimatheuz.primehunt.ui.screen.OverviewScreen
+import com.felipimatheuz.primehunt.ui.screen.PrimeSetDetailScreen
 import com.felipimatheuz.primehunt.ui.screen.PrimeSetScreen
 import com.felipimatheuz.primehunt.ui.screen.SplashScreen
 import com.felipimatheuz.primehunt.ui.theme.WarframeprimehuntTheme
@@ -52,9 +56,10 @@ class PrimeApplication : ComponentActivity() {
 
     @Composable
     private fun NavigationGraph(navController: NavHostController, padding: PaddingValues) {
+        var updateState by rememberSaveable { mutableStateOf(true) }
         NavHost(navController = navController, startDestination = BottomNavItem.Overview.screenRoute) {
             composable(BottomNavItem.Overview.screenRoute) {
-                OverviewScreen(padding)
+                OverviewScreen(padding, updateState) { updateState = false }
             }
             composable(BottomNavItem.PrimeSets.screenRoute) {
                 PrimeSetScreen(padding)

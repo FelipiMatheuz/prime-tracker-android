@@ -1,8 +1,8 @@
-package com.felipimatheuz.primehunt.model.resources
+package com.felipimatheuz.primehunt.model.external
 
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.felipimatheuz.primehunt.model.sets.PrimeSet
+import com.felipimatheuz.primehunt.model.core.PrimeSet
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async

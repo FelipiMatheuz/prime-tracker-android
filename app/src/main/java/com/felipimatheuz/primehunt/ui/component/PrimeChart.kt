@@ -20,7 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.model.sets.PrimeItem
+import com.felipimatheuz.primehunt.model.core.PrimeItem
 import com.felipimatheuz.primehunt.ui.theme.Complete
 import com.felipimatheuz.primehunt.ui.theme.High
 import com.felipimatheuz.primehunt.ui.theme.Zero
@@ -36,8 +36,8 @@ fun PrimeChart(
 ) {
 
     val totalItems = data.size
-    val completed = data.count { it?.let { it1 -> isItemCompleted(it1) } == 2 }
-    val inProgress = data.count { it?.let { it1 -> isItemCompleted(it1) } == 1 }
+    val completed = data.count { it?.let { primeItem -> isItemCompleted(primeItem) } == 2 }
+    val inProgress = data.count { it?.let { primeItem -> isItemCompleted(primeItem) } == 1 }
     val floatValue = mutableListOf<Float>()
     floatValue.add(360 * completed.toFloat() / totalItems.toFloat())
     floatValue.add(360 * inProgress.toFloat() / totalItems.toFloat())

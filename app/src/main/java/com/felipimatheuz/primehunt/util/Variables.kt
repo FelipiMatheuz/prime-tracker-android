@@ -3,13 +3,12 @@ package com.felipimatheuz.primehunt.util
 import android.content.Context
 import android.widget.TextView
 import com.felipimatheuz.primehunt.model.resources.OtherPrimeData
-import com.felipimatheuz.primehunt.model.resources.PrimeRelicApi
-import com.felipimatheuz.primehunt.model.resources.PrimeSetApi
+import com.felipimatheuz.primehunt.model.external.PrimeRelicApi
+import com.felipimatheuz.primehunt.model.external.PrimeSetApi
 import com.felipimatheuz.primehunt.model.resources.PrimeSetData
-import com.felipimatheuz.primehunt.model.sets.ItemComponent
-import com.felipimatheuz.primehunt.model.sets.ItemPart
-import com.felipimatheuz.primehunt.model.sets.PrimeItem
-import com.felipimatheuz.primehunt.model.sets.PrimeSet
+import com.felipimatheuz.primehunt.model.core.ItemComponent
+import com.felipimatheuz.primehunt.model.core.ItemPart
+import com.felipimatheuz.primehunt.model.core.PrimeItem
 
 var apiRelic: PrimeRelicApi = PrimeRelicApi()
 
@@ -25,10 +24,6 @@ fun togglePrimeItem(context: Context, primeItem: PrimeItem) {
 
 fun togglePrimeItemComp(primeItem: PrimeItem, textView: TextView, primeItemComp: ItemComponent?) {
     OtherPrimeData(textView.context).togglePrimeItemComp(primeItem, primeItemComp)
-}
-
-fun togglePrimeSet(context: Context, primeSet: PrimeSet) {
-    PrimeSetData(context).togglePrimeSet(primeSet)
 }
 
 var otherData: List<PrimeItem> = listOf(

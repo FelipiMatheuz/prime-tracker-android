@@ -23,10 +23,10 @@ fun BottomNav(navController: NavController) {
         contentColor = MaterialTheme.colorScheme.onSecondary
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
-        val currentRoute = navBackStackEntry?.destination?.route
+        val currentRoute = navBackStackEntry?.destination?.route.toString().split("/")[0]
         BottomNavItem.getList().forEach { item ->
             BottomNavigationItem(
-                icon = { Icon(painterResource(id = item.icon), contentDescription = null)},
+                icon = { Icon(painterResource(id = item.icon), contentDescription = null) },
                 label = {
                     Text(
                         text = stringResource(item.title),

@@ -25,14 +25,14 @@ import com.felipimatheuz.primehunt.viewmodel.OverViewModel
 
 
 @Composable
-fun OverviewScreen(padding: PaddingValues) {
+fun OverviewScreen(padding: PaddingValues, update: Boolean, changeUpdate: () -> Unit) {
     ConstraintLayout(modifier = Modifier.padding(padding).fillMaxSize()) {
         val viewModel: OverViewModel = viewModel()
         var showDetail by rememberSaveable { mutableStateOf(false) }
         val (overallChart, primeChart, otherChart, toggleOverview) = createRefs()
-
-        val setPrimeItems = viewModel.loadSet()
-        val otherPrimeItems = viewModel.loadOther(LocalContext.current)
+        val setPrimeItems = viewModel.loadSet(LocalContext.current, update)
+        val otherPrimeItems = viewModel.loadOther(LocalContext.current, update)
+        changeUpdate()
         if (!showDetail) {
             PrimeChart(
                 labelRes = R.string.overall,
@@ -82,11 +82,13 @@ fun OverviewScreen(padding: PaddingValues) {
                     } else {
                         R.string.overall
                     }
-                ), style = LocalTextStyle.current.copy(shadow = Shadow(
-                    color = MaterialTheme.colorScheme.onSecondary,
-                    offset = Offset(2.0f, 2.0f),
-                    blurRadius = 2f
-                ))
+                ), style = LocalTextStyle.current.copy(
+                    shadow = Shadow(
+                        color = MaterialTheme.colorScheme.onSecondary,
+                        offset = Offset(2.0f, 2.0f),
+                        blurRadius = 2f
+                    )
+                )
             )
         }
     }
@@ -96,6 +98,6 @@ fun OverviewScreen(padding: PaddingValues) {
 @Composable
 fun OverviewScreenPreview() {
     WarframeprimehuntTheme {
-        OverviewScreen(PaddingValues(10.dp))
+        OverviewScreen(PaddingValues(10.dp), false) { }
     }
 }

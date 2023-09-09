@@ -2,8 +2,8 @@ package com.felipimatheuz.primehunt.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.model.resources.PrimeRelicApi
-import com.felipimatheuz.primehunt.model.resources.PrimeSetApi
+import com.felipimatheuz.primehunt.model.external.PrimeRelicApi
+import com.felipimatheuz.primehunt.model.external.PrimeSetApi
 import com.felipimatheuz.primehunt.state.LoadState
 import com.felipimatheuz.primehunt.util.apiData
 import com.felipimatheuz.primehunt.util.apiRelic

@@ -2,7 +2,7 @@
 <resources>
     <string name="by_owner">por Cyberman Studios</string>
     <string name="loading_content">Carregando Conteúdo Externo…</string>
-    <string name="prime_set_template">Conjunto ITEM Prime</string>
+    <string name="prime_set_template">Conjunto %1$s Prime</string>
     <string name="status_vault">Cofre</string>
     <string name="status_resurgence">Varzia (Resurgência)</string>
 
@@ -61,7 +61,7 @@
     <string name="menu_prime_sets">Conjuntos Prime</string>
     <string name="menu_other_prime">Demais Primes</string>
     <string name="menu_relics">Relíquias</string>
-    <string name="relic_template">Relíquia ITEM</string>
+    <string name="relic_template">Relíquia %1$s</string>
     <string name="forma_blueprint">Diagrama Forma</string>
     <string name="help">Ajuda</string>
     <string name="help_content">%1$s / %2$s:\n-Pressione por um momento um dos items para marcar/desmarcar todos os items dentro do conjunto\n-Clique em um dos itens para ver os detalhes\n\tClique em um componente prime para marcar/desmarcar o item\n-Use o filtro na barra de ferramentas para facilitar sua busca\n\n%3$s:\n-Clique na relíquia para ver os detalhes\n-Reliquias apagadas indicam que você já tem todos os primes que a relíquia oferece\n-Reliquias acesas indicam que contém itens não obtidos ainda\n-O número ao lado da relíquia indica quantos itens primes não foram obtidos\n-Use o filtro na barra de ferramentas para facilitar sua busca</string>

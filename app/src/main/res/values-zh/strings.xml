@@ -2,7 +2,7 @@
 <resources>
     <string name="by_owner">来自 Cyberman Studios</string>
     <string name="loading_content">加载外部内容…</string>
-    <string name="prime_set_template">ITEM Prime 套装</string>
+    <string name="prime_set_template">%1$s Prime 套装</string>
     <string name="status_resurgence">Varzia (再起)</string>
     <string name="comp_blueprint">蓝图</string>
     <string name="comp_blade">刀刃</string>
@@ -59,7 +59,7 @@
     <string name="menu_prime_sets">质数集</string>
     <string name="menu_other_prime">其他 Primes</string>
     <string name="menu_relics">文物</string>
-    <string name="relic_template">ITEM 文物</string>
+    <string name="relic_template">%1$s 文物</string>
     <string name="forma_blueprint">Forma 蓝图</string>
     <string name="help">帮助</string>
     <string name="help_content">%1$s / %2$s：\n-长按其中一项可选中/取消选中该组中的所有项目\n-单击其中一项可查看详细信息\n\t单击主要组件进行标记/取消标记该项目\n-使用工具栏中的过滤器来简化搜索\n\n%3$s：\n-单击文物以查看详细信息\n-删除的文物表明您已经拥有该文物提供的所有素数\n-点亮的文物表明它包含尚未获得的物品\n-遗物旁边的数字表示尚未获得的主要物品数量\n-使用工具栏中的过滤器来简化搜索</string>
