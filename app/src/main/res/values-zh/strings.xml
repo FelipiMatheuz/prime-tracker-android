@@ -67,4 +67,5 @@
     <string name="rendering_content">渲染组件…</string>
     <string name="about">关于</string>
     <string name="about_content">应用版本：%1$s\\n创建者：Cyber​​man Studios</string>
+    <string name="no_results">" 未找到结果"</string>
 </resources>

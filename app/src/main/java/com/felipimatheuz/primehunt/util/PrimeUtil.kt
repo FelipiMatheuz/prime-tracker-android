@@ -2,15 +2,11 @@ package com.felipimatheuz.primehunt.util
 
 import android.content.Context
 import android.graphics.Paint
-import android.graphics.drawable.Drawable
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
-import android.text.style.StrikethroughSpan
-import android.view.View
 import android.widget.TextView
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.compose.ui.graphics.Color
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.model.core.*
@@ -143,7 +139,7 @@ fun getRelicList(searchText: String): List<ApiData> {
 
 fun getCompName(context: Context, primeItem: PrimeItem, comp: ItemComponent?): String {
     val compName = if (comp == null) {
-        if(primeItem.name == "Kavasa"){
+        if (primeItem.name == "Kavasa") {
             "Kubrow Collar BLUEPRINT"
         } else {
             "BLUEPRINT"
@@ -242,19 +238,28 @@ fun formatRelicItemReward(context: Context, name: String): String {
                 textWords[textWords.size - 1]
             }
         }
-        var formattedText = context.getString(R.string.relic_item_template)
-        formattedText = formattedText.replace("ITEM", itemName.toString().substring(0, itemName.lastIndexOf(" ")))
-            .replace("COMP", translateComponent(context, compName))
-        formattedText = formattedText.replace(
-            "BP", if (hasBlueprint) {
+        return context.getString(
+            R.string.relic_item_template,
+            itemName.toString().substring(0, itemName.lastIndexOf(" ")),
+            translateComponent(context, compName),
+            if (hasBlueprint) {
                 "(${context.getString(R.string.comp_blueprint)})"
             } else {
                 ""
             }
         )
-        return formattedText.trim()
     } else {
         return context.getString(R.string.forma_blueprint)
+    }
+}
+
+fun translateFilter(primeFilter: PrimeFilter): Int {
+    return when (primeFilter) {
+        PrimeFilter.SHOW_ALL -> R.string.show_all
+        PrimeFilter.COMPLETE -> R.string.complete
+        PrimeFilter.AVAILABLE -> R.string.available
+        PrimeFilter.INCOMPLETE -> R.string.incomplete
+        PrimeFilter.UNAVAILABLE -> R.string.unavailable
     }
 }
 

@@ -2,6 +2,9 @@ package com.felipimatheuz.primehunt.util
 
 import android.content.Context
 import android.widget.TextView
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import com.felipimatheuz.primehunt.model.resources.OtherPrimeData
 import com.felipimatheuz.primehunt.model.external.PrimeRelicApi
 import com.felipimatheuz.primehunt.model.external.PrimeSetApi

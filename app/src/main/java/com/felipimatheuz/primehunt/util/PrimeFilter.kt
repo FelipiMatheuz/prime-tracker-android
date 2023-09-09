@@ -1,6 +1,6 @@
 package com.felipimatheuz.primehunt.util
 
-enum class AppFilter {
+enum class PrimeFilter {
     SHOW_ALL,
     AVAILABLE,
     UNAVAILABLE,

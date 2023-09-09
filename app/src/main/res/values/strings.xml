@@ -83,6 +83,7 @@
     <string name="neo_relics">Neo Relics</string>
     <string name="axi_relics">Axi Relics</string>
     <string name="forma_blueprint">Forma Blueprint</string>
+    <string name="no_results">No results found</string>
 
     <!-- Dialog Info -->
     <string name="help">Help</string>

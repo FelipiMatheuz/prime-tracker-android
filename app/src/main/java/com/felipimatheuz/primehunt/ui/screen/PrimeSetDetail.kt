@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -23,12 +22,11 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.model.core.PrimeItem
+import com.felipimatheuz.primehunt.ui.animation.AnimatedTransitionDialog
 import com.felipimatheuz.primehunt.ui.theme.RelicBackground
 import com.felipimatheuz.primehunt.ui.theme.WarframeprimehuntTheme
 import com.felipimatheuz.primehunt.util.*
@@ -36,11 +34,11 @@ import com.felipimatheuz.primehunt.viewmodel.PrimeSetDetailViewModel
 
 @Composable
 fun PrimeSetDetailScreen(setName: String?, onBack: () -> Unit) {
-    Dialog(onDismissRequest = {}, properties = DialogProperties(usePlatformDefaultWidth = false)) {
+
+    AnimatedTransitionDialog(onDismissRequest = onBack) { dialogHelper ->
         ConstraintLayout(
-            modifier = Modifier.padding(10.dp).fillMaxSize().background(
-                color = MaterialTheme.colorScheme.surface,
-                shape = RoundedCornerShape(5.dp)
+            modifier = Modifier.fillMaxSize().background(
+                color = MaterialTheme.colorScheme.surface
             )
         ) {
             val viewModel = PrimeSetDetailViewModel(LocalContext.current, setName)
@@ -58,7 +56,10 @@ fun PrimeSetDetailScreen(setName: String?, onBack: () -> Unit) {
                     style = MaterialTheme.typography.titleLarge,
                     modifier = Modifier.align(Alignment.CenterStart)
                 )
-                IconButton(onClick = { onBack() }, modifier = Modifier.align(Alignment.CenterEnd)) {
+                IconButton(
+                    onClick = { dialogHelper::triggerAnimatedDismiss.invoke() },
+                    modifier = Modifier.align(Alignment.CenterEnd)
+                ) {
                     Icon(
                         painterResource(R.drawable.ic_cross),
                         contentDescription = stringResource(R.string.close)
@@ -174,6 +175,6 @@ fun PrimeItemUI(primeItem: PrimeItem) {
 @Composable
 fun PrimeSetDetailScreenPreview() {
     WarframeprimehuntTheme {
-        PrimeSetScreen(PaddingValues(10.dp))
+        PrimeSetDetailScreen("Wisp") {}
     }
 }

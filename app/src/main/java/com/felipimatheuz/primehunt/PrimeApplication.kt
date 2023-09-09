@@ -4,8 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -13,19 +11,20 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navigation
+import com.felipimatheuz.primehunt.model.resources.AppSettings
 import com.felipimatheuz.primehunt.state.BottomNavItem
 import com.felipimatheuz.primehunt.ui.navigation.BottomNav
 import com.felipimatheuz.primehunt.ui.navigation.TopToolbar
 import com.felipimatheuz.primehunt.ui.screen.OverviewScreen
-import com.felipimatheuz.primehunt.ui.screen.PrimeSetDetailScreen
 import com.felipimatheuz.primehunt.ui.screen.PrimeSetScreen
 import com.felipimatheuz.primehunt.ui.screen.SplashScreen
 import com.felipimatheuz.primehunt.ui.theme.WarframeprimehuntTheme
+import com.felipimatheuz.primehunt.util.PrimeFilter
 
 class PrimeApplication : ComponentActivity() {
 
@@ -62,7 +61,8 @@ class PrimeApplication : ComponentActivity() {
                 OverviewScreen(padding, updateState) { updateState = false }
             }
             composable(BottomNavItem.PrimeSets.screenRoute) {
-                PrimeSetScreen(padding)
+                it.arguments?.getString("filter")?.let { filter -> PrimeFilter.valueOf(filter) }
+                    ?.let { primeFilter -> PrimeSetScreen(padding, primeFilter) }
             }
             composable(BottomNavItem.OtherPrimes.screenRoute) {
                 //OtherPrimeScreen()

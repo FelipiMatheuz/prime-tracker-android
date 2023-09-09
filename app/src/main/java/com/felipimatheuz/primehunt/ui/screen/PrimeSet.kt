@@ -4,10 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -20,18 +17,19 @@ import androidx.constraintlayout.compose.Dimension
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.ui.component.PrimeSetCard
 import com.felipimatheuz.primehunt.ui.theme.WarframeprimehuntTheme
+import com.felipimatheuz.primehunt.util.PrimeFilter
 import com.felipimatheuz.primehunt.viewmodel.PrimeSetViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PrimeSetScreen(padding: PaddingValues) {
+fun PrimeSetScreen(padding: PaddingValues, primeFilter: PrimeFilter) {
     ConstraintLayout(modifier = Modifier.padding(padding).fillMaxSize()) {
         val viewModel = PrimeSetViewModel(LocalContext.current)
-        val primeSets = viewModel.primeSets.collectAsState()
+        var searchText by remember { mutableStateOf("") }
         val showDialog = remember { mutableStateOf<String?>(null) }
         val (tfSearch, lcPrimeSet) = createRefs()
         OutlinedTextField(
-            value = "",
+            value = searchText,
             singleLine = true,
             leadingIcon = {
                 Icon(
@@ -42,7 +40,7 @@ fun PrimeSetScreen(padding: PaddingValues) {
             },
             label = { Text(text = stringResource(R.string.search_items_by_name)) },
             onValueChange = {
-                //viewModel.updateSearch(it)
+                searchText = it
             },
             textStyle = MaterialTheme.typography.bodySmall,
             modifier = Modifier.constrainAs(tfSearch) {
@@ -60,17 +58,18 @@ fun PrimeSetScreen(padding: PaddingValues) {
             width = Dimension.fillToConstraints
             height = Dimension.fillToConstraints
         }) {
-            items(primeSets.value) { primeSet ->
+            val primeList = viewModel.filterPrimeSet(searchText, primeFilter)
+            items(primeList) { primeSet ->
                 PrimeSetCard(primeSet, viewModel) { showDialog.value = primeSet.warframe.name }
                 Spacer(modifier = Modifier.padding(bottom = 8.dp))
             }
-            if (primeSets.value.isEmpty()) {
+            if (primeList.isEmpty()) {
                 item {
                     Text(
-                        text = stringResource(androidx.compose.ui.R.string.not_selected),
+                        text = stringResource(R.string.no_results),
                         textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.bodySmall,
-                        modifier = Modifier.fillMaxWidth()
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.fillMaxWidth().padding(16.dp)
                     )
                 }
             }
@@ -85,6 +84,6 @@ fun PrimeSetScreen(padding: PaddingValues) {
 @Composable
 fun PrimeSetScreenPreview() {
     WarframeprimehuntTheme {
-        PrimeSetScreen(PaddingValues(10.dp))
+        PrimeSetScreen(PaddingValues(10.dp), PrimeFilter.SHOW_ALL)
     }
 }

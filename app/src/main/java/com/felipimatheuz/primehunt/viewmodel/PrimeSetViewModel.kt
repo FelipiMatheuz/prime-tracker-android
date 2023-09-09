@@ -3,15 +3,15 @@ package com.felipimatheuz.primehunt.viewmodel
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.model.resources.PrimeSetData
 import com.felipimatheuz.primehunt.model.core.PrimeSet
 import com.felipimatheuz.primehunt.model.core.PrimeStatus
-import kotlinx.coroutines.flow.MutableStateFlow
+import com.felipimatheuz.primehunt.model.resources.PrimeSetData
+import com.felipimatheuz.primehunt.util.PrimeFilter
 
 class PrimeSetViewModel(context: Context) : ViewModel() {
 
     private val primeSetData = PrimeSetData(context)
-    val primeSets = MutableStateFlow(primeSetData.getListSetData())
+    private val primeSets = primeSetData.getListSetData()
 
     fun getStatusTextRes(status: PrimeStatus): Int {
         val statusText = when (status) {
@@ -26,4 +26,32 @@ class PrimeSetViewModel(context: Context) : ViewModel() {
     fun togglePrimeSet(primeSet: PrimeSet, checkAll: Boolean) {
         primeSetData.togglePrimeSet(primeSet, checkAll)
     }
+
+    fun filterPrimeSet(searchText: String, primeFilter: PrimeFilter): List<PrimeSet> {
+        var primeList = when (primeFilter) {
+            PrimeFilter.SHOW_ALL -> primeSets
+            PrimeFilter.COMPLETE -> primeSets.filter { isComplete(it) }
+            PrimeFilter.INCOMPLETE -> primeSets.filter { !isComplete(it) }
+            PrimeFilter.AVAILABLE -> primeSets.filter { it.status != PrimeStatus.VAULT }
+            PrimeFilter.UNAVAILABLE -> primeSets.filter { it.status == PrimeStatus.VAULT }
+        }
+        if (searchText.isNotEmpty()) {
+            primeList = primeList.filter {
+                it.warframe.name.contains(searchText, true)
+                        || it.primeItem1.name.contains(searchText, true)
+                        || it.primeItem2?.name?.contains(searchText, true) == true
+            }
+        }
+        return primeList
+    }
+
+    private fun isComplete(it: PrimeSet) = (it.warframe.blueprint &&
+            it.warframe.components.any { itemComponent -> itemComponent.obtained }
+            && it.primeItem1.blueprint &&
+            it.primeItem1.components.any { itemComponent -> itemComponent.obtained }
+            && (if (it.primeItem2 != null) {
+        it.primeItem2!!.blueprint && it.primeItem2!!.components.any { itemComponent -> itemComponent.obtained }
+    } else {
+        true
+    }))
 }

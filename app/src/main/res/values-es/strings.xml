@@ -67,4 +67,5 @@
     <string name="rendering_content">Representando los componentes...</string>
     <string name="about">Acerca</string>
     <string name="about_content">" Versión de la aplicación: %1$s\\nCreado por: Cyberman Studios"</string>
+    <string name="no_results">No se han encontrado resultados</string>
 </resources>

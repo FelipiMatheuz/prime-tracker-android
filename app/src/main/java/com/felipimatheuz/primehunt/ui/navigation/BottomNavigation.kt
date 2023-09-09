@@ -7,12 +7,14 @@ import androidx.compose.material.Text
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.felipimatheuz.primehunt.model.resources.AppSettings
 import com.felipimatheuz.primehunt.state.BottomNavItem
 import com.felipimatheuz.primehunt.ui.theme.WarframeprimehuntTheme
 
@@ -24,6 +26,7 @@ fun BottomNav(navController: NavController) {
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route.toString().split("/")[0]
+        val context = LocalContext.current
         BottomNavItem.getList().forEach { item ->
             BottomNavigationItem(
                 icon = { Icon(painterResource(id = item.icon), contentDescription = null) },
@@ -36,9 +39,10 @@ fun BottomNav(navController: NavController) {
                 selectedContentColor = MaterialTheme.colorScheme.onSecondary,
                 unselectedContentColor = MaterialTheme.colorScheme.onSecondary.copy(0.4f),
                 alwaysShowLabel = true,
-                selected = currentRoute == item.screenRoute,
+                selected = currentRoute == item.screenRoute.split("/")[0],
                 onClick = {
-                    navController.navigate(item.screenRoute) {
+                    val filter = AppSettings(context).getPrimeFilter(item.filter)
+                    navController.navigate(item.screenRoute.replace("{filter}", filter.toString())) {
 
                         navController.graph.startDestinationRoute?.let { screenRoute ->
                             popUpTo(screenRoute) {

@@ -67,4 +67,5 @@
     <string name="rendering_content">Rendern der Komponenten…</string>
     <string name="about">Um</string>
     <string name="about_content">" App-version: %1$s\\nErstellt von: Cyberman Studios"</string>
+    <string name="no_results">Keine Ergebnisse gefunden</string>
 </resources>
