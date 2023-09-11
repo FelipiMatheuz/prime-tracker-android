@@ -84,6 +84,11 @@
     <string name="axi_relics">Axi Relics</string>
     <string name="forma_blueprint">Forma Blueprint</string>
     <string name="no_results">No results found</string>
+    <string name="overview_warframes" translatable="false">Warframe</string>
+    <string name="overview_primary">Primary</string>
+    <string name="overview_secondary">Secondary</string>
+    <string name="overview_melee">Melee</string>
+    <string name="overview_other">Other</string>
 
     <!-- Dialog Info -->
     <string name="help">Help</string>

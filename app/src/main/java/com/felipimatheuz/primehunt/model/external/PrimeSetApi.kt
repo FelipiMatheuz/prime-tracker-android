@@ -25,13 +25,13 @@ class PrimeSetApi {
 
     private fun loadData(): List<PrimeSet> {
         val origin = "https://data.mongodb-api.com"
-        val path = "/app/data-wgnuq/endpoint/checklist"
+        val path = "/app/data-wgnuq/endpoint/prime_sets"
         val mapper = jacksonObjectMapper()
         val url = URL("$origin$path")
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         val result = mutableListOf<PrimeSet>()
-        for (l in mapper.readValue(url, List::class.java)) {
-            result.add(mapper.convertValue(l, PrimeSet::class.java))
+        for (primeSetJson in mapper.readValue(url, List::class.java)) {
+            result.add(mapper.convertValue(primeSetJson, PrimeSet::class.java))
         }
         return result
     }

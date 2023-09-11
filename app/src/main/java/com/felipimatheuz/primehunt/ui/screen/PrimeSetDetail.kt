@@ -1,20 +1,26 @@
 package com.felipimatheuz.primehunt.ui.screen
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -24,7 +30,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 import com.felipimatheuz.primehunt.R
+import com.felipimatheuz.primehunt.model.core.ItemComponent
+import com.felipimatheuz.primehunt.model.core.ItemPart
 import com.felipimatheuz.primehunt.model.core.PrimeItem
 import com.felipimatheuz.primehunt.ui.animation.AnimatedTransitionDialog
 import com.felipimatheuz.primehunt.ui.theme.RelicBackground
@@ -32,6 +43,7 @@ import com.felipimatheuz.primehunt.ui.theme.WarframeprimehuntTheme
 import com.felipimatheuz.primehunt.util.*
 import com.felipimatheuz.primehunt.viewmodel.PrimeSetDetailViewModel
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun PrimeSetDetailScreen(setName: String?, onBack: () -> Unit) {
 
@@ -42,47 +54,65 @@ fun PrimeSetDetailScreen(setName: String?, onBack: () -> Unit) {
             )
         ) {
             val viewModel = PrimeSetDetailViewModel(LocalContext.current, setName)
-            val primeSet = viewModel.primeSet.collectAsState()
+            val primeSet by viewModel.primeSet.collectAsState()
             val (header, lcPrimeSet) = createRefs()
 
             Box(modifier = Modifier.constrainAs(header) {
-                top.linkTo(parent.top)
-                start.linkTo(parent.start)
-                end.linkTo(parent.end)
+                top.linkTo(parent.top, 8.dp)
+                start.linkTo(parent.start, 8.dp)
+                end.linkTo(parent.end, 8.dp)
                 width = Dimension.fillToConstraints
-            }.padding(8.dp)) {
+            }) {
+                GlideImage(
+                    model = primeSet.imgLink,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.height(200.dp)
+                )
                 Text(
-                    text = stringResource(R.string.prime_set_template, primeSet.value.warframe.name),
-                    style = MaterialTheme.typography.titleLarge,
-                    modifier = Modifier.align(Alignment.CenterStart)
+                    text = stringResource(R.string.prime_set_template, primeSet.setName),
+                    style = MaterialTheme.typography.titleLarge
+                        .copy(
+                            shadow = Shadow(
+                                color = MaterialTheme.colorScheme.onPrimary,
+                                offset = Offset(2.0f, 2.0f),
+                                blurRadius = 2f
+                            )
+                        ),
+                    modifier = Modifier.align(Alignment.BottomCenter)
                 )
                 IconButton(
                     onClick = { dialogHelper::triggerAnimatedDismiss.invoke() },
-                    modifier = Modifier.align(Alignment.CenterEnd)
+                    modifier = Modifier.align(Alignment.TopEnd)
                 ) {
                     Icon(
                         painterResource(R.drawable.ic_cross),
-                        contentDescription = stringResource(R.string.close)
+                        contentDescription = stringResource(R.string.close),
+                        tint = MaterialTheme.colorScheme.secondary
                     )
                 }
             }
-            LazyColumn(modifier = Modifier.constrainAs(lcPrimeSet) {
-                top.linkTo(header.bottom, 8.dp)
+
+            Box(modifier = Modifier.constrainAs(lcPrimeSet) {
+                top.linkTo(header.bottom)
                 start.linkTo(parent.start, 8.dp)
                 end.linkTo(parent.end, 8.dp)
                 bottom.linkTo(parent.bottom)
                 width = Dimension.fillToConstraints
                 height = Dimension.fillToConstraints
-            }, horizontalAlignment = Alignment.CenterHorizontally) {
-                item {
-                    PrimeItemUI(primeSet.value.warframe)
-                    Spacer(Modifier.padding(16.dp))
-                    PrimeItemUI(primeSet.value.primeItem1)
-                    if (primeSet.value.primeItem2 != null) {
-                        Spacer(Modifier.padding(16.dp))
-                        PrimeItemUI(primeSet.value.primeItem2!!)
+            }) {
+                LazyColumn(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    itemsIndexed(primeSet.primeItems) {index, it ->
+                        if(index == 0)
+                            Spacer(modifier = Modifier.padding(bottom = 8.dp))
+                        PrimeItemUI(it, viewModel)
+                        if (index == primeSet.primeItems.size -1)
+                            Spacer(modifier = Modifier.padding(bottom = 8.dp))
                     }
-                    Spacer(Modifier.padding(8.dp))
                 }
             }
         }
@@ -90,11 +120,9 @@ fun PrimeSetDetailScreen(setName: String?, onBack: () -> Unit) {
 }
 
 @Composable
-fun PrimeItemUI(primeItem: PrimeItem) {
+fun PrimeItemUI(primeItem: PrimeItem, viewModel: PrimeSetDetailViewModel) {
     val context = LocalContext.current
-
     val compCount = getCompCount(primeItem)
-    val compGroup = getCompGroup(primeItem)
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
@@ -102,70 +130,84 @@ fun PrimeItemUI(primeItem: PrimeItem) {
             style = MaterialTheme.typography.titleMedium.copy(fontStyle = FontStyle.Italic)
         )
         LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            items(compGroup) { comp ->
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    ConstraintLayout {
-                        val (imgStatus, imgComp, txtComp) = createRefs()
-                        val statusRes = updateCompStatus(
-                            if (comp != null) {
-                                primeItem.components.filter { it.part == comp.part }
-                                    .map { it.obtained }
-                            } else
-                                listOf(primeItem.blueprint))
-                        if (statusRes != 0) {
-                            Image(
-                                painter = painterResource(statusRes),
-                                contentDescription = null,
-                                modifier = Modifier.constrainAs(imgStatus) {
-                                    top.linkTo(imgComp.top, (-8).dp)
-                                    end.linkTo(imgComp.end, (-8).dp)
-                                }
-                            )
-                        }
-                        Image(
-                            painter = painterResource(
-                                if (comp != null) {
-                                    getItemPartIcon(comp.part)
-                                } else {
-                                    R.drawable.prime_blueprint
-                                }
-                            ),
-                            contentDescription = if (comp != null) {
-                                formatItemPartText(context, comp.part, compCount[comp.part])
-                            } else {
-                                stringResource(R.string.comp_blueprint)
-                            },
-                            modifier = Modifier.constrainAs(imgComp) {
-                                top.linkTo(parent.top, 10.dp)
-                                start.linkTo(parent.start)
-                                end.linkTo(parent.end)
-                            }
-                        )
-                        Text(text = if (comp != null) {
-                            formatItemPartText(context, comp.part, compCount[comp.part])
-                        } else {
-                            stringResource(R.string.comp_blueprint)
-                        },
-                            modifier = Modifier.constrainAs(txtComp) {
-                                top.linkTo(imgComp.bottom, 8.dp)
-                                start.linkTo(parent.start, 8.dp)
-                                end.linkTo(parent.end, 8.dp)
-                            })
+            item(primeItem.blueprint) {
+                PrimeComponentsUI(viewModel, primeItem, null, context, compCount)
+            }
+            items(primeItem.components.distinctBy { it.part }) { comp ->
+                PrimeComponentsUI(viewModel, primeItem, comp, context, compCount)
+            }
+        }
+    }
+}
+
+@Composable
+private fun PrimeComponentsUI(
+    viewModel: PrimeSetDetailViewModel,
+    primeItem: PrimeItem,
+    comp: ItemComponent?,
+    context: Context,
+    compCount: Map<ItemPart?, Int>
+) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        val statusRes = rememberSaveable {
+            mutableIntStateOf(viewModel.updateIconStatus(primeItem.name, comp?.part))
+        }
+        ConstraintLayout(modifier = Modifier.clickable {
+            viewModel.togglePrimeItem(primeItem.name, comp?.part)
+            statusRes.intValue = viewModel.updateIconStatus(primeItem.name, comp?.part)
+        }) {
+            val (imgStatus, imgComp, txtComp) = createRefs()
+            if (statusRes.intValue != 0) {
+                Image(
+                    painter = painterResource(statusRes.intValue),
+                    contentDescription = null,
+                    modifier = Modifier.constrainAs(imgStatus) {
+                        top.linkTo(imgComp.top, (-8).dp)
+                        end.linkTo(imgComp.end, (-8).dp)
                     }
-                    Column(modifier = Modifier.background(RelicBackground).padding(8.dp)) {
-                        val searchText = getCompName(context, primeItem, comp)
-                        val relicList = getRelicList(searchText)
-                        relicList.forEach { relic ->
-                            val relicName = relic.name.substring(0, relic.name.lastIndexOf(" "))
-                            val colorRes = getColorForeground(relic.rewards, searchText)
-                            Text(
-                                text = relicName,
-                                color = colorRes ?: Color.Unspecified,
-                                textDecoration = if (relic.vaulted) TextDecoration.LineThrough else null
-                            )
-                        }
+                )
+            }
+            Image(
+                painter = painterResource(
+                    if (comp != null) {
+                        getItemPartIcon(comp.part)
+                    } else {
+                        R.drawable.prime_blueprint
                     }
+                ),
+                contentDescription = if (comp != null) {
+                    formatItemPartText(context, comp.part, compCount[comp.part])
+                } else {
+                    stringResource(R.string.comp_blueprint)
+                },
+                modifier = Modifier.constrainAs(imgComp) {
+                    top.linkTo(parent.top, 10.dp)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
                 }
+            )
+            Text(text = if (comp != null) {
+                formatItemPartText(context, comp.part, compCount[comp.part])
+            } else {
+                stringResource(R.string.comp_blueprint)
+            },
+                modifier = Modifier.constrainAs(txtComp) {
+                    top.linkTo(imgComp.bottom, 8.dp)
+                    start.linkTo(parent.start, 8.dp)
+                    end.linkTo(parent.end, 8.dp)
+                })
+        }
+        Column(modifier = Modifier.background(RelicBackground).padding(8.dp)) {
+            val searchText = getCompName(context, primeItem, comp)
+            val relicList = getRelicList(searchText)
+            relicList.forEach { relic ->
+                val relicName = relic.name.substring(0, relic.name.lastIndexOf(" "))
+                val colorRes = getColorForeground(relic.rewards, searchText)
+                Text(
+                    text = relicName,
+                    color = colorRes ?: Color.Unspecified,
+                    textDecoration = if (relic.vaulted) TextDecoration.LineThrough else null
+                )
             }
         }
     }

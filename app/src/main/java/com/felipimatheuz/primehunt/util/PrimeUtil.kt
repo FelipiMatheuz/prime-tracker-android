@@ -14,11 +14,7 @@ import com.felipimatheuz.primehunt.ui.theme.*
 import kotlin.math.roundToInt
 
 fun updateStatusColor(primeSet: PrimeSet): Color {
-    val totalPercent = if (primeSet.primeItem2 != null) {
-        (getPercent(primeSet.warframe) + getPercent(primeSet.primeItem1) + getPercent(primeSet.primeItem2!!)) / 3
-    } else {
-        (getPercent(primeSet.warframe) + getPercent(primeSet.primeItem1)) / 2
-    }
+    val totalPercent = primeSet.primeItems.sumOf { getPercent(it) } / primeSet.primeItems.size
     return if (totalPercent == 0) {
         Zero
     } else if (totalPercent <= 50) {
@@ -58,9 +54,7 @@ fun getPercent(target: PrimeItem): Int {
 }
 
 fun getCompCount(primeItem: PrimeItem): Map<ItemPart?, Int> {
-    val components = mutableMapOf<ItemPart?, Int>(null to 1)
-    components.putAll(primeItem.components.groupingBy { it.part }.eachCount().filter { it.value > 1 })
-    return components
+    return primeItem.components.groupingBy { it.part }.eachCount().filter { it.value > 1 }
 }
 
 fun getCompGroup(primeItem: PrimeItem): List<ItemComponent?> {

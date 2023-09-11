@@ -53,6 +53,8 @@
     <string name="menu_prime_sets">Prime Sets</string>
     <string name="menu_other_prime">Andere Primes</string>
     <string name="menu_relics">Reliktes</string>
+    <string name="overview_primary">Primär</string>
+    <string name="overview_secondary">" Sekundär"</string>
     <string name="help">Helfen</string>
     <string name="overall_stats">Gesamt: %1$s\nIn Bearbeitung: %2$s\nAbgeschlossen: %3$s</string>
     <string name="overall">Gesamt</string>
@@ -68,4 +70,6 @@
     <string name="about">Um</string>
     <string name="about_content">" App-version: %1$s\\nErstellt von: Cyberman Studios"</string>
     <string name="no_results">Keine Ergebnisse gefunden</string>
+    <string name="overview_melee">Nahkampf</string>
+    <string name="overview_other">Andere</string>
 </resources>

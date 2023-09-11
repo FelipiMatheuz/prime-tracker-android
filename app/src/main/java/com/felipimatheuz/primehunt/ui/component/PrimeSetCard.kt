@@ -17,13 +17,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.bumptech.glide.integration.compose.placeholder
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.model.core.PrimeSet
 import com.felipimatheuz.primehunt.ui.theme.High
@@ -38,7 +38,6 @@ fun PrimeSetCard(primeSet: PrimeSet, viewModel: PrimeSetViewModel, goToDetails: 
     var offsetX by remember { mutableFloatStateOf(0f) }
     val backAnim by animateDpAsState(targetValue = if (offsetX != 0f) offsetX.dp else 0.dp, label = "")
 
-    val context = LocalContext.current
     Box {
         Image(
             painter = painterResource(R.drawable.ic_check), contentDescription = null,
@@ -93,9 +92,11 @@ fun PrimeSetCard(primeSet: PrimeSet, viewModel: PrimeSetViewModel, goToDetails: 
                             model = primeSet.imgLink,
                             contentDescription = null,
                             contentScale = ContentScale.Crop,
+                            loading = placeholder(R.drawable.ic_excalibur_prime),
+                            failure = placeholder(R.drawable.ic_cross),
                             modifier = Modifier.size(100.dp)
                         )
-                        Text(text = stringResource(R.string.prime_set_template, primeSet.warframe.name))
+                        Text(text = stringResource(R.string.prime_set_template, primeSet.setName))
                     }
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
@@ -105,25 +106,11 @@ fun PrimeSetCard(primeSet: PrimeSet, viewModel: PrimeSetViewModel, goToDetails: 
                             start.linkTo(layoutSet.end)
                             end.linkTo(parent.end)
                         }) {
-                        Row {
-                            Text(stringResource(R.string.prime_template, primeSet.warframe.name))
-                            Text(
-                                getPercent(primeSet.warframe).toString().plus("%"),
-                                modifier = Modifier.padding(start = 8.dp)
-                            )
-                        }
-                        Row {
-                            Text(stringResource(R.string.prime_template, primeSet.primeItem1.name))
-                            Text(
-                                getPercent(primeSet.primeItem1).toString().plus("%"),
-                                modifier = Modifier.padding(start = 8.dp)
-                            )
-                        }
-                        if (primeSet.primeItem2 != null) {
+                        primeSet.primeItems.forEach {
                             Row {
-                                Text(stringResource(R.string.prime_template, primeSet.primeItem2!!.name))
+                                Text(stringResource(R.string.prime_template, it.name))
                                 Text(
-                                    getPercent(primeSet.primeItem2!!).toString().plus("%"),
+                                    getPercent(it).toString().plus("%"),
                                     modifier = Modifier.padding(start = 8.dp)
                                 )
                             }

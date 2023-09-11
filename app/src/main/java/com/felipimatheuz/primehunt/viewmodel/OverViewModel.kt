@@ -16,14 +16,11 @@ class OverViewModel : ViewModel() {
         }
 
         primeData.forEach { primeSet ->
-            primeItems.add(primeSet.warframe)
-            primeItems.add(primeSet.primeItem1)
-            if (primeSet.primeItem2 != null) {
-                primeItems.add(primeSet.primeItem2!!)
-            }
+            primeItems.addAll(primeSet.primeItems)
         }
         return primeItems
     }
+
     fun loadOther(context: Context, update: Boolean): List<PrimeItem> {
         return if (update) {
             OtherPrimeData(context).updateListData()

@@ -25,6 +25,7 @@ import com.felipimatheuz.primehunt.viewmodel.PrimeSetViewModel
 fun PrimeSetScreen(padding: PaddingValues, primeFilter: PrimeFilter) {
     ConstraintLayout(modifier = Modifier.padding(padding).fillMaxSize()) {
         val viewModel = PrimeSetViewModel(LocalContext.current)
+        val primeList by viewModel.primeSetsFiltered.collectAsState()
         var searchText by remember { mutableStateOf("") }
         val showDialog = remember { mutableStateOf<String?>(null) }
         val (tfSearch, lcPrimeSet) = createRefs()
@@ -58,9 +59,9 @@ fun PrimeSetScreen(padding: PaddingValues, primeFilter: PrimeFilter) {
             width = Dimension.fillToConstraints
             height = Dimension.fillToConstraints
         }) {
-            val primeList = viewModel.filterPrimeSet(searchText, primeFilter)
+            viewModel.filterPrimeSet(searchText, primeFilter)
             items(primeList) { primeSet ->
-                PrimeSetCard(primeSet, viewModel) { showDialog.value = primeSet.warframe.name }
+                PrimeSetCard(primeSet, viewModel) { showDialog.value = primeSet.setName }
                 Spacer(modifier = Modifier.padding(bottom = 8.dp))
             }
             if (primeList.isEmpty()) {

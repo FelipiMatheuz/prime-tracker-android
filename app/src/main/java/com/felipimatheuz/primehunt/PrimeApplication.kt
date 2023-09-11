@@ -11,12 +11,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.felipimatheuz.primehunt.model.resources.AppSettings
 import com.felipimatheuz.primehunt.state.BottomNavItem
 import com.felipimatheuz.primehunt.ui.navigation.BottomNav
 import com.felipimatheuz.primehunt.ui.navigation.TopToolbar

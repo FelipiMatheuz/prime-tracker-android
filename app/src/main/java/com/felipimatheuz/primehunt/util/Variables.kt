@@ -2,24 +2,17 @@ package com.felipimatheuz.primehunt.util
 
 import android.content.Context
 import android.widget.TextView
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import com.felipimatheuz.primehunt.model.resources.OtherPrimeData
-import com.felipimatheuz.primehunt.model.external.PrimeRelicApi
-import com.felipimatheuz.primehunt.model.external.PrimeSetApi
-import com.felipimatheuz.primehunt.model.resources.PrimeSetData
 import com.felipimatheuz.primehunt.model.core.ItemComponent
 import com.felipimatheuz.primehunt.model.core.ItemPart
 import com.felipimatheuz.primehunt.model.core.PrimeItem
+import com.felipimatheuz.primehunt.model.core.PrimeType
+import com.felipimatheuz.primehunt.model.external.PrimeRelicApi
+import com.felipimatheuz.primehunt.model.external.PrimeSetApi
+import com.felipimatheuz.primehunt.model.resources.OtherPrimeData
 
 var apiRelic: PrimeRelicApi = PrimeRelicApi()
 
 var apiData: PrimeSetApi = PrimeSetApi()
-
-fun togglePrimeItem(primeSetName: String, textView: TextView, primeItem: PrimeItem, part: ItemPart?) {
-    PrimeSetData(textView.context).togglePrimeItem(primeSetName, primeItem, part)
-}
 
 fun togglePrimeItem(context: Context, primeItem: PrimeItem) {
     OtherPrimeData(context).togglePrimeItem(primeItem)
@@ -31,6 +24,7 @@ fun togglePrimeItemComp(primeItem: PrimeItem, textView: TextView, primeItemComp:
 
 var otherData: List<PrimeItem> = listOf(
     PrimeItem("Akbronco",
+        PrimeType.SECONDARY,
         listOf(
             ItemComponent(ItemPart.BRONCO),
             ItemComponent(ItemPart.BRONCO),
@@ -38,6 +32,7 @@ var otherData: List<PrimeItem> = listOf(
         )
     ),
     PrimeItem("Aklex",
+        PrimeType.SECONDARY,
         listOf(
             ItemComponent(ItemPart.LEX),
             ItemComponent(ItemPart.LEX),
@@ -45,6 +40,7 @@ var otherData: List<PrimeItem> = listOf(
         )
     ),
     PrimeItem("Akvasto",
+        PrimeType.SECONDARY,
         listOf(
             ItemComponent(ItemPart.VASTO),
             ItemComponent(ItemPart.VASTO),
@@ -52,6 +48,7 @@ var otherData: List<PrimeItem> = listOf(
         )
     ),
     PrimeItem("Braton",
+        PrimeType.PRIMARY,
         listOf(
             ItemComponent(ItemPart.BARREL),
             ItemComponent(ItemPart.RECEIVER),
@@ -59,12 +56,14 @@ var otherData: List<PrimeItem> = listOf(
         )
     ),
     PrimeItem("Bronco",
+        PrimeType.SECONDARY,
         listOf(
             ItemComponent(ItemPart.BARREL),
             ItemComponent(ItemPart.RECEIVER)
         )
     ),
     PrimeItem("Burston",
+        PrimeType.PRIMARY,
         listOf(
             ItemComponent(ItemPart.BARREL),
             ItemComponent(ItemPart.RECEIVER),
@@ -72,6 +71,7 @@ var otherData: List<PrimeItem> = listOf(
         )
     ),
     PrimeItem("Fang",
+        PrimeType.MELEE,
         listOf(
             ItemComponent(ItemPart.BLADE),
             ItemComponent(ItemPart.BLADE),
@@ -80,12 +80,14 @@ var otherData: List<PrimeItem> = listOf(
         )
     ),
     PrimeItem("Lex",
+        PrimeType.SECONDARY,
         listOf(
             ItemComponent(ItemPart.BARREL),
             ItemComponent(ItemPart.RECEIVER)
         )
     ),
     PrimeItem("Orthos",
+        PrimeType.MELEE,
         listOf(
             ItemComponent(ItemPart.BLADE),
             ItemComponent(ItemPart.BLADE),
@@ -93,6 +95,7 @@ var otherData: List<PrimeItem> = listOf(
         )
     ),
     PrimeItem("Paris",
+        PrimeType.PRIMARY,
         listOf(
             ItemComponent(ItemPart.ULIMB),
             ItemComponent(ItemPart.LLIMB),
@@ -101,6 +104,7 @@ var otherData: List<PrimeItem> = listOf(
         )
     ),
     PrimeItem("Vasto",
+        PrimeType.SECONDARY,
         listOf(
             ItemComponent(ItemPart.BARREL),
             ItemComponent(ItemPart.RECEIVER)

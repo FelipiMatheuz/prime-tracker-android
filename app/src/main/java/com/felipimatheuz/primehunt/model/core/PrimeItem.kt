@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonProperty
 data class PrimeItem(
     @JsonProperty("name")
     var name: String,
+    @JsonProperty("type")
+    var type: PrimeType,
     @JsonProperty("components")
     val components: List<ItemComponent>,
     @JsonProperty("blueprint")
@@ -20,6 +22,15 @@ data class ItemComponent(
     @JsonProperty("obtained")
     var obtained: Boolean = false
 )
+
+@Keep
+enum class PrimeType{
+    WARFRAME,
+    PRIMARY,
+    SECONDARY,
+    MELEE,
+    OTHER
+}
 
 @Keep
 enum class ItemPart {

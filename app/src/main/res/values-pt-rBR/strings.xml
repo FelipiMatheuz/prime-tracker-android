@@ -63,6 +63,8 @@
     <string name="menu_relics">Relíquias</string>
     <string name="relic_template">Relíquia %1$s</string>
     <string name="forma_blueprint">Diagrama Forma</string>
+    <string name="overview_primary">Primária</string>
+    <string name="overview_secondary">Secundária</string>
     <string name="help">Ajuda</string>
     <string name="help_content">%1$s / %2$s:\n-Pressione por um momento um dos items para marcar/desmarcar todos os items dentro do conjunto\n-Clique em um dos itens para ver os detalhes\n\tClique em um componente prime para marcar/desmarcar o item\n-Use o filtro na barra de ferramentas para facilitar sua busca\n\n%3$s:\n-Clique na relíquia para ver os detalhes\n-Reliquias apagadas indicam que você já tem todos os primes que a relíquia oferece\n-Reliquias acesas indicam que contém itens não obtidos ainda\n-O número ao lado da relíquia indica quantos itens primes não foram obtidos\n-Use o filtro na barra de ferramentas para facilitar sua busca</string>
     <string name="overall_stats">Total: %1$s\nEm Progresso: %2$s\nConcluído: %3$s</string>
@@ -70,4 +72,6 @@
     <string name="about">Sobre</string>
     <string name="about_content">Versão do aplicativo: %1$s\\nCriado por: Cyberman Studios</string>
     <string name="no_results">Nenhum resultado encontrado</string>
+    <string name="overview_melee">Corpo a corpo</string>
+    <string name="overview_other">Outro</string>
 </resources>
