@@ -3,7 +3,7 @@
     <string name="default_content_description">" Illustriertes Bild"</string>
     <string name="by_owner">von Cyberman Studios</string>
     <string name="loading_content">Externe Inhalte werden geladen…</string>
-    <string name="check_updates">Updates prüfen…</string>
+    <string name="checking_set_updates">Set-Updates prüfen…</string>
     <string name="connection_failed">Verbindung fehlgeschlagen</string>
     <string name="connection_failed_message">Bitte überprüfe deine Internetverbindung</string>
     <string name="connection_retry">Versuchen Sie es erneut</string>
@@ -72,4 +72,5 @@
     <string name="no_results">Keine Ergebnisse gefunden</string>
     <string name="overview_melee">Nahkampf</string>
     <string name="overview_other">Andere</string>
+    <string name="checking_other_updates">Andere Updates Prüfen…</string>
 </resources>

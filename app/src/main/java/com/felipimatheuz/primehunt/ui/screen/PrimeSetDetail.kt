@@ -121,7 +121,6 @@ fun PrimeSetDetailScreen(setName: String?, onBack: () -> Unit) {
 
 @Composable
 fun PrimeItemUI(primeItem: PrimeItem, viewModel: PrimeSetDetailViewModel) {
-    val context = LocalContext.current
     val compCount = getCompCount(primeItem)
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -131,10 +130,10 @@ fun PrimeItemUI(primeItem: PrimeItem, viewModel: PrimeSetDetailViewModel) {
         )
         LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             item(primeItem.blueprint) {
-                PrimeComponentsUI(viewModel, primeItem, null, context, compCount)
+                PrimeComponentsUI(viewModel, primeItem, null, compCount)
             }
             items(primeItem.components.distinctBy { it.part }) { comp ->
-                PrimeComponentsUI(viewModel, primeItem, comp, context, compCount)
+                PrimeComponentsUI(viewModel, primeItem, comp, compCount)
             }
         }
     }
@@ -145,9 +144,9 @@ private fun PrimeComponentsUI(
     viewModel: PrimeSetDetailViewModel,
     primeItem: PrimeItem,
     comp: ItemComponent?,
-    context: Context,
     compCount: Map<ItemPart?, Int>
 ) {
+    val context = LocalContext.current
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         val statusRes = rememberSaveable {
             mutableIntStateOf(viewModel.updateIconStatus(primeItem.name, comp?.part))

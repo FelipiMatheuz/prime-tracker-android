@@ -1,113 +1,25 @@
 package com.felipimatheuz.primehunt.util
 
-import android.content.Context
-import android.widget.TextView
-import com.felipimatheuz.primehunt.model.core.ItemComponent
-import com.felipimatheuz.primehunt.model.core.ItemPart
-import com.felipimatheuz.primehunt.model.core.PrimeItem
-import com.felipimatheuz.primehunt.model.core.PrimeType
+import com.felipimatheuz.primehunt.model.external.OtherPrimeApi
 import com.felipimatheuz.primehunt.model.external.PrimeRelicApi
 import com.felipimatheuz.primehunt.model.external.PrimeSetApi
-import com.felipimatheuz.primehunt.model.resources.OtherPrimeData
 
-var apiRelic: PrimeRelicApi = PrimeRelicApi()
+lateinit var apiRelic: PrimeRelicApi
 
-var apiData: PrimeSetApi = PrimeSetApi()
+lateinit var apiSet: PrimeSetApi
 
-fun togglePrimeItem(context: Context, primeItem: PrimeItem) {
-    OtherPrimeData(context).togglePrimeItem(primeItem)
-}
+lateinit var apiOther: OtherPrimeApi
 
-fun togglePrimeItemComp(primeItem: PrimeItem, textView: TextView, primeItemComp: ItemComponent?) {
-    OtherPrimeData(textView.context).togglePrimeItemComp(primeItem, primeItemComp)
-}
-
-var otherData: List<PrimeItem> = listOf(
-    PrimeItem("Akbronco",
-        PrimeType.SECONDARY,
-        listOf(
-            ItemComponent(ItemPart.BRONCO),
-            ItemComponent(ItemPart.BRONCO),
-            ItemComponent(ItemPart.LINK)
-        )
-    ),
-    PrimeItem("Aklex",
-        PrimeType.SECONDARY,
-        listOf(
-            ItemComponent(ItemPart.LEX),
-            ItemComponent(ItemPart.LEX),
-            ItemComponent(ItemPart.LINK)
-        )
-    ),
-    PrimeItem("Akvasto",
-        PrimeType.SECONDARY,
-        listOf(
-            ItemComponent(ItemPart.VASTO),
-            ItemComponent(ItemPart.VASTO),
-            ItemComponent(ItemPart.LINK)
-        )
-    ),
-    PrimeItem("Braton",
-        PrimeType.PRIMARY,
-        listOf(
-            ItemComponent(ItemPart.BARREL),
-            ItemComponent(ItemPart.RECEIVER),
-            ItemComponent(ItemPart.STOCK)
-        )
-    ),
-    PrimeItem("Bronco",
-        PrimeType.SECONDARY,
-        listOf(
-            ItemComponent(ItemPart.BARREL),
-            ItemComponent(ItemPart.RECEIVER)
-        )
-    ),
-    PrimeItem("Burston",
-        PrimeType.PRIMARY,
-        listOf(
-            ItemComponent(ItemPart.BARREL),
-            ItemComponent(ItemPart.RECEIVER),
-            ItemComponent(ItemPart.STOCK)
-        )
-    ),
-    PrimeItem("Fang",
-        PrimeType.MELEE,
-        listOf(
-            ItemComponent(ItemPart.BLADE),
-            ItemComponent(ItemPart.BLADE),
-            ItemComponent(ItemPart.HANDLE),
-            ItemComponent(ItemPart.HANDLE)
-        )
-    ),
-    PrimeItem("Lex",
-        PrimeType.SECONDARY,
-        listOf(
-            ItemComponent(ItemPart.BARREL),
-            ItemComponent(ItemPart.RECEIVER)
-        )
-    ),
-    PrimeItem("Orthos",
-        PrimeType.MELEE,
-        listOf(
-            ItemComponent(ItemPart.BLADE),
-            ItemComponent(ItemPart.BLADE),
-            ItemComponent(ItemPart.HANDLE)
-        )
-    ),
-    PrimeItem("Paris",
-        PrimeType.PRIMARY,
-        listOf(
-            ItemComponent(ItemPart.ULIMB),
-            ItemComponent(ItemPart.LLIMB),
-            ItemComponent(ItemPart.GRIP),
-            ItemComponent(ItemPart.STRING)
-        )
-    ),
-    PrimeItem("Vasto",
-        PrimeType.SECONDARY,
-        listOf(
-            ItemComponent(ItemPart.BARREL),
-            ItemComponent(ItemPart.RECEIVER)
-        )
-    )
+val urlPrimeItem = mapOf(
+    "Akbronco" to "https://static.wikia.nocookie.net/warframe/images/1/1c/AkbroncoPrime.png/revision/latest?cb=20220407125704",
+    "Aklex" to "https://static.wikia.nocookie.net/warframe/images/a/ab/AklexPrime.png/revision/latest?cb=20220407125931",
+    "Akvasto" to "https://static.wikia.nocookie.net/warframe/images/0/03/AkvastoPrime.png/revision/latest?cb=20220407130244",
+    "Braton" to "https://static.wikia.nocookie.net/warframe/images/2/2e/BratonPrime.png/revision/latest?cb=20220407163420",
+    "Bronco" to "https://static.wikia.nocookie.net/warframe/images/3/37/BroncoPrime.png/revision/latest?cb=20220407163629",
+    "Burston" to "https://static.wikia.nocookie.net/warframe/images/a/a4/BurstonPrime.png/revision/latest?cb=20220407163806",
+    "Fang" to "https://static.wikia.nocookie.net/warframe/images/f/f7/FangPrime.png/revision/latest?cb=20220410002159",
+    "Lex" to "https://static.wikia.nocookie.net/warframe/images/9/9a/LexPrime.png/revision/latest?cb=20220421015247",
+    "Orthos" to "https://static.wikia.nocookie.net/warframe/images/4/4a/OrthosPrime.png/revision/latest?cb=20220612022152",
+    "Paris" to "https://static.wikia.nocookie.net/warframe/images/8/86/ParisPrime.png/revision/latest?cb=20220612022519",
+    "Vasto" to "https://static.wikia.nocookie.net/warframe/images/a/aa/VastoPrime.png/revision/latest?cb=20220612123902"
 )

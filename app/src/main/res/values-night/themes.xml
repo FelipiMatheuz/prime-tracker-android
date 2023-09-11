@@ -5,9 +5,6 @@
         <item name="colorPrimary">@color/gold_200</item>
         <item name="colorPrimaryVariant">@color/gold_700</item>
         <item name="colorOnPrimary">@color/black</item>
-        <!-- Surface brand color. (Primary equivalent) -->
-        <item name="colorSurface">?attr/colorPrimary</item>
-        <item name="colorOnSurface">?attr/colorOnPrimary</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/cyan_200</item>
         <item name="colorSecondaryVariant">@color/cyan_200</item>

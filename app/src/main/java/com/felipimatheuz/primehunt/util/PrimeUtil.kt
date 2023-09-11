@@ -123,7 +123,7 @@ fun getItemPartIcon(part: ItemPart): Int {
         ItemPart.HARNESS -> R.drawable.prime_harness
         ItemPart.CIRCUIT -> R.drawable.prime_circuit
         ItemPart.WINGS -> R.drawable.prime_wings
-        ItemPart.BRONCO, ItemPart.LEX, ItemPart.VASTO -> R.drawable.pistol
+        ItemPart.BRONCO, ItemPart.LEX, ItemPart.VASTO -> R.drawable.ic_weapon
     }
 }
 

@@ -6,7 +6,8 @@
     <string name="by_owner">by Cyberman Studios</string>
     <string name="logo" translatable="false">Image Logo</string>
     <string name="loading_content">Loading External Content…</string>
-    <string name="check_updates">Checking Updates…</string>
+    <string name="checking_set_updates">Checking Set Updates…</string>
+    <string name="checking_other_updates">Checking Other Updates…</string>
     <string name="rendering_content">Rendering The Components…</string>
     <string name="connection_failed">Connection Failed</string>
     <string name="connection_failed_message">Please check your Internet Connection</string>

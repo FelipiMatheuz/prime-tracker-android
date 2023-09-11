@@ -52,7 +52,7 @@
     <string name="connection_failed">Falha na conexão</string>
     <string name="connection_failed_message">Por favor, verifique sua conexão com a internet</string>
     <string name="connection_retry">Tentar Novamente</string>
-    <string name="check_updates">Verificando Atualizações…</string>
+    <string name="checking_set_updates">Verificando Atualizações de Conjuntos…</string>
     <string name="lith_relics">Relíquias Lith</string>
     <string name="meso_relics">Relíquias Meso</string>
     <string name="neo_relics">Relíquias Neo</string>
@@ -74,4 +74,5 @@
     <string name="no_results">Nenhum resultado encontrado</string>
     <string name="overview_melee">Corpo a corpo</string>
     <string name="overview_other">Outro</string>
+    <string name="checking_other_updates">Verificando Demais Atualizações…</string>
 </resources>

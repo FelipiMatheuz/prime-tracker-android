@@ -44,8 +44,13 @@ fun SplashScreen(onReady: () -> Unit) {
                 }
 
                 LoadState.LoadSet -> {
-                    ShowLoading(R.string.check_updates)
-                    viewModel.loadResource(R.string.check_updates)
+                    ShowLoading(R.string.checking_set_updates)
+                    viewModel.loadResource(R.string.checking_set_updates)
+                }
+
+                LoadState.LoadOther -> {
+                    ShowLoading(R.string.checking_other_updates)
+                    viewModel.loadResource(R.string.checking_other_updates)
                 }
 
                 is LoadState.Error -> ShowError(viewModel, (loadState.value as LoadState.Error).lastTextRes)

@@ -2,7 +2,7 @@
 <resources>
     <string name="by_owner">por Cyberman Studios</string>
     <string name="loading_content">Cargando contenido externo…</string>
-    <string name="prime_set_template">Conjunto %1$s Prime</string>
+    <string name="prime_set_template">Set %1$s Prime</string>
     <string name="status_resurgence">Varzia (Resurgimiento)</string>
     <string name="comp_blueprint">Plano</string>
     <string name="comp_blade">Hoja</string>
@@ -50,7 +50,7 @@
     <string name="connection_failed">Conexión Fallida</string>
     <string name="connection_failed_message">Por favor, revise su conexion a internet</string>
     <string name="connection_retry">Intentar otra vez</string>
-    <string name="check_updates">Comprobando Actualizaciones…</string>
+    <string name="checking_set_updates">Comprobando Actualizaciones de los Sets…</string>
     <string name="lith_relics">Reliquias Lith</string>
     <string name="meso_relics">Reliquias Meso</string>
     <string name="neo_relics">Reliquias Neo</string>
@@ -72,4 +72,5 @@
     <string name="no_results">No se han encontrado resultados</string>
     <string name="overview_melee">Pelea confusa</string>
     <string name="overview_other">Otro</string>
+    <string name="checking_other_updates">Comprobando Otras Actualizaciones…</string>
 </resources>

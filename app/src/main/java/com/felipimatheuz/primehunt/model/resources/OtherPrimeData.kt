@@ -4,7 +4,7 @@ import android.content.Context
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.felipimatheuz.primehunt.model.core.ItemComponent
 import com.felipimatheuz.primehunt.model.core.PrimeItem
-import com.felipimatheuz.primehunt.util.otherData
+import com.felipimatheuz.primehunt.util.apiOther
 
 class OtherPrimeData(context: Context) {
 
@@ -17,7 +17,7 @@ class OtherPrimeData(context: Context) {
 
     private fun checkDataUpdates() {
         val editor = localData.edit()
-        for (data in otherData) {
+        for (data in apiOther.getOtherData()) {
             val otherItem = localData.getString(data.name, null)
             if (otherItem.isNullOrEmpty()) {
                 val json = jacksonObjectMapper().writeValueAsString(data)
@@ -48,9 +48,8 @@ class OtherPrimeData(context: Context) {
         editor.apply()
     }
 
-    fun togglePrimeItem(primeItem: PrimeItem) {
-        val obtained = !primeItem.blueprint
-        changeStatusItem(primeItem, obtained)
+    fun togglePrimeItem(primeItem: PrimeItem, checkAll: Boolean) {
+        changeStatusItem(primeItem, checkAll)
         setListOtherData(primeItem.name, primeItem)
     }
 

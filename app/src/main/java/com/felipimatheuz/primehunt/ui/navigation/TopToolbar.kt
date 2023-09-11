@@ -24,6 +24,7 @@ import com.felipimatheuz.primehunt.ui.component.PrimeInfoDialog
 import com.felipimatheuz.primehunt.ui.theme.WarframeprimehuntTheme
 import com.felipimatheuz.primehunt.util.PrimeFilter
 import com.felipimatheuz.primehunt.util.translateFilter
+import java.util.Collections
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -90,7 +91,12 @@ fun TopToolbar(navController: NavHostController) {
                             )
                         }
                     } else {
-                        val filterState = PrimeFilter.values()
+                        var filterState = PrimeFilter.values()
+                        if (item.icon == R.drawable.ic_lato_prime) {
+                            filterState =
+                                filterState.filter { it != PrimeFilter.AVAILABLE && it != PrimeFilter.UNAVAILABLE }
+                                    .toTypedArray()
+                        }
                         filterState.forEach {
                             DropdownMenuItem(
                                 text = { Text(text = stringResource(translateFilter(it))) },

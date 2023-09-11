@@ -50,7 +50,7 @@
     <string name="connection_failed">连接失败</string>
     <string name="connection_failed_message">请检查您的互联网连接</string>
     <string name="connection_retry">再试一次</string>
-    <string name="check_updates">正在检查更新…</string>
+    <string name="checking_set_updates">检查集更新…</string>
     <string name="lith_relics">Lith 文物</string>
     <string name="meso_relics">Meso 文物</string>
     <string name="neo_relics">Neo 文物</string>
@@ -72,4 +72,5 @@
     <string name="no_results">" 未找到结果"</string>
     <string name="overview_melee">近战</string>
     <string name="overview_other">其他</string>
+    <string name="checking_other_updates">检查其他更新…</string>
 </resources>

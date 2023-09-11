@@ -5,7 +5,7 @@ import android.content.Context.MODE_PRIVATE
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.felipimatheuz.primehunt.model.core.ItemPart
 import com.felipimatheuz.primehunt.model.core.PrimeSet
-import com.felipimatheuz.primehunt.util.apiData
+import com.felipimatheuz.primehunt.util.apiSet
 
 class PrimeSetData(context: Context) {
 
@@ -28,7 +28,7 @@ class PrimeSetData(context: Context) {
 
     private fun checkDataUpdates() {
         val editor = localData.edit()
-        for (data in apiData.getSetData()) {
+        for (data in apiSet.getSetData()) {
             val itemSet = localData.getString(data.setName, null)
             if (itemSet.isNullOrEmpty()) {
                 val json = jacksonObjectMapper().writeValueAsString(data)

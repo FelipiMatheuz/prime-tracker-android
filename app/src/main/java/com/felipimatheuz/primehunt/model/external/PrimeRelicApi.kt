@@ -39,10 +39,10 @@ class PrimeRelicApi {
         val url = URL("$origin$path")
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         val result = mutableListOf<ApiData>()
-        for (l in mapper.readValue(url, List::class.java)) {
-            val converted = mapper.convertValue(l, ApiData::class.java)
-            if(converted.name.contains("Intact")){
-                result.add(converted)
+        for (relicList in mapper.readValue(url, List::class.java)) {
+            val relicItem = mapper.convertValue(relicList, ApiData::class.java)
+            if(relicItem.name.contains("Intact")){
+                result.add(relicItem)
             }
         }
         return result

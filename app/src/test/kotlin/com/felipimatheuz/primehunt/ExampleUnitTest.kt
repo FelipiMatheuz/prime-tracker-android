@@ -12,6 +12,6 @@ class ExampleUnitTest {
 
     @Test
     fun testConnection() {
-            PrimeSetApi().getSetData()
+        PrimeSetApi().getSetData()
     }
 }
