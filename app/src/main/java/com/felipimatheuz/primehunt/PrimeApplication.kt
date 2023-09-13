@@ -18,10 +18,7 @@ import androidx.navigation.compose.rememberNavController
 import com.felipimatheuz.primehunt.state.BottomNavItem
 import com.felipimatheuz.primehunt.ui.navigation.BottomNav
 import com.felipimatheuz.primehunt.ui.navigation.TopToolbar
-import com.felipimatheuz.primehunt.ui.screen.OtherPrimeScreen
-import com.felipimatheuz.primehunt.ui.screen.OverviewScreen
-import com.felipimatheuz.primehunt.ui.screen.PrimeSetScreen
-import com.felipimatheuz.primehunt.ui.screen.SplashScreen
+import com.felipimatheuz.primehunt.ui.screen.*
 import com.felipimatheuz.primehunt.ui.theme.WarframeprimehuntTheme
 import com.felipimatheuz.primehunt.util.PrimeFilter
 
@@ -68,7 +65,8 @@ class PrimeApplication : ComponentActivity() {
                     ?.let { primeFilter -> OtherPrimeScreen(padding, primeFilter) }
             }
             composable(BottomNavItem.Relics.screenRoute) {
-                //RelicsScreen()
+                it.arguments?.getString("filter")?.let { filter -> PrimeFilter.valueOf(filter) }
+                    ?.let { primeFilter -> RelicScreen(padding, primeFilter) }
             }
         }
     }

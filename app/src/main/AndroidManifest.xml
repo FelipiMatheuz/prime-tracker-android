@@ -25,38 +25,6 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity
-                android:name=".activity.HelpActivity"
-                android:exported="false"
-                android:label="@string/help"/>
-        <activity
-                android:name=".activity.SetListActivity"
-                android:exported="false"
-                android:label="@string/menu_prime_sets">
-            <meta-data
-                    android:name="android.app.lib_name"
-                    android:value=""/>
-        </activity>
-        <activity
-                android:name=".activity.RelicListActivity"
-                android:exported="false"
-                android:label="@string/menu_relics">
-            <meta-data
-                    android:name="android.app.lib_name"
-                    android:value=""/>
-        </activity>
-        <activity
-                android:name=".activity.OtherListActivity"
-                android:exported="false"
-                android:label="@string/menu_other_prime">
-            <meta-data
-                    android:name="android.app.lib_name"
-                    android:value=""/>
-        </activity>
-        <activity
-                android:name=".activity.MainActivity"
-                android:exported="false">
-        </activity>
     </application>
 
 </manifest>

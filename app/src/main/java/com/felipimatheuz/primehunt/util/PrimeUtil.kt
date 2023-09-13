@@ -1,12 +1,6 @@
 package com.felipimatheuz.primehunt.util
 
 import android.content.Context
-import android.graphics.Paint
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.SpannableStringBuilder
-import android.text.style.ForegroundColorSpan
-import android.widget.TextView
 import androidx.compose.ui.graphics.Color
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.model.core.*
@@ -55,12 +49,6 @@ fun getPercent(target: PrimeItem): Int {
 
 fun getCompCount(primeItem: PrimeItem): Map<ItemPart?, Int> {
     return primeItem.components.groupingBy { it.part }.eachCount().filter { it.value > 1 }
-}
-
-fun getCompGroup(primeItem: PrimeItem): List<ItemComponent?> {
-    val components = mutableListOf<ItemComponent?>(null)
-    components.addAll(primeItem.components.distinctBy { it.part })
-    return components
 }
 
 fun formatItemPartText(context: Context, part: ItemPart, quantity: Int?): String {
@@ -172,78 +160,6 @@ fun updateCompStatus(obtainedList: List<Boolean>): Int {
         R.drawable.progress_circle
     } else {
         R.drawable.check_circle
-    }
-}
-
-fun formatRelicText(textView: TextView, relicName: String, quantity: Int, vaulted: Boolean) {
-    textView.paintFlags = if (vaulted) {
-        Paint.STRIKE_THRU_TEXT_FLAG
-    } else {
-        Paint.HINTING_ON
-    }
-    textView.isEnabled = quantity > 0
-    textView.text = relicName
-}
-
-fun formatRelicRewardsText(textView: TextView, rewards: List<Reward>) {
-    val spanBuilder = SpannableStringBuilder()
-    for (reward in rewards) {
-        val itemName = SpannableString(formatRelicItemReward(textView.context, reward.item.name))
-        val colorRes = when (reward.chance) {
-            25.33f -> R.color.common
-            11f -> R.color.uncommon
-            2f -> R.color.rare
-            else -> null
-        }
-        colorRes?.let { textView.context.getColor(it) }?.let {
-            itemName.setSpan(
-                ForegroundColorSpan(it),
-                0,
-                itemName.length,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-        }
-        spanBuilder.append(itemName).append("\n")
-    }
-    textView.setText(spanBuilder.subSequence(0, spanBuilder.lastIndexOf("\n")), TextView.BufferType.SPANNABLE)
-}
-
-fun formatRelicItemReward(context: Context, name: String): String {
-    val textWords = name.split(" ")
-    val itemName = StringBuilder()
-    if (textWords.contains("Prime")) {
-        for (words in textWords) {
-            if (words.contains("Prime")) {
-                break
-            } else {
-                itemName.append(words).append(" ")
-            }
-        }
-    }
-
-    if (itemName.toString().isNotEmpty()) {
-        val hasBlueprint = textWords.contains("Blueprint")
-        val compName = if (textWords.contains("Blueprint")) {
-            textWords[textWords.size - 2]
-        } else {
-            if (textWords.contains("Limb")) {
-                textWords[textWords.size - 2] + " " + textWords[textWords.size - 1]
-            } else {
-                textWords[textWords.size - 1]
-            }
-        }
-        return context.getString(
-            R.string.relic_item_template,
-            itemName.toString().substring(0, itemName.lastIndexOf(" ")),
-            translateComponent(context, compName),
-            if (hasBlueprint) {
-                "(${context.getString(R.string.comp_blueprint)})"
-            } else {
-                ""
-            }
-        )
-    } else {
-        return context.getString(R.string.forma_blueprint)
     }
 }
 

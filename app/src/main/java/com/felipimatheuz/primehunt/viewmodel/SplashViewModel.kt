@@ -19,21 +19,25 @@ class SplashViewModel : ViewModel() {
     fun loadResource(textRes: Int) {
         GlobalScope.launch(Dispatchers.Main) {
             try {
-                if (textRes == R.string.loading_content) {
-                    GlobalScope.async {
-                        apiRelic = PrimeRelicApi.singleInstance()
-                        loadState.value = LoadState.LoadSet
-                    }.await()
-                } else if(textRes == R.string.checking_set_updates){
-                    GlobalScope.async {
-                        apiSet = PrimeSetApi.singleInstance()
-                        loadState.value = LoadState.LoadOther
-                    }.await()
-                } else {
-                    GlobalScope.async {
-                        apiOther = OtherPrimeApi.singleInstance()
-                        loadState.value = LoadState.Ready
-                    }.await()
+                when (textRes) {
+                    R.string.loading_content -> {
+                        GlobalScope.async {
+                            apiRelic = PrimeRelicApi.singleInstance()
+                            loadState.value = LoadState.LoadSet
+                        }.await()
+                    }
+                    R.string.checking_set_updates -> {
+                        GlobalScope.async {
+                            apiSet = PrimeSetApi.singleInstance()
+                            loadState.value = LoadState.LoadOther
+                        }.await()
+                    }
+                    else -> {
+                        GlobalScope.async {
+                            apiOther = OtherPrimeApi.singleInstance()
+                            loadState.value = LoadState.Ready
+                        }.await()
+                    }
                 }
             } catch (e: Exception) {
                 loadState.value = LoadState.Error(textRes)

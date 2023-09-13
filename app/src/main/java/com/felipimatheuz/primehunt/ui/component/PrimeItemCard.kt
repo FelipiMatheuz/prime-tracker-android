@@ -44,7 +44,7 @@ fun PrimeItemCard(primeItem: PrimeItem, viewModel: OtherPrimeViewModel) {
     val statusColorAnim =
         animateColorAsState(updateStatusColor(primeItem), label = "", animationSpec = tween(1000))
     var expanded by remember { mutableStateOf(false) }
-    var checked by remember { mutableStateOf(viewModel.isAllChecked(primeItem)) }
+    // var checked by remember { mutableStateOf(viewModel.isAllChecked(primeItem)) }
     Box(
         modifier = Modifier.fillMaxWidth().background(
             statusColorAnim.value,
@@ -189,13 +189,13 @@ private fun PrimeComponentsUI(
                 })
         }
 
-        val searchText = getCompName(context, primeItem, comp)
-        val relicList = getRelicList(searchText)
+        val compName = getCompName(context, primeItem, comp)
+        val relicList = getRelicList(compName)
         if (relicList.isNotEmpty()) {
             Column(modifier = Modifier.background(RelicBackground).padding(8.dp)) {
                 relicList.forEach { relic ->
                     val relicName = relic.name.substring(0, relic.name.lastIndexOf(" "))
-                    val colorRes = getColorForeground(relic.rewards, searchText)
+                    val colorRes = getColorForeground(relic.rewards, compName)
                     Text(
                         text = relicName,
                         color = colorRes ?: Color.Unspecified,

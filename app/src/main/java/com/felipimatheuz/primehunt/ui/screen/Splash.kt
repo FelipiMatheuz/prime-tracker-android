@@ -94,14 +94,14 @@ private fun ShowLoading(textRes: Int) {
 private fun ShowError(viewModel: SplashViewModel, textRes: Int) {
     AlertDialog(
         onDismissRequest = {},
+        icon = {
+            Image(
+                painter = painterResource(R.drawable.wifi_off), "",
+                modifier = Modifier.size(32.dp)
+            )
+        },
         title = {
-            Row {
-                Image(
-                    painter = painterResource(R.drawable.wifi_off), "",
-                    modifier = Modifier.size(32.dp)
-                )
-                Text(text = stringResource(R.string.connection_failed), modifier = Modifier.padding(start = 8.dp))
-            }
+            Text(text = stringResource(R.string.connection_failed))
         },
         text = {
             Text(stringResource(R.string.connection_failed_message), color = MaterialTheme.colorScheme.onSurface)
@@ -110,7 +110,7 @@ private fun ShowError(viewModel: SplashViewModel, textRes: Int) {
             Button(onClick = {
                 viewModel.loadResource(textRes)
             }, content = {
-                Text(text = stringResource(R.string.connection_retry), color = MaterialTheme.colorScheme.onSurface)
+                Text(text = stringResource(R.string.connection_retry))
             })
         },
         shape = RoundedCornerShape(10.dp)

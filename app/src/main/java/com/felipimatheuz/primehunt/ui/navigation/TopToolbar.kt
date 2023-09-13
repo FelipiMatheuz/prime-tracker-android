@@ -24,7 +24,6 @@ import com.felipimatheuz.primehunt.ui.component.PrimeInfoDialog
 import com.felipimatheuz.primehunt.ui.theme.WarframeprimehuntTheme
 import com.felipimatheuz.primehunt.util.PrimeFilter
 import com.felipimatheuz.primehunt.util.translateFilter
-import java.util.Collections
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

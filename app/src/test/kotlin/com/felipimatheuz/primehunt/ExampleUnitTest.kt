@@ -1,6 +1,11 @@
 package com.felipimatheuz.primehunt
 
+import com.felipimatheuz.primehunt.model.external.PrimeRelicApi
 import com.felipimatheuz.primehunt.model.external.PrimeSetApi
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import org.junit.Test
 
 /**
@@ -11,7 +16,12 @@ import org.junit.Test
 class ExampleUnitTest {
 
     @Test
-    fun testConnection() {
+    fun testConnectionSet() {
         PrimeSetApi().getSetData()
+    }
+
+    @Test
+    fun testConnectionRelic() {
+        PrimeRelicApi().getRelicData()
     }
 }

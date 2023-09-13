@@ -7,15 +7,4 @@
     <color name="cyan_700">#00B1FF</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="transparent">#00FFFFFF</color>
-
-    <color name="status_zero">#BB625D5D</color>
-    <color name="status_low">#BBE0115F</color>
-    <color name="status_high">#BB50C878</color>
-    <color name="status_complete">#BB0F52BA</color>
-
-    <color name="common">#CD7F32</color>
-    <color name="uncommon">#C0C0C0</color>
-    <color name="rare">#FFD700</color>
-    <color name="relic_background">#0C0A00</color>
 </resources>

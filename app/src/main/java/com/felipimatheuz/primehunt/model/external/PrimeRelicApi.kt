@@ -3,10 +3,7 @@ package com.felipimatheuz.primehunt.model.external
 import androidx.annotation.Keep
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.felipimatheuz.primehunt.model.core.ApiData
-import com.felipimatheuz.primehunt.model.core.Relic
-import com.felipimatheuz.primehunt.model.core.RelicTier
-import com.felipimatheuz.primehunt.model.core.Reward
+import com.felipimatheuz.primehunt.model.core.*
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -39,10 +36,10 @@ class PrimeRelicApi {
         val url = URL("$origin$path")
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         val result = mutableListOf<ApiData>()
-        for (relicList in mapper.readValue(url, List::class.java)) {
-            val relicItem = mapper.convertValue(relicList, ApiData::class.java)
-            if(relicItem.name.contains("Intact")){
-                result.add(relicItem)
+        for (l in mapper.readValue(url, List::class.java)) {
+            val converted = mapper.convertValue(l, ApiData::class.java)
+            if(converted.name.contains("Intact")){
+                result.add(converted)
             }
         }
         return result
@@ -55,13 +52,7 @@ class PrimeRelicApi {
     }
 
     fun getRelics(tier: RelicTier, remainingList: List<String>): List<Relic> {
-        val dataRelic = when (tier) {
-            RelicTier.LITH -> relicData.filter { data -> data.name.startsWith("Lith") }
-            RelicTier.MESO -> relicData.filter { data -> data.name.startsWith("Meso") }
-            RelicTier.NEO -> relicData.filter { data -> data.name.startsWith("Neo") }
-            RelicTier.AXI -> relicData.filter { data -> data.name.startsWith("Axi") }
-        }
-
+        val dataRelic = relicData.filter { data -> data.name.startsWith(tier.name) }
         val relicList: MutableList<Relic> = mutableListOf()
         for (data in dataRelic) {
             relicList.add(

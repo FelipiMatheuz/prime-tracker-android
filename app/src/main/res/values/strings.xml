@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name" translatable="false">Warframe Prime Hunt</string>
-    <string name="default_content_description">Illustrated Image</string>
 
     <!--Internet-->
     <string name="by_owner">by Cyberman Studios</string>
@@ -79,10 +78,7 @@
     <string name="overall">Overall</string>
     <string name="detailed">Detailed</string>
     <string name="search_items_by_name">Search items by name</string>
-    <string name="lith_relics">Lith Relics</string>
-    <string name="meso_relics">Meso Relics</string>
-    <string name="neo_relics">Neo Relics</string>
-    <string name="axi_relics">Axi Relics</string>
+    <string name="tier_relics">%1$s Relics</string>
     <string name="forma_blueprint">Forma Blueprint</string>
     <string name="no_results">No results found</string>
     <string name="overview_warframes" translatable="false">Warframe</string>

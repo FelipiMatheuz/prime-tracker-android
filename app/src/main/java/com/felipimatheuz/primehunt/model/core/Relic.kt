@@ -8,8 +8,8 @@ data class Relic(
 )
 
 enum class RelicTier {
-    LITH,
-    MESO,
-    NEO,
-    AXI
+    Lith,
+    Meso,
+    Neo,
+    Axi
 }
