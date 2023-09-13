@@ -36,13 +36,6 @@ class OtherPrimeViewModel(context: Context) : ViewModel() {
     fun hasAnotherPrimeItem(primeItem: PrimeItem) =
         primeItem.components.any { it.part == ItemPart.VASTO || it.part == ItemPart.LEX || it.part == ItemPart.BRONCO }
 
-    fun isAllChecked(primeItem: PrimeItem) =
-        primeItem.blueprint && primeItem.components.all { it.obtained }
-
-    fun togglePrimeItem(primeItem: PrimeItem) {
-        otherPrimeData.togglePrimeItem(primeItem, !isAllChecked(primeItem))
-    }
-
     fun togglePrimeItemComp(primeItem: PrimeItem, primeItemComp: ItemComponent?) {
         otherPrimeData.togglePrimeItemComp(primeItem, primeItemComp)
     }

@@ -201,10 +201,9 @@ private fun PrimeComponentsUI(
             val searchText = getCompName(context, primeItem, comp)
             val relicList = getRelicList(searchText)
             relicList.forEach { relic ->
-                val relicName = relic.name.substring(0, relic.name.lastIndexOf(" "))
                 val colorRes = getColorForeground(relic.rewards, searchText)
                 Text(
-                    text = relicName,
+                    text = relic.name,
                     color = colorRes ?: Color.Unspecified,
                     textDecoration = if (relic.vaulted) TextDecoration.LineThrough else null
                 )

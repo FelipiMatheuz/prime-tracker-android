@@ -4,6 +4,7 @@ import androidx.annotation.Keep
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.felipimatheuz.primehunt.model.core.*
+import com.felipimatheuz.primehunt.util.missingRewardList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -23,7 +24,7 @@ class PrimeRelicApi {
     suspend fun setRelicData() {
         return coroutineScope {
             val resultData = async(defaultDispatcher) { loadData() }
-            relicData = resultData.await().filter { it.name.contains("Intact") }
+            relicData = resultData.await()
         }
     }
 
@@ -39,7 +40,16 @@ class PrimeRelicApi {
         for (relicList in mapper.readValue(url, List::class.java)) {
             val converted = mapper.convertValue(relicList, RelicSet::class.java)
             if (converted.name.contains("Intact")) {
-                result.add(converted)
+                val cleanName = converted.name.removeSuffix(" Intact")
+                if (converted.rewards.isEmpty()) {
+                    missingRewardList[cleanName]?.let {
+                        converted.copy(name = cleanName, rewards =
+                        it
+                        )
+                    }?.let { result.add(it) }
+                } else {
+                    result.add(converted.copy(name = cleanName))
+                }
             }
         }
         return result

@@ -138,5 +138,5 @@ class RelicViewModel(context: Context) : ViewModel() {
         return rewards.any { it.item.name == "Forma Blueprint" }
     }
 
-    fun getDisplayText(name: String) = name.subSequence(name.indexOf(" ") + 1, name.lastIndexOf(" ")).toString()
+    fun getDisplayText(name: String) = name.substring(name.indexOf(" ") + 1)
 }

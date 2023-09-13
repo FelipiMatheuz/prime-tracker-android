@@ -48,21 +48,9 @@ class OtherPrimeData(context: Context) {
         editor.apply()
     }
 
-    fun togglePrimeItem(primeItem: PrimeItem, checkAll: Boolean) {
-        changeStatusItem(primeItem, checkAll)
-        setListOtherData(primeItem.name, primeItem)
-    }
-
     fun togglePrimeItemComp(primeItem: PrimeItem, itemComponent: ItemComponent?) {
         changeStatusComponent(primeItem, itemComponent)
         setListOtherData(primeItem.name, primeItem)
-    }
-
-    private fun changeStatusItem(primeItem: PrimeItem, obtained: Boolean) {
-        primeItem.blueprint = obtained
-        for (comp in primeItem.components) {
-            comp.obtained = obtained
-        }
     }
 
     private fun changeStatusComponent(primeItem: PrimeItem, itemComponent: ItemComponent?) {

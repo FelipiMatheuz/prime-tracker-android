@@ -2,6 +2,7 @@ package com.felipimatheuz.primehunt.ui.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
@@ -22,7 +23,6 @@ import com.felipimatheuz.primehunt.viewmodel.RelicViewModel
 @Composable
 fun RelicRewardsDialog(viewModel: RelicViewModel, relicTier: RelicTier, relicSet: RelicSet, dismiss: () -> Unit) {
     val context = LocalContext.current
-    val relicName = "$relicTier ${viewModel.getDisplayText(relicSet.name)}"
     AlertDialog(
         icon = {
             Image(
@@ -31,10 +31,10 @@ fun RelicRewardsDialog(viewModel: RelicViewModel, relicTier: RelicTier, relicSet
             )
         },
         title = {
-            Text(text = stringResource(R.string.relic_template, relicName))
+            Text(text = stringResource(R.string.relic_template, relicSet.name))
         },
         text = {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
                 relicSet.rewards.forEach { reward ->
                     Text(
                         viewModel.formatRelicItemReward(context, reward.item.name),
