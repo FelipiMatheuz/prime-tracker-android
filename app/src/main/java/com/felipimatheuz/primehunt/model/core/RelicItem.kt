@@ -1,10 +1,13 @@
 package com.felipimatheuz.primehunt.model.core
 
+import androidx.annotation.Keep
+import com.fasterxml.jackson.annotation.JsonProperty
+
+@Keep
 data class RelicItem(
+    @JsonProperty("name")
     val name: String,
-    val quantity: Int,
-    val hasForma: Boolean,
-    val vaulted: Boolean
+    var obtained: Boolean = false
 )
 
 enum class RelicTier {

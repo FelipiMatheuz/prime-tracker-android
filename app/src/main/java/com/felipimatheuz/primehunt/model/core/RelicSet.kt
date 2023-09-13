@@ -20,11 +20,5 @@ data class Reward(
     @JsonProperty("chance")
     val chance: Float,
     @JsonProperty("item")
-    val item: ItemRelic
-)
-
-@Keep
-data class ItemRelic(
-    @JsonProperty("name")
-    val name: String
+    val item: RelicItem
 )

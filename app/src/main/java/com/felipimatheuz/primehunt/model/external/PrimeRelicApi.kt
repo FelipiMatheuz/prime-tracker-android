@@ -38,7 +38,7 @@ class PrimeRelicApi {
         val result = mutableListOf<RelicSet>()
         for (l in mapper.readValue(url, List::class.java)) {
             val converted = mapper.convertValue(l, RelicSet::class.java)
-            if(converted.name.contains("Intact")){
+            if (converted.name.contains("Intact")) {
                 result.add(converted)
             }
         }
@@ -51,38 +51,15 @@ class PrimeRelicApi {
         }
     }
 
-    fun getRelics(tier: RelicTier, remainingList: List<String>): List<RelicItem> {
+    fun getRelicTier(tier: RelicTier, remainingList: List<String>): List<RelicSet> {
         val dataRelic = relicData.filter { data -> data.name.startsWith(tier.name) }
-        val relicItemList: MutableList<RelicItem> = mutableListOf()
         for (data in dataRelic) {
-            relicItemList.add(
-                RelicItem(
-                    name = data.name.subSequence(data.name.indexOf(" ") + 1, data.name.lastIndexOf(" ")).toString(),
-                    quantity = getQuantity(data.rewards, remainingList),
-                    hasForma = checkFormaAsReward(data.rewards),
-                    vaulted = data.vaulted
-                )
-            )
-        }
-        return relicItemList.sortedByDescending { it.quantity }
-    }
-
-    private fun getQuantity(rewards: List<Reward>, remainingList: List<String>): Int {
-        var remainingCount = 0
-
-        for (reward in rewards) {
-            for (search in remainingList) {
-                if (reward.item.name.startsWith(search, true)) {
-                    remainingCount++
-                    break
-                }
+            for (reward in data.rewards) {
+                reward.item.obtained =
+                    !remainingList.any { reward.item.name.startsWith(it, true) && reward.item.name != "Forma Blueprint" }
             }
         }
-        return remainingCount
-    }
-
-    private fun checkFormaAsReward(rewards: List<Reward>): Boolean {
-        return rewards.any { it.item.name == "Forma Blueprint" }
+        return dataRelic
     }
 
     companion object {

@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.model.core.RelicItem
+import com.felipimatheuz.primehunt.model.core.RelicSet
 import com.felipimatheuz.primehunt.model.core.RelicTier
 import com.felipimatheuz.primehunt.ui.component.RelicRewardsDialog
 import com.felipimatheuz.primehunt.ui.theme.WarframeprimehuntTheme
@@ -75,7 +75,7 @@ fun RelicScreen(padding: PaddingValues, primeFilter: PrimeFilter) {
 
 @Composable
 fun PrimeRelicTierUI(viewModel: RelicViewModel, relicTier: RelicTier, primeFilter: PrimeFilter, searchText: String) {
-    var showDialog by remember { mutableStateOf<RelicItem?>(null) }
+    var showDialog by remember { mutableStateOf<RelicSet?>(null) }
     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         Image(
             painter = painterResource(viewModel.getImageTier(relicTier)),
@@ -84,17 +84,17 @@ fun PrimeRelicTierUI(viewModel: RelicViewModel, relicTier: RelicTier, primeFilte
         Text(text = stringResource(R.string.tier_relics, relicTier), style = MaterialTheme.typography.titleLarge)
     }
     LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-        val relicList = viewModel.getListTier(relicTier, primeFilter, searchText)
-        items(relicList) { relic ->
+        val relicTierList = viewModel.getListTier(relicTier, primeFilter, searchText)
+        items(relicTierList) { relic ->
             Column(modifier = Modifier.clickable {
                 showDialog = relic
-            }) {
+            }, horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
-                    text = relic.name,
-                    color = if (relic.quantity > 0) {
-                        MaterialTheme.colorScheme.onSecondary
-                    } else {
+                    text = viewModel.getDisplayText(relic.name),
+                    color = if (relic.rewards.all { it.item.obtained }) {
                         MaterialTheme.colorScheme.onSecondary.copy(0.5f)
+                    } else {
+                        MaterialTheme.colorScheme.onSecondary
                     },
                     textDecoration = if (relic.vaulted) {
                         TextDecoration.LineThrough
@@ -102,10 +102,11 @@ fun PrimeRelicTierUI(viewModel: RelicViewModel, relicTier: RelicTier, primeFilte
                         null
                     }
                 )
-                if (relic.quantity > 0) {
-                    Text(text = "(${relic.quantity})")
+                val quantity = relic.rewards.count { !it.item.obtained }
+                if (quantity > 0) {
+                    Text(text = "($quantity)")
                 }
-                if (relic.hasForma) {
+                if (viewModel.checkFormaAsReward(relic.rewards)) {
                     Image(painterResource(R.drawable.ic_forma), contentDescription = null)
                 }
             }

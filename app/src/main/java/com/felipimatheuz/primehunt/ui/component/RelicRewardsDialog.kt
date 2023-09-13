@@ -15,15 +15,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.model.core.RelicItem
+import com.felipimatheuz.primehunt.model.core.RelicSet
 import com.felipimatheuz.primehunt.model.core.RelicTier
 import com.felipimatheuz.primehunt.viewmodel.RelicViewModel
 
 @Composable
-fun RelicRewardsDialog(viewModel: RelicViewModel, relicTier: RelicTier, relicItem: RelicItem, dismiss: () -> Unit) {
+fun RelicRewardsDialog(viewModel: RelicViewModel, relicTier: RelicTier, relicSet: RelicSet, dismiss: () -> Unit) {
     val context = LocalContext.current
-    val relicName = "$relicTier ${relicItem.name}"
-    val relicApi = viewModel.getRelic(relicName)
+    val relicName = "$relicTier ${viewModel.getDisplayText(relicSet.name)}"
     AlertDialog(
         icon = {
             Image(
@@ -36,7 +35,7 @@ fun RelicRewardsDialog(viewModel: RelicViewModel, relicTier: RelicTier, relicIte
         },
         text = {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                relicApi.rewards.forEach { reward ->
+                relicSet.rewards.forEach { reward ->
                     Text(
                         viewModel.formatRelicItemReward(context, reward.item.name),
                         color = viewModel.getColor(reward.chance)

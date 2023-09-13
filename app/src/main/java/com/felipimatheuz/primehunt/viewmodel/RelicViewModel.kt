@@ -17,17 +17,22 @@ import com.felipimatheuz.primehunt.util.translateComponent
 class RelicViewModel(context: Context) : ViewModel() {
     private val remainingList = searchList(context)
 
-    fun getListTier(tier: RelicTier, primeFilter: PrimeFilter, searchText: String): List<RelicItem> {
-        var tierData = apiRelic.getRelics(tier, remainingList)
+    fun getListTier(tier: RelicTier, primeFilter: PrimeFilter, searchText: String): List<RelicSet> {
+        var tierData = apiRelic.getRelicTier(tier, remainingList)
         tierData = when (primeFilter) {
             PrimeFilter.AVAILABLE -> tierData.filter { !it.vaulted }
             PrimeFilter.UNAVAILABLE -> tierData.filter { it.vaulted }
-            PrimeFilter.COMPLETE -> tierData.filter { it.quantity <= 0 }
-            PrimeFilter.INCOMPLETE -> tierData.filter { it.quantity > 0 }
+            PrimeFilter.COMPLETE -> tierData.filter { it.rewards.all { reward -> reward.item.obtained } }
+            PrimeFilter.INCOMPLETE -> tierData.filter { !it.rewards.all { reward -> reward.item.obtained } }
             else -> tierData
         }
         if (searchText.isNotEmpty()) {
-            tierData = tierData.filter { it.name.contains(searchText, true) }
+            tierData = tierData.filter {
+                it.name.contains(
+                    searchText,
+                    true
+                ) || it.rewards.any { reward -> reward.item.name.contains(searchText, true) }
+            }
         }
         return tierData.sortedWith(compareBy({ it.vaulted }, { it.name }))
     }
@@ -81,12 +86,6 @@ class RelicViewModel(context: Context) : ViewModel() {
         }
     }
 
-    fun getRelic(relicName: String): RelicSet {
-        return apiRelic.getRelicData().first {
-            it.name.contains(relicName, true)
-        }
-    }
-
     fun getColor(chance: Float): Color {
         return when (chance) {
             25.33f -> Common
@@ -134,4 +133,10 @@ class RelicViewModel(context: Context) : ViewModel() {
             return context.getString(R.string.forma_blueprint)
         }
     }
+
+    fun checkFormaAsReward(rewards: List<Reward>): Boolean {
+        return rewards.any { it.item.name == "Forma Blueprint" }
+    }
+
+    fun getDisplayText(name: String) = name.subSequence(name.indexOf(" ") + 1, name.lastIndexOf(" ")).toString()
 }
