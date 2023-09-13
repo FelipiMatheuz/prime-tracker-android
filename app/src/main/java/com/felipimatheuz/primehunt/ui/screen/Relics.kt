@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.model.core.Relic
+import com.felipimatheuz.primehunt.model.core.RelicItem
 import com.felipimatheuz.primehunt.model.core.RelicTier
 import com.felipimatheuz.primehunt.ui.component.RelicRewardsDialog
 import com.felipimatheuz.primehunt.ui.theme.WarframeprimehuntTheme
@@ -75,7 +75,7 @@ fun RelicScreen(padding: PaddingValues, primeFilter: PrimeFilter) {
 
 @Composable
 fun PrimeRelicTierUI(viewModel: RelicViewModel, relicTier: RelicTier, primeFilter: PrimeFilter, searchText: String) {
-    var showDialog by remember { mutableStateOf<Relic?>(null) }
+    var showDialog by remember { mutableStateOf<RelicItem?>(null) }
     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         Image(
             painter = painterResource(viewModel.getImageTier(relicTier)),

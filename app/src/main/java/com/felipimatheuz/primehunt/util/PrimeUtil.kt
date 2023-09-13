@@ -115,7 +115,7 @@ fun getItemPartIcon(part: ItemPart): Int {
     }
 }
 
-fun getRelicList(searchText: String): List<ApiData> {
+fun getRelicList(searchText: String): List<RelicSet> {
     return apiRelic.getRelicPerItemComp(searchText).sortedBy { it.vaulted }
 }
 

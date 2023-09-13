@@ -14,9 +14,9 @@ import java.net.URL
 class PrimeRelicApi {
 
     private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
-    private var relicData: List<ApiData> = listOf()
+    private var relicData: List<RelicSet> = listOf()
 
-    fun getRelicData(): List<ApiData> {
+    fun getRelicData(): List<RelicSet> {
         return relicData
     }
 
@@ -28,16 +28,16 @@ class PrimeRelicApi {
     }
 
     @Keep
-    private fun loadData(): List<ApiData> {
+    private fun loadData(): List<RelicSet> {
         val origin = "https://raw.githubusercontent.com"
         val path = "/WFCD/warframe-items/master/data/json/Relics.json"
 
         val mapper = jacksonObjectMapper()
         val url = URL("$origin$path")
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-        val result = mutableListOf<ApiData>()
+        val result = mutableListOf<RelicSet>()
         for (l in mapper.readValue(url, List::class.java)) {
-            val converted = mapper.convertValue(l, ApiData::class.java)
+            val converted = mapper.convertValue(l, RelicSet::class.java)
             if(converted.name.contains("Intact")){
                 result.add(converted)
             }
@@ -45,18 +45,18 @@ class PrimeRelicApi {
         return result
     }
 
-    fun getRelicPerItemComp(searchText: String): List<ApiData> {
+    fun getRelicPerItemComp(searchText: String): List<RelicSet> {
         return relicData.filter {
             it.rewards.any { reward -> reward.item.name.startsWith(searchText, true) }
         }
     }
 
-    fun getRelics(tier: RelicTier, remainingList: List<String>): List<Relic> {
+    fun getRelics(tier: RelicTier, remainingList: List<String>): List<RelicItem> {
         val dataRelic = relicData.filter { data -> data.name.startsWith(tier.name) }
-        val relicList: MutableList<Relic> = mutableListOf()
+        val relicItemList: MutableList<RelicItem> = mutableListOf()
         for (data in dataRelic) {
-            relicList.add(
-                Relic(
+            relicItemList.add(
+                RelicItem(
                     name = data.name.subSequence(data.name.indexOf(" ") + 1, data.name.lastIndexOf(" ")).toString(),
                     quantity = getQuantity(data.rewards, remainingList),
                     hasForma = checkFormaAsReward(data.rewards),
@@ -64,7 +64,7 @@ class PrimeRelicApi {
                 )
             )
         }
-        return relicList.sortedByDescending { it.quantity }
+        return relicItemList.sortedByDescending { it.quantity }
     }
 
     private fun getQuantity(rewards: List<Reward>, remainingList: List<String>): Int {

@@ -17,7 +17,7 @@ import com.felipimatheuz.primehunt.util.translateComponent
 class RelicViewModel(context: Context) : ViewModel() {
     private val remainingList = searchList(context)
 
-    fun getListTier(tier: RelicTier, primeFilter: PrimeFilter, searchText: String): List<Relic> {
+    fun getListTier(tier: RelicTier, primeFilter: PrimeFilter, searchText: String): List<RelicItem> {
         var tierData = apiRelic.getRelics(tier, remainingList)
         tierData = when (primeFilter) {
             PrimeFilter.AVAILABLE -> tierData.filter { !it.vaulted }
@@ -81,7 +81,7 @@ class RelicViewModel(context: Context) : ViewModel() {
         }
     }
 
-    fun getRelic(relicName: String): ApiData {
+    fun getRelic(relicName: String): RelicSet {
         return apiRelic.getRelicData().first {
             it.name.contains(relicName, true)
         }

@@ -1,6 +1,6 @@
 package com.felipimatheuz.primehunt.model.core
 
-data class Relic(
+data class RelicItem(
     val name: String,
     val quantity: Int,
     val hasForma: Boolean,

@@ -4,7 +4,7 @@ import androidx.annotation.Keep
 import com.fasterxml.jackson.annotation.JsonProperty
 
 @Keep
-data class ApiData(
+data class RelicSet(
     @JsonProperty("name")
     val name: String,
     @JsonProperty("rewards")
