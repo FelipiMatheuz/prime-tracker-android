@@ -36,8 +36,8 @@ class PrimeRelicApi {
         val url = URL("$origin$path")
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         val result = mutableListOf<RelicSet>()
-        for (l in mapper.readValue(url, List::class.java)) {
-            val converted = mapper.convertValue(l, RelicSet::class.java)
+        for (relicList in mapper.readValue(url, List::class.java)) {
+            val converted = mapper.convertValue(relicList, RelicSet::class.java)
             if (converted.name.contains("Intact")) {
                 result.add(converted)
             }
@@ -56,7 +56,12 @@ class PrimeRelicApi {
         for (data in dataRelic) {
             for (reward in data.rewards) {
                 reward.item.obtained =
-                    !remainingList.any { reward.item.name.startsWith(it, true) && reward.item.name != "Forma Blueprint" }
+                    !remainingList.any {
+                        reward.item.name.startsWith(
+                            it,
+                            true
+                        ) && reward.item.name != "Forma Blueprint"
+                    }
             }
         }
         return dataRelic
