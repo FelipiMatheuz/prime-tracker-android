@@ -1,7 +1,6 @@
 package com.felipimatheuz.primehunt.model.resources
 
 import android.content.Context
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.felipimatheuz.primehunt.model.core.ItemComponent
 import com.felipimatheuz.primehunt.model.core.PrimeItem
 import com.felipimatheuz.primehunt.util.apiOther
@@ -11,64 +10,62 @@ class OtherPrimeData(context: Context) {
     private val localData = context.getSharedPreferences("OTHER_PRIME_DATA", Context.MODE_PRIVATE)
 
     fun updateListData(): List<PrimeItem> {
-        checkDataUpdates()
+        updateApiData()
         return getListOtherData()
     }
 
-    private fun checkDataUpdates() {
-        val editor = localData.edit()
-        for (data in apiOther.getOtherData()) {
-            val otherItem = localData.getString(data.name, null)
-            if (otherItem.isNullOrEmpty()) {
-                val json = jacksonObjectMapper().writeValueAsString(data)
-                editor.putString(data.name, json)
-            } else {
-                val primeItem = jacksonObjectMapper().readValue(otherItem, PrimeItem::class.java)
-                primeItem.name = data.name
-                editor.putString(data.name, jacksonObjectMapper().writeValueAsString(primeItem))
+    private fun updateApiData() {
+        apiOther.getOtherData().forEach { primeItem ->
+            val bpObtained = localData.getBoolean(getFieldName(primeItem), false)
+            primeItem.blueprint = bpObtained
+            val distComp = primeItem.components.distinctBy { it.part }
+            distComp.forEach { dist ->
+                val itemComp = primeItem.components.filter { it.part == dist.part }
+                itemComp.forEachIndexed { index, primeComp ->
+                    val compObtained =
+                        localData.getBoolean(getFieldName(primeItem, primeComp, index), false)
+                    primeComp.obtained = compObtained
+                }
             }
         }
-        editor.apply()
     }
 
-    fun getListOtherData(): List<PrimeItem> {
-        val primeOtherList = mutableListOf<PrimeItem>()
-        val entries = localData.all.entries
-        for (entry in entries) {
-            val primeItem = jacksonObjectMapper().readValue(entry.value.toString(), PrimeItem::class.java)
-            primeOtherList.add(primeItem)
-        }
-        return primeOtherList.sortedBy { it.name }
-    }
+    private fun getFieldName(
+        primeItem: PrimeItem,
+        primeComp: ItemComponent? = null,
+        index: Int? = null
+    ) = "${primeItem.name}_${
+        primeComp?.part ?: "BLUEPRINT"
+    }${if (index != null) "_$index" else ""}"
 
-    private fun setListOtherData(name: String, primeItem: PrimeItem) {
+    fun getListOtherData(): List<PrimeItem> = apiOther.getOtherData().sortedBy { it.name }
+
+    private fun setStatusItem(name: String, value: Boolean) {
         val editor = localData.edit()
-        val json = jacksonObjectMapper().writeValueAsString(primeItem)
-        editor.putString(name, json)
+        editor.putBoolean(name, value)
         editor.apply()
     }
 
     fun togglePrimeItemComp(primeItem: PrimeItem, itemComponent: ItemComponent?) {
-        changeStatusComponent(primeItem, itemComponent)
-        setListOtherData(primeItem.name, primeItem)
-    }
-
-    private fun changeStatusComponent(primeItem: PrimeItem, itemComponent: ItemComponent?) {
         if (itemComponent == null) {
             primeItem.blueprint = !primeItem.blueprint
+            setStatusItem(getFieldName(primeItem), primeItem.blueprint)
         } else {
-            val filterComp = primeItem.components.filter { it.part == itemComponent.part }
-            if (filterComp.size == 1) {
-                val obtained = filterComp[0].obtained
-                filterComp[0].obtained = !obtained
+            val itemComp = primeItem.components.filter { it.part == itemComponent.part }
+            if (itemComp.size == 1) {
+                itemComp[0].obtained = !itemComp[0].obtained
+                setStatusItem(getFieldName(primeItem, itemComp[0], 0), itemComp[0].obtained)
             } else {
-                val getFalse = filterComp.firstOrNull { !it.obtained }
+                val getFalse = itemComp.firstOrNull { !it.obtained }
                 if (getFalse == null) {
-                    for (comp in filterComp) {
+                    itemComp.forEachIndexed { index, comp ->
                         comp.obtained = false
+                        setStatusItem(getFieldName(primeItem, comp, index), comp.obtained)
                     }
                 } else {
+                    val falseIndex = itemComp.indexOfFirst { !it.obtained }
                     getFalse.obtained = true
+                    setStatusItem(getFieldName(primeItem, getFalse, falseIndex), getFalse.obtained)
                 }
             }
         }

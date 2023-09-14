@@ -2,8 +2,9 @@ package com.felipimatheuz.primehunt.model.resources
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.felipimatheuz.primehunt.model.core.ItemComponent
 import com.felipimatheuz.primehunt.model.core.ItemPart
+import com.felipimatheuz.primehunt.model.core.PrimeItem
 import com.felipimatheuz.primehunt.model.core.PrimeSet
 import com.felipimatheuz.primehunt.util.apiSet
 
@@ -12,49 +13,43 @@ class PrimeSetData(context: Context) {
     private val localData = context.getSharedPreferences("PRIME_SET_DATA", MODE_PRIVATE)
 
     fun updateListData(): List<PrimeSet> {
-        checkDataUpdates()
+        updateApiData()
         return getListSetData()
     }
 
-    fun getListSetData(): List<PrimeSet> {
-        val primeSetList = mutableListOf<PrimeSet>()
-        val entries = localData.all.entries
-        for (entry in entries) {
-            val primeSet = jacksonObjectMapper().readValue(entry.value.toString(), PrimeSet::class.java)
-            primeSetList.add(primeSet)
-        }
-        return primeSetList.sortedByDescending { it.released }
-    }
+    fun getListSetData(): List<PrimeSet> = apiSet.getSetData().sortedByDescending { it.released }
 
-    private fun checkDataUpdates() {
-        val editor = localData.edit()
-        for (data in apiSet.getSetData()) {
-            val itemSet = localData.getString(data.setName, null)
-            if (itemSet.isNullOrEmpty()) {
-                val json = jacksonObjectMapper().writeValueAsString(data)
-                editor.putString(data.setName, json)
-            } else {
-                val primeSet = jacksonObjectMapper().readValue(itemSet, PrimeSet::class.java)
-                primeSet.primeItems.forEachIndexed { index, primeItem ->
-                    primeItem.name = data.primeItems[index].name
+    fun getPrimeSetData(primeSetName: String): PrimeSet = apiSet.getSetData().first { it.setName == primeSetName }
+    private fun updateApiData() {
+        apiSet.getSetData().forEach { primeSet ->
+            primeSet.primeItems.forEach { primeItem ->
+                val bpObtained = localData.getBoolean(getFieldName(primeSet, primeItem), false)
+                primeItem.blueprint = bpObtained
+                val distComp = primeItem.components.distinctBy { it.part }
+                distComp.forEach { dist ->
+                    val itemComp = primeItem.components.filter { it.part == dist.part }
+                    itemComp.forEachIndexed { index, primeComp ->
+                        val compObtained =
+                            localData.getBoolean(getFieldName(primeSet, primeItem, primeComp, index), false)
+                        primeComp.obtained = compObtained
+                    }
                 }
-                primeSet.imgLink = data.imgLink
-                primeSet.status = data.status
-                editor.putString(data.setName, jacksonObjectMapper().writeValueAsString(primeSet))
             }
         }
-        editor.apply()
     }
 
-    fun getPrimeSetData(name: String): PrimeSet {
-        val setData = localData.getString(name, null)
-        return jacksonObjectMapper().readValue(setData, PrimeSet::class.java)
-    }
+    private fun getFieldName(
+        primeSet: PrimeSet,
+        primeItem: PrimeItem,
+        primeComp: ItemComponent? = null,
+        index: Int? = null
+    ) = "${primeSet.setName}_${primeItem.name}_${
+        primeComp?.part ?: "BLUEPRINT"
+    }${if (index != null) "_$index" else ""}"
 
-    private fun setPrimeSetData(name: String, primeSet: PrimeSet) {
+    private fun setStatusItem(name: String, value: Boolean) {
         val editor = localData.edit()
-        val json = jacksonObjectMapper().writeValueAsString(primeSet)
-        editor.putString(name, json)
+        editor.putBoolean(name, value)
         editor.apply()
     }
 
@@ -63,32 +58,44 @@ class PrimeSetData(context: Context) {
         if (itemPart == null) {
             val obtained = primeSetItem.blueprint
             primeSetItem.blueprint = !obtained
+            setStatusItem(getFieldName(primeSet, primeSetItem), primeSetItem.blueprint)
         } else {
             val itemComp = primeSetItem.components.filter { it.part == itemPart }
             if (itemComp.size == 1) {
                 val obtained = itemComp[0].obtained
                 itemComp[0].obtained = !obtained
+                setStatusItem(getFieldName(primeSet, primeSetItem, itemComp[0], 0), itemComp[0].obtained)
             } else {
                 val getFalse = itemComp.firstOrNull { !it.obtained }
                 if (getFalse == null) {
-                    for (comp in itemComp) {
+                    itemComp.forEachIndexed { index, comp ->
                         comp.obtained = false
+                        setStatusItem(getFieldName(primeSet, primeSetItem, comp, index), comp.obtained)
                     }
                 } else {
+                    val falseIndex = itemComp.indexOfFirst { !it.obtained }
                     getFalse.obtained = true
+                    setStatusItem(getFieldName(primeSet, primeSetItem, getFalse, falseIndex), getFalse.obtained)
                 }
             }
         }
-        setPrimeSetData(primeSet.setName, primeSet)
     }
 
     fun togglePrimeSet(primeSet: PrimeSet, obtained: Boolean) {
-        primeSet.primeItems.forEach {
-            it.blueprint = obtained
-            for (comp in it.components) {
-                comp.obtained = obtained
+        val editor = localData.edit()
+        primeSet.primeItems.forEach { primeItem ->
+            primeItem.blueprint = obtained
+            editor.putBoolean(getFieldName(primeSet, primeItem), obtained)
+
+            val distComp = primeItem.components.distinctBy { it.part }
+            distComp.forEach { dist ->
+                val itemComp = primeItem.components.filter { it.part == dist.part }
+                itemComp.forEachIndexed { index, comp ->
+                    comp.obtained = obtained
+                    editor.putBoolean(getFieldName(primeSet, primeItem, comp, index), obtained)
+                }
             }
         }
-        setPrimeSetData(primeSet.setName, primeSet)
+        editor.apply()
     }
 }
