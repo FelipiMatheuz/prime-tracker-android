@@ -2,6 +2,7 @@ package com.felipimatheuz.primehunt.ui.component
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
@@ -44,10 +45,11 @@ fun PrimeItemCard(primeItem: PrimeItem, viewModel: OtherPrimeViewModel) {
     val statusColorAnim =
         animateColorAsState(updateStatusColor(primeItem), label = "", animationSpec = tween(1000))
     var expanded by remember { mutableStateOf(false) }
+    val boxBottomCorner = animateDpAsState(targetValue = if (expanded) 0.dp else 10.dp, label = "")
     Box(
         modifier = Modifier.fillMaxWidth().background(
             statusColorAnim.value,
-            shape = RoundedCornerShape(10.dp)
+            shape = RoundedCornerShape(10.dp, 10.dp, boxBottomCorner.value, boxBottomCorner.value)
         ).padding(8.dp)
     ) {
         ConstraintLayout(
@@ -113,8 +115,8 @@ fun PrimeItemCard(primeItem: PrimeItem, viewModel: OtherPrimeViewModel) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxWidth().background(
-                MaterialTheme.colorScheme.surface.copy(0.5f),
-                shape = RoundedCornerShape(10.dp)
+                MaterialTheme.colorScheme.onSecondary.copy(0.1f),
+                shape = RoundedCornerShape(0.dp, 0.dp, 10.dp, 10.dp)
             ).padding(start = 8.dp, end = 8.dp, bottom = 8.dp)
         ) {
             val compCount = getCompCount(primeItem)

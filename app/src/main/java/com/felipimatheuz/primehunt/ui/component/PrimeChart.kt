@@ -32,7 +32,7 @@ fun PrimeChart(
     data: List<PrimeItem?>,
     modifier: Modifier = Modifier,
     scaleSize: Float = 1f,
-    animDuration: Int = 1000
+    animDuration: Int = 1500
 ) {
 
     val totalItems = data.size
@@ -54,18 +54,18 @@ fun PrimeChart(
     var lastValue = 0f
 
     val animateSize by animateFloatAsState(
-        targetValue = if (animationPlayed) 320.dp.value * scaleSize else 0f,
+        targetValue = if (animationPlayed) 300.dp.value * scaleSize else 0f,
         animationSpec = tween(
             durationMillis = animDuration,
-            delayMillis = 0,
+            delayMillis = 10,
             easing = LinearOutSlowInEasing
         ), label = ""
     )
     val animateRotation by animateFloatAsState(
-        targetValue = if (animationPlayed) 90f * 11f else 0f,
+        targetValue = if (animationPlayed) 270f else 0f,
         animationSpec = tween(
             durationMillis = animDuration,
-            delayMillis = 0,
+            delayMillis = 10,
             easing = LinearOutSlowInEasing
         ), label = ""
     )
@@ -94,7 +94,7 @@ fun PrimeChart(
                         lastValue,
                         value,
                         useCenter = false,
-                        style = Stroke((35.dp * scaleSize).toPx(), cap = StrokeCap.Butt)
+                        style = Stroke((32.dp * scaleSize).toPx(), cap = StrokeCap.Butt)
                     )
                     lastValue += value
                 }
