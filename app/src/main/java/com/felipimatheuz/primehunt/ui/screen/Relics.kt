@@ -19,11 +19,11 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.model.core.RelicSet
-import com.felipimatheuz.primehunt.model.core.RelicTier
+import com.felipimatheuz.primehunt.model.RelicSet
+import com.felipimatheuz.primehunt.model.RelicTier
 import com.felipimatheuz.primehunt.ui.component.RelicRewardsDialog
 import com.felipimatheuz.primehunt.ui.theme.WarframeprimehuntTheme
-import com.felipimatheuz.primehunt.util.PrimeFilter
+import com.felipimatheuz.primehunt.business.util.PrimeFilter
 import com.felipimatheuz.primehunt.viewmodel.RelicViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)

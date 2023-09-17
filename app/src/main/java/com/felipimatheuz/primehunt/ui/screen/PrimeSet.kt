@@ -17,7 +17,7 @@ import androidx.constraintlayout.compose.Dimension
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.ui.component.PrimeSetCard
 import com.felipimatheuz.primehunt.ui.theme.WarframeprimehuntTheme
-import com.felipimatheuz.primehunt.util.PrimeFilter
+import com.felipimatheuz.primehunt.business.util.PrimeFilter
 import com.felipimatheuz.primehunt.viewmodel.PrimeSetViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)

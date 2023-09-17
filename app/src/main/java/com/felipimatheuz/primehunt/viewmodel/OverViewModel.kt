@@ -2,9 +2,9 @@ package com.felipimatheuz.primehunt.viewmodel
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
-import com.felipimatheuz.primehunt.model.core.PrimeItem
-import com.felipimatheuz.primehunt.model.resources.OtherPrimeData
-import com.felipimatheuz.primehunt.model.resources.PrimeSetData
+import com.felipimatheuz.primehunt.model.PrimeItem
+import com.felipimatheuz.primehunt.business.resources.OtherPrimeData
+import com.felipimatheuz.primehunt.business.resources.PrimeSetData
 
 class OverViewModel : ViewModel() {
     fun loadSet(context: Context, update: Boolean): List<PrimeItem> {

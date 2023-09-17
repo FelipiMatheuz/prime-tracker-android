@@ -60,6 +60,7 @@
     <string name="overview_primary">初选</string>
     <string name="overview_secondary">次要</string>
     <string name="help">帮助</string>
+    <string name="sync">同步</string>
     <string name="help_content">%1$s / %2$s：\n-长按其中一项可选中/取消选中该组中的所有项目\n-单击其中一项可查看详细信息\n\t单击主要组件进行标记/取消标记该项目\n-使用工具栏中的过滤器来简化搜索\n\n%3$s：\n-单击文物以查看详细信息\n-删除的文物表明您已经拥有该文物提供的所有素数\n-点亮的文物表明它包含尚未获得的物品\n-遗物旁边的数字表示尚未获得的主要物品数量\n-使用工具栏中的过滤器来简化搜索</string>
     <string name="overall_stats">总计：%1$s\n进行中：%2$s\n已完成：%3$s</string>
     <string name="rendering_content">渲染组件…</string>
@@ -69,4 +70,15 @@
     <string name="overview_melee">近战</string>
     <string name="overview_other">其他</string>
     <string name="checking_other_updates">检查其他更新…</string>
+    <string name="sync_content">与其他设备同步您的进度.</string>
+    <string name="sync_sign_in">登入</string>
+    <string name="sync_sign_out">登出</string>
+    <string name="logged_user">记录为：%1$s</string>
+    <string name="sync_import">" 导入数据"</string>
+    <string name="sync_export">导出数据</string>
+    <string name="sync_signin_success">登录成功</string>
+    <string name="sync_signout_success">退出成功</string>
+    <string name="sync_sign_error">" 出了些问题。请再试一次."</string>
+    <string name="sync_imported">进口</string>
+    <string name="sync_exported">出口</string>
 </resources>

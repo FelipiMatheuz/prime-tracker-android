@@ -3,10 +3,10 @@ package com.felipimatheuz.primehunt.viewmodel
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.model.core.PrimeSet
-import com.felipimatheuz.primehunt.model.core.PrimeStatus
-import com.felipimatheuz.primehunt.model.resources.PrimeSetData
-import com.felipimatheuz.primehunt.util.PrimeFilter
+import com.felipimatheuz.primehunt.model.PrimeSet
+import com.felipimatheuz.primehunt.model.PrimeStatus
+import com.felipimatheuz.primehunt.business.resources.PrimeSetData
+import com.felipimatheuz.primehunt.business.util.PrimeFilter
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class PrimeSetViewModel(context: Context) : ViewModel() {

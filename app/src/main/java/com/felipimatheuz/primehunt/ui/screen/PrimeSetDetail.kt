@@ -35,13 +35,13 @@ import androidx.constraintlayout.compose.Dimension
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.model.core.ItemComponent
-import com.felipimatheuz.primehunt.model.core.ItemPart
-import com.felipimatheuz.primehunt.model.core.PrimeItem
+import com.felipimatheuz.primehunt.business.util.*
+import com.felipimatheuz.primehunt.model.ItemComponent
+import com.felipimatheuz.primehunt.model.ItemPart
+import com.felipimatheuz.primehunt.model.PrimeItem
 import com.felipimatheuz.primehunt.ui.animation.AnimatedTransitionDialog
 import com.felipimatheuz.primehunt.ui.theme.RelicBackground
 import com.felipimatheuz.primehunt.ui.theme.WarframeprimehuntTheme
-import com.felipimatheuz.primehunt.util.*
 import com.felipimatheuz.primehunt.viewmodel.PrimeSetDetailViewModel
 
 @OptIn(ExperimentalGlideComposeApi::class)

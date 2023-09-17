@@ -1,4 +1,4 @@
-package com.felipimatheuz.primehunt.state
+package com.felipimatheuz.primehunt.business.state
 
 sealed class LoadState {
 

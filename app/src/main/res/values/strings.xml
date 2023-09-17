@@ -90,6 +90,18 @@
     <!-- Dialog Info -->
     <string name="help">Help</string>
     <string name="about">About</string>
+    <string name="sync">Synchronize</string>
     <string name="help_content">%1$s / %2$s:\n-Long press one of the items to check/uncheck all items within the set\n-Click on one of the items to see details\n\tClick on a prime component to mark/unmark the item\n-Use the filter in the toolbar to ease your search\n\n%3$s:\n-Click on the relic to see the details\n-Disabled relics indicate that you already have all the primes that the relic offers\n-Enabled relics indicate that it contains items not yet obtained\n-The number next to the relic indicates how many prime items have not been obtained\n-Use the filter in the toolbar to ease your search</string>
     <string name="about_content">App version: %1$s\nCreated by: Cyberman Studios</string>
+    <string name="sync_content">Synchronize your progress with other devices.</string>
+    <string name="sync_sign_in">Sign In</string>
+    <string name="sync_sign_out">Sign Out</string>
+    <string name="logged_user">Logged as: %1$s</string>
+    <string name="sync_import">Import Data</string>
+    <string name="sync_imported">Import Successful</string>
+    <string name="sync_export">Export Data</string>
+    <string name="sync_exported">Exported Successful</string>
+    <string name="sync_signin_success">Sign In Successful</string>
+    <string name="sync_signout_success">Sign Out Successful</string>
+    <string name="sync_sign_error">Something went wrong. Please try again.</string>
 </resources>

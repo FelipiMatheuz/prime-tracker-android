@@ -1,9 +1,9 @@
-package com.felipimatheuz.primehunt.util
+package com.felipimatheuz.primehunt.business.util
 
 import android.content.Context
 import androidx.compose.ui.graphics.Color
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.model.core.*
+import com.felipimatheuz.primehunt.model.*
 import com.felipimatheuz.primehunt.ui.theme.*
 import kotlin.math.roundToInt
 
@@ -219,3 +219,12 @@ fun isItemCompleted(primeItem: PrimeItem): Int {
         0
     }
 }
+
+fun getFieldName(
+    primeSet: PrimeSet? = null,
+    primeItem: PrimeItem,
+    primeComp: ItemComponent? = null,
+    index: Int? = null
+) = "${if (primeSet?.setName != null) "${primeSet.setName}_" else ""}${primeItem.name}_${
+    primeComp?.part ?: "BLUEPRINT"
+}${if (index != null) "_$index" else ""}"

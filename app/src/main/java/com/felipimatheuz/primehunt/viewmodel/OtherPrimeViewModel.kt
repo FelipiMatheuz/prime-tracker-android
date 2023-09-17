@@ -2,12 +2,12 @@ package com.felipimatheuz.primehunt.viewmodel
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
-import com.felipimatheuz.primehunt.model.core.ItemComponent
-import com.felipimatheuz.primehunt.model.core.ItemPart
-import com.felipimatheuz.primehunt.model.core.PrimeItem
-import com.felipimatheuz.primehunt.model.resources.OtherPrimeData
-import com.felipimatheuz.primehunt.util.PrimeFilter
-import com.felipimatheuz.primehunt.util.updateCompStatus
+import com.felipimatheuz.primehunt.model.ItemComponent
+import com.felipimatheuz.primehunt.model.ItemPart
+import com.felipimatheuz.primehunt.model.PrimeItem
+import com.felipimatheuz.primehunt.business.resources.OtherPrimeData
+import com.felipimatheuz.primehunt.business.util.PrimeFilter
+import com.felipimatheuz.primehunt.business.util.updateCompStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class OtherPrimeViewModel(context: Context) : ViewModel() {

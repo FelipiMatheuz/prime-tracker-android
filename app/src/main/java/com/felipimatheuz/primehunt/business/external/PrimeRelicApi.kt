@@ -1,10 +1,11 @@
-package com.felipimatheuz.primehunt.model.external
+package com.felipimatheuz.primehunt.business.external
 
 import androidx.annotation.Keep
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.felipimatheuz.primehunt.model.core.*
-import com.felipimatheuz.primehunt.util.missingRewardList
+import com.felipimatheuz.primehunt.model.RelicSet
+import com.felipimatheuz.primehunt.model.RelicTier
+import com.felipimatheuz.primehunt.business.util.missingRewardList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async

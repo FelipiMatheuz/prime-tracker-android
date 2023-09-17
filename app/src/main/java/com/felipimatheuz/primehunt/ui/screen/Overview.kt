@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.model.core.PrimeType
+import com.felipimatheuz.primehunt.model.PrimeType
 import com.felipimatheuz.primehunt.ui.component.PrimeChart
 import com.felipimatheuz.primehunt.ui.theme.WarframeprimehuntTheme
 import com.felipimatheuz.primehunt.viewmodel.OverViewModel

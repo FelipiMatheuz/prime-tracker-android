@@ -1,7 +1,7 @@
-package com.felipimatheuz.primehunt.model.resources
+package com.felipimatheuz.primehunt.business.resources
 
 import android.content.Context
-import com.felipimatheuz.primehunt.util.PrimeFilter
+import com.felipimatheuz.primehunt.business.util.PrimeFilter
 
 class AppSettings(context: Context) {
     private val settings = context.getSharedPreferences("APP_SETTINGS", Context.MODE_PRIVATE)

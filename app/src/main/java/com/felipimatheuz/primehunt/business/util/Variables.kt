@@ -1,10 +1,10 @@
-package com.felipimatheuz.primehunt.util
+package com.felipimatheuz.primehunt.business.util
 
-import com.felipimatheuz.primehunt.model.core.RelicItem
-import com.felipimatheuz.primehunt.model.core.Reward
-import com.felipimatheuz.primehunt.model.external.OtherPrimeApi
-import com.felipimatheuz.primehunt.model.external.PrimeRelicApi
-import com.felipimatheuz.primehunt.model.external.PrimeSetApi
+import com.felipimatheuz.primehunt.model.RelicItem
+import com.felipimatheuz.primehunt.model.Reward
+import com.felipimatheuz.primehunt.business.external.OtherPrimeApi
+import com.felipimatheuz.primehunt.business.external.PrimeRelicApi
+import com.felipimatheuz.primehunt.business.external.PrimeSetApi
 
 lateinit var apiRelic: PrimeRelicApi
 

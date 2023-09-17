@@ -25,11 +25,11 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.bumptech.glide.integration.compose.placeholder
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.model.core.PrimeSet
+import com.felipimatheuz.primehunt.model.PrimeSet
 import com.felipimatheuz.primehunt.ui.theme.High
 import com.felipimatheuz.primehunt.ui.theme.Low
-import com.felipimatheuz.primehunt.util.getPercent
-import com.felipimatheuz.primehunt.util.updateStatusColor
+import com.felipimatheuz.primehunt.business.util.getPercent
+import com.felipimatheuz.primehunt.business.util.updateStatusColor
 import com.felipimatheuz.primehunt.viewmodel.PrimeSetViewModel
 
 @OptIn(ExperimentalGlideComposeApi::class)

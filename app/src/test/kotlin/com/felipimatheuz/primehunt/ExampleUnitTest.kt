@@ -1,7 +1,7 @@
 package com.felipimatheuz.primehunt
 
-import com.felipimatheuz.primehunt.model.external.PrimeRelicApi
-import com.felipimatheuz.primehunt.model.external.PrimeSetApi
+import com.felipimatheuz.primehunt.business.external.PrimeRelicApi
+import com.felipimatheuz.primehunt.business.external.PrimeSetApi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async

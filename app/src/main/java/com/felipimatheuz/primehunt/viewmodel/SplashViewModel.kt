@@ -2,13 +2,13 @@ package com.felipimatheuz.primehunt.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.model.external.OtherPrimeApi
-import com.felipimatheuz.primehunt.model.external.PrimeRelicApi
-import com.felipimatheuz.primehunt.model.external.PrimeSetApi
-import com.felipimatheuz.primehunt.state.LoadState
-import com.felipimatheuz.primehunt.util.apiOther
-import com.felipimatheuz.primehunt.util.apiSet
-import com.felipimatheuz.primehunt.util.apiRelic
+import com.felipimatheuz.primehunt.business.external.OtherPrimeApi
+import com.felipimatheuz.primehunt.business.external.PrimeRelicApi
+import com.felipimatheuz.primehunt.business.external.PrimeSetApi
+import com.felipimatheuz.primehunt.business.state.LoadState
+import com.felipimatheuz.primehunt.business.util.apiOther
+import com.felipimatheuz.primehunt.business.util.apiSet
+import com.felipimatheuz.primehunt.business.util.apiRelic
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 

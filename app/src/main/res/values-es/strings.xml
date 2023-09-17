@@ -60,6 +60,7 @@
     <string name="overview_primary">Primaria</string>
     <string name="overview_secondary">Secundaria</string>
     <string name="help">Ayuda</string>
+    <string name="sync">Sincronizar</string>
     <string name="help_content">%1$s / %2$s:\n-Mantenga presionado uno de los elementos para marcar/desmarcar todos los elementos dentro del conjunto\n-Haga clic en uno de los elementos para ver los detalles\n\tHaga clic en un componente principal para marcar /desmarcar el elemento\n-Use el filtro en la barra de herramientas para facilitar su búsqueda\n\n%3$s:\n-Haz clic en la reliquia para ver los detalles\n-Las reliquias eliminadas indican que ya tienes todos los primos que ofrece la reliquia\n-Las reliquias iluminadas indican que contiene elementos aún no obtenidos\n: el número junto a la reliquia indica cuántos elementos principales no se han obtenido\n-Use el filtro en la barra de herramientas para facilitar su búsqueda</string>
     <string name="overall_stats">Total: %1$s\nEn progreso: %2$s\nCompletado: %3$s</string>
     <string name="rendering_content">Representando los componentes...</string>
@@ -69,4 +70,15 @@
     <string name="overview_melee">Pelea confusa</string>
     <string name="overview_other">Otro</string>
     <string name="checking_other_updates">Comprobando Otras Actualizaciones…</string>
+    <string name="sync_content">Sincroniza tu progreso con otros dispositivos.</string>
+    <string name="sync_sign_in">Conectar</string>
+    <string name="sync_sign_out">Desconectar</string>
+    <string name="logged_user">Registrado como: %1$s</string>
+    <string name="sync_import">Importar</string>
+    <string name="sync_export">Exportar</string>
+    <string name="sync_signin_success">Sesión Iniciada Exitosamente</string>
+    <string name="sync_signout_success">Sesión Cerrada Exitosamente</string>
+    <string name="sync_sign_error">Algo salió mal. Inténtalo de nuevo.</string>
+    <string name="sync_imported">Importado Exitosamente</string>
+    <string name="sync_exported">Exportado Exitosamente</string>
 </resources>

@@ -15,12 +15,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.felipimatheuz.primehunt.state.BottomNavItem
+import com.felipimatheuz.primehunt.business.state.BottomNavItem
 import com.felipimatheuz.primehunt.ui.navigation.BottomNav
 import com.felipimatheuz.primehunt.ui.navigation.TopToolbar
 import com.felipimatheuz.primehunt.ui.screen.*
 import com.felipimatheuz.primehunt.ui.theme.WarframeprimehuntTheme
-import com.felipimatheuz.primehunt.util.PrimeFilter
+import com.felipimatheuz.primehunt.business.util.PrimeFilter
 
 class PrimeApplication : ComponentActivity() {
 

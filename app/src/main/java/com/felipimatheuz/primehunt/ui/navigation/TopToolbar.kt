@@ -17,13 +17,14 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.model.resources.AppSettings
-import com.felipimatheuz.primehunt.state.BottomNavItem
-import com.felipimatheuz.primehunt.state.MenuDialogState
+import com.felipimatheuz.primehunt.business.resources.AppSettings
+import com.felipimatheuz.primehunt.business.state.BottomNavItem
+import com.felipimatheuz.primehunt.business.state.MenuDialogState
 import com.felipimatheuz.primehunt.ui.component.PrimeInfoDialog
+import com.felipimatheuz.primehunt.ui.screen.SyncAccountScreen
 import com.felipimatheuz.primehunt.ui.theme.WarframeprimehuntTheme
-import com.felipimatheuz.primehunt.util.PrimeFilter
-import com.felipimatheuz.primehunt.util.translateFilter
+import com.felipimatheuz.primehunt.business.util.PrimeFilter
+import com.felipimatheuz.primehunt.business.util.translateFilter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -73,7 +74,7 @@ fun TopToolbar(navController: NavHostController) {
 
                 DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
                     if (item.title == R.string.menu_overview) {
-                        val dialogState = listOf(MenuDialogState.Help, MenuDialogState.Info)
+                        val dialogState = listOf(MenuDialogState.Help, MenuDialogState.Info, MenuDialogState.Sync)
                         dialogState.forEach {
                             DropdownMenuItem(
                                 leadingIcon = {
@@ -112,7 +113,9 @@ fun TopToolbar(navController: NavHostController) {
         },
         colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = MaterialTheme.colorScheme.primary)
     )
-    if (showInfo != MenuDialogState.None) {
+    if (showInfo == MenuDialogState.Sync) {
+        SyncAccountScreen(showInfo) { showInfo = MenuDialogState.None }
+    } else if (showInfo != MenuDialogState.None) {
         PrimeInfoDialog(showInfo) { showInfo = MenuDialogState.None }
     }
 }

@@ -2,9 +2,9 @@ package com.felipimatheuz.primehunt.viewmodel
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
-import com.felipimatheuz.primehunt.model.core.ItemPart
-import com.felipimatheuz.primehunt.model.resources.PrimeSetData
-import com.felipimatheuz.primehunt.util.updateCompStatus
+import com.felipimatheuz.primehunt.model.ItemPart
+import com.felipimatheuz.primehunt.business.resources.PrimeSetData
+import com.felipimatheuz.primehunt.business.util.updateCompStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class PrimeSetDetailViewModel(context: Context, primeName: String?) : ViewModel() {

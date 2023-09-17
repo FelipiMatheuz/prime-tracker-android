@@ -14,8 +14,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.felipimatheuz.primehunt.model.resources.AppSettings
-import com.felipimatheuz.primehunt.state.BottomNavItem
+import com.felipimatheuz.primehunt.business.resources.AppSettings
+import com.felipimatheuz.primehunt.business.state.BottomNavItem
 import com.felipimatheuz.primehunt.ui.theme.WarframeprimehuntTheme
 
 @Composable

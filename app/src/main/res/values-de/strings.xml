@@ -61,6 +61,7 @@
     <string name="search_items_by_name">Suchen Sie nach Artikeln nach Namen</string>
     <string name="tier_relics">Lith Relikte</string>
     <string name="forma_blueprint">Forma Blaupause</string>
+    <string name="sync">Synchronisieren</string>
     <string name="help_content">%1$s / %2$s:\n-Drücken Sie lange auf eines der Elemente, um alle Elemente im Set zu aktivieren/deaktivieren\n-Klicken Sie auf eines der Elemente, um Details anzuzeigen\n\tKlicken Sie auf eine Hauptkomponente, um sie zu markieren /Markierung des Elements aufheben\n-Verwenden Sie den Filter in der Symbolleiste, um Ihre Suche zu vereinfachen\n\n%3$s:\n-Klicken Sie auf das Relikt, um die Details anzuzeigen\n-Deaktivierte Relikte zeigen an, dass Sie bereits alle Primzahlen haben dass das Relikt bietet\n-Aktivierte Relikte zeigen an, dass es Gegenstände enthält, die noch nicht erhalten wurden\n-Die Zahl neben dem Relikt gibt an, wie viele erstklassige Gegenstände noch nicht erhalten wurden\n-Verwenden Sie den Filter in der Symbolleiste, um Ihre Suche zu vereinfachen</string>
     <string name="rendering_content">Rendern der Komponenten…</string>
     <string name="about">Um</string>
@@ -69,4 +70,15 @@
     <string name="overview_melee">Nahkampf</string>
     <string name="overview_other">Andere</string>
     <string name="checking_other_updates">Andere Updates Prüfen…</string>
+    <string name="sync_content">Synchronisieren Sie Ihren Fortschritt mit anderen Geräten.</string>
+    <string name="sync_sign_in">Anmelden</string>
+    <string name="sync_sign_out">Abmelden</string>
+    <string name="logged_user">Angemeldet als: %1$s</string>
+    <string name="sync_import">Daten Importieren</string>
+    <string name="sync_export">Daten Exportieren</string>
+    <string name="sync_signin_success">Anmeldung Erfolgreich</string>
+    <string name="sync_signout_success">Abmeldung Erfolgreich</string>
+    <string name="sync_sign_error">Etwas ist schief gelaufen. Bitte versuche es erneut.</string>
+    <string name="sync_imported">Erfolgreich Importiert</string>
+    <string name="sync_exported">Erfolgreich Exportiert</string>
 </resources>

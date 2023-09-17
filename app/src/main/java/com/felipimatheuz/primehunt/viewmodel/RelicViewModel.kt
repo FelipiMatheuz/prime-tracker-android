@@ -4,15 +4,15 @@ import android.content.Context
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.model.core.*
-import com.felipimatheuz.primehunt.model.resources.OtherPrimeData
-import com.felipimatheuz.primehunt.model.resources.PrimeSetData
+import com.felipimatheuz.primehunt.business.resources.OtherPrimeData
+import com.felipimatheuz.primehunt.business.resources.PrimeSetData
+import com.felipimatheuz.primehunt.model.*
 import com.felipimatheuz.primehunt.ui.theme.Common
 import com.felipimatheuz.primehunt.ui.theme.Rare
 import com.felipimatheuz.primehunt.ui.theme.Uncommon
-import com.felipimatheuz.primehunt.util.PrimeFilter
-import com.felipimatheuz.primehunt.util.apiRelic
-import com.felipimatheuz.primehunt.util.translateComponent
+import com.felipimatheuz.primehunt.business.util.PrimeFilter
+import com.felipimatheuz.primehunt.business.util.apiRelic
+import com.felipimatheuz.primehunt.business.util.translateComponent
 
 class RelicViewModel(context: Context) : ViewModel() {
     private val remainingList = searchList(context)

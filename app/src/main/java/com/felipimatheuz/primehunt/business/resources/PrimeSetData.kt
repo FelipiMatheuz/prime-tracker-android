@@ -1,12 +1,11 @@
-package com.felipimatheuz.primehunt.model.resources
+package com.felipimatheuz.primehunt.business.resources
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
-import com.felipimatheuz.primehunt.model.core.ItemComponent
-import com.felipimatheuz.primehunt.model.core.ItemPart
-import com.felipimatheuz.primehunt.model.core.PrimeItem
-import com.felipimatheuz.primehunt.model.core.PrimeSet
-import com.felipimatheuz.primehunt.util.apiSet
+import com.felipimatheuz.primehunt.business.util.apiSet
+import com.felipimatheuz.primehunt.business.util.getFieldName
+import com.felipimatheuz.primehunt.model.ItemPart
+import com.felipimatheuz.primehunt.model.PrimeSet
 
 class PrimeSetData(context: Context) {
 
@@ -17,6 +16,7 @@ class PrimeSetData(context: Context) {
         return getListSetData()
     }
 
+    fun getLocalData() = localData
     fun getListSetData(): List<PrimeSet> = apiSet.getSetData().sortedByDescending { it.released }
 
     fun getPrimeSetData(primeSetName: String): PrimeSet = apiSet.getSetData().first { it.setName == primeSetName }
@@ -38,16 +38,7 @@ class PrimeSetData(context: Context) {
         }
     }
 
-    private fun getFieldName(
-        primeSet: PrimeSet,
-        primeItem: PrimeItem,
-        primeComp: ItemComponent? = null,
-        index: Int? = null
-    ) = "${primeSet.setName}_${primeItem.name}_${
-        primeComp?.part ?: "BLUEPRINT"
-    }${if (index != null) "_$index" else ""}"
-
-    private fun setStatusItem(name: String, value: Boolean) {
+    fun setStatusItem(name: String, value: Boolean) {
         val editor = localData.edit()
         editor.putBoolean(name, value)
         editor.apply()

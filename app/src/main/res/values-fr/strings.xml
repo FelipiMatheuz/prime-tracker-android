@@ -60,6 +60,7 @@
     <string name="overview_primary">Principale</string>
     <string name="overview_secondary">Secondaire</string>
     <string name="help">Aider</string>
+    <string name="sync">Synchroniser</string>
     <string name="help_content">%1$s / %2$s:\n-Appuyez longuement sur l\'un des éléments pour cocher/décocher tous les éléments de l\'ensemble\n-Cliquez sur l\'un des éléments pour voir les détails\n\tCliquez sur un composant principal à marquer /décochez l\'objet\n-Utilisez le filtre dans la barre d\'outils pour faciliter votre recherche\n\n%3$s:\n-Cliquez sur la relique pour voir les détails\n-Les reliques supprimées indiquent que vous avez déjà tous les nombres premiers que la relique offre\n-Les reliques éclairées indiquent qu\'elle contient objets non encore obtenus\n-Le nombre à côté de la relique indique combien d\'objets principaux n\'ont pas encore été obtenus\n-Utilisez le filtre dans la barre d\'outils pour faciliter votre recherche</string>
     <string name="overall_stats">Total: %1$s\nEn cours: %2$s\nTerminé: %3$s</string>
     <string name="rendering_content">" Rendu des composants…"</string>
@@ -69,4 +70,15 @@
     <string name="overview_melee">" Mêlée"</string>
     <string name="overview_other">Autre</string>
     <string name="checking_other_updates">Vérification des Autres Mises à Jour…</string>
+    <string name="sync_content">Synchronisez votre progression avec d\'autres appareils.</string>
+    <string name="sync_sign_in">Se Connecter</string>
+    <string name="sync_sign_out">Se Déconnecter</string>
+    <string name="logged_user">Connecté en tant que : %1$s</string>
+    <string name="sync_import">Importer des Données</string>
+    <string name="sync_export">Exporter des données</string>
+    <string name="sync_signin_success">Connexion Réussie</string>
+    <string name="sync_signout_success">Déconnexion Réussie</string>
+    <string name="sync_sign_error">Quelque chose s\'est mal passé. Veuillez réessayer.</string>
+    <string name="sync_imported">Importé Avec Succès</string>
+    <string name="sync_exported">Exporté Avec Succès</string>
 </resources>

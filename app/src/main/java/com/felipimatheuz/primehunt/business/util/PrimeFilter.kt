@@ -1,4 +1,4 @@
-package com.felipimatheuz.primehunt.util
+package com.felipimatheuz.primehunt.business.util
 
 enum class PrimeFilter {
     SHOW_ALL,

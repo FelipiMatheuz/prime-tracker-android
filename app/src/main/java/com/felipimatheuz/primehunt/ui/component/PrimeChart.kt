@@ -20,11 +20,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.model.core.PrimeItem
+import com.felipimatheuz.primehunt.model.PrimeItem
 import com.felipimatheuz.primehunt.ui.theme.Complete
 import com.felipimatheuz.primehunt.ui.theme.High
 import com.felipimatheuz.primehunt.ui.theme.Zero
-import com.felipimatheuz.primehunt.util.isItemCompleted
+import com.felipimatheuz.primehunt.business.util.isItemCompleted
 
 @Composable
 fun PrimeChart(
@@ -76,7 +76,7 @@ fun PrimeChart(
     Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
             text = stringResource(labelRes),
-            style = MaterialTheme.typography.bodyLarge.copy(fontSize = 16.sp * scaleSize),
+            style = MaterialTheme.typography.bodyLarge.copy(fontSize = 20.sp * scaleSize),
             modifier = Modifier.padding(bottom = 16.dp)
         )
         Box(

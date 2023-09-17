@@ -16,8 +16,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.model.core.RelicSet
-import com.felipimatheuz.primehunt.model.core.RelicTier
+import com.felipimatheuz.primehunt.model.RelicSet
+import com.felipimatheuz.primehunt.model.RelicTier
 import com.felipimatheuz.primehunt.viewmodel.RelicViewModel
 
 @Composable

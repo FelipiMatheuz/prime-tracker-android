@@ -1,8 +1,8 @@
-package com.felipimatheuz.primehunt.model.external
+package com.felipimatheuz.primehunt.business.external
 
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.felipimatheuz.primehunt.model.core.PrimeSet
+import com.felipimatheuz.primehunt.model.PrimeItem
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -10,37 +10,37 @@ import kotlinx.coroutines.coroutineScope
 import java.net.URL
 
 
-class PrimeSetApi {
+class OtherPrimeApi {
     private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
-    private var setData: List<PrimeSet> = listOf()
+    private var otherData: List<PrimeItem> = listOf()
 
-    suspend fun setSetData() {
+    suspend fun setOtherData() {
         return coroutineScope {
             val resultData = async(defaultDispatcher) { loadData() }
-            setData = resultData.await()
+            otherData = resultData.await()
         }
     }
 
-    fun getSetData(): List<PrimeSet> = setData
+    fun getOtherData(): List<PrimeItem> = otherData
 
-    private fun loadData(): List<PrimeSet> {
+    private fun loadData(): List<PrimeItem> {
         val origin = "https://data.mongodb-api.com"
-        val path = "/app/data-wgnuq/endpoint/prime_sets"
+        val path = "/app/data-wgnuq/endpoint/other_primes"
         val mapper = jacksonObjectMapper()
         val url = URL("$origin$path")
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-        val result = mutableListOf<PrimeSet>()
-        for (primeSetJson in mapper.readValue(url, List::class.java)) {
-            result.add(mapper.convertValue(primeSetJson, PrimeSet::class.java))
+        val result = mutableListOf<PrimeItem>()
+        for (primeItemJson in mapper.readValue(url, List::class.java)) {
+            result.add(mapper.convertValue(primeItemJson, PrimeItem::class.java))
         }
         return result
     }
 
     companion object {
-        suspend fun singleInstance(): PrimeSetApi {
-            val primeSetApi = PrimeSetApi()
-            primeSetApi.setSetData()
-            return primeSetApi
+        suspend fun singleInstance(): OtherPrimeApi {
+            val otherPrimeApi = OtherPrimeApi()
+            otherPrimeApi.setOtherData()
+            return otherPrimeApi
         }
     }
 }

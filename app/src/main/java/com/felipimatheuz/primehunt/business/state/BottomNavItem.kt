@@ -1,4 +1,4 @@
-package com.felipimatheuz.primehunt.state
+package com.felipimatheuz.primehunt.business.state
 
 import com.felipimatheuz.primehunt.R
 

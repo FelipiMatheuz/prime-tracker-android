@@ -62,6 +62,7 @@
     <string name="overview_primary">Primária</string>
     <string name="overview_secondary">Secundária</string>
     <string name="help">Ajuda</string>
+    <string name="sync">Sincronizar</string>
     <string name="help_content">%1$s / %2$s:\n-Pressione por um momento um dos items para marcar/desmarcar todos os items dentro do conjunto\n-Clique em um dos itens para ver os detalhes\n\tClique em um componente prime para marcar/desmarcar o item\n-Use o filtro na barra de ferramentas para facilitar sua busca\n\n%3$s:\n-Clique na relíquia para ver os detalhes\n-Reliquias apagadas indicam que você já tem todos os primes que a relíquia oferece\n-Reliquias acesas indicam que contém itens não obtidos ainda\n-O número ao lado da relíquia indica quantos itens primes não foram obtidos\n-Use o filtro na barra de ferramentas para facilitar sua busca</string>
     <string name="overall_stats">Total: %1$s\nEm Progresso: %2$s\nConcluído: %3$s</string>
     <string name="rendering_content">Renderizando os componentes…</string>
@@ -71,4 +72,15 @@
     <string name="overview_melee">Corpo a corpo</string>
     <string name="overview_other">Outro</string>
     <string name="checking_other_updates">Verificando Demais Atualizações…</string>
+    <string name="sync_content">Sincronize seu progresso com outros dispositivos.</string>
+    <string name="sync_sign_in">Entrar</string>
+    <string name="sync_sign_out">Sair</string>
+    <string name="logged_user">Logado como: %1$s</string>
+    <string name="sync_import">Importar</string>
+    <string name="sync_export">Exportar</string>
+    <string name="sync_signin_success">Logado com Sucesso</string>
+    <string name="sync_signout_success">Deslogado com Sucesso</string>
+    <string name="sync_sign_error">Algo deu errado. Por favor, tente novamente.</string>
+    <string name="sync_imported">Importado com Sucesso</string>
+    <string name="sync_exported">Exportado com Sucesso</string>
 </resources>

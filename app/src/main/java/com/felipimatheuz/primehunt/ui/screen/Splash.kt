@@ -20,7 +20,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.state.LoadState
+import com.felipimatheuz.primehunt.business.state.LoadState
 import com.felipimatheuz.primehunt.ui.theme.WarframeprimehuntTheme
 import com.felipimatheuz.primehunt.viewmodel.SplashViewModel
 
