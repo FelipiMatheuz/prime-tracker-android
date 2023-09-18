@@ -1,6 +1,8 @@
 package com.felipimatheuz.primehunt.business.util
 
 import android.content.Context
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.model.*
@@ -138,16 +140,26 @@ fun getCompName(context: Context, primeItem: PrimeItem, comp: ItemComponent?): S
     return context.getString(R.string.prime_template, primeItem.name).plus(" ").plus(compName)
 }
 
+@Composable
 fun getColorForeground(rewards: List<Reward>, searchText: String): Color? {
     val result = rewards.filter { it.item.name.contains(searchText, true) }
     return if (result.isEmpty()) {
         null
     } else {
-        when (result[0].chance) {
-            25.33f -> Common
-            11f -> Uncommon
-            2f -> Rare
-            else -> null
+        return if (isSystemInDarkTheme()) {
+            when (result[0].chance) {
+                25.33f -> CommonDark
+                11f -> UncommonDark
+                2f -> RareDark
+                else -> CommonDark
+            }
+        } else {
+            when (result[0].chance) {
+                25.33f -> Common
+                11f -> Uncommon
+                2f -> Rare
+                else -> Common
+            }
         }
     }
 }

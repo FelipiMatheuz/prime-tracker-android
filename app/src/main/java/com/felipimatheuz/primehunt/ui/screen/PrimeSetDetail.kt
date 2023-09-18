@@ -40,7 +40,7 @@ import com.felipimatheuz.primehunt.model.ItemComponent
 import com.felipimatheuz.primehunt.model.ItemPart
 import com.felipimatheuz.primehunt.model.PrimeItem
 import com.felipimatheuz.primehunt.ui.animation.AnimatedTransitionDialog
-import com.felipimatheuz.primehunt.ui.theme.RelicBackground
+import com.felipimatheuz.primehunt.ui.theme.Black
 import com.felipimatheuz.primehunt.ui.theme.WarframeprimehuntTheme
 import com.felipimatheuz.primehunt.viewmodel.PrimeSetDetailViewModel
 
@@ -197,7 +197,7 @@ private fun PrimeComponentsUI(
                     end.linkTo(parent.end, 8.dp)
                 })
         }
-        Column(modifier = Modifier.background(RelicBackground).padding(8.dp)) {
+        Column(modifier = Modifier.background(Black.copy(0.1f)).padding(8.dp)) {
             val searchText = getCompName(context, primeItem, comp)
             val relicList = getRelicList(searchText)
             relicList.forEach { relic ->

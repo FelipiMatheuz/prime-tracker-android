@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -93,12 +94,13 @@ fun SyncAccountScreen(info: MenuDialogState, onBack: () -> Unit) {
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
                 width = Dimension.fillToConstraints
-            }.background(MaterialTheme.colorScheme.onPrimary.copy(0.3f), RoundedCornerShape(5.dp))) {
+            }.background(MaterialTheme.colorScheme.onSecondary.copy(0.3f), RoundedCornerShape(5.dp))) {
                 val notification =
                     getNotificationState(state, { error = false }, { error = true }, { viewModel.resetState() })
                 Text(
                     if (notification != null) stringResource(notification) else "",
                     color = if (error) Low else MaterialTheme.colorScheme.primary,
+                    fontFamily = FontFamily.Monospace,
                     modifier = Modifier.padding(8.dp)
                 )
             }
