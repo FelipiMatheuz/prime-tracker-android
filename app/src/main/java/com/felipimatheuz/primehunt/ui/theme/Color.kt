@@ -22,7 +22,10 @@ val High = Color(0xBB50C878)
 val Complete = Color(0xBB0F52BA)
 
 //Rarity
-val Common = Color(0xFFCD7F32)
-val Uncommon = Color(0xFFC0C0C0)
-val Rare = Color(0xFFFFD700)
+val Common = Color(0xFF986634)
+val CommonDark = Color(0xFFCD7F32)
+val Uncommon = Color(0xFF9A9A9A)
+val UncommonDark = Color(0xFFC0C0C0)
+val Rare =Color(0xFFB89E14)
+val RareDark = Color(0xFFFFD700)
 val RelicBackground = Color(0xFF0C0A00)

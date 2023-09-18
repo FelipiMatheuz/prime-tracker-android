@@ -1,18 +1,18 @@
 package com.felipimatheuz.primehunt.viewmodel
 
 import android.content.Context
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.business.resources.OtherPrimeData
 import com.felipimatheuz.primehunt.business.resources.PrimeSetData
 import com.felipimatheuz.primehunt.model.*
-import com.felipimatheuz.primehunt.ui.theme.Common
-import com.felipimatheuz.primehunt.ui.theme.Rare
-import com.felipimatheuz.primehunt.ui.theme.Uncommon
 import com.felipimatheuz.primehunt.business.util.PrimeFilter
 import com.felipimatheuz.primehunt.business.util.apiRelic
 import com.felipimatheuz.primehunt.business.util.translateComponent
+import com.felipimatheuz.primehunt.ui.theme.*
 
 class RelicViewModel(context: Context) : ViewModel() {
     private val remainingList = searchList(context)
@@ -86,12 +86,22 @@ class RelicViewModel(context: Context) : ViewModel() {
         }
     }
 
+    @Composable
     fun getColor(chance: Float): Color {
-        return when (chance) {
-            25.33f -> Common
-            11f -> Uncommon
-            2f -> Rare
-            else -> Common
+        return if (isSystemInDarkTheme()) {
+            when (chance) {
+                25.33f -> CommonDark
+                11f -> UncommonDark
+                2f -> RareDark
+                else -> CommonDark
+            }
+        } else {
+            when (chance) {
+                25.33f -> Common
+                11f -> Uncommon
+                2f -> Rare
+                else -> Common
+            }
         }
     }
 
