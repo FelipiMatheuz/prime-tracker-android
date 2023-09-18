@@ -27,6 +27,7 @@ import com.felipimatheuz.primehunt.model.RelicTier
 import com.felipimatheuz.primehunt.ui.component.RelicRewardsDialog
 import com.felipimatheuz.primehunt.ui.theme.WarframeprimehuntTheme
 import com.felipimatheuz.primehunt.business.util.PrimeFilter
+import com.felipimatheuz.primehunt.ui.theme.Black
 import com.felipimatheuz.primehunt.viewmodel.RelicViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -92,7 +93,7 @@ fun PrimeRelicTierUI(viewModel: RelicViewModel, relicTier: RelicTier, primeFilte
             Column(
                 modifier = Modifier.clickable {
                     showDialog = relic
-                }.background(color = MaterialTheme.colorScheme.surface, shape = RoundedCornerShape(5.dp))
+                }.background(color = Black.copy(0.1f), shape = RoundedCornerShape(5.dp))
                     .padding(8.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
