@@ -65,12 +65,12 @@
         \n-Cliquez sur l\'un des éléments pour voir les détails
         \n\tCliquez sur un composant Prime pour marquer/décocher l\'élément\n-Utilisez le filtre dans la barre d\'outils pour faciliter votre recherche
         \n\n%2$s :\n-Appuyez sur la flèche sur l\'un des éléments pour voir les détails
-        \n\tCliquez sur un composant Prime pour marquer/décocher l\'élément\n-Utilisez le filtre dans la barre d'outils pour faciliter votre recherche
+        \n\tCliquez sur un composant Prime pour marquer/décocher l\'élément\n-Utilisez le filtre dans la barre d\'outils pour faciliter votre recherche
         \n\n%3$s :\n-Cliquez sur la relique pour voir les détails
         \n-Les reliques désactivées indiquent que vous disposez déjà de tous les l\'éléments Prime offerts par la relique
-        \n-Les reliques activées indiquent qu'elles contiennent des objets non encore obtenus
-        \n-Le chiffre à côté de la relique indique combien d'objets Prime n'ont pas été obtenus
-        \n-Utilisez le filtre dans la barre d'outils pour faciliter votre recherche</string>
+        \n-Les reliques activées indiquent qu\'elles contiennent des objets non encore obtenus
+        \n-Le chiffre à côté de la relique indique combien d\'objets Prime n\'ont pas été obtenus
+        \n-Utilisez le filtre dans la barre d\'outils pour faciliter votre recherche</string>
     <string name="overall_stats">Total: %1$s\nEn cours: %2$s\nTerminé: %3$s</string>
     <string name="rendering_content">" Rendu des composants…"</string>
     <string name="about">À propos</string>
