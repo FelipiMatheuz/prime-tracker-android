@@ -4,7 +4,8 @@
     <string name="loading_content">Externe Inhalte werden geladen…</string>
     <string name="checking_set_updates">Set-Updates prüfen…</string>
     <string name="connection_failed">Verbindung fehlgeschlagen</string>
-    <string name="connection_failed_message">Bitte überprüfe deine Internetverbindung</string>
+    <string name="connection_failed_message">Etwas ist schief gelaufen. Bitte überprüfe deine Internetverbindung.
+        \nWenn das Problem weiterhin besteht, klicken Sie auf \"Fehler kopiere\“ und senden Sie eine E-Mail an den Support.</string>
     <string name="connection_retry">Versuchen Sie es erneut</string>
     <string name="prime_set_template">%1$s Prime Set</string>
     <string name="relic_template">%1$s Relikt</string>
@@ -90,4 +91,5 @@
     <string name="sync_sign_error">Etwas ist schief gelaufen. Bitte versuche es erneut.</string>
     <string name="sync_imported">Erfolgreich Importiert</string>
     <string name="sync_exported">Erfolgreich Exportiert</string>
+    <string name="copy_error">Kopierfehler</string>
 </resources>

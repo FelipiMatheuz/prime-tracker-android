@@ -47,7 +47,8 @@
     <string name="status_baro">Baro (Comerciante)</string>
     <string name="comp_link">Enlace</string>
     <string name="connection_failed">Conexión Fallida</string>
-    <string name="connection_failed_message">Por favor, revise su conexion a internet</string>
+    <string name="connection_failed_message">Algo salió mal. Por favor revise su conexion a internet.
+        \nSi el problema persiste, haga clic en \"Copiar error\" y envíe un correo electrónico a soporte.</string>
     <string name="connection_retry">Intentar otra vez</string>
     <string name="checking_set_updates">Comprobando Actualizaciones de los Sets…</string>
     <string name="tier_relics">Reliquias Lith</string>
@@ -90,4 +91,5 @@
     <string name="sync_sign_error">Algo salió mal. Inténtalo de nuevo.</string>
     <string name="sync_imported">Importado Exitosamente</string>
     <string name="sync_exported">Exportado Exitosamente</string>
+    <string name="copy_error">Copiar Error</string>
 </resources>

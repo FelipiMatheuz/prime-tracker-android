@@ -49,7 +49,8 @@
     <string name="status_baro">Baro (Negociante)</string>
     <string name="comp_link">Conexão</string>
     <string name="connection_failed">Falha na conexão</string>
-    <string name="connection_failed_message">Por favor, verifique sua conexão com a internet</string>
+    <string name="connection_failed_message">Algo deu errado. Por favor, verifique sua conexão à internet.
+    \nSe o problema persistir, clique em \"Copiar Erro\" e envie um e-mail para o suporte.</string>
     <string name="connection_retry">Tentar Novamente</string>
     <string name="checking_set_updates">Verificando Atualizações de Conjuntos…</string>
     <string name="tier_relics">Relíquias Lith</string>
@@ -92,4 +93,5 @@
     <string name="sync_sign_error">Algo deu errado. Por favor, tente novamente.</string>
     <string name="sync_imported">Importado com Sucesso</string>
     <string name="sync_exported">Exportado com Sucesso</string>
+    <string name="copy_error">Copiar Erro</string>
 </resources>

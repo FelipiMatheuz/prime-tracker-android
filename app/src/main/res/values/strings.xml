@@ -9,8 +9,10 @@
     <string name="checking_other_updates">Checking Other Updates…</string>
     <string name="rendering_content">Rendering The Components…</string>
     <string name="connection_failed">Connection Failed</string>
-    <string name="connection_failed_message">Please check your Internet Connection</string>
+    <string name="connection_failed_message">Something went wrong. Please check your Internet Connection.
+        \nIf the problem persists, click on \"Copy Error\" and email support.</string>
     <string name="connection_retry">Try Again</string>
+    <string name="copy_error">Copy Error</string>
 
     <!--Templates-->
     <string name="prime_set_template">%1$s Prime Set</string>

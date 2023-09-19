@@ -47,7 +47,8 @@
     <string name="status_baro">Baro (Marchand)</string>
     <string name="comp_link">Lien</string>
     <string name="connection_failed">Échec de la connexion</string>
-    <string name="connection_failed_message">S\'il vous plait, vérifiez votre connexion internet</string>
+    <string name="connection_failed_message">Quelque chose s\'est mal passé. S\'il vous plait, vérifiez votre connexion internet.
+        \nSi le problème persiste, cliquez sur \"Copiez Erreur\" et envoyez un e-mail à l\'assistance.</string>
     <string name="connection_retry">Essayer à nouveau</string>
     <string name="checking_set_updates">Vérification des Mises à Jour des Ensembles…</string>
     <string name="tier_relics">Reliques Lith</string>
@@ -90,4 +91,5 @@
     <string name="sync_sign_error">Quelque chose s\'est mal passé. Veuillez réessayer.</string>
     <string name="sync_imported">Importé Avec Succès</string>
     <string name="sync_exported">Exporté Avec Succès</string>
+    <string name="copy_error">Copiez Erreur</string>
 </resources>

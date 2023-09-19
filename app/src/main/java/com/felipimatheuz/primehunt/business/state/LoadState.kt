@@ -5,6 +5,6 @@ sealed class LoadState {
     object LoadRelic : LoadState()
     object LoadSet : LoadState()
     object LoadOther : LoadState()
-    data class Error(val lastTextRes: Int) : LoadState()
+    data class Error(val lastTextRes: Int, val message: String?) : LoadState()
     object Ready : LoadState()
 }

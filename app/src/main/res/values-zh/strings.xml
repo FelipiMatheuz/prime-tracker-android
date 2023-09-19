@@ -47,7 +47,8 @@
     <string name="status_baro">Baro (商人)</string>
     <string name="comp_link">连接</string>
     <string name="connection_failed">连接失败</string>
-    <string name="connection_failed_message">请检查您的互联网连接</string>
+    <string name="connection_failed_message">出了些问题。请检查您的互联网连接。
+        \n如果问题仍然存在，请单击“复制错误”并向支持人员发送电子邮件。</string>
     <string name="connection_retry">再试一次</string>
     <string name="checking_set_updates">检查集更新…</string>
     <string name="tier_relics">Lith 文物</string>
@@ -90,4 +91,5 @@
     <string name="sync_sign_error">" 出了些问题。请再试一次."</string>
     <string name="sync_imported">进口</string>
     <string name="sync_exported">出口</string>
+    <string name="copy_error">复制错误</string>
 </resources>

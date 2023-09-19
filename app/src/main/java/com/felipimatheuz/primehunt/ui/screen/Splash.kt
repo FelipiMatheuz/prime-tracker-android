@@ -1,16 +1,17 @@
 package com.felipimatheuz.primehunt.ui.screen
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -53,7 +54,11 @@ fun SplashScreen(onReady: () -> Unit) {
                     viewModel.loadResource(R.string.checking_other_updates)
                 }
 
-                is LoadState.Error -> ShowError(viewModel, (loadState.value as LoadState.Error).lastTextRes)
+                is LoadState.Error -> {
+                    val errorInfo = loadState.value as LoadState.Error
+                    ShowError(viewModel, errorInfo.lastTextRes, errorInfo.message)
+                }
+
                 LoadState.Ready -> {
                     ShowLoading(R.string.rendering_content)
                     onReady()
@@ -91,7 +96,8 @@ private fun ShowLoading(textRes: Int) {
 }
 
 @Composable
-private fun ShowError(viewModel: SplashViewModel, textRes: Int) {
+private fun ShowError(viewModel: SplashViewModel, textRes: Int, message: String?) {
+    val context = LocalContext.current
     AlertDialog(
         onDismissRequest = {},
         icon = {
@@ -104,7 +110,24 @@ private fun ShowError(viewModel: SplashViewModel, textRes: Int) {
             Text(text = stringResource(R.string.connection_failed))
         },
         text = {
-            Text(stringResource(R.string.connection_failed_message), color = MaterialTheme.colorScheme.onSurface)
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Text(stringResource(R.string.connection_failed_message), color = MaterialTheme.colorScheme.onSurface)
+                OutlinedButton(onClick = {
+                    val clipboardManager =
+                        context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                    val clip = ClipData.newPlainText("error", message)
+                    clipboardManager.setPrimaryClip(clip)
+                }
+                ) {
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_copy),
+                            contentDescription = stringResource(R.string.copy_error)
+                        )
+                        Text(stringResource(R.string.copy_error))
+                    }
+                }
+            }
         },
         confirmButton = {
             Button(onClick = {

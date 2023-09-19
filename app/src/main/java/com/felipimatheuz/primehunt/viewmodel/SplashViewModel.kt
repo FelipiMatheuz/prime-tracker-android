@@ -40,7 +40,7 @@ class SplashViewModel : ViewModel() {
                     }
                 }
             } catch (e: Exception) {
-                loadState.value = LoadState.Error(textRes)
+                loadState.value = LoadState.Error(textRes, e.message)
             }
         }
     }
