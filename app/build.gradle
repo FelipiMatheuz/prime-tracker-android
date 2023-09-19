@@ -12,8 +12,8 @@ android {
         minSdk 27
         //noinspection EditedTargetSdkVersion
         targetSdk 34
-        versionCode 15
-        versionName "2.2.3"
+        versionCode 17
+        versionName "3.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -22,11 +22,11 @@ android {
     }
 
     buildTypes {
-        /*debug {
+        debug {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }*/
+        }
         release {
             minifyEnabled true
             shrinkResources true

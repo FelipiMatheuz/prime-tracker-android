@@ -61,11 +61,20 @@
     <string name="overview_secondary">Secundaria</string>
     <string name="help">Ayuda</string>
     <string name="sync">Sincronizar</string>
-    <string name="help_content">%1$s / %2$s:\n-Mantenga presionado uno de los elementos para marcar/desmarcar todos los elementos dentro del conjunto\n-Haga clic en uno de los elementos para ver los detalles\n\tHaga clic en un componente principal para marcar /desmarcar el elemento\n-Use el filtro en la barra de herramientas para facilitar su búsqueda\n\n%3$s:\n-Haz clic en la reliquia para ver los detalles\n-Las reliquias eliminadas indican que ya tienes todos los primos que ofrece la reliquia\n-Las reliquias iluminadas indican que contiene elementos aún no obtenidos\n: el número junto a la reliquia indica cuántos elementos principales no se han obtenido\n-Use el filtro en la barra de herramientas para facilitar su búsqueda</string>
+    <string name="help_content">%1$s:\n-Mantenga presionado y deslice hacia la izquierda/derecha uno de los elementos para marcar/desmarcar (respectivamente) todos los elementos dentro del conjunto.
+        \n-Haga clic en uno de los elementos para ver detalles
+        \n\tHaga clic en un componente Prime para marcar/desmarcar el elemento\n-Utilice el filtro en la barra de herramientas para facilitar su búsqueda
+        \n\n%2$s:\n-Toca la flecha en uno de los elementos para ver detalles
+        \n\tHaga clic en un componente Prime para marcar/desmarcar el elemento\n-Utilice el filtro en la barra de herramientas para facilitar su búsqueda
+        \n\n%3$s:\n-Haga clic en la reliquia para ver los detalles
+        \n-Las reliquias deshabilitadas indican que ya tienes todos los elementos Prime que ofrece la reliquia
+        \n-Las reliquias habilitadas indican que contienen elementos que aún no se han obtenido
+        \n-El número al lado de la reliquia indica cuántos elementos Prime no se han obtenido
+        \n-Utilice el filtro en la barra de herramientas para facilitar su búsqueda</string>
     <string name="overall_stats">Total: %1$s\nEn progreso: %2$s\nCompletado: %3$s</string>
-    <string name="rendering_content">Representando los componentes...</string>
+    <string name="rendering_content">Representando los componentes…</string>
     <string name="about">Acerca</string>
-    <string name="about_content">" Versión de la aplicación: %1$s\\nCreado por: Cyberman Studios"</string>
+    <string name="about_content">Versión de la aplicación: %1$s\nCreado por: Cyberman Studios\n\nInformar problemas y sugerencias para cyberman.studios@gmail.com</string>
     <string name="no_results">No se han encontrado resultados</string>
     <string name="overview_melee">Pelea confusa</string>
     <string name="overview_other">Otro</string>
