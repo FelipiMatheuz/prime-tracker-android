@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.model.*
 import com.felipimatheuz.primehunt.ui.theme.*
@@ -240,3 +242,7 @@ fun getFieldName(
 ) = "${if (primeSet?.setName != null) "${primeSet.setName}_" else ""}${primeItem.name}_${
     primeComp?.part ?: "BLUEPRINT"
 }${if (index != null) "_$index" else ""}"
+
+fun dpFromPx(context: Context, px: Int): Dp {
+    return (px / context.resources.displayMetrics.density).dp
+}

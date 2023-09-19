@@ -15,9 +15,11 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.felipimatheuz.primehunt.R
+import com.felipimatheuz.primehunt.business.ads.AdManager
+import com.felipimatheuz.primehunt.business.ads.BannerAdView
+import com.felipimatheuz.primehunt.business.util.PrimeFilter
 import com.felipimatheuz.primehunt.ui.component.PrimeSetCard
 import com.felipimatheuz.primehunt.ui.theme.WarframeprimehuntTheme
-import com.felipimatheuz.primehunt.business.util.PrimeFilter
 import com.felipimatheuz.primehunt.viewmodel.PrimeSetViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -29,6 +31,7 @@ fun PrimeSetScreen(padding: PaddingValues, primeFilter: PrimeFilter) {
         var searchText by remember { mutableStateOf("") }
         val showDialog = remember { mutableStateOf<String?>(null) }
         val (tfSearch, lcPrimeSet) = createRefs()
+        AdManager().initialiseUnity(LocalContext.current)
         OutlinedTextField(
             value = searchText,
             singleLine = true,
@@ -60,6 +63,10 @@ fun PrimeSetScreen(padding: PaddingValues, primeFilter: PrimeFilter) {
             height = Dimension.fillToConstraints
         }) {
             viewModel.filterPrimeSet(searchText, primeFilter)
+            item {
+                BannerAdView("Banner_Set")
+            }
+
             items(primeList) { primeSet ->
                 PrimeSetCard(primeSet, viewModel) { showDialog.value = primeSet.setName }
                 Spacer(modifier = Modifier.padding(bottom = 8.dp))

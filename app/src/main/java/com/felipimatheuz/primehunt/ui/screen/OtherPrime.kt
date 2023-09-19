@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.felipimatheuz.primehunt.R
+import com.felipimatheuz.primehunt.business.ads.BannerAdView
 import com.felipimatheuz.primehunt.ui.component.PrimeItemCard
 import com.felipimatheuz.primehunt.ui.theme.WarframeprimehuntTheme
 import com.felipimatheuz.primehunt.business.util.PrimeFilter
@@ -59,6 +60,9 @@ fun OtherPrimeScreen(padding: PaddingValues, primeFilter: PrimeFilter) {
             height = Dimension.fillToConstraints
         }) {
             viewModel.filterOtherPrime(searchText, primeFilter)
+            item {
+                BannerAdView("Banner_Other")
+            }
             items(primeList) { primeItem ->
                 PrimeItemCard(primeItem, viewModel)
                 Spacer(modifier = Modifier.padding(bottom = 8.dp))
