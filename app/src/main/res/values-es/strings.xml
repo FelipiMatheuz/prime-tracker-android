@@ -61,4 +61,13 @@
     <string name="title_basics">Cómo Utilizar</string>
     <string name="basics_content">[MENU SET] / [MENU OTHER]:\n-Mantenga presionado uno de los elementos para marcar/desmarcar todos los elementos dentro del conjunto\n-Haga clic en uno de los elementos para ver los detalles\n\tHaga clic en un componente principal para marcar /desmarcar el elemento\n-Use el filtro en la barra de herramientas para facilitar su búsqueda\n\n[MENU RELIC]:\n-Haz clic en la reliquia para ver los detalles\n-Las reliquias eliminadas indican que ya tienes todos los primos que ofrece la reliquia\n-Las reliquias iluminadas indican que contiene elementos aún no obtenidos\n: el número junto a la reliquia indica cuántos elementos principales no se han obtenido\n-Use el filtro en la barra de herramientas para facilitar su búsqueda</string>
     <string name="overall_stats">Total: [T]\nEn progreso: [P]\nCompletado: [C]</string>
+    <string name="warning_v3_title">¡Pronto se lanzará una nueva versión!</string>
+    <string name="warning_v3_message">¡Nueva interfaz, más recursos, más elegante!
+        \n\nA medida que la aplicación crezca en número de usuarios y algunas investigaciones, se actualizará en octubre (por determinar).
+        \nSe ha revisado toda la aplicación, por lo que tengo algunas notas importantes:
+        \n-Cuando la versión cambie, su progreso se reiniciará. Por lo tanto, es importante tomar algunas notas sobre su progresión para transferir a esta nueva versión.
+        \n-La estructura ha sido reelaborada para sincronizar (finalmente) el progreso con otros dispositivos, por lo que se mantiene la recomendación en el primer tema. Además, el gráfico general ahora tiene la versión detallada.
+        \n-La interfaz de usuario de la aplicación cambió mucho, pero algunos elementos siguen siendo familiares (como las tarjetas Prime Set). Intenté mantener las buenas imágenes y cambié donde no era tan bueno.
+        \n-Si es posible, únete al programa beta para probar la nueva versión y hacer sugerencias o informar problemas.
+        \n\n¡Gracias por apoyar la aplicación!</string>
 </resources>

@@ -61,4 +61,13 @@
     <string name="forma_blueprint">Forma Blaupause</string>
     <string name="title_basics">Wie Benutzt man</string>
     <string name="basics_content">[MENU SET] / [MENU OTHER]:\n-Drücken Sie lange auf eines der Elemente, um alle Elemente im Set zu aktivieren/deaktivieren\n-Klicken Sie auf eines der Elemente, um Details anzuzeigen\n\tKlicken Sie auf eine Hauptkomponente, um sie zu markieren /Markierung des Elements aufheben\n-Verwenden Sie den Filter in der Symbolleiste, um Ihre Suche zu vereinfachen\n\n[MENU RELIC]:\n-Klicken Sie auf das Relikt, um die Details anzuzeigen\n-Deaktivierte Relikte zeigen an, dass Sie bereits alle Primzahlen haben dass das Relikt bietet\n-Aktivierte Relikte zeigen an, dass es Gegenstände enthält, die noch nicht erhalten wurden\n-Die Zahl neben dem Relikt gibt an, wie viele erstklassige Gegenstände noch nicht erhalten wurden\n-Verwenden Sie den Filter in der Symbolleiste, um Ihre Suche zu vereinfachen</string>
+    <string name="warning_v3_title">Neue Version wird bald veröffentlicht!</string>
+    <string name="warning_v3_message">Neue Benutzeroberfläche, mehr Ressourcen, schicker!
+        \n\nDa die App immer mehr Nutzer hat und einige Recherchen durchgeführt werden, wird die App bis Oktober (noch nicht bekannt) aktualisiert.
+        \nDie gesamte App wurde überarbeitet, daher habe ich einige wichtige Hinweise:
+        \n-Wenn sich die Version ändert, wird Ihr Fortschritt neu gestartet. Daher ist es wichtig, sich einige Notizen über Ihren Fortschritt bei der Umstellung auf diese neue Version zu machen.
+        \n-Die Struktur wurde überarbeitet, um (endlich) den Fortschritt mit anderen Geräten zu synchronisieren, sodass die Empfehlung im ersten Thema entspricht. Darüber hinaus verfügt das Übersichtsdiagramm jetzt über die detaillierte Version.
+        \n-Die Benutzeroberfläche der App hat sich stark verändert, aber einige Elemente sind immer noch bekannt (z. B. Prime-Set-Karten). Ich habe versucht, die gute Optik beizubehalten und habe dort gewechselt, wo es nicht so gut war.
+        \n-Wenn es möglich ist, nehmen Sie am Betaprogramm teil, um die neue Version zu testen und Vorschläge zu machen oder Probleme zu melden.
+        \n\nVielen Dank, dass Sie die App unterstützen!</string>
 </resources>

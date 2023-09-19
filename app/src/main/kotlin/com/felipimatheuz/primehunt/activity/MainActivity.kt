@@ -36,13 +36,29 @@ class MainActivity : AppCompatActivity() {
         setupToolbar()
         setupLoading()
         loadAds()
-        loadContent()
+        loadMessage()
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 finish()
             }
         })
+    }
+
+    private fun loadMessage() {
+        val builder = AlertDialog.Builder(this)
+        with(builder)
+        {
+            setIcon(android.R.drawable.stat_sys_warning)
+            setTitle(R.string.warning_v3_title)
+            setMessage(R.string.warning_v3_message)
+            setCancelable(false)
+            setPositiveButton("OK") { dialog, _ ->
+                dialog.dismiss()
+                loadContent()
+            }
+            show()
+        }
     }
 
     override fun onResume() {

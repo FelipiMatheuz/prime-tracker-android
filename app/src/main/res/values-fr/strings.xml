@@ -61,4 +61,13 @@
     <string name="title_basics">" Comment Utiliser"</string>
     <string name="basics_content">[MENU SET] / [MENU OTHER] :\n-Appuyez longuement sur l\'un des éléments pour cocher/décocher tous les éléments de l\'ensemble\n-Cliquez sur l\'un des éléments pour voir les détails\n\tCliquez sur un composant principal à marquer /décochez l\'objet\n-Utilisez le filtre dans la barre d\'outils pour faciliter votre recherche\n\n[MENU RELIC] :\n-Cliquez sur la relique pour voir les détails\n-Les reliques supprimées indiquent que vous avez déjà tous les nombres premiers que la relique offre\n-Les reliques éclairées indiquent qu\'elle contient objets non encore obtenus\n-Le nombre à côté de la relique indique combien d\'objets principaux n\'ont pas encore été obtenus\n-Utilisez le filtre dans la barre d\'outils pour faciliter votre recherche</string>
     <string name="overall_stats">Total : [T]\nEn cours : [P]\nTerminé : [C]</string>
+    <string name="warning_v3_title">Une nouvelle version sera bientôt disponible!</string>
+    <string name="warning_v3_message">Nouvelle interface, plus de ressources, plus de fantaisie !
+        \n\nÀ mesure que le nombre d\'utilisateurs de l\'application et certaines recherches augmentent, l\'application sera mise à jour d\'ici octobre (à déterminer).
+        \nToute l\'application a été revisitée, j\'ai donc quelques notes importantes:
+        \n-Au moment où la version changera, votre progression sera redémarrée. Il est donc important de prendre quelques notes sur votre progression pour passer à cette nouvelle version.
+        \n-La structure a été retravaillée pour synchroniser (enfin) la progression avec les autres appareils, ainsi que la recommandation du premier sujet. De plus, le graphique de présentation comporte désormais la version détaillée.
+        \n-L\'interface utilisateur de l\'application a beaucoup changé, mais certains éléments sont toujours familiers (comme les cartes Prime Set). J\'ai essayé de conserver les bons visuels et de changer là où ils n\'étaient pas si bons.
+        \n-Si c\'est possible, rejoignez le programme bêta pour tester la nouvelle version et faire des suggestions ou signaler des problèmes.
+        \n\nMerci de soutenir l\'application !</string>
 </resources>

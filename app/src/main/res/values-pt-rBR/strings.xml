@@ -63,4 +63,13 @@
     <string name="title_basics">Como Utilizar</string>
     <string name="basics_content">[MENU SET] / [MENU OTHER]:\n-Pressione por um momento um dos items para marcar/desmarcar todos os items dentro do conjunto\n-Clique em um dos itens para ver os detalhes\n\tClique em um componente prime para marcar/desmarcar o item\n-Use o filtro na barra de ferramentas para facilitar sua busca\n\n[MENU RELIC]:\n-Clique na relíquia para ver os detalhes\n-Reliquias apagadas indicam que você já tem todos os primes que a relíquia oferece\n-Reliquias acesas indicam que contém itens não obtidos ainda\n-O número ao lado da relíquia indica quantos itens primes não foram obtidos\n-Use o filtro na barra de ferramentas para facilitar sua busca</string>
     <string name="overall_stats">Total: [T]\nEm Progresso: [P]\nConcluído: [C]</string>
+    <string name="warning_v3_title">Nova versão será lançada em breve!</string>
+    <string name="warning_v3_message">Nova interface, mais recursos, mais sofisticado!
+        \n\nÀ medida que o aplicativo cresce em número de usuários e em algumas pesquisas, o aplicativo será atualizado até outubro (a definir).
+        \nTodo o aplicativo foi revisado, então tenho algumas observações importantes:
+        \n-Quando a versão mudar, seu progresso será reiniciado. Portanto, é importante fazer algumas anotações sobre sua progressão para transferir para esta nova versão.
+        \n-A estrutura foi reformulada para sincronizar (finalmente) o andamento com outros dispositivos, conforme recomendação do primeiro tópico. Além disso, o gráfico de visão geral agora possui a versão detalhada.
+        \n-A UI do aplicativo mudou bastante, mas alguns elementos ainda são familiares (como os cartões do conjunto Prime). Tentei manter o bom visual e mudei onde não estava tão bom.
+        \n-Se for possível, participe do programa beta para testar a nova versão e fazer sugestões ou reportar problemas.
+        \n\nObrigado por apoiar o aplicativo!</string>
 </resources>
