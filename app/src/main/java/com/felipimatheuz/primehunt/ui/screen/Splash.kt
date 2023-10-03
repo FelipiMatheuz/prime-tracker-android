@@ -110,24 +110,7 @@ private fun ShowError(viewModel: SplashViewModel, textRes: Int, message: String?
             Text(text = stringResource(R.string.connection_failed))
         },
         text = {
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Text(stringResource(R.string.connection_failed_message), color = MaterialTheme.colorScheme.onSurface)
-                OutlinedButton(onClick = {
-                    val clipboardManager =
-                        context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                    val clip = ClipData.newPlainText("error", message)
-                    clipboardManager.setPrimaryClip(clip)
-                }
-                ) {
-                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_copy),
-                            contentDescription = stringResource(R.string.copy_error)
-                        )
-                        Text(stringResource(R.string.copy_error))
-                    }
-                }
-            }
+            Text(stringResource(R.string.connection_failed_message), color = MaterialTheme.colorScheme.onSurface)
         },
         confirmButton = {
             Button(onClick = {
@@ -135,6 +118,23 @@ private fun ShowError(viewModel: SplashViewModel, textRes: Int, message: String?
             }, content = {
                 Text(text = stringResource(R.string.connection_retry))
             })
+        },
+        dismissButton = {
+            OutlinedButton(onClick = {
+                val clipboardManager =
+                    context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val clip = ClipData.newPlainText("error", message)
+                clipboardManager.setPrimaryClip(clip)
+            }
+            ) {
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_copy),
+                        contentDescription = stringResource(R.string.copy_error)
+                    )
+                    Text(stringResource(R.string.copy_error))
+                }
+            }
         },
         shape = RoundedCornerShape(10.dp)
     )
