@@ -9,6 +9,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -69,7 +70,8 @@ fun PrimeSetCard(primeSet: PrimeSet, viewModel: PrimeSetViewModel, goToDetails: 
         }.offset(x = backAnim).clickable {
             goToDetails()
         }) {
-            val statusColorAnim = animateColorAsState(updateStatusColor(primeSet), label = "", animationSpec = tween(1000))
+            val statusColorAnim =
+                animateColorAsState(updateStatusColor(primeSet), label = "", animationSpec = tween(1000))
             Box(
                 modifier = Modifier.fillMaxWidth().background(
                     statusColorAnim.value,
@@ -81,6 +83,7 @@ fun PrimeSetCard(primeSet: PrimeSet, viewModel: PrimeSetViewModel, goToDetails: 
                         .background(MaterialTheme.colorScheme.surface, shape = RoundedCornerShape(5.dp))
                 ) {
                     val (layoutSet, layoutItems) = createRefs()
+                    val primeSetText = stringResource(R.string.prime_set_template, primeSet.setName)
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         modifier = Modifier.constrainAs(layoutSet) {
@@ -96,7 +99,10 @@ fun PrimeSetCard(primeSet: PrimeSet, viewModel: PrimeSetViewModel, goToDetails: 
                             failure = placeholder(R.drawable.ic_cross),
                             modifier = Modifier.size(100.dp)
                         )
-                        Text(text = stringResource(R.string.prime_set_template, primeSet.setName))
+                        Text(
+                            text = primeSetText,
+                            style = if (primeSetText.length > 15) MaterialTheme.typography.labelLarge else LocalTextStyle.current
+                        )
                     }
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
