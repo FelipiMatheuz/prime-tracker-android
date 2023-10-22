@@ -24,6 +24,10 @@ abstract class AdsProvider : IAdsProvider {
                         }, 500)
                     }
 
+                    override fun onBannerShown(bannerAdView: BannerView?) {
+                        //Banner Showed
+                    }
+
                     override fun onBannerClick(bannerAdView: BannerView?) {
                         onAdClicked()
                     }
