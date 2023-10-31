@@ -66,11 +66,6 @@ fun PrimeSetScreen(padding: PaddingValues, primeFilter: PrimeFilter) {
             item {
                 BannerAdView("Banner_Set")
             }
-
-            items(primeList) { primeSet ->
-                PrimeSetCard(primeSet, viewModel) { showDialog.value = primeSet.setName }
-                Spacer(modifier = Modifier.padding(bottom = 8.dp))
-            }
             if (primeList.isEmpty()) {
                 item {
                     Text(
@@ -79,6 +74,11 @@ fun PrimeSetScreen(padding: PaddingValues, primeFilter: PrimeFilter) {
                         style = MaterialTheme.typography.bodyLarge,
                         modifier = Modifier.fillMaxWidth().padding(16.dp)
                     )
+                }
+            } else {
+                items(primeList) { primeSet ->
+                    PrimeSetCard(primeSet, viewModel) { showDialog.value = primeSet.setName }
+                    Spacer(modifier = Modifier.padding(bottom = 8.dp))
                 }
             }
         }

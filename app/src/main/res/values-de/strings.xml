@@ -60,7 +60,7 @@
     <string name="overall">Gesamt</string>
     <string name="detailed">Detailliert</string>
     <string name="search_items_by_name">Suchen Sie nach Artikeln nach Namen</string>
-    <string name="tier_relics">Lith Relikte</string>
+    <string name="tier_relics">%1$s Relikte</string>
     <string name="forma_blueprint">Forma Blaupause</string>
     <string name="sync">Synchronisieren</string>
     <string name="help_content">%1$s:\n-Drücken Sie lange und schieben Sie eines der Elemente nach links/rechts, um alle Elemente innerhalb des Satzes zu aktivieren bzw. zu deaktivieren

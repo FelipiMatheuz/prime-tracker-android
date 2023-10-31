@@ -51,7 +51,7 @@
         \nSi le problème persiste, cliquez sur \"Copiez Erreur\" et envoyez un e-mail à l\'assistance.</string>
     <string name="connection_retry">Essayer à nouveau</string>
     <string name="checking_set_updates">Vérification des Mises à Jour des Ensembles…</string>
-    <string name="tier_relics">Reliques Lith</string>
+    <string name="tier_relics">Reliques %1$s</string>
     <string name="menu_overview">Aperçu</string>
     <string name="menu_prime_sets">Ensembles Prime</string>
     <string name="menu_other_prime">Autres Primes</string>

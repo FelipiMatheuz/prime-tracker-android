@@ -51,7 +51,7 @@
         \nSi el problema persiste, haga clic en \"Copiar error\" y envíe un correo electrónico a soporte.</string>
     <string name="connection_retry">Intentar otra vez</string>
     <string name="checking_set_updates">Comprobando Actualizaciones de los Sets…</string>
-    <string name="tier_relics">Reliquias Lith</string>
+    <string name="tier_relics">Reliquias %1$s</string>
     <string name="menu_overview">Descripción General</string>
     <string name="menu_prime_sets">Conjuntos Prime</string>
     <string name="menu_other_prime">Otros Primes</string>

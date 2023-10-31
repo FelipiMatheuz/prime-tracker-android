@@ -89,36 +89,6 @@ fun PrimeRelicTierUI(viewModel: RelicViewModel, relicTier: RelicTier, primeFilte
     }
     LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         val relicTierList = viewModel.getListTier(relicTier, primeFilter, searchText)
-        items(relicTierList) { relic ->
-            Column(
-                modifier = Modifier.clickable {
-                    showDialog = relic
-                }.background(color = Black.copy(0.1f), shape = RoundedCornerShape(5.dp))
-                    .padding(8.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = viewModel.getDisplayText(relic.name),
-                    color = if (relic.rewards.all { it.item.obtained }) {
-                        MaterialTheme.colorScheme.onSecondary.copy(0.5f)
-                    } else {
-                        MaterialTheme.colorScheme.onSecondary
-                    },
-                    textDecoration = if (relic.vaulted) {
-                        TextDecoration.LineThrough
-                    } else {
-                        null
-                    }
-                )
-                val quantity = relic.rewards.count { !it.item.obtained }
-                if (quantity > 0) {
-                    Text(text = "($quantity)")
-                }
-                if (viewModel.checkFormaAsReward(relic.rewards)) {
-                    Image(painterResource(R.drawable.ic_forma), contentDescription = null)
-                }
-            }
-        }
         if (relicTierList.isEmpty()) {
             item {
                 Text(
@@ -128,7 +98,39 @@ fun PrimeRelicTierUI(viewModel: RelicViewModel, relicTier: RelicTier, primeFilte
                     modifier = Modifier.fillMaxWidth().padding(16.dp)
                 )
             }
+        } else {
+            items(relicTierList) { relic ->
+                Column(
+                    modifier = Modifier.clickable {
+                        showDialog = relic
+                    }.background(color = Black.copy(0.1f), shape = RoundedCornerShape(5.dp))
+                        .padding(8.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = viewModel.getDisplayText(relic.name),
+                        color = if (relic.rewards.all { it.item.obtained }) {
+                            MaterialTheme.colorScheme.onSecondary.copy(0.5f)
+                        } else {
+                            MaterialTheme.colorScheme.onSecondary
+                        },
+                        textDecoration = if (relic.vaulted) {
+                            TextDecoration.LineThrough
+                        } else {
+                            null
+                        }
+                    )
+                    val quantity = relic.rewards.count { !it.item.obtained }
+                    if (quantity > 0) {
+                        Text(text = "($quantity)")
+                    }
+                    if (viewModel.checkFormaAsReward(relic.rewards)) {
+                        Image(painterResource(R.drawable.ic_forma), contentDescription = null)
+                    }
+                }
+            }
         }
+
     }
     if (showDialog != null) {
         RelicRewardsDialog(viewModel, relicTier, showDialog!!) { showDialog = null }

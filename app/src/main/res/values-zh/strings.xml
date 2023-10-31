@@ -51,7 +51,7 @@
         \n如果问题仍然存在，请单击“复制错误”并向支持人员发送电子邮件。</string>
     <string name="connection_retry">再试一次</string>
     <string name="checking_set_updates">检查集更新…</string>
-    <string name="tier_relics">Lith 文物</string>
+    <string name="tier_relics">%1$s 文物</string>
     <string name="menu_overview">概貌</string>
     <string name="menu_prime_sets">质数集</string>
     <string name="menu_other_prime">其他 Primes</string>

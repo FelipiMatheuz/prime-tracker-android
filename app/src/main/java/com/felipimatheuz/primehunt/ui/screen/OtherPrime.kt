@@ -63,10 +63,6 @@ fun OtherPrimeScreen(padding: PaddingValues, primeFilter: PrimeFilter) {
             item {
                 BannerAdView("Banner_Other")
             }
-            items(primeList) { primeItem ->
-                PrimeItemCard(primeItem, viewModel)
-                Spacer(modifier = Modifier.padding(bottom = 8.dp))
-            }
             if (primeList.isEmpty()) {
                 item {
                     Text(
@@ -75,6 +71,11 @@ fun OtherPrimeScreen(padding: PaddingValues, primeFilter: PrimeFilter) {
                         style = MaterialTheme.typography.bodyLarge,
                         modifier = Modifier.fillMaxWidth().padding(16.dp)
                     )
+                }
+            } else {
+                items(primeList) { primeItem ->
+                    PrimeItemCard(primeItem, viewModel)
+                    Spacer(modifier = Modifier.padding(bottom = 8.dp))
                 }
             }
         }
