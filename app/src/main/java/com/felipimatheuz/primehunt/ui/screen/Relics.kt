@@ -22,12 +22,12 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.felipimatheuz.primehunt.R
+import com.felipimatheuz.primehunt.business.util.PrimeFilter
 import com.felipimatheuz.primehunt.model.RelicSet
 import com.felipimatheuz.primehunt.model.RelicTier
 import com.felipimatheuz.primehunt.ui.component.RelicRewardsDialog
-import com.felipimatheuz.primehunt.ui.theme.WarframeprimehuntTheme
-import com.felipimatheuz.primehunt.business.util.PrimeFilter
 import com.felipimatheuz.primehunt.ui.theme.Black
+import com.felipimatheuz.primehunt.ui.theme.WarframeprimehuntTheme
 import com.felipimatheuz.primehunt.viewmodel.RelicViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -120,7 +120,7 @@ fun PrimeRelicTierUI(viewModel: RelicViewModel, relicTier: RelicTier, primeFilte
                             null
                         }
                     )
-                    val quantity = relic.rewards.count { !it.item.obtained }
+                    val quantity = viewModel.countRemainingItems(relic)
                     if (quantity > 0) {
                         Text(text = "($quantity)")
                     }

@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.model.RelicSet
@@ -38,7 +39,8 @@ fun RelicRewardsDialog(viewModel: RelicViewModel, relicTier: RelicTier, relicSet
                 relicSet.rewards.forEach { reward ->
                     Text(
                         viewModel.formatRelicItemReward(context, reward.item.name),
-                        color = viewModel.getColor(reward.chance)
+                        color = viewModel.getColor(reward.chance),
+                        fontWeight = if (reward.item.obtained) null else FontWeight.Bold
                     )
                 }
             }

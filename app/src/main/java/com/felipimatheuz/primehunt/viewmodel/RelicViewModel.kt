@@ -149,4 +149,8 @@ class RelicViewModel(context: Context) : ViewModel() {
     }
 
     fun getDisplayText(name: String) = name.substring(name.indexOf(" ") + 1)
+
+    fun countRemainingItems(relic: RelicSet): Int {
+        return relic.rewards.count { !it.item.obtained }
+    }
 }
