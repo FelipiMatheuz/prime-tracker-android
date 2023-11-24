@@ -40,7 +40,7 @@ fun RelicRewardsDialog(viewModel: RelicViewModel, relicTier: RelicTier, relicSet
                     Text(
                         viewModel.formatRelicItemReward(context, reward.item.name),
                         color = viewModel.getColor(reward.chance),
-                        fontWeight = if (reward.item.obtained) null else FontWeight.Bold
+                        fontWeight = if (reward.item.obtained) null else FontWeight.ExtraBold
                     )
                 }
             }
