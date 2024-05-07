@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Warframe Prime Hunt</string>
+    <string name="app_name" translatable="false">Prime Tracker</string>
 
     <!--Internet-->
     <string name="by_owner">by Cyberman Studios</string>

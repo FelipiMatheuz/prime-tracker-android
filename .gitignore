@@ -45,3 +45,5 @@ app/google-services.json
 /captures
 .externalNativeBuild
 .cxx
+/debug
+/release

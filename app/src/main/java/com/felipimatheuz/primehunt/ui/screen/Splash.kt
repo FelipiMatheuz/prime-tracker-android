@@ -22,6 +22,7 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.business.state.LoadState
+import com.felipimatheuz.primehunt.ui.component.AnimatedLoad
 import com.felipimatheuz.primehunt.ui.theme.WarframeprimehuntTheme
 import com.felipimatheuz.primehunt.viewmodel.SplashViewModel
 
@@ -37,7 +38,6 @@ fun SplashScreen(onReady: () -> Unit) {
         }, horizontalAlignment = Alignment.CenterHorizontally) {
             val viewModel: SplashViewModel = viewModel()
             val loadState = viewModel.loadState.collectAsState()
-
             when (loadState.value) {
                 LoadState.LoadRelic -> {
                     ShowLoading(R.string.loading_content)
@@ -84,10 +84,9 @@ fun SplashScreen(onReady: () -> Unit) {
     }
 }
 
-@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 private fun ShowLoading(textRes: Int) {
-    GlideImage(model = R.drawable.fx_loading, contentDescription = null)
+    AnimatedLoad()
     Text(
         text = stringResource(textRes), style = MaterialTheme.typography.labelLarge.copy(
             color = MaterialTheme.colorScheme.onSurface
