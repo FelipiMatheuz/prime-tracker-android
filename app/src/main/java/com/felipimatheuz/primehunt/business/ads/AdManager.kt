@@ -12,10 +12,10 @@ class AdManager {
 
     inner class UnityManager : IUnityAdsInitializationListener {
         fun initUnity(context: Context) {
-            if (!UnityAds.isInitialized()) {
+            if (!UnityAds.isInitialized) {
                 var testMode = false
                 if (BuildConfig.DEBUG) {
-                    UnityAds.setDebugMode(true)
+                    UnityAds.debugMode = true
                     testMode = true
                 }
                 UnityAds.initialize(context, "5401575", testMode, this)

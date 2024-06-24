@@ -47,3 +47,4 @@ app/google-services.json
 .cxx
 /debug
 /release
+/app/release

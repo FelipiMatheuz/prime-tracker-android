@@ -8,14 +8,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,20 +33,20 @@ import com.felipimatheuz.primehunt.business.util.*
 import com.felipimatheuz.primehunt.model.ItemComponent
 import com.felipimatheuz.primehunt.model.ItemPart
 import com.felipimatheuz.primehunt.model.PrimeItem
-import com.felipimatheuz.primehunt.ui.animation.AnimatedTransitionDialog
 import com.felipimatheuz.primehunt.ui.theme.Black
 import com.felipimatheuz.primehunt.ui.theme.WarframeprimehuntTheme
 import com.felipimatheuz.primehunt.viewmodel.PrimeSetDetailViewModel
+import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalGlideComposeApi::class)
+@OptIn(ExperimentalGlideComposeApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun PrimeSetDetailScreen(setName: String?, onBack: () -> Unit) {
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val scope = rememberCoroutineScope()
 
-    AnimatedTransitionDialog(onDismissRequest = onBack) { dialogHelper ->
+    ModalBottomSheet(onDismissRequest = onBack, sheetState = sheetState) {
         ConstraintLayout(
-            modifier = Modifier.fillMaxSize().background(
-                color = MaterialTheme.colorScheme.surface
-            )
+            modifier = Modifier.fillMaxSize()
         ) {
             val viewModel = PrimeSetDetailViewModel(LocalContext.current, setName)
             val primeSet by viewModel.primeSet.collectAsState()
@@ -82,16 +76,6 @@ fun PrimeSetDetailScreen(setName: String?, onBack: () -> Unit) {
                         ),
                     modifier = Modifier.align(Alignment.BottomCenter)
                 )
-                IconButton(
-                    onClick = { dialogHelper::triggerAnimatedDismiss.invoke() },
-                    modifier = Modifier.align(Alignment.TopEnd)
-                ) {
-                    Icon(
-                        painterResource(R.drawable.ic_cross),
-                        contentDescription = stringResource(R.string.close),
-                        tint = MaterialTheme.colorScheme.secondary
-                    )
-                }
             }
 
             Box(modifier = Modifier.constrainAs(lcPrimeSet) {
@@ -107,11 +91,11 @@ fun PrimeSetDetailScreen(setName: String?, onBack: () -> Unit) {
                     verticalArrangement = Arrangement.spacedBy(16.dp),
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    itemsIndexed(primeSet.primeItems) {index, it ->
-                        if(index == 0)
+                    itemsIndexed(primeSet.primeItems) { index, it ->
+                        if (index == 0)
                             Spacer(modifier = Modifier.padding(bottom = 8.dp))
                         PrimeItemUI(it, viewModel)
-                        if (index == primeSet.primeItems.size -1)
+                        if (index == primeSet.primeItems.size - 1)
                             Spacer(modifier = Modifier.padding(bottom = 8.dp))
                     }
                 }
