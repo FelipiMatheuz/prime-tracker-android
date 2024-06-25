@@ -92,4 +92,5 @@
     <string name="sync_imported">Importé Avec Succès</string>
     <string name="sync_exported">Exporté Avec Succès</string>
     <string name="copy_error">Copiez Erreur</string>
+    <string name="sync_sign_invalid">Informations d\'identification non valides</string>
 </resources>

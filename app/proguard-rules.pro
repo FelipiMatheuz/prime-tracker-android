@@ -4,6 +4,8 @@
     public <methods>;
     protected <methods>;
 }
+-if class androidx.credentials.CredentialManager
+-keep class androidx.credentials.playservices.** { *; }
 -keepnames class com.fasterxml.jackson.** { *; }
 -dontwarn com.fasterxml.jackson.databind.**
 -dontwarn android.adservices.AdServicesState

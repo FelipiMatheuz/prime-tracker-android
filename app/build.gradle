@@ -4,6 +4,8 @@ plugins {
     id 'com.google.gms.google-services'
 }
 
+apply from: project.rootProject.file("versions.gradle")
+
 android {
     compileSdk 34
 
@@ -11,8 +13,8 @@ android {
         applicationId "com.felipimatheuz.primehunt"
         minSdk 27
         targetSdk 34
-        versionCode 23
-        versionName "3.0.6"
+        versionCode project.versionCode
+        versionName project.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -87,6 +89,11 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore-ktx'
     implementation 'com.google.android.gms:play-services-auth:21.2.0'
     implementation 'com.google.android.play:app-update-ktx:2.1.0'
+    //credential manager
+    implementation "androidx.credentials:credentials:1.2.2"
+    implementation "androidx.credentials:credentials-play-services-auth:1.2.2"
+    implementation 'com.google.android.libraries.identity.googleid:googleid:1.1.0'
+
     //test/debug
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'

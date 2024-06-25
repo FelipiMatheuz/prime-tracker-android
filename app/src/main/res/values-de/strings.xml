@@ -92,4 +92,5 @@
     <string name="sync_imported">Erfolgreich Importiert</string>
     <string name="sync_exported">Erfolgreich Exportiert</string>
     <string name="copy_error">Kopierfehler</string>
+    <string name="sync_sign_invalid">Ungültige Anmeldeinformationen</string>
 </resources>

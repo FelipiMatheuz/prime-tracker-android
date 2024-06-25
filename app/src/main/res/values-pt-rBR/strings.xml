@@ -94,4 +94,5 @@
     <string name="sync_imported">Importado com Sucesso</string>
     <string name="sync_exported">Exportado com Sucesso</string>
     <string name="copy_error">Copiar Erro</string>
+    <string name="sync_sign_invalid">Credenciais inválidas</string>
 </resources>

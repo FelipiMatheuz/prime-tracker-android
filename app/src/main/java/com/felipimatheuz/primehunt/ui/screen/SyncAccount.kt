@@ -1,9 +1,5 @@
 package com.felipimatheuz.primehunt.ui.screen
 
-import android.app.Activity.RESULT_OK
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.IntentSenderRequest
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -22,12 +18,12 @@ import androidx.compose.ui.window.Dialog
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.business.external.GoogleAuth
+import com.felipimatheuz.primehunt.business.auth.GoogleCredential
 import com.felipimatheuz.primehunt.business.state.MenuDialogState
 import com.felipimatheuz.primehunt.business.state.SyncState
+import com.felipimatheuz.primehunt.model.UserData
 import com.felipimatheuz.primehunt.ui.theme.Low
 import com.felipimatheuz.primehunt.viewmodel.SyncViewModel
-import com.google.android.gms.auth.api.identity.Identity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -37,11 +33,8 @@ import kotlinx.coroutines.launch
 fun SyncAccountScreen(info: MenuDialogState, onBack: () -> Unit) {
     Dialog(onDismissRequest = {}) {
         val context = LocalContext.current
-        val googleAuth by lazy {
-            GoogleAuth(Identity.getSignInClient(context))
-        }
+        val googleCredential = GoogleCredential(context)
         val viewModel = SyncViewModel()
-        val launcher = resultSignInLauncher(googleAuth, viewModel)
         var error by remember { mutableStateOf(false) }
         val state by viewModel.state.collectAsState()
 
@@ -104,10 +97,10 @@ fun SyncAccountScreen(info: MenuDialogState, onBack: () -> Unit) {
                     modifier = Modifier.padding(8.dp)
                 )
             }
-            if (googleAuth.getSignedInUser() != null) {
+            if (googleCredential.getSignedInUser() != null) {
                 val (txtLogged, btnImport, btnExport, btnSignOut) = createRefs()
                 Text(
-                    text = stringResource(R.string.logged_user, googleAuth.getSignedInUser()!!.name ?: ""),
+                    text = stringResource(R.string.logged_user, googleCredential.getSignedInUser()!!.name ?: ""),
                     modifier = Modifier.constrainAs(txtLogged) {
                         top.linkTo(txtState.bottom, 16.dp)
                         start.linkTo(parent.start)
@@ -116,7 +109,7 @@ fun SyncAccountScreen(info: MenuDialogState, onBack: () -> Unit) {
                     })
                 OutlinedButton(onClick = {
                     CoroutineScope(Dispatchers.IO).launch {
-                        viewModel.importCheckList(context, googleAuth.getSignedInUser()!!.userId)
+                        viewModel.importCheckList(context, googleCredential.getSignedInUser()!!.userId)
                     }
                 }, modifier = Modifier.constrainAs(btnImport) {
                     top.linkTo(txtLogged.bottom, 8.dp)
@@ -126,7 +119,7 @@ fun SyncAccountScreen(info: MenuDialogState, onBack: () -> Unit) {
                 }
                 OutlinedButton(onClick = {
                     CoroutineScope(Dispatchers.IO).launch {
-                        viewModel.exportCheckList(context, googleAuth.getSignedInUser()!!.userId)
+                        viewModel.exportCheckList(context, googleCredential.getSignedInUser()!!.userId)
                     }
                 }, modifier = Modifier.constrainAs(btnExport) {
                     top.linkTo(txtLogged.bottom, 8.dp)
@@ -136,7 +129,7 @@ fun SyncAccountScreen(info: MenuDialogState, onBack: () -> Unit) {
                 }
                 Button(onClick = {
                     CoroutineScope(Dispatchers.IO).launch {
-                        googleAuth.signOut()
+                        googleCredential.signOut()
                         viewModel.logOut()
                     }
                 }, modifier = Modifier.constrainAs(btnSignOut) {
@@ -149,12 +142,7 @@ fun SyncAccountScreen(info: MenuDialogState, onBack: () -> Unit) {
                 val btnSignIn = createRef()
                 Button(onClick = {
                     CoroutineScope(Dispatchers.IO).launch {
-                        val signInIntentSender = googleAuth.signIn()
-                        launcher.launch(
-                            IntentSenderRequest.Builder(
-                                signInIntentSender ?: return@launch
-                            ).build()
-                        )
+                        viewModel.onSignInResult(googleCredential.signUpCredentialManager())
                     }
                 }, modifier = Modifier.constrainAs(btnSignIn) {
                     top.linkTo(txtState.bottom, 16.dp)
@@ -166,24 +154,6 @@ fun SyncAccountScreen(info: MenuDialogState, onBack: () -> Unit) {
         }
     }
 }
-
-@Composable
-private fun resultSignInLauncher(
-    googleAuth: GoogleAuth,
-    viewModel: SyncViewModel
-) = rememberLauncherForActivityResult(
-    contract = ActivityResultContracts.StartIntentSenderForResult(),
-    onResult = { result ->
-        if (result.resultCode == RESULT_OK) {
-            CoroutineScope(Dispatchers.IO).launch {
-                val signInResult = googleAuth.signInWithIntent(
-                    intent = result.data ?: return@launch
-                )
-                viewModel.onSignInResult(signInResult)
-            }
-        }
-    }
-)
 
 fun getNotificationState(state: SyncState, onSuccess: () -> Unit, onError: () -> Unit, reset: () -> Unit): Int? {
     CoroutineScope(Dispatchers.IO).launch {
