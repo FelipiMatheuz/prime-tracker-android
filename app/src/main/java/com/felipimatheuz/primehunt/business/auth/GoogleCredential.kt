@@ -39,7 +39,7 @@ class GoogleCredential(private val context: Context) {
         auth.signOut()
     }
 
-    suspend fun handleSignIn(result: GetCredentialResponse): SignInResult {
+    private suspend fun handleSignIn(result: GetCredentialResponse): SignInResult {
         when (val credential = result.credential) {
             is CustomCredential -> {
                 if (credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
@@ -53,9 +53,9 @@ class GoogleCredential(private val context: Context) {
                             }, errorMessage = null
                         )
                     } catch (e: GoogleIdTokenParsingException) {
-                        return SignInResult(null, e.message)
+                        return SignInResult(null, "${context.getString(R.string.sync_sign_error)} (2)")
                     } catch (e: CancellationException) {
-                        return SignInResult(null, e.message)
+                        return SignInResult(null, context.getString(R.string.sync_sign_cancel))
                     }
                 } else {
                     return SignInResult(null, context.getString(R.string.sync_sign_invalid))
@@ -76,7 +76,7 @@ class GoogleCredential(private val context: Context) {
             )
             return handleSignIn(result)
         } catch (e: GetCredentialException) {
-            return SignInResult(null, context.getString(R.string.sync_sign_error))
+            return SignInResult(null, "${context.getString(R.string.sync_sign_error)} (1)")
         }
     }
 }

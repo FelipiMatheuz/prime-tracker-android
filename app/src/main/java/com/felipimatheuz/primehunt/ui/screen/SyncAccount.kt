@@ -20,13 +20,10 @@ import androidx.constraintlayout.compose.Dimension
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.business.auth.GoogleCredential
 import com.felipimatheuz.primehunt.business.state.MenuDialogState
-import com.felipimatheuz.primehunt.business.state.SyncState
-import com.felipimatheuz.primehunt.model.UserData
 import com.felipimatheuz.primehunt.ui.theme.Low
 import com.felipimatheuz.primehunt.viewmodel.SyncViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
@@ -88,10 +85,8 @@ fun SyncAccountScreen(info: MenuDialogState, onBack: () -> Unit) {
                 end.linkTo(parent.end)
                 width = Dimension.fillToConstraints
             }.background(MaterialTheme.colorScheme.onSecondary.copy(0.3f), RoundedCornerShape(5.dp))) {
-                val notification =
-                    getNotificationState(state, { error = false }, { error = true }, { viewModel.resetState() })
                 Text(
-                    if (notification != null) stringResource(notification) else "",
+                    text = viewModel.getPromptMessage(context, state, { error = false }, { error = true }),
                     color = if (error) Low else MaterialTheme.colorScheme.primary,
                     fontFamily = FontFamily.Monospace,
                     modifier = Modifier.padding(8.dp)
@@ -152,40 +147,5 @@ fun SyncAccountScreen(info: MenuDialogState, onBack: () -> Unit) {
                 }
             }
         }
-    }
-}
-
-fun getNotificationState(state: SyncState, onSuccess: () -> Unit, onError: () -> Unit, reset: () -> Unit): Int? {
-    CoroutineScope(Dispatchers.IO).launch {
-        delay(1500)
-        reset()
-    }
-    return when (state) {
-        SyncState.SuccessSignIn -> {
-            onSuccess()
-            R.string.sync_signin_success
-        }
-
-        SyncState.SuccessSignOut -> {
-            onSuccess()
-            R.string.sync_signout_success
-        }
-
-        SyncState.SuccessImport -> {
-            onSuccess()
-            R.string.sync_imported
-        }
-
-        SyncState.SuccessExport -> {
-            onSuccess()
-            R.string.sync_exported
-        }
-
-        is SyncState.Error -> {
-            onError()
-            R.string.sync_sign_error
-        }
-
-        SyncState.None -> null
     }
 }

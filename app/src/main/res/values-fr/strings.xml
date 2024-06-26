@@ -88,9 +88,10 @@
     <string name="sync_export">Exporter des données</string>
     <string name="sync_signin_success">Connexion Réussie</string>
     <string name="sync_signout_success">Déconnexion Réussie</string>
-    <string name="sync_sign_error">Quelque chose s\'est mal passé. Veuillez réessayer.</string>
+    <string name="sync_sign_error">Quelque chose s\'est mal passé. Veuillez réessayer. (1)</string>
     <string name="sync_imported">Importé Avec Succès</string>
     <string name="sync_exported">Exporté Avec Succès</string>
     <string name="copy_error">Copiez Erreur</string>
     <string name="sync_sign_invalid">Informations d\'identification non valides</string>
+    <string name="sync_sign_cancel">Connexion annulée.</string>
 </resources>

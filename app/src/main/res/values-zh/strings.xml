@@ -88,9 +88,10 @@
     <string name="sync_export">导出数据</string>
     <string name="sync_signin_success">登录成功</string>
     <string name="sync_signout_success">退出成功</string>
-    <string name="sync_sign_error">" 出了些问题。请再试一次."</string>
+    <string name="sync_sign_error">" 出了些问题。请再试一次. (1)"</string>
     <string name="sync_imported">进口</string>
     <string name="sync_exported">出口</string>
     <string name="copy_error">复制错误</string>
     <string name="sync_sign_invalid">凭据无效</string>
+    <string name="sync_sign_cancel">连接已取消</string>
 </resources>

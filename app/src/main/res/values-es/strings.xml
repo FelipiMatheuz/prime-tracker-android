@@ -88,9 +88,10 @@
     <string name="sync_export">Exportar</string>
     <string name="sync_signin_success">Sesión Iniciada Exitosamente</string>
     <string name="sync_signout_success">Sesión Cerrada Exitosamente</string>
-    <string name="sync_sign_error">Algo salió mal. Inténtalo de nuevo.</string>
+    <string name="sync_sign_error">Algo salió mal. Inténtalo de nuevo. (1)</string>
     <string name="sync_imported">Importado Exitosamente</string>
     <string name="sync_exported">Exportado Exitosamente</string>
     <string name="copy_error">Copiar Error</string>
     <string name="sync_sign_invalid">Credenciales no válidas</string>
+    <string name="sync_sign_cancel">Conexión cancelada.</string>
 </resources>

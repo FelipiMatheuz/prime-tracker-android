@@ -115,5 +115,6 @@
     <string name="sync_signin_success">Sign In Successful</string>
     <string name="sync_signout_success">Sign Out Successful</string>
     <string name="sync_sign_error">Something went wrong. Please try again.</string>
+    <string name="sync_sign_cancel">Connection cancelled.</string>
     <string name="sync_sign_invalid">Invalid credentials</string>
 </resources>

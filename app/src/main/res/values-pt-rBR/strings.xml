@@ -90,9 +90,10 @@
     <string name="sync_export">Exportar</string>
     <string name="sync_signin_success">Logado com Sucesso</string>
     <string name="sync_signout_success">Deslogado com Sucesso</string>
-    <string name="sync_sign_error">Algo deu errado. Por favor, tente novamente.</string>
+    <string name="sync_sign_error">Algo deu errado. Por favor, tente novamente. (1)</string>
     <string name="sync_imported">Importado com Sucesso</string>
     <string name="sync_exported">Exportado com Sucesso</string>
     <string name="copy_error">Copiar Erro</string>
     <string name="sync_sign_invalid">Credenciais inválidas</string>
+    <string name="sync_sign_cancel">Conexão cancelada.</string>
 </resources>
