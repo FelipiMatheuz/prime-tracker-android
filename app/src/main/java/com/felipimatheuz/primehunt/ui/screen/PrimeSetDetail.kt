@@ -36,13 +36,11 @@ import com.felipimatheuz.primehunt.model.PrimeItem
 import com.felipimatheuz.primehunt.ui.theme.Black
 import com.felipimatheuz.primehunt.ui.theme.WarframeprimehuntTheme
 import com.felipimatheuz.primehunt.viewmodel.PrimeSetDetailViewModel
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalGlideComposeApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun PrimeSetDetailScreen(setName: String?, onBack: () -> Unit) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-    val scope = rememberCoroutineScope()
 
     ModalBottomSheet(onDismissRequest = onBack, sheetState = sheetState) {
         ConstraintLayout(

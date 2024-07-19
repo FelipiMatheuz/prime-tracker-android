@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 @Keep
 data class PrimeSet(
     @JsonProperty("imgLink")
-    var imgLink: String,
+    var imgLink: String = "",
     @JsonProperty("setName")
     var setName: String,
     @JsonProperty("primeItems")
