@@ -89,6 +89,7 @@ fun formatItemPartText(context: Context, part: ItemPart, quantity: Int?): String
         ItemPart.CHAIN -> R.string.comp_chain
         ItemPart.BRONCO -> R.string.bronco_prime
         ItemPart.LEX -> R.string.lex_prime
+        ItemPart.MAGNUS -> R.string.magnus_prime
         ItemPart.VASTO -> R.string.vasto_prime
     }
     val quantityText = if (quantity != null && quantity > 1) {
@@ -115,7 +116,7 @@ fun getItemPartIcon(part: ItemPart): Int {
         ItemPart.HARNESS -> R.drawable.prime_harness
         ItemPart.CIRCUIT -> R.drawable.prime_circuit
         ItemPart.WINGS -> R.drawable.prime_wings
-        ItemPart.BRONCO, ItemPart.LEX, ItemPart.VASTO -> R.drawable.ic_weapon
+        ItemPart.BRONCO, ItemPart.LEX, ItemPart.MAGNUS, ItemPart.VASTO -> R.drawable.ic_weapon
     }
 }
 

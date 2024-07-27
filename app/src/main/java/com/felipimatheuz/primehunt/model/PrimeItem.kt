@@ -67,5 +67,6 @@ enum class ItemPart {
     //special parts:
     BRONCO,
     LEX,
+    MAGNUS,
     VASTO
 }

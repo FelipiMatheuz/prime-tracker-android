@@ -60,6 +60,7 @@
     <!--Exclusive Components-->
     <string name="bronco_prime" translatable="false">Bronco Prime</string>
     <string name="lex_prime" translatable="false">Lex Prime</string>
+    <string name="magnus_prime" translatable="false">Magnus Prime</string>
     <string name="vasto_prime" translatable="false">Vasto Prime</string>
 
     <!--Menu items-->

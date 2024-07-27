@@ -34,7 +34,7 @@ class OtherPrimeViewModel(context: Context) : ViewModel() {
             primeItem.components.all { itemComponent -> itemComponent.obtained }
 
     fun hasAnotherPrimeItem(primeItem: PrimeItem) =
-        primeItem.components.any { it.part == ItemPart.VASTO || it.part == ItemPart.LEX || it.part == ItemPart.BRONCO }
+        primeItem.components.any { it.part == ItemPart.VASTO || it.part == ItemPart.LEX || it.part == ItemPart.MAGNUS || it.part == ItemPart.BRONCO }
 
     fun togglePrimeItemComp(primeItem: PrimeItem, primeItemComp: ItemComponent?) {
         otherPrimeData.togglePrimeItemComp(primeItem, primeItemComp)
