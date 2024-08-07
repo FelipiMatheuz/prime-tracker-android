@@ -2,8 +2,8 @@ package com.felipimatheuz.primehunt.business.resources
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
-import com.felipimatheuz.primehunt.business.util.apiSet
 import com.felipimatheuz.primehunt.business.util.getFieldName
+import com.felipimatheuz.primehunt.business.util.primeSetList
 import com.felipimatheuz.primehunt.model.ItemPart
 import com.felipimatheuz.primehunt.model.PrimeSet
 
@@ -17,11 +17,11 @@ class PrimeSetData(context: Context) {
     }
 
     fun getLocalData() = localData
-    fun getListSetData(): List<PrimeSet> = apiSet.getSetData().sortedByDescending { it.released }
+    fun getListSetData(): List<PrimeSet> = primeSetList.sortedByDescending { it.released }
 
-    fun getPrimeSetData(primeSetName: String): PrimeSet = apiSet.getSetData().first { it.setName == primeSetName }
+    fun getPrimeSetData(primeSetName: String): PrimeSet = primeSetList.first { it.setName == primeSetName }
     private fun updateApiData() {
-        apiSet.getSetData().forEach { primeSet ->
+        primeSetList.forEach { primeSet ->
             primeSet.primeItems.forEach { primeItem ->
                 val bpObtained = localData.getBoolean(getFieldName(primeSet, primeItem), false)
                 primeItem.blueprint = bpObtained

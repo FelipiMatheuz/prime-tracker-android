@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.business.ads.BannerAdView
+import com.felipimatheuz.primehunt.service.ads.BannerAdView
 import com.felipimatheuz.primehunt.ui.component.PrimeItemCard
 import com.felipimatheuz.primehunt.ui.theme.WarframeprimehuntTheme
 import com.felipimatheuz.primehunt.business.util.PrimeFilter

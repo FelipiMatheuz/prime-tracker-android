@@ -21,7 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.felipimatheuz.primehunt.BuildConfig
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.business.external.AppUpdate
+import com.felipimatheuz.primehunt.service.google.AppUpdate
 import com.felipimatheuz.primehunt.business.state.MenuDialogState
 
 @Composable

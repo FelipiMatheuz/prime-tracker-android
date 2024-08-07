@@ -3,7 +3,7 @@ package com.felipimatheuz.primehunt.viewmodel
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.business.external.Firestore
+import com.felipimatheuz.primehunt.service.google.Firestore
 import com.felipimatheuz.primehunt.business.state.SyncState
 import com.felipimatheuz.primehunt.model.SignInResult
 import kotlinx.coroutines.CoroutineScope
