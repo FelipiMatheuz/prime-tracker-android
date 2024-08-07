@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="by_owner">来自 Cyber​​manStudios</string>
+    <string name="by_owner">来自 Cyberman Studios</string>
     <string name="loading_content">加载外部内容…</string>
-    <string name="prime_set_template">ITEM Prime 套装</string>
+    <string name="prime_set_template">%1$s Prime 套装</string>
     <string name="status_resurgence">Varzia (再起)</string>
     <string name="comp_blueprint">蓝图</string>
     <string name="comp_blade">刀刃</string>
@@ -34,40 +34,64 @@
     <string name="comp_guard">把守</string>
     <string name="comp_boot">长靴</string>
     <string name="filter">筛选</string>
+    <string name="close">关闭</string>
     <string name="show_all">显示所有</string>
     <string name="available">可用的</string>
     <string name="unavailable">不可用</string>
     <string name="incomplete">不完整的</string>
     <string name="complete">完全的</string>
+    <string name="overall">整体</string>
+    <string name="detailed">详细的</string>
     <string name="search_items_by_name">按名称搜索项目</string>
     <string name="comp_chain">锒</string>
-    <string name="default_content_description">图标图像</string>
     <string name="status_baro">Baro (商人)</string>
     <string name="comp_link">连接</string>
     <string name="connection_failed">连接失败</string>
-    <string name="connection_failed_message">请检查您的互联网连接</string>
+    <string name="connection_failed_message">出了些问题。请检查您的互联网连接。
+        \n如果问题仍然存在，请单击“复制错误”并向支持人员发送电子邮件。</string>
     <string name="connection_retry">再试一次</string>
-    <string name="check_updates">正在检查更新…</string>
-    <string name="lith_relics">Lith 文物</string>
-    <string name="meso_relics">Meso 文物</string>
-    <string name="neo_relics">Neo 文物</string>
-    <string name="axi_relics">Axi 文物</string>
+    <string name="checking_set_updates">检查集更新…</string>
+    <string name="tier_relics">%1$s 文物</string>
+    <string name="menu_overview">概貌</string>
     <string name="menu_prime_sets">质数集</string>
     <string name="menu_other_prime">其他 Primes</string>
-    <string name="menu_relic_list">文物名录</string>
-    <string name="relic_template">ITEM 文物</string>
+    <string name="menu_relics">文物</string>
+    <string name="relic_template">%1$s 文物</string>
     <string name="forma_blueprint">Forma 蓝图</string>
+    <string name="overview_primary">初选</string>
+    <string name="overview_secondary">次要</string>
     <string name="help">帮助</string>
-    <string name="title_basics">如何使用</string>
-    <string name="basics_content">[MENU SET] / [MENU OTHER]：\n-长按其中一项可选中/取消选中该组中的所有项目\n-单击其中一项可查看详细信息\n\t单击主要组件进行标记/取消标记该项目\n-使用工具栏中的过滤器来简化搜索\n\n[MENU RELIC]：\n-单击文物以查看详细信息\n-删除的文物表明您已经拥有该文物提供的所有素数\n-点亮的文物表明它包含尚未获得的物品\n-遗物旁边的数字表示尚未获得的主要物品数量\n-使用工具栏中的过滤器来简化搜索</string>
-    <string name="overall_stats">总计：[T]\n进行中：[P]\n已完成：[C]</string>
-    <string name="warning_v3_title">新版本即将发布！</string>
-    <string name="warning_v3_message">全新界面，更多资源，更花哨！
-        \n\n随着该应用程序的用户数量和一些研究的增长，该应用程序将于 10 月更新（待定）。
-        \n所有应用程序都已重新审视，因此我有一些重要的注意事项：
-        \n-当版本发生变化时，您的进度将重新开始。因此，重要的是要记下一些有关转移到此新版本的进展的记录。
-        \n-结构已被重新设计以与其他设备同步（最终）进度，以便第一个主题中的推荐。此外，概览图现在有详细版本。
-        \n-应用程序 UI 发生了很大变化，但某些元素仍然熟悉（例如 Prime 设置卡）。我试图保持良好的视觉效果并改变不太好的地方。
-        \n-如果可能的话，加入测试版计划来测试新版本，并提出建议或报告问题。
-        \n\n感谢您对应用程序的支持！</string>
+    <string name="sync">同步</string>
+    <string name="help_content">%1$s:\n-长按并向左/右滑动其中一项以选中/取消选中（分别）集合中的所有项目
+        \n-单击其中一项以查看详细信息
+        \n\t单击 Prime 组件来标记/取消标记该项目\n-使用工具栏中的过滤器来简化搜索
+        \n\n%2$s:\n-点击其中一项上的箭头以查看详细信息
+        \n\t单击 Prime 组件来标记/取消标记该项目\n-使用工具栏中的过滤器来简化搜索
+        \n\n%3$s:\n-点击圣物查看详细信息
+        \n-禁用的文物表明您已经拥有该文物提供的所有 Primes
+        \n-启用的遗物表明它包含尚未获得的物品
+        \n-遗物旁边的数字表示尚未获得的Prime物品数量
+        \n-使用工具栏中的过滤器来简化搜索</string>
+    <string name="overall_stats">总计：%1$s\n进行中：%2$s\n已完成：%3$s</string>
+    <string name="rendering_content">渲染组件…</string>
+    <string name="about">关于</string>
+    <string name="about_content">应用版本：%1$s\n创建者：Cyberman Studios\n\n向 cyberman.studios@gmail.com 报告问题和建议</string>
+    <string name="no_results">" 未找到结果"</string>
+    <string name="overview_melee">近战</string>
+    <string name="overview_other">其他</string>
+    <string name="checking_other_updates">检查其他更新…</string>
+    <string name="sync_content">与其他设备同步您的进度.</string>
+    <string name="sync_sign_in">登入</string>
+    <string name="sync_sign_out">登出</string>
+    <string name="logged_user">记录为：%1$s</string>
+    <string name="sync_import">" 导入数据"</string>
+    <string name="sync_export">导出数据</string>
+    <string name="sync_signin_success">登录成功</string>
+    <string name="sync_signout_success">退出成功</string>
+    <string name="sync_sign_error">" 出了些问题。请再试一次. (1)"</string>
+    <string name="sync_imported">进口</string>
+    <string name="sync_exported">出口</string>
+    <string name="copy_error">复制错误</string>
+    <string name="sync_sign_invalid">凭据无效</string>
+    <string name="sync_sign_cancel">连接已取消</string>
 </resources>

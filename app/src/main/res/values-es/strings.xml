@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="by_owner">por CybermanStudios</string>
+    <string name="by_owner">por Cyberman Studios</string>
     <string name="loading_content">Cargando contenido externo…</string>
-    <string name="prime_set_template">Conjunto ITEM Prime</string>
+    <string name="prime_set_template">Set %1$s Prime</string>
     <string name="status_resurgence">Varzia (Resurgimiento)</string>
     <string name="comp_blueprint">Plano</string>
     <string name="comp_blade">Hoja</string>
@@ -34,40 +34,64 @@
     <string name="comp_guard">Escudo</string>
     <string name="comp_boot">Bota</string>
     <string name="filter">Filtrar</string>
+    <string name="close">Cerrar</string>
     <string name="show_all">Mostrar Todo</string>
     <string name="available">Disponible</string>
     <string name="unavailable">Indisponible</string>
     <string name="incomplete">Incompleto</string>
     <string name="complete">Completo</string>
+    <string name="overall">General</string>
+    <string name="detailed">Detalle</string>
     <string name="search_items_by_name">Buscar elementos por nombre</string>
     <string name="comp_chain">Cadena</string>
-    <string name="default_content_description">Imagen Ilustrativa</string>
     <string name="status_baro">Baro (Comerciante)</string>
     <string name="comp_link">Enlace</string>
     <string name="connection_failed">Conexión Fallida</string>
-    <string name="connection_failed_message">Por favor, revise su conexion a internet</string>
+    <string name="connection_failed_message">Algo salió mal. Por favor revise su conexion a internet.
+        \nSi el problema persiste, haga clic en \"Copiar error\" y envíe un correo electrónico a soporte.</string>
     <string name="connection_retry">Intentar otra vez</string>
-    <string name="check_updates">Comprobando Actualizaciones…</string>
-    <string name="lith_relics">Reliquias Lith</string>
-    <string name="meso_relics">Reliquias Meso</string>
-    <string name="neo_relics">Reliquias Neo</string>
-    <string name="axi_relics">Reliquias Axi</string>
+    <string name="checking_set_updates">Comprobando Actualizaciones de los Sets…</string>
+    <string name="tier_relics">Reliquias %1$s</string>
+    <string name="menu_overview">Descripción General</string>
     <string name="menu_prime_sets">Conjuntos Prime</string>
     <string name="menu_other_prime">Otros Primes</string>
-    <string name="menu_relic_list">Lista de reliquias</string>
-    <string name="relic_template">Reliquia ITEM</string>
+    <string name="menu_relics">Reliquias</string>
+    <string name="relic_template">Reliquia %1$s</string>
     <string name="forma_blueprint">Plano Forma</string>
+    <string name="overview_primary">Primaria</string>
+    <string name="overview_secondary">Secundaria</string>
     <string name="help">Ayuda</string>
-    <string name="title_basics">Cómo Utilizar</string>
-    <string name="basics_content">[MENU SET] / [MENU OTHER]:\n-Mantenga presionado uno de los elementos para marcar/desmarcar todos los elementos dentro del conjunto\n-Haga clic en uno de los elementos para ver los detalles\n\tHaga clic en un componente principal para marcar /desmarcar el elemento\n-Use el filtro en la barra de herramientas para facilitar su búsqueda\n\n[MENU RELIC]:\n-Haz clic en la reliquia para ver los detalles\n-Las reliquias eliminadas indican que ya tienes todos los primos que ofrece la reliquia\n-Las reliquias iluminadas indican que contiene elementos aún no obtenidos\n: el número junto a la reliquia indica cuántos elementos principales no se han obtenido\n-Use el filtro en la barra de herramientas para facilitar su búsqueda</string>
-    <string name="overall_stats">Total: [T]\nEn progreso: [P]\nCompletado: [C]</string>
-    <string name="warning_v3_title">¡Pronto se lanzará una nueva versión!</string>
-    <string name="warning_v3_message">¡Nueva interfaz, más recursos, más elegante!
-        \n\nA medida que la aplicación crezca en número de usuarios y algunas investigaciones, se actualizará en octubre (por determinar).
-        \nSe ha revisado toda la aplicación, por lo que tengo algunas notas importantes:
-        \n-Cuando la versión cambie, su progreso se reiniciará. Por lo tanto, es importante tomar algunas notas sobre su progresión para transferir a esta nueva versión.
-        \n-La estructura ha sido reelaborada para sincronizar (finalmente) el progreso con otros dispositivos, por lo que se mantiene la recomendación en el primer tema. Además, el gráfico general ahora tiene la versión detallada.
-        \n-La interfaz de usuario de la aplicación cambió mucho, pero algunos elementos siguen siendo familiares (como las tarjetas Prime Set). Intenté mantener las buenas imágenes y cambié donde no era tan bueno.
-        \n-Si es posible, únete al programa beta para probar la nueva versión y hacer sugerencias o informar problemas.
-        \n\n¡Gracias por apoyar la aplicación!</string>
+    <string name="sync">Sincronizar</string>
+    <string name="help_content">%1$s:\n-Mantenga presionado y deslice hacia la izquierda/derecha uno de los elementos para marcar/desmarcar (respectivamente) todos los elementos dentro del conjunto.
+        \n-Haga clic en uno de los elementos para ver detalles
+        \n\tHaga clic en un componente Prime para marcar/desmarcar el elemento\n-Utilice el filtro en la barra de herramientas para facilitar su búsqueda
+        \n\n%2$s:\n-Toca la flecha en uno de los elementos para ver detalles
+        \n\tHaga clic en un componente Prime para marcar/desmarcar el elemento\n-Utilice el filtro en la barra de herramientas para facilitar su búsqueda
+        \n\n%3$s:\n-Haga clic en la reliquia para ver los detalles
+        \n-Las reliquias deshabilitadas indican que ya tienes todos los elementos Prime que ofrece la reliquia
+        \n-Las reliquias habilitadas indican que contienen elementos que aún no se han obtenido
+        \n-El número al lado de la reliquia indica cuántos elementos Prime no se han obtenido
+        \n-Utilice el filtro en la barra de herramientas para facilitar su búsqueda</string>
+    <string name="overall_stats">Total: %1$s\nEn progreso: %2$s\nCompletado: %3$s</string>
+    <string name="rendering_content">Representando los componentes…</string>
+    <string name="about">Acerca</string>
+    <string name="about_content">Versión de la aplicación: %1$s\nCreado por: Cyberman Studios\n\nInformar problemas y sugerencias para cyberman.studios@gmail.com</string>
+    <string name="no_results">No se han encontrado resultados</string>
+    <string name="overview_melee">Pelea confusa</string>
+    <string name="overview_other">Otro</string>
+    <string name="checking_other_updates">Comprobando Otras Actualizaciones…</string>
+    <string name="sync_content">Sincroniza tu progreso con otros dispositivos.</string>
+    <string name="sync_sign_in">Conectar</string>
+    <string name="sync_sign_out">Desconectar</string>
+    <string name="logged_user">Registrado como: %1$s</string>
+    <string name="sync_import">Importar</string>
+    <string name="sync_export">Exportar</string>
+    <string name="sync_signin_success">Sesión Iniciada Exitosamente</string>
+    <string name="sync_signout_success">Sesión Cerrada Exitosamente</string>
+    <string name="sync_sign_error">Algo salió mal. Inténtalo de nuevo. (1)</string>
+    <string name="sync_imported">Importado Exitosamente</string>
+    <string name="sync_exported">Exportado Exitosamente</string>
+    <string name="copy_error">Copiar Error</string>
+    <string name="sync_sign_invalid">Credenciales no válidas</string>
+    <string name="sync_sign_cancel">Conexión cancelada.</string>
 </resources>

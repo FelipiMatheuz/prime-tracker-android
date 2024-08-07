@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="default_content_description">" Illustriertes Bild"</string>
     <string name="by_owner">von Cyberman Studios</string>
     <string name="loading_content">Externe Inhalte werden geladen…</string>
-    <string name="check_updates">Updates prüfen…</string>
+    <string name="checking_set_updates">Set-Updates prüfen…</string>
     <string name="connection_failed">Verbindung fehlgeschlagen</string>
-    <string name="connection_failed_message">Bitte überprüfe deine Internetverbindung</string>
+    <string name="connection_failed_message">Etwas ist schief gelaufen. Bitte überprüfe deine Internetverbindung.
+        \nWenn das Problem weiterhin besteht, klicken Sie auf \"Fehler kopiere\“ und senden Sie eine E-Mail an den Support.</string>
     <string name="connection_retry">Versuchen Sie es erneut</string>
-    <string name="prime_set_template">ITEM Prime Set</string>
-    <string name="relic_template">ITEM Relikt</string>
+    <string name="prime_set_template">%1$s Prime Set</string>
+    <string name="relic_template">%1$s Relikt</string>
     <string name="status_vault">Gewölbe</string>
     <string name="status_baro">Baro (Händler)</string>
     <string name="status_resurgence">Varzia (Wiederaufleben)</string>
@@ -43,31 +43,55 @@
     <string name="comp_boot">Stiefel</string>
     <string name="comp_chain">Kette</string>
     <string name="filter">Filter</string>
+    <string name="close">Schließen</string>
     <string name="show_all">Zeige Alles</string>
     <string name="available">Verfügbar</string>
     <string name="unavailable">Nicht Verfügbar</string>
     <string name="incomplete">Unvollständig</string>
     <string name="complete">Vollständig</string>
+    <string name="menu_overview">Überblick</string>
     <string name="menu_prime_sets">Prime Sets</string>
     <string name="menu_other_prime">Andere Primes</string>
-    <string name="menu_relic_list">Reliktliste</string>
+    <string name="menu_relics">Reliktes</string>
+    <string name="overview_primary">Primär</string>
+    <string name="overview_secondary">" Sekundär"</string>
     <string name="help">Helfen</string>
-    <string name="overall_stats">Gesamt: [T]\nIn Bearbeitung: [P]\nAbgeschlossen: [C]</string>
+    <string name="overall_stats">Gesamt: %1$s\nIn Bearbeitung: %2$s\nAbgeschlossen: %3$s</string>
+    <string name="overall">Gesamt</string>
+    <string name="detailed">Detailliert</string>
     <string name="search_items_by_name">Suchen Sie nach Artikeln nach Namen</string>
-    <string name="lith_relics">Lith Relikte</string>
-    <string name="meso_relics">Meso Relikte</string>
-    <string name="neo_relics">Neo Relikte</string>
-    <string name="axi_relics">Axi Relikte</string>
+    <string name="tier_relics">%1$s Relikte</string>
     <string name="forma_blueprint">Forma Blaupause</string>
-    <string name="title_basics">Wie Benutzt man</string>
-    <string name="basics_content">[MENU SET] / [MENU OTHER]:\n-Drücken Sie lange auf eines der Elemente, um alle Elemente im Set zu aktivieren/deaktivieren\n-Klicken Sie auf eines der Elemente, um Details anzuzeigen\n\tKlicken Sie auf eine Hauptkomponente, um sie zu markieren /Markierung des Elements aufheben\n-Verwenden Sie den Filter in der Symbolleiste, um Ihre Suche zu vereinfachen\n\n[MENU RELIC]:\n-Klicken Sie auf das Relikt, um die Details anzuzeigen\n-Deaktivierte Relikte zeigen an, dass Sie bereits alle Primzahlen haben dass das Relikt bietet\n-Aktivierte Relikte zeigen an, dass es Gegenstände enthält, die noch nicht erhalten wurden\n-Die Zahl neben dem Relikt gibt an, wie viele erstklassige Gegenstände noch nicht erhalten wurden\n-Verwenden Sie den Filter in der Symbolleiste, um Ihre Suche zu vereinfachen</string>
-    <string name="warning_v3_title">Neue Version wird bald veröffentlicht!</string>
-    <string name="warning_v3_message">Neue Benutzeroberfläche, mehr Ressourcen, schicker!
-        \n\nDa die App immer mehr Nutzer hat und einige Recherchen durchgeführt werden, wird die App bis Oktober (noch nicht bekannt) aktualisiert.
-        \nDie gesamte App wurde überarbeitet, daher habe ich einige wichtige Hinweise:
-        \n-Wenn sich die Version ändert, wird Ihr Fortschritt neu gestartet. Daher ist es wichtig, sich einige Notizen über Ihren Fortschritt bei der Umstellung auf diese neue Version zu machen.
-        \n-Die Struktur wurde überarbeitet, um (endlich) den Fortschritt mit anderen Geräten zu synchronisieren, sodass die Empfehlung im ersten Thema entspricht. Darüber hinaus verfügt das Übersichtsdiagramm jetzt über die detaillierte Version.
-        \n-Die Benutzeroberfläche der App hat sich stark verändert, aber einige Elemente sind immer noch bekannt (z. B. Prime-Set-Karten). Ich habe versucht, die gute Optik beizubehalten und habe dort gewechselt, wo es nicht so gut war.
-        \n-Wenn es möglich ist, nehmen Sie am Betaprogramm teil, um die neue Version zu testen und Vorschläge zu machen oder Probleme zu melden.
-        \n\nVielen Dank, dass Sie die App unterstützen!</string>
+    <string name="sync">Synchronisieren</string>
+    <string name="help_content">%1$s:\n-Drücken Sie lange und schieben Sie eines der Elemente nach links/rechts, um alle Elemente innerhalb des Satzes zu aktivieren bzw. zu deaktivieren
+        \n-Klicken Sie auf eines der Elemente, um Details anzuzeigen
+        \n\tKlicken Sie auf eine Prime-Komponente, um das Element zu markieren bzw. die Markierung aufzuheben\n-Verwenden Sie den Filter in der Symbolleiste, um Ihre Suche zu vereinfachen
+        \n\n%2$s:\n-Tippen Sie auf den Pfeil auf einem der Elemente, um Details anzuzeigen
+        \n\tKlicken Sie auf eine Prime-Komponente, um das Element zu markieren bzw. die Markierung aufzuheben.\n-Verwenden Sie den Filter in der Symbolleiste, um Ihre Suche zu vereinfachen
+        \n\n%3$s:\n-Klicken Sie auf das Relikt, um die Details anzuzeigen
+        \n-Deaktivierte Relikte zeigen an, dass Sie bereits über alle Primes verfügen, die das Relikt bietet
+        \n-Aktivierte Relikte zeigen an, dass sie Gegenstände enthalten, die noch nicht erhalten wurden
+        \n-Die Zahl neben dem Relikt gibt an, wie viele Prime-Gegenstände nicht erhalten wurden
+        \n-Verwenden Sie den Filter in der Symbolleiste, um Ihre Suche zu vereinfachen</string>
+    <string name="rendering_content">Rendern der Komponenten…</string>
+    <string name="about">Um</string>
+    <string name="about_content">App-version: %1$s\nErstellt von: Cyberman Studios\n\nMelden Sie Probleme und Vorschläge an cyberman.studios@gmail.com</string>
+    <string name="no_results">Keine Ergebnisse gefunden</string>
+    <string name="overview_melee">Nahkampf</string>
+    <string name="overview_other">Andere</string>
+    <string name="checking_other_updates">Andere Updates Prüfen…</string>
+    <string name="sync_content">Synchronisieren Sie Ihren Fortschritt mit anderen Geräten.</string>
+    <string name="sync_sign_in">Anmelden</string>
+    <string name="sync_sign_out">Abmelden</string>
+    <string name="logged_user">Angemeldet als: %1$s</string>
+    <string name="sync_import">Daten Importieren</string>
+    <string name="sync_export">Daten Exportieren</string>
+    <string name="sync_signin_success">Anmeldung Erfolgreich</string>
+    <string name="sync_signout_success">Abmeldung Erfolgreich</string>
+    <string name="sync_sign_error">Etwas ist schief gelaufen. Bitte versuche es erneut. (1)</string>
+    <string name="sync_imported">Erfolgreich Importiert</string>
+    <string name="sync_exported">Erfolgreich Exportiert</string>
+    <string name="copy_error">Kopierfehler</string>
+    <string name="sync_sign_invalid">Ungültige Anmeldeinformationen</string>
+    <string name="sync_sign_cancel">Verbindung abgebrochen.</string>
 </resources>
