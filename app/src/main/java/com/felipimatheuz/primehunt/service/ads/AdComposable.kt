@@ -11,7 +11,8 @@ import androidx.compose.ui.viewinterop.AndroidView
 
 @Composable
 fun BannerAdView(
-    bannerId: String
+    bannerId: String,
+    modifier: Modifier
 ) {
     val configuration = LocalConfiguration
     configuration.current.screenHeightDp
@@ -20,7 +21,7 @@ fun BannerAdView(
     var bannerAdLoaded by remember { mutableStateOf(false) }
     if (showBanner.value) {
         Box(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxWidth(),
             contentAlignment = Alignment.Center
         ) {

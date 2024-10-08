@@ -25,6 +25,7 @@ import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.business.util.PrimeFilter
 import com.felipimatheuz.primehunt.model.RelicSet
 import com.felipimatheuz.primehunt.model.RelicTier
+import com.felipimatheuz.primehunt.service.ads.BannerAdView
 import com.felipimatheuz.primehunt.ui.component.RelicRewardsDialog
 import com.felipimatheuz.primehunt.ui.theme.Black
 import com.felipimatheuz.primehunt.ui.theme.WarframeprimehuntTheme
@@ -36,7 +37,7 @@ fun RelicScreen(padding: PaddingValues, primeFilter: PrimeFilter) {
     val viewModel = RelicViewModel(LocalContext.current)
     ConstraintLayout(modifier = Modifier.padding(padding).fillMaxSize()) {
         var searchText by remember { mutableStateOf("") }
-        val (tfSearch, lgRelics) = createRefs()
+        val (tfSearch, banner, lcRelics) = createRefs()
         OutlinedTextField(
             value = searchText,
             singleLine = true,
@@ -59,9 +60,15 @@ fun RelicScreen(padding: PaddingValues, primeFilter: PrimeFilter) {
                 width = Dimension.fillToConstraints
             }
         )
+        BannerAdView(bannerId = "Banner_Set", modifier = Modifier.constrainAs(banner) {
+            top.linkTo(tfSearch.bottom, 8.dp)
+            start.linkTo(parent.start, 8.dp)
+            end.linkTo(parent.end, 8.dp)
+            width = Dimension.fillToConstraints
+        })
         LazyColumn(
-            modifier = Modifier.constrainAs(lgRelics) {
-                top.linkTo(tfSearch.bottom)
+            modifier = Modifier.constrainAs(lcRelics) {
+                top.linkTo(banner.bottom)
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
                 bottom.linkTo(parent.bottom)
