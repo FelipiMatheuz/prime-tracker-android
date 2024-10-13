@@ -39,22 +39,22 @@ fun SplashScreen(onReady: () -> Unit) {
             when (loadState.value) {
                 LoadState.LoadRelic -> {
                     ShowLoading(R.string.loading_content)
-                    viewModel.loadResource(R.string.loading_content)
+                    viewModel.loadResource()
                 }
 
                 LoadState.LoadSet -> {
                     ShowLoading(R.string.checking_set_updates)
-                    viewModel.loadResource(R.string.checking_set_updates)
+                    viewModel.loadResource()
                 }
 
                 LoadState.LoadOther -> {
                     ShowLoading(R.string.checking_other_updates)
-                    viewModel.loadResource(R.string.checking_other_updates)
+                    viewModel.loadResource()
                 }
 
                 is LoadState.Error -> {
                     val errorInfo = loadState.value as LoadState.Error
-                    ShowError(viewModel, errorInfo.lastTextRes, errorInfo.message)
+                    ShowError(viewModel, errorInfo.previousLoadState, errorInfo.message)
                 }
 
                 LoadState.Ready -> {
@@ -93,7 +93,7 @@ private fun ShowLoading(textRes: Int) {
 }
 
 @Composable
-private fun ShowError(viewModel: SplashViewModel, textRes: Int, message: String?) {
+private fun ShowError(viewModel: SplashViewModel, previousLoadState: LoadState, message: String?) {
     val context = LocalContext.current
     AlertDialog(
         onDismissRequest = {},
@@ -111,7 +111,7 @@ private fun ShowError(viewModel: SplashViewModel, textRes: Int, message: String?
         },
         confirmButton = {
             Button(onClick = {
-                viewModel.loadResource(textRes)
+                viewModel.loadResource(previousLoadState)
             }, content = {
                 Text(text = stringResource(R.string.connection_retry))
             })
