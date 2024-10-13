@@ -6,9 +6,9 @@ import com.fasterxml.jackson.annotation.JsonProperty
 @Keep
 data class RelicSet(
     @JsonProperty("name")
-    val name: String,
+    var name: String,
     @JsonProperty("rewards")
-    val rewards: List<Reward>,
+    var rewards: List<Reward>,
     @JsonProperty("vaulted")
     val vaulted: Boolean
 )

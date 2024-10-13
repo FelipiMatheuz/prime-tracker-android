@@ -18,7 +18,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.business.auth.GoogleCredential
+import com.felipimatheuz.primehunt.service.google.GoogleCredential
 import com.felipimatheuz.primehunt.business.state.MenuDialogState
 import com.felipimatheuz.primehunt.ui.theme.Low
 import com.felipimatheuz.primehunt.viewmodel.SyncViewModel

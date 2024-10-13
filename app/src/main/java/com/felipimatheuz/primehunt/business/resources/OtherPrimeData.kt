@@ -3,8 +3,8 @@ package com.felipimatheuz.primehunt.business.resources
 import android.content.Context
 import com.felipimatheuz.primehunt.model.ItemComponent
 import com.felipimatheuz.primehunt.model.PrimeItem
-import com.felipimatheuz.primehunt.business.util.apiOther
 import com.felipimatheuz.primehunt.business.util.getFieldName
+import com.felipimatheuz.primehunt.business.util.otherPrimeList
 
 class OtherPrimeData(context: Context) {
 
@@ -16,7 +16,7 @@ class OtherPrimeData(context: Context) {
     }
 
     private fun updateApiData() {
-        apiOther.getOtherData().forEach { primeItem ->
+        otherPrimeList.forEach { primeItem ->
             val bpObtained = localData.getBoolean(getFieldName(primeItem = primeItem), false)
             primeItem.blueprint = bpObtained
             val distComp = primeItem.components.distinctBy { it.part }
@@ -35,7 +35,7 @@ class OtherPrimeData(context: Context) {
     }
 
     fun getLocalData() = localData
-    fun getListOtherData(): List<PrimeItem> = apiOther.getOtherData().sortedBy { it.name }
+    fun getListOtherData(): List<PrimeItem> = otherPrimeList.sortedBy { it.name }
 
     fun setStatusItem(name: String, value: Boolean) {
         val editor = localData.edit()

@@ -121,7 +121,9 @@ fun getItemPartIcon(part: ItemPart): Int {
 }
 
 fun getRelicList(searchText: String): List<RelicSet> {
-    return apiRelic.getRelicPerItemComp(searchText).sortedBy { it.vaulted }
+    return relicList.filter {
+        it.rewards.any { reward -> reward.item.name.startsWith(searchText, true) }
+    }.sortedBy { it.vaulted }
 }
 
 fun getCompName(context: Context, primeItem: PrimeItem, comp: ItemComponent?): String {

@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.business.ads.BannerAdView
+import com.felipimatheuz.primehunt.service.ads.BannerAdView
 import com.felipimatheuz.primehunt.ui.component.PrimeItemCard
 import com.felipimatheuz.primehunt.ui.theme.WarframeprimehuntTheme
 import com.felipimatheuz.primehunt.business.util.PrimeFilter
@@ -28,7 +28,7 @@ fun OtherPrimeScreen(padding: PaddingValues, primeFilter: PrimeFilter) {
         val viewModel = OtherPrimeViewModel(LocalContext.current)
         val primeList by viewModel.otherPrimesFiltered.collectAsState()
         var searchText by remember { mutableStateOf("") }
-        val (tfSearch, lcOtherPrime) = createRefs()
+        val (tfSearch, banner, lcOtherPrime) = createRefs()
         OutlinedTextField(
             value = searchText,
             singleLine = true,
@@ -51,8 +51,14 @@ fun OtherPrimeScreen(padding: PaddingValues, primeFilter: PrimeFilter) {
                 width = Dimension.fillToConstraints
             }
         )
-        LazyColumn(modifier = Modifier.constrainAs(lcOtherPrime) {
+        BannerAdView(bannerId = "Banner_Set", modifier = Modifier.constrainAs(banner) {
             top.linkTo(tfSearch.bottom, 8.dp)
+            start.linkTo(parent.start, 8.dp)
+            end.linkTo(parent.end, 8.dp)
+            width = Dimension.fillToConstraints
+        })
+        LazyColumn(modifier = Modifier.constrainAs(lcOtherPrime) {
+            top.linkTo(banner.bottom, 8.dp)
             start.linkTo(parent.start, 8.dp)
             end.linkTo(parent.end, 8.dp)
             bottom.linkTo(parent.bottom)
@@ -60,9 +66,6 @@ fun OtherPrimeScreen(padding: PaddingValues, primeFilter: PrimeFilter) {
             height = Dimension.fillToConstraints
         }) {
             viewModel.filterOtherPrime(searchText, primeFilter)
-            item {
-                BannerAdView("Banner_Other")
-            }
             if (primeList.isEmpty()) {
                 item {
                     Text(

@@ -10,7 +10,7 @@ import com.felipimatheuz.primehunt.business.resources.OtherPrimeData
 import com.felipimatheuz.primehunt.business.resources.PrimeSetData
 import com.felipimatheuz.primehunt.model.*
 import com.felipimatheuz.primehunt.business.util.PrimeFilter
-import com.felipimatheuz.primehunt.business.util.apiRelic
+import com.felipimatheuz.primehunt.business.util.relicList
 import com.felipimatheuz.primehunt.business.util.translateComponent
 import com.felipimatheuz.primehunt.ui.theme.*
 
@@ -18,7 +18,7 @@ class RelicViewModel(context: Context) : ViewModel() {
     private val remainingList = searchList(context)
 
     fun getListTier(tier: RelicTier, primeFilter: PrimeFilter, searchText: String): List<RelicSet> {
-        var tierData = apiRelic.getRelicTier(tier, remainingList)
+        var tierData = getRelicTier(tier, remainingList)
         tierData = when (primeFilter) {
             PrimeFilter.AVAILABLE -> tierData.filter { !it.vaulted }
             PrimeFilter.UNAVAILABLE -> tierData.filter { it.vaulted }
@@ -142,6 +142,22 @@ class RelicViewModel(context: Context) : ViewModel() {
         } else {
             return context.getString(R.string.forma_blueprint)
         }
+    }
+
+    fun getRelicTier(tier: RelicTier, remainingList: List<String>): List<RelicSet> {
+        val dataRelic = relicList.filter { data -> data.name.startsWith(tier.name) }
+        for (data in dataRelic) {
+            for (reward in data.rewards) {
+                reward.item.obtained =
+                    !remainingList.any {
+                        reward.item.name.startsWith(
+                            it,
+                            true
+                        ) && reward.item.name != "Forma Blueprint"
+                    }
+            }
+        }
+        return dataRelic
     }
 
     fun checkFormaAsReward(rewards: List<Reward>): Boolean {

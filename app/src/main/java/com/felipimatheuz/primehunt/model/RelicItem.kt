@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 data class RelicItem(
     @JsonProperty("name")
     val name: String,
+    @JsonProperty("obtained")
     var obtained: Boolean = false
 )
 

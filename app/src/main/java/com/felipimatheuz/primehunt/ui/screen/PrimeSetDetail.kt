@@ -74,8 +74,18 @@ fun PrimeSetDetailScreen(setName: String?, onBack: () -> Unit) {
                         ),
                     modifier = Modifier.align(Alignment.BottomCenter)
                 )
-            }
 
+                IconButton(
+                    onClick = { onBack() },
+                    modifier = Modifier.align(Alignment.TopEnd)
+                ) {
+                    Icon(
+                        painterResource(R.drawable.ic_cross),
+                        contentDescription = stringResource(R.string.close),
+                        tint = MaterialTheme.colorScheme.secondary
+                    )
+                }
+            }
             Box(modifier = Modifier.constrainAs(lcPrimeSet) {
                 top.linkTo(header.bottom)
                 start.linkTo(parent.start, 8.dp)

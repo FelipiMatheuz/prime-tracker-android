@@ -15,8 +15,8 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.business.ads.AdManager
-import com.felipimatheuz.primehunt.business.ads.BannerAdView
+import com.felipimatheuz.primehunt.service.ads.AdManager
+import com.felipimatheuz.primehunt.service.ads.BannerAdView
 import com.felipimatheuz.primehunt.business.util.PrimeFilter
 import com.felipimatheuz.primehunt.ui.component.PrimeSetCard
 import com.felipimatheuz.primehunt.ui.theme.WarframeprimehuntTheme
@@ -30,7 +30,7 @@ fun PrimeSetScreen(padding: PaddingValues, primeFilter: PrimeFilter) {
         val primeList by viewModel.primeSetsFiltered.collectAsState()
         var searchText by remember { mutableStateOf("") }
         val showDialog = remember { mutableStateOf<String?>(null) }
-        val (tfSearch, lcPrimeSet) = createRefs()
+        val (tfSearch, banner, lcPrimeSet) = createRefs()
         AdManager().initialiseUnity(LocalContext.current)
         OutlinedTextField(
             value = searchText,
@@ -54,8 +54,14 @@ fun PrimeSetScreen(padding: PaddingValues, primeFilter: PrimeFilter) {
                 width = Dimension.fillToConstraints
             }
         )
-        LazyColumn(modifier = Modifier.constrainAs(lcPrimeSet) {
+        BannerAdView(bannerId = "Banner_Set", modifier = Modifier.constrainAs(banner) {
             top.linkTo(tfSearch.bottom, 8.dp)
+            start.linkTo(parent.start, 8.dp)
+            end.linkTo(parent.end, 8.dp)
+            width = Dimension.fillToConstraints
+        })
+        LazyColumn(modifier = Modifier.constrainAs(lcPrimeSet) {
+            top.linkTo(banner.bottom, 8.dp)
             start.linkTo(parent.start, 8.dp)
             end.linkTo(parent.end, 8.dp)
             bottom.linkTo(parent.bottom)
@@ -63,9 +69,6 @@ fun PrimeSetScreen(padding: PaddingValues, primeFilter: PrimeFilter) {
             height = Dimension.fillToConstraints
         }) {
             viewModel.filterPrimeSet(searchText, primeFilter)
-            item {
-                BannerAdView("Banner_Set")
-            }
             if (primeList.isEmpty()) {
                 item {
                     Text(
