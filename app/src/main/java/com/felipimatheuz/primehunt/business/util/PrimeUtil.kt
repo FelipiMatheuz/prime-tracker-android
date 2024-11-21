@@ -56,68 +56,12 @@ fun getCompCount(primeItem: PrimeItem): Map<ItemPart?, Int> {
 }
 
 fun formatItemPartText(context: Context, part: ItemPart, quantity: Int?): String {
-    val partText = when (part) {
-        ItemPart.NEUROPTICS -> R.string.comp_neuroptics
-        ItemPart.CHASSIS -> R.string.comp_chassis
-        ItemPart.SYSTEMS -> R.string.comp_systems
-        ItemPart.BLADE -> R.string.comp_blade
-        ItemPart.BARREL -> R.string.comp_barrel
-        ItemPart.DISC -> R.string.comp_disc
-        ItemPart.HANDLE -> R.string.comp_handle
-        ItemPart.ORNAMENT -> R.string.comp_ornament
-        ItemPart.RECEIVER -> R.string.comp_receiver
-        ItemPart.STOCK -> R.string.comp_stock
-        ItemPart.LINK -> R.string.comp_link
-        ItemPart.GAUNTLET -> R.string.comp_gauntlet
-        ItemPart.CEREBRUM -> R.string.comp_cerebrum
-        ItemPart.CARAPACE -> R.string.comp_carapace
-        ItemPart.POUCH -> R.string.comp_pouch
-        ItemPart.STARS -> R.string.comp_stars
-        ItemPart.HILT -> R.string.comp_hilt
-        ItemPart.HARNESS -> R.string.comp_harness
-        ItemPart.CIRCUIT -> R.string.comp_systems
-        ItemPart.WINGS -> R.string.comp_wings
-        ItemPart.BAND -> R.string.comp_band
-        ItemPart.BUCKLE -> R.string.comp_buckle
-        ItemPart.HEAD -> R.string.comp_head
-        ItemPart.GRIP -> R.string.comp_grip
-        ItemPart.STRING -> R.string.comp_string
-        ItemPart.LLIMB -> R.string.comp_llinb
-        ItemPart.ULIMB -> R.string.comp_ulimb
-        ItemPart.GUARD -> R.string.comp_guard
-        ItemPart.BOOT -> R.string.comp_boot
-        ItemPart.CHAIN -> R.string.comp_chain
-        ItemPart.BRONCO -> R.string.bronco_prime
-        ItemPart.LEX -> R.string.lex_prime
-        ItemPart.MAGNUS -> R.string.magnus_prime
-        ItemPart.VASTO -> R.string.vasto_prime
-    }
     val quantityText = if (quantity != null && quantity > 1) {
         " ${quantity}x"
     } else {
         ""
     }
-    return context.getString(partText).plus(quantityText)
-}
-
-fun getItemPartIcon(part: ItemPart): Int {
-    return when (part) {
-        ItemPart.NEUROPTICS, ItemPart.CEREBRUM -> R.drawable.prime_neuroptics
-        ItemPart.CHASSIS, ItemPart.CARAPACE -> R.drawable.prime_chassis
-        ItemPart.SYSTEMS -> R.drawable.prime_systems
-        ItemPart.BARREL -> R.drawable.prime_barrel
-        ItemPart.RECEIVER -> R.drawable.prime_receiver
-        ItemPart.STOCK, ItemPart.STRING, ItemPart.CHAIN -> R.drawable.prime_stock
-        ItemPart.BLADE, ItemPart.DISC, ItemPart.STARS, ItemPart.HEAD, ItemPart.ULIMB, ItemPart.LLIMB -> R.drawable.prime_blade
-        ItemPart.HANDLE, ItemPart.GAUNTLET, ItemPart.HILT -> R.drawable.prime_handle
-        ItemPart.LINK, ItemPart.ORNAMENT, ItemPart.BUCKLE -> R.drawable.prime_link
-        ItemPart.POUCH, ItemPart.BAND, ItemPart.GRIP -> R.drawable.prime_grip
-        ItemPart.GUARD, ItemPart.BOOT -> R.drawable.prime_guard
-        ItemPart.HARNESS -> R.drawable.prime_harness
-        ItemPart.CIRCUIT -> R.drawable.prime_circuit
-        ItemPart.WINGS -> R.drawable.prime_wings
-        ItemPart.BRONCO, ItemPart.LEX, ItemPart.MAGNUS, ItemPart.VASTO -> R.drawable.ic_weapon
-    }
+    return context.getString(part.text).plus(quantityText)
 }
 
 fun getRelicList(searchText: String): List<RelicSet> {
@@ -177,16 +121,6 @@ fun updateCompStatus(obtainedList: List<Boolean>): Int {
         R.drawable.progress_circle
     } else {
         R.drawable.check_circle
-    }
-}
-
-fun translateFilter(primeFilter: PrimeFilter): Int {
-    return when (primeFilter) {
-        PrimeFilter.SHOW_ALL -> R.string.show_all
-        PrimeFilter.COMPLETE -> R.string.complete
-        PrimeFilter.AVAILABLE -> R.string.available
-        PrimeFilter.INCOMPLETE -> R.string.incomplete
-        PrimeFilter.UNAVAILABLE -> R.string.unavailable
     }
 }
 

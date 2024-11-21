@@ -4,8 +4,20 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -20,18 +32,18 @@ import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.business.resources.AppSettings
 import com.felipimatheuz.primehunt.business.state.BottomNavItem
 import com.felipimatheuz.primehunt.business.state.MenuDialogState
+import com.felipimatheuz.primehunt.business.util.PrimeFilter
 import com.felipimatheuz.primehunt.ui.component.PrimeInfoDialog
 import com.felipimatheuz.primehunt.ui.screen.SyncAccountScreen
 import com.felipimatheuz.primehunt.ui.theme.WarframeprimehuntTheme
-import com.felipimatheuz.primehunt.business.util.PrimeFilter
-import com.felipimatheuz.primehunt.business.util.translateFilter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopToolbar(navController: NavHostController) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val item =
-        BottomNavItem.getList().firstOrNull { navBackStackEntry?.destination?.route == it.screenRoute }
+        BottomNavItem.getList()
+            .firstOrNull { navBackStackEntry?.destination?.route == it.screenRoute }
     var expanded by remember { mutableStateOf(false) }
     var showInfo by remember { mutableStateOf<MenuDialogState>(MenuDialogState.None) }
     val context = LocalContext.current
@@ -47,7 +59,9 @@ fun TopToolbar(navController: NavHostController) {
                             R.mipmap.ic_launcher_adaptive_fore
                         }
                     ), contentDescription = null,
-                    modifier = Modifier.size(40.dp).padding(end = 8.dp)
+                    modifier = Modifier
+                        .size(40.dp)
+                        .padding(end = 8.dp)
                 )
                 Text(
                     text = stringResource(
@@ -74,7 +88,8 @@ fun TopToolbar(navController: NavHostController) {
 
                 DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
                     if (item.title == R.string.menu_overview) {
-                        val dialogState = listOf(MenuDialogState.Help, MenuDialogState.Info, MenuDialogState.Sync)
+                        val dialogState =
+                            listOf(MenuDialogState.Help, MenuDialogState.Info, MenuDialogState.Sync)
                         dialogState.forEach {
                             DropdownMenuItem(
                                 leadingIcon = {
@@ -91,7 +106,7 @@ fun TopToolbar(navController: NavHostController) {
                             )
                         }
                     } else {
-                        var filterState = PrimeFilter.values()
+                        var filterState = PrimeFilter.entries.toTypedArray()
                         if (item.icon == R.drawable.ic_lato_prime) {
                             filterState =
                                 filterState.filter { it != PrimeFilter.AVAILABLE && it != PrimeFilter.UNAVAILABLE }
@@ -99,11 +114,16 @@ fun TopToolbar(navController: NavHostController) {
                         }
                         filterState.forEach {
                             DropdownMenuItem(
-                                text = { Text(text = stringResource(translateFilter(it))) },
+                                text = { Text(text = stringResource(it.text)) },
                                 onClick = {
                                     expanded = false
                                     AppSettings(context).setPrimeFilter(item.filter, it)
-                                    navController.navigate(item.screenRoute.replace("{filter}", it.toString()))
+                                    navController.navigate(
+                                        item.screenRoute.replace(
+                                            "{filter}",
+                                            it.toString()
+                                        )
+                                    )
                                 }
                             )
                         }
@@ -111,7 +131,7 @@ fun TopToolbar(navController: NavHostController) {
                 }
             }
         },
-        colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = MaterialTheme.colorScheme.primary)
+        colors = topAppBarColors(containerColor = MaterialTheme.colorScheme.primary)
     )
     if (showInfo == MenuDialogState.Sync) {
         SyncAccountScreen(showInfo) { showInfo = MenuDialogState.None }

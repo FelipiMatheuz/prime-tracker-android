@@ -161,11 +161,7 @@ private fun PrimeComponentsUI(
             }
             Image(
                 painter = painterResource(
-                    if (comp != null) {
-                        getItemPartIcon(comp.part)
-                    } else {
-                        R.drawable.prime_blueprint
-                    }
+                    comp?.part?.icon ?: R.drawable.prime_blueprint
                 ),
                 contentDescription = if (comp != null) {
                     formatItemPartText(context, comp.part, compCount[comp.part])

@@ -144,7 +144,7 @@ class RelicViewModel(context: Context) : ViewModel() {
         }
     }
 
-    fun getRelicTier(tier: RelicTier, remainingList: List<String>): List<RelicSet> {
+    private fun getRelicTier(tier: RelicTier, remainingList: List<String>): List<RelicSet> {
         val dataRelic = relicList.filter { data -> data.name.startsWith(tier.name) }
         for (data in dataRelic) {
             for (reward in data.rewards) {
