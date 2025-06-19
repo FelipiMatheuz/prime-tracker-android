@@ -16,7 +16,7 @@ This is also a **public open-source project** aimed at continuous improvement th
 
 - Check your progress with all Primes in game
 - Fast item search and filtering
-- See what relics are "worth" to farm the remaing itens
+- See what relics are "worth" to farm the remaining items
 - Sync your progress in cloud (requires Google Account)
 
 ---
