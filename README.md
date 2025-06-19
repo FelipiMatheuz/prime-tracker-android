@@ -6,7 +6,7 @@
 
 ## ✨ Overview
 
-**Prime Tracker** (previously **Warframe Prime Hunt**) is a native Android app designed for **inventory control and item tracking**. It's a simple tool built with offline usability and user-friendliness in mind — created to ease tracking down this itens.
+**Prime Tracker** (previously **Warframe Prime Hunt**) is a native Android app designed for **inventory control and item tracking**. It's a simple tool built with offline usability and user-friendliness in mind — created to ease tracking down these items.
 
 This is also a **public open-source project** aimed at continuous improvement through community collaboration.
 
