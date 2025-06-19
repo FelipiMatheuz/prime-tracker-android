@@ -30,7 +30,7 @@ This is also a **public open-source project** aimed at continuous improvement th
   - Android Jetpack (Compose, Navigation)
   - Android X (LiveData, ViewModel)
   - Glide (image loading)
-  - Firebase (Auth, FireStore)
+  - Firebase (Auth, Firestore)
   - Material Components
   - Retrofit (API calls)
 - **Min SDK:** Android 8.1 (API 27)
