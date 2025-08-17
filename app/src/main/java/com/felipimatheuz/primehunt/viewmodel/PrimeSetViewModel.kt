@@ -1,19 +1,24 @@
 package com.felipimatheuz.primehunt.viewmodel
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.model.PrimeSet
-import com.felipimatheuz.primehunt.model.PrimeStatus
 import com.felipimatheuz.primehunt.business.resources.PrimeSetData
 import com.felipimatheuz.primehunt.business.util.PrimeFilter
+import com.felipimatheuz.primehunt.model.PrimeSet
+import com.felipimatheuz.primehunt.model.PrimeStatus
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import javax.inject.Inject
 
-class PrimeSetViewModel(context: Context) : ViewModel() {
+@HiltViewModel
+class PrimeSetViewModel @Inject constructor(private val primeSetData: PrimeSetData) : ViewModel() {
 
-    private val primeSetData = PrimeSetData(context)
-    private val primeSets = primeSetData.getListSetData()
+    private var primeSets = primeSetData.getListSetData()
     val primeSetsFiltered = MutableStateFlow(primeSets)
+
+    fun refreshData() {
+        primeSets = primeSetData.getListSetData()
+    }
 
     fun getStatusTextRes(status: PrimeStatus): Int {
         val statusText = when (status) {

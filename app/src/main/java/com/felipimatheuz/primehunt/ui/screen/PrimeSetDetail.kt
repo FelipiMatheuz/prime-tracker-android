@@ -26,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.felipimatheuz.primehunt.R
@@ -39,14 +40,21 @@ import com.felipimatheuz.primehunt.viewmodel.PrimeSetDetailViewModel
 
 @OptIn(ExperimentalGlideComposeApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun PrimeSetDetailScreen(setName: String?, onBack: () -> Unit) {
+fun PrimeSetDetailScreen(
+    setName: String,
+    onBack: () -> Unit,
+    viewModel: PrimeSetDetailViewModel = hiltViewModel(
+        key = setName
+    ) { factory: PrimeSetDetailViewModel.Factory ->
+        factory.create(setName)
+    }
+) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     ModalBottomSheet(onDismissRequest = onBack, sheetState = sheetState) {
         ConstraintLayout(
             modifier = Modifier.fillMaxSize()
         ) {
-            val viewModel = PrimeSetDetailViewModel(LocalContext.current, setName)
             val primeSet by viewModel.primeSet.collectAsState()
             val (header, lcPrimeSet) = createRefs()
 
@@ -174,18 +182,21 @@ private fun PrimeComponentsUI(
                     end.linkTo(parent.end)
                 }
             )
-            Text(text = if (comp != null) {
-                formatItemPartText(context, comp.part, compCount[comp.part])
-            } else {
-                stringResource(R.string.comp_blueprint)
-            },
+            Text(
+                text = if (comp != null) {
+                    formatItemPartText(context, comp.part, compCount[comp.part])
+                } else {
+                    stringResource(R.string.comp_blueprint)
+                },
                 modifier = Modifier.constrainAs(txtComp) {
                     top.linkTo(imgComp.bottom, 8.dp)
                     start.linkTo(parent.start, 8.dp)
                     end.linkTo(parent.end, 8.dp)
                 })
         }
-        Column(modifier = Modifier.background(Black.copy(0.1f)).padding(8.dp)) {
+        Column(modifier = Modifier
+            .background(Black.copy(0.1f))
+            .padding(8.dp)) {
             val searchText = getCompName(context, primeItem, comp)
             val relicList = getRelicList(searchText)
             relicList.forEach { relic ->
@@ -204,6 +215,6 @@ private fun PrimeComponentsUI(
 @Composable
 fun PrimeSetDetailScreenPreview() {
     PrimeTrackerTheme {
-        PrimeSetDetailScreen("Wisp") {}
+        PrimeSetDetailScreen("Wisp", {})
     }
 }

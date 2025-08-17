@@ -5,8 +5,12 @@ import com.felipimatheuz.primehunt.model.ItemComponent
 import com.felipimatheuz.primehunt.model.PrimeItem
 import com.felipimatheuz.primehunt.business.util.getFieldName
 import com.felipimatheuz.primehunt.business.util.otherPrimeList
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class OtherPrimeData(context: Context) {
+@Singleton
+class OtherPrimeData @Inject constructor(@ApplicationContext context: Context) {
 
     private val localData = context.getSharedPreferences("OTHER_PRIME_DATA", Context.MODE_PRIVATE)
 

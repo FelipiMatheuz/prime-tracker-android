@@ -1,18 +1,21 @@
 package com.felipimatheuz.primehunt.viewmodel
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
-import com.felipimatheuz.primehunt.model.ItemComponent
-import com.felipimatheuz.primehunt.model.ItemPart
-import com.felipimatheuz.primehunt.model.PrimeItem
 import com.felipimatheuz.primehunt.business.resources.OtherPrimeData
 import com.felipimatheuz.primehunt.business.util.PrimeFilter
 import com.felipimatheuz.primehunt.business.util.updateCompStatus
+import com.felipimatheuz.primehunt.model.ItemComponent
+import com.felipimatheuz.primehunt.model.ItemPart
+import com.felipimatheuz.primehunt.model.PrimeItem
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import javax.inject.Inject
 
-class OtherPrimeViewModel(context: Context) : ViewModel() {
+@HiltViewModel
+class OtherPrimeViewModel @Inject constructor(
+    private val otherPrimeData: OtherPrimeData
+) : ViewModel() {
 
-    private val otherPrimeData = OtherPrimeData(context)
     private val primeItems = otherPrimeData.getListOtherData()
     val otherPrimesFiltered = MutableStateFlow(primeItems)
 

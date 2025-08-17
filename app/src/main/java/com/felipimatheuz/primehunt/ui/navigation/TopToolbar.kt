@@ -134,9 +134,9 @@ fun TopToolbar(navController: NavHostController) {
         colors = topAppBarColors(containerColor = MaterialTheme.colorScheme.primary)
     )
     if (showInfo == MenuDialogState.Sync) {
-        SyncAccountScreen(showInfo) { showInfo = MenuDialogState.None }
+        SyncAccountScreen(showInfo, { showInfo = MenuDialogState.None })
     } else if (showInfo != MenuDialogState.None) {
-        PrimeInfoDialog(showInfo) { showInfo = MenuDialogState.None }
+        PrimeInfoDialog(showInfo, { showInfo = MenuDialogState.None })
     }
 }
 

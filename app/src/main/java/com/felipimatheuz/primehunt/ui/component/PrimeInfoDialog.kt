@@ -15,17 +15,21 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.felipimatheuz.primehunt.BuildConfig
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.service.google.AppUpdate
 import com.felipimatheuz.primehunt.business.state.MenuDialogState
+import com.felipimatheuz.primehunt.viewmodel.PrimeInfoViewModel
 
 @Composable
-fun PrimeInfoDialog(menuDialogState: MenuDialogState, dismiss: () -> Unit) {
+fun PrimeInfoDialog(
+    menuDialogState: MenuDialogState,
+    dismiss: () -> Unit,
+    viewModel: PrimeInfoViewModel = hiltViewModel()
+) {
     AlertDialog(
         onDismissRequest = { dismiss() },
         title = {
@@ -44,7 +48,7 @@ fun PrimeInfoDialog(menuDialogState: MenuDialogState, dismiss: () -> Unit) {
                     if (menuDialogState.title == R.string.help) {
                         stringResource(R.string.menu_prime_sets)
                     } else {
-                        val update by AppUpdate(LocalContext.current).updateState.collectAsState()
+                        val update by viewModel.updateState.collectAsState()
                         BuildConfig.VERSION_NAME.plus(
                             if (update) {
                                 "*"
