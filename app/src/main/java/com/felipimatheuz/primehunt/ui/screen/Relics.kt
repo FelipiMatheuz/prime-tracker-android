@@ -28,7 +28,7 @@ import com.felipimatheuz.primehunt.model.RelicTier
 import com.felipimatheuz.primehunt.service.ads.BannerAdView
 import com.felipimatheuz.primehunt.ui.component.RelicRewardsDialog
 import com.felipimatheuz.primehunt.ui.theme.Black
-import com.felipimatheuz.primehunt.ui.theme.WarframeprimehuntTheme
+import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
 import com.felipimatheuz.primehunt.viewmodel.RelicViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -77,7 +77,7 @@ fun RelicScreen(padding: PaddingValues, primeFilter: PrimeFilter) {
             }.padding(8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            items(RelicTier.values()) {
+            items(RelicTier.entries.toTypedArray()) {
                 PrimeRelicTierUI(viewModel, it, primeFilter, searchText)
             }
         }
@@ -147,7 +147,7 @@ fun PrimeRelicTierUI(viewModel: RelicViewModel, relicTier: RelicTier, primeFilte
 @Preview
 @Composable
 fun RelicScreenPreview() {
-    WarframeprimehuntTheme {
+    PrimeTrackerTheme {
         RelicScreen(PaddingValues(10.dp), PrimeFilter.SHOW_ALL)
     }
 }

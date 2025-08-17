@@ -19,7 +19,7 @@ import com.felipimatheuz.primehunt.service.ads.AdManager
 import com.felipimatheuz.primehunt.service.ads.BannerAdView
 import com.felipimatheuz.primehunt.business.util.PrimeFilter
 import com.felipimatheuz.primehunt.ui.component.PrimeSetCard
-import com.felipimatheuz.primehunt.ui.theme.WarframeprimehuntTheme
+import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
 import com.felipimatheuz.primehunt.viewmodel.PrimeSetViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -94,7 +94,7 @@ fun PrimeSetScreen(padding: PaddingValues, primeFilter: PrimeFilter) {
 @Preview
 @Composable
 fun PrimeSetScreenPreview() {
-    WarframeprimehuntTheme {
+    PrimeTrackerTheme {
         PrimeSetScreen(PaddingValues(10.dp), PrimeFilter.SHOW_ALL)
     }
 }

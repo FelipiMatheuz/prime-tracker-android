@@ -12,13 +12,12 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.ui.theme.WarframeprimehuntTheme
+import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
 
 @Composable
 fun AnimatedLoad() {
@@ -101,7 +100,7 @@ private fun PieceImage(modifier: Modifier, colorFilter: ColorFilter) {
 @Preview(widthDp = 150, heightDp = 150)
 @Composable
 fun AnimatedLoadPreview() {
-    WarframeprimehuntTheme {
+    PrimeTrackerTheme {
         AnimatedLoad()
     }
 }

@@ -34,7 +34,7 @@ import com.felipimatheuz.primehunt.model.ItemComponent
 import com.felipimatheuz.primehunt.model.ItemPart
 import com.felipimatheuz.primehunt.model.PrimeItem
 import com.felipimatheuz.primehunt.ui.theme.Black
-import com.felipimatheuz.primehunt.ui.theme.WarframeprimehuntTheme
+import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
 import com.felipimatheuz.primehunt.viewmodel.PrimeSetDetailViewModel
 
 @OptIn(ExperimentalGlideComposeApi::class, ExperimentalMaterial3Api::class)
@@ -203,7 +203,7 @@ private fun PrimeComponentsUI(
 @Preview
 @Composable
 fun PrimeSetDetailScreenPreview() {
-    WarframeprimehuntTheme {
+    PrimeTrackerTheme {
         PrimeSetDetailScreen("Wisp") {}
     }
 }

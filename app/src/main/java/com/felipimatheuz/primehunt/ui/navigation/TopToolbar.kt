@@ -35,7 +35,7 @@ import com.felipimatheuz.primehunt.business.state.MenuDialogState
 import com.felipimatheuz.primehunt.business.util.PrimeFilter
 import com.felipimatheuz.primehunt.ui.component.PrimeInfoDialog
 import com.felipimatheuz.primehunt.ui.screen.SyncAccountScreen
-import com.felipimatheuz.primehunt.ui.theme.WarframeprimehuntTheme
+import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -144,7 +144,7 @@ fun TopToolbar(navController: NavHostController) {
 @Preview
 @Composable
 fun TopToolbarPreview() {
-    WarframeprimehuntTheme {
+    PrimeTrackerTheme {
         TopToolbar(rememberNavController())
     }
 }

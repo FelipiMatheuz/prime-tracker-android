@@ -21,7 +21,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.model.PrimeType
 import com.felipimatheuz.primehunt.ui.component.PrimeChart
-import com.felipimatheuz.primehunt.ui.theme.WarframeprimehuntTheme
+import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
 import com.felipimatheuz.primehunt.viewmodel.OverViewModel
 
 
@@ -123,7 +123,7 @@ fun OverviewScreen(padding: PaddingValues, update: Boolean, changeUpdate: () -> 
 @Preview
 @Composable
 fun OverviewScreenPreview() {
-    WarframeprimehuntTheme {
+    PrimeTrackerTheme {
         OverviewScreen(PaddingValues(10.dp), false) { }
     }
 }

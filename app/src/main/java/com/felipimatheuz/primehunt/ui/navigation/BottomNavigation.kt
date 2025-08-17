@@ -17,7 +17,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.felipimatheuz.primehunt.business.resources.AppSettings
 import com.felipimatheuz.primehunt.business.state.BottomNavItem
-import com.felipimatheuz.primehunt.ui.theme.WarframeprimehuntTheme
+import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
 
 @Composable
 fun BottomNav(navController: NavController) {
@@ -64,7 +64,7 @@ fun BottomNav(navController: NavController) {
 @Preview
 @Composable
 fun BottoMNavPreview() {
-    WarframeprimehuntTheme {
+    PrimeTrackerTheme {
         BottomNav(rememberNavController())
     }
 }

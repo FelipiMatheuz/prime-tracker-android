@@ -21,7 +21,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.business.state.LoadState
 import com.felipimatheuz.primehunt.ui.component.AnimatedLoad
-import com.felipimatheuz.primehunt.ui.theme.WarframeprimehuntTheme
+import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
 import com.felipimatheuz.primehunt.viewmodel.SplashViewModel
 
 @Composable
@@ -140,7 +140,7 @@ private fun ShowError(viewModel: SplashViewModel, previousLoadState: LoadState, 
 @Preview
 @Composable
 fun SplashScreenPreview() {
-    WarframeprimehuntTheme {
+    PrimeTrackerTheme {
         SplashScreen {}
     }
 }

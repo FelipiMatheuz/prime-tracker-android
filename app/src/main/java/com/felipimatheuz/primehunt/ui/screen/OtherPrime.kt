@@ -17,7 +17,7 @@ import androidx.constraintlayout.compose.Dimension
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.service.ads.BannerAdView
 import com.felipimatheuz.primehunt.ui.component.PrimeItemCard
-import com.felipimatheuz.primehunt.ui.theme.WarframeprimehuntTheme
+import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
 import com.felipimatheuz.primehunt.business.util.PrimeFilter
 import com.felipimatheuz.primehunt.viewmodel.OtherPrimeViewModel
 
@@ -88,7 +88,7 @@ fun OtherPrimeScreen(padding: PaddingValues, primeFilter: PrimeFilter) {
 @Preview
 @Composable
 fun OtherPrimeScreenPreview() {
-    WarframeprimehuntTheme {
+    PrimeTrackerTheme {
         OtherPrimeScreen(PaddingValues(10.dp), PrimeFilter.SHOW_ALL)
     }
 }
