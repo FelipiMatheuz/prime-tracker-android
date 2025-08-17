@@ -21,7 +21,7 @@ fun NavigationGraph(navController: NavHostController, padding: PaddingValues) {
     var updateState by rememberSaveable { mutableStateOf(true) }
     NavHost(navController = navController, startDestination = BottomNavItem.Overview.screenRoute) {
         composable(BottomNavItem.Overview.screenRoute) {
-            OverviewScreen(padding, updateState) { updateState = false }
+            OverviewScreen(padding, updateState, { updateState = false })
         }
         composable(BottomNavItem.PrimeSets.screenRoute) {
             it.arguments?.getString("filter")?.let { filter -> PrimeFilter.valueOf(filter) }

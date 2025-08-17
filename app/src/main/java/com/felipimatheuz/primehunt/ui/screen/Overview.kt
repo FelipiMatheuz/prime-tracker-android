@@ -7,32 +7,40 @@ import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Shadow
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.model.PrimeType
 import com.felipimatheuz.primehunt.ui.component.PrimeChart
 import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
-import com.felipimatheuz.primehunt.viewmodel.OverViewModel
+import com.felipimatheuz.primehunt.viewmodel.OverviewViewModel
 
 
 @Composable
-fun OverviewScreen(padding: PaddingValues, update: Boolean, changeUpdate: () -> Unit) {
-    ConstraintLayout(modifier = Modifier.padding(padding).fillMaxSize()) {
-        val viewModel: OverViewModel = viewModel()
+fun OverviewScreen(
+    padding: PaddingValues,
+    update: Boolean,
+    changeUpdate: () -> Unit,
+    viewModel: OverviewViewModel = hiltViewModel()
+) {
+    ConstraintLayout(modifier = Modifier
+        .padding(padding)
+        .fillMaxSize()) {
         var showDetail by rememberSaveable { mutableStateOf(false) }
         val (overallChart, warframeChart, primaryChart, secondaryChart, meleeChart, otherChart, toggleOverview) = createRefs()
-        val setPrimeItems = viewModel.loadSet(LocalContext.current, update)
-        val otherPrimeItems = viewModel.loadOther(LocalContext.current, update)
+        val setPrimeItems = viewModel.loadSet(update)
+        val otherPrimeItems = viewModel.loadOther(update)
         changeUpdate()
         if (!showDetail) {
             PrimeChart(
@@ -95,7 +103,8 @@ fun OverviewScreen(padding: PaddingValues, update: Boolean, changeUpdate: () -> 
                 scaleSize = 0.5f
             )
         }
-        OutlinedButton(onClick = { showDetail = !showDetail },
+        OutlinedButton(
+            onClick = { showDetail = !showDetail },
             modifier = Modifier.constrainAs(toggleOverview) {
                 bottom.linkTo(parent.bottom, 8.dp)
                 start.linkTo(parent.start)
@@ -124,6 +133,6 @@ fun OverviewScreen(padding: PaddingValues, update: Boolean, changeUpdate: () -> 
 @Composable
 fun OverviewScreenPreview() {
     PrimeTrackerTheme {
-        OverviewScreen(PaddingValues(10.dp), false) { }
+        OverviewScreen(PaddingValues(10.dp), false, { })
     }
 }

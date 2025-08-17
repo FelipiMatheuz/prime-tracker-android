@@ -13,9 +13,15 @@ import com.felipimatheuz.primehunt.business.util.PrimeFilter
 import com.felipimatheuz.primehunt.business.util.relicList
 import com.felipimatheuz.primehunt.business.util.translateComponent
 import com.felipimatheuz.primehunt.ui.theme.*
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class RelicViewModel(context: Context) : ViewModel() {
-    private val remainingList = searchList(context)
+@HiltViewModel
+class RelicViewModel @Inject constructor(
+    private val primeSetData: PrimeSetData,
+    private val otherPrimeData: OtherPrimeData
+) : ViewModel() {
+    private val remainingList = searchList()
 
     fun getListTier(tier: RelicTier, primeFilter: PrimeFilter, searchText: String): List<RelicSet> {
         var tierData = getRelicTier(tier, remainingList)
@@ -37,14 +43,14 @@ class RelicViewModel(context: Context) : ViewModel() {
         return tierData.sortedWith(compareBy({ it.vaulted }, { it.name }))
     }
 
-    private fun searchList(context: Context): List<String> {
+    private fun searchList(): List<String> {
         val remainingList: MutableList<String> = mutableListOf()
-        for (primeSet in PrimeSetData(context).getListSetData()) {
+        for (primeSet in primeSetData.getListSetData()) {
             for (primeItem in primeSet.primeItems) {
                 remainingList.addAll(formatSearchText(primeItem))
             }
         }
-        for (primeItem in OtherPrimeData(context).getListOtherData()) {
+        for (primeItem in otherPrimeData.getListOtherData()) {
             remainingList.addAll(formatSearchText(primeItem))
         }
         return remainingList

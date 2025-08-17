@@ -6,8 +6,12 @@ import com.felipimatheuz.primehunt.business.util.getFieldName
 import com.felipimatheuz.primehunt.business.util.primeSetList
 import com.felipimatheuz.primehunt.model.ItemPart
 import com.felipimatheuz.primehunt.model.PrimeSet
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class PrimeSetData(context: Context) {
+@Singleton
+class PrimeSetData @Inject constructor(@ApplicationContext context: Context) {
 
     private val localData = context.getSharedPreferences("PRIME_SET_DATA", MODE_PRIVATE)
 

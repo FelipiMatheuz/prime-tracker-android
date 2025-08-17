@@ -4,14 +4,21 @@ import android.content.Context
 import com.felipimatheuz.primehunt.BuildConfig
 import com.unity3d.ads.IUnityAdsInitializationListener
 import com.unity3d.ads.UnityAds
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class AdManager {
-    fun initialiseUnity(context: Context) {
-        UnityManager().initUnity(context)
+@Singleton
+class AdManager @Inject constructor(
+    @param:ApplicationContext private val context: Context
+) {
+
+    fun initialiseUnity() {
+        UnityManager().initUnity()
     }
 
     inner class UnityManager : IUnityAdsInitializationListener {
-        fun initUnity(context: Context) {
+        fun initUnity() {
             if (!UnityAds.isInitialized) {
                 var testMode = false
                 if (BuildConfig.DEBUG) {

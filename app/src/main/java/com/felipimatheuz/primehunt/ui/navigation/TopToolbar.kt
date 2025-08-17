@@ -33,19 +33,19 @@ import com.felipimatheuz.primehunt.business.resources.AppSettings
 import com.felipimatheuz.primehunt.business.state.BottomNavItem
 import com.felipimatheuz.primehunt.business.state.MenuDialogState
 import com.felipimatheuz.primehunt.business.util.PrimeFilter
+import com.felipimatheuz.primehunt.ui.component.PrimeInfoDialog
+import com.felipimatheuz.primehunt.ui.screen.SyncAccountScreen
 import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopToolbar(
-    navController: NavHostController,
-    onShowInfoChange: (MenuDialogState) -> Unit
-) {
+fun TopToolbar(navController: NavHostController) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val item =
         BottomNavItem.getList()
             .firstOrNull { navBackStackEntry?.destination?.route == it.screenRoute }
     var expanded by remember { mutableStateOf(false) }
+    var showInfo by remember { mutableStateOf<MenuDialogState>(MenuDialogState.None) }
     val context = LocalContext.current
     TopAppBar(
         title = {
@@ -101,7 +101,7 @@ fun TopToolbar(
                                 text = { Text(text = stringResource(it.title)) },
                                 onClick = {
                                     expanded = false
-                                    onShowInfoChange(it)
+                                    showInfo = it
                                 }
                             )
                         }
@@ -133,6 +133,11 @@ fun TopToolbar(
         },
         colors = topAppBarColors(containerColor = MaterialTheme.colorScheme.primary)
     )
+    if (showInfo == MenuDialogState.Sync) {
+        SyncAccountScreen(showInfo, { showInfo = MenuDialogState.None })
+    } else if (showInfo != MenuDialogState.None) {
+        PrimeInfoDialog(showInfo, { showInfo = MenuDialogState.None })
+    }
 }
 
 
@@ -140,6 +145,6 @@ fun TopToolbar(
 @Composable
 fun TopToolbarPreview() {
     PrimeTrackerTheme {
-        TopToolbar(rememberNavController()) {}
+        TopToolbar(rememberNavController())
     }
 }

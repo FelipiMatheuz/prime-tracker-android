@@ -53,7 +53,7 @@ fun MainScreen() {
             }
         }
     } else {
-        SplashScreen { finishSplash = true }
+        SplashScreen ({ finishSplash = true } )
     }
 }
 

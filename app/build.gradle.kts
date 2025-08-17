@@ -3,6 +3,8 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("com.google.gms.google-services")
     id("org.jetbrains.kotlin.plugin.compose")
+    id("com.google.dagger.hilt.android")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -62,6 +64,11 @@ android {
 }
 
 dependencies {
+    // hilt
+    implementation("com.google.dagger:hilt-android:2.57")
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+    ksp("com.google.dagger:hilt-compiler:2.57")
+
     //tooling
     implementation("com.google.android.material:material:1.12.0")
     implementation("com.github.bumptech.glide:compose:1.0.0-beta01")

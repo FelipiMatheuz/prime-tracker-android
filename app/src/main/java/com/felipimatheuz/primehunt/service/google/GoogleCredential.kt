@@ -12,12 +12,16 @@ import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingExcept
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.tasks.await
 import java.util.concurrent.CancellationException
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class GoogleCredential(private val context: Context) {
+@Singleton
+class GoogleCredential @Inject constructor(@param:ApplicationContext private val context: Context) {
 
-    val credentialManager = CredentialManager.create(context)
+    private val credentialManager = CredentialManager.create(context)
     private val auth = Firebase.auth
 
     private val googleIdOption: GetGoogleIdOption = GetGoogleIdOption.Builder()
@@ -52,9 +56,9 @@ class GoogleCredential(private val context: Context) {
                                 UserData(userId = user.uid, name = user.displayName)
                             }, errorMessage = null
                         )
-                    } catch (e: GoogleIdTokenParsingException) {
+                    } catch (_: GoogleIdTokenParsingException) {
                         return SignInResult(null, "${context.getString(R.string.sync_sign_error)} (2)")
-                    } catch (e: CancellationException) {
+                    } catch (_: CancellationException) {
                         return SignInResult(null, context.getString(R.string.sync_sign_cancel))
                     }
                 } else {
@@ -75,7 +79,7 @@ class GoogleCredential(private val context: Context) {
                 context = context,
             )
             return handleSignIn(result)
-        } catch (e: GetCredentialException) {
+        } catch (_: GetCredentialException) {
             return SignInResult(null, "${context.getString(R.string.sync_sign_error)} (1)")
         }
     }

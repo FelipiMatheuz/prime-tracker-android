@@ -1,12 +1,14 @@
-package com.felipimatheuz.primehunt
+package com.felipimatheuz.primehunt.core
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.felipimatheuz.primehunt.ui.screen.MainScreen
 import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
+import dagger.hilt.android.AndroidEntryPoint
 
-class PrimeApplication : ComponentActivity() {
+@AndroidEntryPoint
+class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -6,28 +6,41 @@ import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.service.google.Firestore
 import com.felipimatheuz.primehunt.business.state.SyncState
 import com.felipimatheuz.primehunt.model.SignInResult
+import com.felipimatheuz.primehunt.service.google.GoogleCredential
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SyncViewModel : ViewModel() {
+@HiltViewModel
+class SyncViewModel @Inject constructor(
+    private val firestore: Firestore,
+    private val googleCredential: GoogleCredential,
+    @param:ApplicationContext private val context: Context
+) : ViewModel() {
+
     val state = MutableStateFlow<SyncState>(SyncState.None)
+    fun getCredentials() = googleCredential
 
     fun onSignInResult(result: SignInResult) {
         state.update {
-            if (result.data != null) SyncState.SuccessSignIn else SyncState.Error(result.errorMessage ?: "")
+            if (result.data != null) SyncState.SuccessSignIn else SyncState.Error(
+                result.errorMessage ?: ""
+            )
         }
     }
 
-    fun importCheckList(context: Context, docId: String) {
-        Firestore().importCheckList(context, docId, state)
+    fun importCheckList(docId: String) {
+        firestore.importCheckList(docId, state)
     }
 
-    fun exportCheckList(context: Context, docId: String) {
-        Firestore().exportCheckList(context, docId, state)
+    fun exportCheckList(docId: String) {
+        firestore.exportCheckList(docId, state)
     }
 
 
@@ -37,7 +50,11 @@ class SyncViewModel : ViewModel() {
         }
     }
 
-    fun getPromptMessage(context: Context, state: SyncState, onSuccess: () -> Unit, onError: () -> Unit): String {
+    fun getPromptMessage(
+        state: SyncState,
+        onSuccess: () -> Unit,
+        onError: () -> Unit
+    ): String {
         val notification = getNotificationState(state, onSuccess, onError)
         return if (notification != null) {
             if (notification == 0)
@@ -54,7 +71,11 @@ class SyncViewModel : ViewModel() {
         }
     }
 
-    private fun getNotificationState(state: SyncState, onSuccess: () -> Unit, onError: () -> Unit): Int? {
+    private fun getNotificationState(
+        state: SyncState,
+        onSuccess: () -> Unit,
+        onError: () -> Unit
+    ): Int? {
         CoroutineScope(Dispatchers.IO).launch {
             delay(3000)
             resetState()
