@@ -42,7 +42,7 @@ import com.felipimatheuz.primehunt.viewmodel.PrimeSetDetailViewModel
 @Composable
 fun PrimeSetDetailScreen(
     setName: String,
-    onBack: () -> Unit,
+    onDismiss: () -> Unit,
     viewModel: PrimeSetDetailViewModel = hiltViewModel(
         key = setName
     ) { factory: PrimeSetDetailViewModel.Factory ->
@@ -51,7 +51,7 @@ fun PrimeSetDetailScreen(
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
-    ModalBottomSheet(onDismissRequest = onBack, sheetState = sheetState) {
+    ModalBottomSheet(onDismissRequest = onDismiss, sheetState = sheetState) {
         ConstraintLayout(
             modifier = Modifier.fillMaxSize()
         ) {
@@ -84,7 +84,7 @@ fun PrimeSetDetailScreen(
                 )
 
                 IconButton(
-                    onClick = { onBack() },
+                    onClick = onDismiss,
                     modifier = Modifier.align(Alignment.TopEnd)
                 ) {
                     Icon(
