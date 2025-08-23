@@ -13,7 +13,7 @@ import com.felipimatheuz.primehunt.business.state.BottomNavItem
 import com.felipimatheuz.primehunt.business.util.PrimeFilter
 import com.felipimatheuz.primehunt.ui.screen.OtherPrimeScreen
 import com.felipimatheuz.primehunt.ui.screen.OverviewScreen
-import com.felipimatheuz.primehunt.ui.screen.PrimeSetScreen
+import com.felipimatheuz.primehunt.ui.screen.PrimeSetRoute
 import com.felipimatheuz.primehunt.ui.screen.RelicScreen
 
 @Composable
@@ -24,8 +24,7 @@ fun NavigationGraph(navController: NavHostController, padding: PaddingValues) {
             OverviewScreen(padding, updateState, { updateState = false })
         }
         composable(BottomNavItem.PrimeSets.screenRoute) {
-            it.arguments?.getString("filter")?.let { filter -> PrimeFilter.valueOf(filter) }
-                ?.let { primeFilter -> PrimeSetScreen(padding, primeFilter) }
+            PrimeSetRoute(padding)
         }
         composable(BottomNavItem.OtherPrimes.screenRoute) {
             it.arguments?.getString("filter")?.let { filter -> PrimeFilter.valueOf(filter) }

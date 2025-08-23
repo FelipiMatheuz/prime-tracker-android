@@ -22,6 +22,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.bumptech.glide.integration.compose.placeholder
@@ -35,7 +36,7 @@ import com.felipimatheuz.primehunt.viewmodel.PrimeSetViewModel
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun PrimeSetCard(primeSet: PrimeSet, viewModel: PrimeSetViewModel, goToDetails: () -> Unit) {
+fun PrimeSetCard(primeSet: PrimeSet, viewModel: PrimeSetViewModel = hiltViewModel(), goToDetails: () -> Unit) {
     var offsetX by remember { mutableFloatStateOf(0f) }
     val backAnim by animateDpAsState(targetValue = if (offsetX != 0f) offsetX.dp else 0.dp, label = "")
 
