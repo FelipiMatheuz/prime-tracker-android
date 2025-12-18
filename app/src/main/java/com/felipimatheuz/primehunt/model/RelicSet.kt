@@ -5,20 +5,20 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 @Keep
 data class RelicSet(
-    @JsonProperty("name")
+    @param:JsonProperty("name")
     var name: String,
-    @JsonProperty("rewards")
+    @param:JsonProperty("rewards")
     var rewards: List<Reward>,
-    @JsonProperty("vaulted")
+    @param:JsonProperty("vaulted")
     val vaulted: Boolean
 )
 
 @Keep
 data class Reward(
-    @JsonProperty("rarity")
+    @param:JsonProperty("rarity")
     val rarity: String,
-    @JsonProperty("chance")
+    @param:JsonProperty("chance")
     val chance: Float,
-    @JsonProperty("item")
+    @param:JsonProperty("item")
     val item: RelicItem
 )

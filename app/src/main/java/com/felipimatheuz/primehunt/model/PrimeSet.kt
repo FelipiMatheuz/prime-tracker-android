@@ -5,15 +5,15 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 @Keep
 data class PrimeSet(
-    @JsonProperty("imgLink")
+    @param:JsonProperty("imgLink")
     var imgLink: String = "",
-    @JsonProperty("setName")
+    @param:JsonProperty("setName")
     var setName: String,
-    @JsonProperty("primeItems")
+    @param:JsonProperty("primeItems")
     var primeItems: List<PrimeItem>,
-    @JsonProperty("status")
+    @param:JsonProperty("status")
     var status: PrimeStatus = PrimeStatus.VAULT,
-    @JsonProperty("released")
+    @param:JsonProperty("released")
     val released: Int
 )
 

@@ -8,21 +8,21 @@ import com.felipimatheuz.primehunt.R
 
 @Keep
 data class PrimeItem(
-    @JsonProperty("name")
+    @param:JsonProperty("name")
     var name: String,
-    @JsonProperty("type")
+    @param:JsonProperty("type")
     var type: PrimeType,
-    @JsonProperty("components")
+    @param:JsonProperty("components")
     val components: List<ItemComponent>,
-    @JsonProperty("blueprint")
+    @param:JsonProperty("blueprint")
     var blueprint: Boolean = false
 )
 
 @Keep
 data class ItemComponent(
-    @JsonProperty("part")
+    @param:JsonProperty("part")
     val part: ItemPart,
-    @JsonProperty("obtained")
+    @param:JsonProperty("obtained")
     var obtained: Boolean = false
 )
 
@@ -36,7 +36,7 @@ enum class PrimeType {
 }
 
 @Keep
-enum class ItemPart(@StringRes val text: Int, @DrawableRes val icon: Int) {
+enum class ItemPart(@param:StringRes val text: Int, @param:DrawableRes val icon: Int) {
     NEUROPTICS(R.string.comp_neuroptics, R.drawable.prime_neuroptics),
     CHASSIS(R.string.comp_chassis, R.drawable.prime_chassis),
     SYSTEMS(R.string.comp_systems, R.drawable.prime_systems),
