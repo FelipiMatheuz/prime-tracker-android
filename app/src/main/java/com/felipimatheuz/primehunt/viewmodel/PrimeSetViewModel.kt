@@ -25,8 +25,6 @@ class PrimeSetViewModel @Inject constructor(
     private val primeSetData: PrimeSetData,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-
-    private val primeSets: MutableStateFlow<List<PrimeSet>> = MutableStateFlow(emptyList())
     private val searchText = MutableStateFlow("")
     private val selectedPrimeSet = MutableStateFlow("")
     private val primeFilter: StateFlow<PrimeFilter> =
@@ -45,7 +43,7 @@ class PrimeSetViewModel @Inject constructor(
 
     val uiState: StateFlow<PrimeSetUiState> =
         combine(
-            primeSets,
+            primeSetData.getListSetDataFlow(),
             searchText,
             primeFilter,
             selectedPrimeSet
@@ -55,7 +53,7 @@ class PrimeSetViewModel @Inject constructor(
                     PrimeFilter.SHOW_ALL -> true
                     PrimeFilter.COMPLETE -> isComplete(primeSet)
                     PrimeFilter.INCOMPLETE -> !isComplete(primeSet)
-                    PrimeFilter.AVAILABLE -> primeSet.status != PrimeStatus.VAULT // Assuming PrimeStatus enum exists
+                    PrimeFilter.AVAILABLE -> primeSet.status != PrimeStatus.VAULT
                     PrimeFilter.UNAVAILABLE -> primeSet.status == PrimeStatus.VAULT
                 }
                 val searchMatches = if (query.isNotBlank()) {
@@ -75,23 +73,12 @@ class PrimeSetViewModel @Inject constructor(
         }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000L),
-            initialValue = PrimeSetUiState(primeSets.value, queryFilter = searchText.value)
+            initialValue = PrimeSetUiState(emptyList(), queryFilter = "")
         )
-
-    init {
-        viewModelScope.launch {
-            refreshData()
-        }
-    }
-
-    private suspend fun refreshData() {
-        primeSets.update { primeSetData.getListSetData() }
-    }
 
     fun refresh() {
         viewModelScope.launch {
             selectedPrimeSet.update { "" }
-            refreshData()
         }
     }
 
@@ -108,7 +95,6 @@ class PrimeSetViewModel @Inject constructor(
     fun togglePrimeSet(primeSet: PrimeSet, checkAll: Boolean) {
         viewModelScope.launch {
             primeSetData.togglePrimeSet(primeSet, checkAll)
-            refreshData()
         }
     }
 

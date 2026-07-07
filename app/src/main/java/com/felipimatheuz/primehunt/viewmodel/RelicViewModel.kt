@@ -5,15 +5,27 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.business.resources.OtherPrimeData
 import com.felipimatheuz.primehunt.business.resources.PrimeSetData
-import com.felipimatheuz.primehunt.model.*
 import com.felipimatheuz.primehunt.business.util.PrimeFilter
 import com.felipimatheuz.primehunt.business.util.relicList
 import com.felipimatheuz.primehunt.business.util.translateComponent
-import com.felipimatheuz.primehunt.ui.theme.*
+import com.felipimatheuz.primehunt.model.ItemPart
+import com.felipimatheuz.primehunt.model.PrimeItem
+import com.felipimatheuz.primehunt.model.RelicSet
+import com.felipimatheuz.primehunt.model.RelicTier
+import com.felipimatheuz.primehunt.model.Reward
+import com.felipimatheuz.primehunt.ui.theme.Common
+import com.felipimatheuz.primehunt.ui.theme.CommonDark
+import com.felipimatheuz.primehunt.ui.theme.Rare
+import com.felipimatheuz.primehunt.ui.theme.RareDark
+import com.felipimatheuz.primehunt.ui.theme.Uncommon
+import com.felipimatheuz.primehunt.ui.theme.UncommonDark
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,10 +33,16 @@ class RelicViewModel @Inject constructor(
     private val primeSetData: PrimeSetData,
     private val otherPrimeData: OtherPrimeData
 ) : ViewModel() {
-    private val remainingList = searchList()
+    private val remainingList = MutableStateFlow(emptyList<String>())
+
+    init {
+        viewModelScope.launch {
+            searchList()
+        }
+    }
 
     fun getListTier(tier: RelicTier, primeFilter: PrimeFilter, searchText: String): List<RelicSet> {
-        var tierData = getRelicTier(tier, remainingList)
+        var tierData = getRelicTier(tier, remainingList.value)
         tierData = when (primeFilter) {
             PrimeFilter.AVAILABLE -> tierData.filter { !it.vaulted }
             PrimeFilter.UNAVAILABLE -> tierData.filter { it.vaulted }
@@ -43,17 +61,20 @@ class RelicViewModel @Inject constructor(
         return tierData.sortedWith(compareBy({ it.vaulted }, { it.name }))
     }
 
-    private fun searchList(): List<String> {
+    private suspend fun searchList() {
         val remainingList: MutableList<String> = mutableListOf()
-        for (primeSet in primeSetData.getListSetData()) {
-            for (primeItem in primeSet.primeItems) {
-                remainingList.addAll(formatSearchText(primeItem))
+
+        primeSetData.getListSetDataFlow().collect {
+            for (primeSet in it) {
+                for (primeItem in primeSet.primeItems) {
+                    remainingList.addAll(formatSearchText(primeItem))
+                }
             }
         }
         for (primeItem in otherPrimeData.getListOtherData()) {
             remainingList.addAll(formatSearchText(primeItem))
         }
-        return remainingList
+        this.remainingList.value = remainingList
     }
 
     private fun formatSearchText(primeItem: PrimeItem): List<String> {

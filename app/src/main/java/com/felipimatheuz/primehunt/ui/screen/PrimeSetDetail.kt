@@ -65,13 +65,13 @@ fun PrimeSetDetailScreen(
                 width = Dimension.fillToConstraints
             }) {
                 GlideImage(
-                    model = primeSet.imgLink,
+                    model = primeSet?.imgLink,
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.height(200.dp)
                 )
                 Text(
-                    text = stringResource(R.string.prime_set_template, primeSet.setName),
+                    text = stringResource(R.string.prime_set_template, primeSet?.setName ?: ""),
                     style = MaterialTheme.typography.titleLarge
                         .copy(
                             shadow = Shadow(
@@ -107,11 +107,11 @@ fun PrimeSetDetailScreen(
                     verticalArrangement = Arrangement.spacedBy(16.dp),
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    itemsIndexed(primeSet.primeItems) { index, it ->
+                    itemsIndexed(primeSet?.primeItems ?: emptyList()) { index, it ->
                         if (index == 0)
                             Spacer(modifier = Modifier.padding(bottom = 8.dp))
                         PrimeItemUI(it, viewModel)
-                        if (index == primeSet.primeItems.size - 1)
+                        if (index == primeSet?.primeItems?.size?.minus(1))
                             Spacer(modifier = Modifier.padding(bottom = 8.dp))
                     }
                 }

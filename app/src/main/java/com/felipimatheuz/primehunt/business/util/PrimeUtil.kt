@@ -95,7 +95,7 @@ fun getColorForeground(rewards: List<Reward>, searchText: String): Color? {
     return if (result.isEmpty()) {
         null
     } else {
-        return if (isSystemInDarkTheme()) {
+        if (isSystemInDarkTheme()) {
             when (result[0].chance) {
                 25.33f -> CommonDark
                 11f -> UncommonDark

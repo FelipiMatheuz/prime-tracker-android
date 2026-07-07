@@ -8,6 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -21,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.felipimatheuz.primehunt.R
+import com.felipimatheuz.primehunt.model.PrimeItem
 import com.felipimatheuz.primehunt.model.PrimeType
 import com.felipimatheuz.primehunt.ui.component.PrimeChart
 import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
@@ -34,12 +36,18 @@ fun OverviewScreen(
     changeUpdate: () -> Unit,
     viewModel: OverviewViewModel = hiltViewModel()
 ) {
-    ConstraintLayout(modifier = Modifier
-        .padding(padding)
-        .fillMaxSize()) {
+    var setPrimeItems by rememberSaveable { mutableStateOf(emptyList<PrimeItem>()) }
+    LaunchedEffect(Unit) {
+        setPrimeItems = viewModel.loadSet(update)
+    }
+    ConstraintLayout(
+        modifier = Modifier
+            .padding(padding)
+            .fillMaxSize()
+    ) {
         var showDetail by rememberSaveable { mutableStateOf(false) }
         val (overallChart, warframeChart, primaryChart, secondaryChart, meleeChart, otherChart, toggleOverview) = createRefs()
-        val setPrimeItems = viewModel.loadSet(update)
+
         val otherPrimeItems = viewModel.loadOther(update)
         changeUpdate()
         if (!showDetail) {

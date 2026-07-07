@@ -1,6 +1,5 @@
 package com.felipimatheuz.primehunt.business.state
 
-import com.bumptech.glide.request.RequestCoordinator.RequestState
 import com.felipimatheuz.primehunt.R
 
 sealed class MenuDialogState(var icon: Int, var title: Int, var content: Int) {
