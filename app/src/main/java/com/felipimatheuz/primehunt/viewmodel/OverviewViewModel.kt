@@ -12,16 +12,14 @@ class OverviewViewModel @Inject constructor(
     private val primeSetData: PrimeSetData,
     private val otherPrimeData: OtherPrimeData
 ) : ViewModel() {
-    fun loadSet(update: Boolean): List<PrimeItem> {
+    suspend fun loadSet(update: Boolean): List<PrimeItem> {
         val primeItems = mutableListOf<PrimeItem>()
-        val primeData = if (update) {
-            primeSetData.updateListData()
-        } else {
-            primeSetData.getListSetData()
-        }
+        val primeData = primeSetData.getListSetDataFlow(update)
 
-        primeData.forEach { primeSet ->
-            primeItems.addAll(primeSet.primeItems)
+        primeData.collect {
+            it.forEach { primeSet ->
+                primeItems.addAll(primeSet.primeItems)
+            }
         }
         return primeItems
     }

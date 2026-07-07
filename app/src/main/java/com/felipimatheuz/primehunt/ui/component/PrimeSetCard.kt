@@ -7,12 +7,22 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
@@ -22,66 +32,91 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.bumptech.glide.integration.compose.placeholder
 import com.felipimatheuz.primehunt.R
+import com.felipimatheuz.primehunt.business.util.getPercent
+import com.felipimatheuz.primehunt.business.util.updateStatusColor
 import com.felipimatheuz.primehunt.model.PrimeSet
 import com.felipimatheuz.primehunt.ui.theme.High
 import com.felipimatheuz.primehunt.ui.theme.Low
-import com.felipimatheuz.primehunt.business.util.getPercent
-import com.felipimatheuz.primehunt.business.util.updateStatusColor
-import com.felipimatheuz.primehunt.viewmodel.PrimeSetViewModel
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun PrimeSetCard(primeSet: PrimeSet, viewModel: PrimeSetViewModel = hiltViewModel(), goToDetails: () -> Unit) {
+fun PrimeSetCard(
+    primeSet: PrimeSet,
+    statusText: String,
+    onToggleCard: (Boolean) -> Unit,
+    goToDetails: () -> Unit
+) {
     var offsetX by remember { mutableFloatStateOf(0f) }
-    val backAnim by animateDpAsState(targetValue = if (offsetX != 0f) offsetX.dp else 0.dp, label = "")
+    val backAnim by animateDpAsState(
+        targetValue = if (offsetX != 0f) offsetX.dp else 0.dp,
+        label = ""
+    )
 
     Box {
         Image(
             painter = painterResource(R.drawable.ic_check), contentDescription = null,
             colorFilter = ColorFilter.tint(High),
-            modifier = Modifier.align(Alignment.CenterStart).padding(start = 24.dp)
+            modifier = Modifier
+                .align(Alignment.CenterStart)
+                .padding(start = 24.dp)
         )
         Image(
             painter = painterResource(R.drawable.ic_cross), contentDescription = null,
             colorFilter = ColorFilter.tint(Low),
-            modifier = Modifier.align(Alignment.CenterEnd).padding(end = 24.dp)
+            modifier = Modifier
+                .align(Alignment.CenterEnd)
+                .padding(end = 24.dp)
         )
-        Box(modifier = Modifier.pointerInput(Unit) {
-            detectDragGesturesAfterLongPress(
-                onDrag = { change, offset ->
-                    change.consume()
-                    if (offsetX <= 100 && offsetX >= -100) {
-                        offsetX += offset.x
-                    }
-                },
-                onDragEnd = {
-                    if (offsetX >= 100) {
-                        viewModel.togglePrimeSet(primeSet, true)
-                    } else if (offsetX <= -100) {
-                        viewModel.togglePrimeSet(primeSet, false)
-                    }
-                    offsetX = 0f
+        Box(
+            modifier = Modifier
+                .pointerInput(Unit) {
+                    detectDragGesturesAfterLongPress(
+                        onDrag = { change, offset ->
+                            change.consume()
+                            if (offsetX <= 100 && offsetX >= -100) {
+                                offsetX += offset.x
+                            }
+                        },
+                        onDragEnd = {
+                            if (offsetX >= 100) {
+                                onToggleCard(true)
+                            } else if (offsetX <= -100) {
+                                onToggleCard(false)
+                            }
+                            offsetX = 0f
+                        }
+                    )
                 }
-            )
-        }.offset(x = backAnim).clickable {
-            goToDetails()
-        }) {
+                .offset(x = backAnim)
+                .clickable {
+                    goToDetails()
+                }) {
             val statusColorAnim =
-                animateColorAsState(updateStatusColor(primeSet), label = "", animationSpec = tween(1000))
+                animateColorAsState(
+                    updateStatusColor(primeSet),
+                    label = "",
+                    animationSpec = tween(1000)
+                )
             Box(
-                modifier = Modifier.fillMaxWidth().background(
-                    statusColorAnim.value,
-                    shape = RoundedCornerShape(10.dp)
-                ).padding(8.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(
+                        statusColorAnim.value,
+                        shape = RoundedCornerShape(10.dp)
+                    )
+                    .padding(8.dp)
             ) {
                 ConstraintLayout(
-                    modifier = Modifier.fillMaxWidth()
-                        .background(MaterialTheme.colorScheme.surface, shape = RoundedCornerShape(5.dp))
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(
+                            MaterialTheme.colorScheme.surface,
+                            shape = RoundedCornerShape(5.dp)
+                        )
                 ) {
                     val (layoutSet, layoutItems) = createRefs()
                     val primeSetText = stringResource(R.string.prime_set_template, primeSet.setName)
@@ -123,7 +158,7 @@ fun PrimeSetCard(primeSet: PrimeSet, viewModel: PrimeSetViewModel = hiltViewMode
                             }
                         }
                         Text(
-                            stringResource(viewModel.getStatusTextRes(primeSet.status)),
+                            statusText,
                             modifier = Modifier.padding(top = 16.dp),
                             color = MaterialTheme.colorScheme.primary
                         )

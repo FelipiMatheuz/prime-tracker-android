@@ -27,6 +27,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.business.state.PrimeSetUiState
 import com.felipimatheuz.primehunt.model.PrimeSet
+import com.felipimatheuz.primehunt.model.PrimeStatus
 import com.felipimatheuz.primehunt.service.ads.BannerAdView
 import com.felipimatheuz.primehunt.ui.component.PrimeSetCard
 import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
@@ -40,7 +41,9 @@ fun PrimeSetRoute(padding: PaddingValues, viewModel: PrimeSetViewModel = hiltVie
         uiState = uiState,
         onSearchTextChanged = viewModel::updateSearchText,
         onSetSelectedSet = viewModel::setSelectedSet,
-        onRefreshRequested = viewModel::refresh
+        onRefreshRequested = viewModel::refresh,
+        onToggleCard = viewModel::togglePrimeSet,
+        statusText = viewModel::getStatusTextRes,
     )
 }
 
@@ -51,7 +54,9 @@ fun PrimeSetScreen(
     uiState: PrimeSetUiState,
     onSearchTextChanged: (String) -> Unit,
     onSetSelectedSet: (String) -> Unit,
-    onRefreshRequested: () -> Unit
+    onRefreshRequested: () -> Unit,
+    onToggleCard: (PrimeSet, Boolean) -> Unit,
+    statusText: (PrimeStatus) -> Int,
 ) {
     ConstraintLayout(
         modifier = Modifier
@@ -111,7 +116,11 @@ fun PrimeSetScreen(
                 items(
                     uiState.primeSets,
                     key = { it.setName }) { primeSet ->
-                    PrimeSetCard(primeSet) { onSetSelectedSet(primeSet.setName) }
+                    PrimeSetCard(
+                        primeSet,
+                        statusText = stringResource(id = statusText(primeSet.status)),
+                        onToggleCard = { onToggleCard(primeSet, it) },
+                        goToDetails = { onSetSelectedSet(primeSet.setName) })
                     Spacer(modifier = Modifier.padding(bottom = 8.dp))
                 }
             }
@@ -135,7 +144,9 @@ fun PrimeSetScreenPreview() {
             uiState = PrimeSetUiState(primeSets = listOf(samplePrimeSet), queryFilter = "Loki"),
             onSearchTextChanged = { },
             onSetSelectedSet = { },
-            onRefreshRequested = { }
+            onRefreshRequested = { },
+            onToggleCard = { _, _ -> },
+            statusText = { _ -> R.string.status_vault }
         )
     }
 }
