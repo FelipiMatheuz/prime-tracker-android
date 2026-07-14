@@ -71,8 +71,9 @@ Contributions are very welcome! If you'd like to collaborate:
 
 ## 🧾 License
 
-This project is licensed under the [Apache 2.0 License](https://opensource.org/licenses/Apache-2.0).
-Please read the LICENSE file for more details.
+This project is licensed under the **GNU General Public License v3.0 (GPL-3.0)**.
+
+See the [LICENSE](LICENSE) file for more information.
 
 ---
 
