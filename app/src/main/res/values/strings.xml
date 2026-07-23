@@ -1,18 +1,16 @@
 <resources>
     <string name="app_name" translatable="false">Prime Tracker</string>
 
-    <!--Internet-->
+    <!--Splash/Sync-->
     <string name="by_owner">by Cyberman Studios</string>
     <string name="logo" translatable="false">Image Logo</string>
-    <string name="loading_content">Loading External Content…</string>
-    <string name="checking_set_updates">Checking Set Updates…</string>
-    <string name="checking_other_updates">Checking Other Updates…</string>
-    <string name="rendering_content">Rendering The Components…</string>
-    <string name="connection_failed">Connection Failed</string>
-    <string name="connection_failed_message">Something went wrong. Please check your Internet Connection.
-        \nIf the problem persists, click on \"Copy Error\" and email support.</string>
-    <string name="connection_retry">Try Again</string>
-    <string name="copy_error">Copy Error</string>
+    <string name="starting_sync">Starting synchronization…</string>
+    <string name="check_manifest">Checking updates…</string>
+    <string name="downloading_content">Updating %1$s content…</string>
+    <string name="importing_content">Importing %1$s content…</string>
+    <string name="sync_success">Synchronization Successful!</string>
+    <string name="sync_up_to_date">All contents are already up to date.</string>
+    <string name="sync_failed">Failed to synchronize</string>
 
     <!--Templates-->
     <string name="prime_set_template">%1$s Prime Set</string>

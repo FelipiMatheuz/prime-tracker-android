@@ -27,6 +27,6 @@ fun MainScreen() {
             NavigationGraph(navController = navController, padding = it)
         }
     } else {
-        SplashScreen ({ finishSplash = true } )
+        SplashScreen({ finishSplash = true })
     }
 }
