@@ -1,10 +1,9 @@
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    id("com.google.gms.google-services")
-    id("org.jetbrains.kotlin.plugin.compose")
-    id("com.google.dagger.hilt.android")
-    id("com.google.devtools.ksp")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.google.services)
 }
 
 android {
@@ -14,7 +13,7 @@ android {
     defaultConfig {
         applicationId = "com.felipimatheuz.primehunt"
         minSdk = 27
-        targetSdk = 36
+        targetSdk = 37
         versionCode = 29
         versionName = "3.0.12"
 
@@ -50,17 +49,19 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    kotlin {
-        compilerOptions {
-            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
-        }
-    }
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
 }
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
+    }
+}
+
 
 dependencies {
     // hilt
@@ -101,10 +102,15 @@ dependencies {
 
     //firebase
     implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.auth.ktx)
-    implementation(libs.firebase.firestore.ktx)
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.firestore)
     implementation(libs.play.services.auth)
     implementation(libs.app.update.ktx)
+
+    //room
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
 
     //credential manager
     implementation(libs.androidx.credentials)
@@ -115,7 +121,6 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)

@@ -6,8 +6,8 @@ import com.felipimatheuz.primehunt.business.state.SyncState
 import com.felipimatheuz.primehunt.business.util.getFieldName
 import com.felipimatheuz.primehunt.business.util.otherPrimeList
 import com.felipimatheuz.primehunt.business.util.primeSetList
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.firestore.firestore
+import com.google.firebase.Firebase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
