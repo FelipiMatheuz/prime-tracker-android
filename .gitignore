@@ -48,3 +48,4 @@ app/google-services.json
 /debug
 /release
 /app/release
+/.artifacts/
