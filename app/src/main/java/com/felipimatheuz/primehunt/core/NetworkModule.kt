@@ -21,7 +21,7 @@ object NetworkModule {
         val mapper =
             ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         return Retrofit.Builder()
-            .baseUrl("https://raw.githubusercontent.com")
+            .baseUrl("https://raw.githubusercontent.com/FelipiMatheuz/WPH/main/data/")
             .addConverterFactory(JacksonConverterFactory.create(mapper))
             .build()
     }

@@ -1,27 +1,27 @@
 package com.felipimatheuz.primehunt.ui.screen
 
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,7 +29,8 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.business.state.LoadState
+import com.felipimatheuz.primehunt.business.state.EtlFile
+import com.felipimatheuz.primehunt.business.state.SyncEvent
 import com.felipimatheuz.primehunt.ui.component.AnimatedLoad
 import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
 import com.felipimatheuz.primehunt.viewmodel.SplashViewModel
@@ -44,42 +45,52 @@ fun SplashScreen(onReady: () -> Unit, viewModel: SplashViewModel = hiltViewModel
             start.linkTo(parent.start)
             end.linkTo(parent.end)
         }, horizontalAlignment = Alignment.CenterHorizontally) {
-            val loadState = viewModel.loadState.collectAsState()
-            when (loadState.value) {
-                LoadState.LoadRelic -> {
-                    ShowLoading(R.string.loading_content)
-                    viewModel.loadResource()
+            val syncEvent = viewModel.syncEvent.collectAsState()
+            when (val event = syncEvent.value) {
+                SyncEvent.Starting -> {
+                    ShowLoading(R.string.starting_sync)
                 }
 
-                LoadState.LoadSet -> {
-                    ShowLoading(R.string.checking_set_updates)
-                    viewModel.loadResource()
+                is SyncEvent.CheckingManifest -> {
+                    ShowLoading(R.string.check_manifest)
                 }
 
-                LoadState.LoadOther -> {
-                    ShowLoading(R.string.checking_other_updates)
-                    viewModel.loadResource()
+                is SyncEvent.Downloading -> {
+                    ShowLoading(R.string.downloading_content, event.file)
                 }
 
-                is LoadState.Error -> {
-                    val errorInfo = loadState.value as LoadState.Error
-                    ShowError(viewModel, errorInfo.previousLoadState, errorInfo.message)
+                is SyncEvent.Importing -> {
+                    ShowLoading(R.string.importing_content, event.file)
                 }
 
-                LoadState.Ready -> {
-                    ShowLoading(R.string.rendering_content)
-                    onReady()
+                is SyncEvent.Success -> {
+                    ShowLoading(R.string.sync_success)
+                    LaunchedEffect(Unit) {
+                        onReady()
+                    }
+                }
+
+                is SyncEvent.AlreadyUpToDate -> {
+                    ShowLoading(R.string.sync_up_to_date)
+                    LaunchedEffect(Unit) {
+                        onReady()
+                    }
+                }
+
+                is SyncEvent.Error -> {
+                    ShowError { onReady() }
                 }
             }
         }
 
-        Row(modifier = Modifier
-            .constrainAs(bottomLogo) {
-                bottom.linkTo(parent.bottom)
-                start.linkTo(parent.start)
-                end.linkTo(parent.end)
-            }
-            .padding(bottom = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            modifier = Modifier
+                .constrainAs(bottomLogo) {
+                    bottom.linkTo(parent.bottom)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                }
+                .padding(bottom = 8.dp), verticalAlignment = Alignment.CenterVertically) {
             Text(
                 text = stringResource(R.string.by_owner),
                 Modifier.padding(end = 8.dp),
@@ -97,61 +108,58 @@ fun SplashScreen(onReady: () -> Unit, viewModel: SplashViewModel = hiltViewModel
 }
 
 @Composable
-private fun ShowLoading(textRes: Int) {
+private fun ShowLoading(textRes: Int, file: EtlFile? = null) {
     AnimatedLoad()
+
+    val finalText = if (file == null) {
+        stringResource(textRes)
+    } else {
+        stringResource(textRes, file.text)
+    }
+
     Text(
-        text = stringResource(textRes), style = MaterialTheme.typography.labelLarge.copy(
+        text = finalText, style = MaterialTheme.typography.labelLarge.copy(
             color = MaterialTheme.colorScheme.onSurface
         )
     )
 }
 
 @Composable
-private fun ShowError(viewModel: SplashViewModel, previousLoadState: LoadState, message: String?) {
-    val context = LocalContext.current
-    AlertDialog(
-        onDismissRequest = {},
-        icon = {
-            Image(
-                painter = painterResource(R.drawable.wifi_off), "",
-                modifier = Modifier.size(32.dp)
-            )
-        },
-        title = {
-            Text(text = stringResource(R.string.connection_failed))
-        },
-        text = {
-            Text(
-                stringResource(R.string.connection_failed_message),
-                color = MaterialTheme.colorScheme.onSurface
-            )
-        },
-        confirmButton = {
-            Button(onClick = {
-                viewModel.loadResource(previousLoadState)
-            }, content = {
-                Text(text = stringResource(R.string.connection_retry))
-            })
-        },
-        dismissButton = {
-            OutlinedButton(onClick = {
-                val clipboardManager =
-                    context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                val clip = ClipData.newPlainText("error", message)
-                clipboardManager.setPrimaryClip(clip)
-            }
+private fun ShowError(onReady: () -> Unit) {
+    val snackbarHostState = remember { SnackbarHostState() }
+    val errorMessage = stringResource(R.string.sync_failed)
+
+    LaunchedEffect(Unit) {
+        snackbarHostState.showSnackbar(
+            message = errorMessage,
+            duration = SnackbarDuration.Short
+        )
+        onReady()
+    }
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        SnackbarHost(
+            hostState = snackbarHostState,
+            modifier = Modifier.align(Alignment.BottomCenter)
+        ) { data ->
+            Snackbar(
+                modifier = Modifier.padding(12.dp),
+                shape = RoundedCornerShape(10.dp)
             ) {
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
                     Icon(
-                        painter = painterResource(R.drawable.ic_copy),
-                        contentDescription = stringResource(R.string.copy_error)
+                        painter = painterResource(R.drawable.wifi_off),
+                        contentDescription = null,
+                        modifier = Modifier.size(24.dp)
                     )
-                    Text(stringResource(R.string.copy_error))
+                    Text(text = data.visuals.message)
                 }
             }
-        },
-        shape = RoundedCornerShape(10.dp)
-    )
+        }
+    }
 }
 
 @Preview

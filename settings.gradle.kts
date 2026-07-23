@@ -15,5 +15,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "warframe-prime-hunt"
+rootProject.name = "prime-tracker"
 include(":app")

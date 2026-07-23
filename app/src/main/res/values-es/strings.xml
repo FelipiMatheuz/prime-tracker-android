@@ -46,7 +46,7 @@
     <string name="comp_chain">Cadena</string>
     <string name="status_baro">Baro (Comerciante)</string>
     <string name="comp_link">Enlace</string>
-    <string name="connection_failed">Conexión Fallida</string>
+    <string name="sync_failed">Conexión Fallida</string>
     <string name="connection_failed_message">Algo salió mal. Por favor revise su conexion a internet.
         \nSi el problema persiste, haga clic en \"Copiar error\" y envíe un correo electrónico a soporte.</string>
     <string name="connection_retry">Intentar otra vez</string>
