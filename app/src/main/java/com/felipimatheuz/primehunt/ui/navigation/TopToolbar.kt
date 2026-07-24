@@ -57,7 +57,7 @@ fun TopToolbar(
             IconButton(onClick = onMenuClick) {
                 Icon(
                     painter = painterResource(R.drawable.ic_menu),
-                    contentDescription = stringResource(R.string.menu_overview),
+                    contentDescription = stringResource(R.string.menu_button_description),
                     tint = MaterialTheme.colorScheme.onPrimary
                 )
             }
