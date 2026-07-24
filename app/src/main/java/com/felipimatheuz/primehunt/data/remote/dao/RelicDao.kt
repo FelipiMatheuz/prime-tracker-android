@@ -4,8 +4,8 @@ import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
 import com.felipimatheuz.primehunt.data.remote.entity.RelicEntity
-import com.felipimatheuz.primehunt.data.remote.entity.RelicEra
-import com.felipimatheuz.primehunt.data.remote.entity.RelicSource
+import com.felipimatheuz.primehunt.data.remote.enums.RelicEra
+import com.felipimatheuz.primehunt.data.remote.enums.RelicSource
 import kotlinx.coroutines.flow.Flow
 
 @Dao
