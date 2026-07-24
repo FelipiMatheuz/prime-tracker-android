@@ -78,8 +78,8 @@ class SyncRepository @Inject constructor(
                 emit(SyncEvent.AlreadyUpToDate)
             }
 
-        } catch (e: Exception) {
-            emit(SyncEvent.Error(e))
+        } catch (_: Exception) {
+            emit(SyncEvent.Error)
         }
     }
 

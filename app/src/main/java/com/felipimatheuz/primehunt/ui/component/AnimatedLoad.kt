@@ -1,7 +1,12 @@
 package com.felipimatheuz.primehunt.ui.component
 
 import androidx.compose.animation.animateColor
-import androidx.compose.animation.core.*
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
@@ -20,11 +25,11 @@ import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
 
 @Composable
-fun AnimatedLoad() {
+fun AnimatedLoad(isError: Boolean = false) {
 
     val transition = rememberInfiniteTransition(label = "color_change")
     val colorAnimation = transition.animateColor(
-        Color.White,
+        if(isError) Color.Red else Color.White,
         Color.Transparent,
         animationSpec = infiniteRepeatable(
             animation = tween(1200, easing = LinearEasing),

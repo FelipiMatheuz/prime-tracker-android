@@ -1,55 +1,85 @@
 package com.felipimatheuz.primehunt.ui.screen
 
-import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.res.stringResource
-import androidx.navigation.compose.rememberNavController
-import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.business.state.MenuDialogState
-import com.felipimatheuz.primehunt.ui.component.PrimeInfoDialog
-import com.felipimatheuz.primehunt.ui.navigation.BottomNav
-import com.felipimatheuz.primehunt.ui.navigation.NavigationGraph
-import com.felipimatheuz.primehunt.ui.navigation.TopToolbar
+import androidx.navigation3.runtime.NavEntry
+import androidx.navigation3.ui.NavDisplay
+import com.felipimatheuz.primehunt.business.util.PrimeFilter
+import com.felipimatheuz.primehunt.ui.navigation.*
+import kotlinx.coroutines.launch
 
 @Composable
 fun MainScreen() {
     var finishSplash by rememberSaveable { mutableStateOf(false) }
-    var showMigrationWarning by rememberSaveable(inputs = arrayOf(Unit)) { mutableStateOf(true) }
-    var showInfo by remember { mutableStateOf<MenuDialogState>(MenuDialogState.None) }
 
-    val navController = rememberNavController()
     if (finishSplash) {
-        Scaffold(
-            topBar = {
-                TopToolbar(
-                    navController = navController,
-                    onShowInfoChange = { showInfo = it }
-                )
-            },
-            bottomBar = {
-                BottomNav(navController = navController)
+        val navState = rememberNavigationState(
+            startRoute = OverviewKey,
+            topLevelRoutes = setOf(
+                OverviewKey,
+                PrimeSetsKey(),
+                OtherPrimesKey(),
+                RelicsKey(),
+                SyncKey,
+                HelpKey,
+                AboutKey
+            )
+        )
+        val navigator = remember(navState) { Navigator(navState) }
+        val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+        val scope = rememberCoroutineScope()
+
+        ModalNavigationDrawer(
+            drawerState = drawerState,
+            drawerContent = {
+                ModalDrawerSheet {
+                    DrawerContent(
+                        currentKey = navState.topLevelRoute as AppNavKey,
+                        onKeySelected = { key ->
+                            navigator.navigate(key)
+                            scope.launch { drawerState.close() }
+                        }
+                    )
+                }
             }
         ) {
-            NavigationGraph(navController = navController, padding = it)
-
-            if (showMigrationWarning) {
-                MigrationWarningDialog(
-                    onDismiss = { showMigrationWarning = false }
+            Scaffold(
+                topBar = {
+                    TopToolbar(
+                        currentKey = navState.topLevelRoute as AppNavKey,
+                        onMenuClick = { scope.launch { drawerState.open() } }
+                    )
+                }
+            ) { padding ->
+                NavDisplay(
+                    entries = navState.toEntries { key ->
+                        NavEntry(key) {
+                            when (key) {
+                                OverviewKey -> OverviewScreen(padding, true, {})
+                                is PrimeSetsKey -> PrimeSetRoute(padding)
+                                is OtherPrimesKey -> OtherPrimeScreen(padding, PrimeFilter.valueOf(key.filter))
+                                is RelicsKey -> RelicScreen(padding, PrimeFilter.valueOf(key.filter))
+                                SyncKey -> SyncAccountScreen()
+                                HelpKey -> HelpScreen()
+                                AboutKey -> AboutScreen()
+                                else -> Text("Unknown Route")
+                            }
+                        }
+                    },
+                    onBack = { navigator.goBack() }
                 )
-            }
-
-            if (showInfo == MenuDialogState.Sync) {
-                SyncAccountScreen(showInfo) { showInfo = MenuDialogState.None }
-            } else if (showInfo != MenuDialogState.None) {
-                PrimeInfoDialog(showInfo) { showInfo = MenuDialogState.None }
             }
         }
     } else {
@@ -58,15 +88,25 @@ fun MainScreen() {
 }
 
 @Composable
-fun MigrationWarningDialog(onDismiss: () -> Unit) {
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = { Text(text = stringResource(R.string.migration_warning_title)) },
-        text = { Text(text = stringResource(R.string.migration_warning_message)) },
-        confirmButton = {
-            TextButton(onClick = onDismiss) {
-                Text(text = stringResource(R.string.close))
-            }
-        }
+fun DrawerContent(
+    currentKey: AppNavKey,
+    onKeySelected: (AppNavKey) -> Unit
+) {
+    val items = listOf(
+        OverviewKey to "Overview",
+        PrimeSetsKey() to "Prime Sets",
+        OtherPrimesKey() to "Other Primes",
+        RelicsKey() to "Relics",
+        SyncKey to "Sync",
+        HelpKey to "Help",
+        AboutKey to "About"
     )
+
+    items.forEach { (key, label) ->
+        NavigationDrawerItem(
+            label = { Text(label) },
+            selected = currentKey::class == key::class,
+            onClick = { onKeySelected(key) }
+        )
+    }
 }

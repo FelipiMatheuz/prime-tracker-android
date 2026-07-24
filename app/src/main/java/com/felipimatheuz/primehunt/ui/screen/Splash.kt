@@ -7,93 +7,88 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Snackbar
-import androidx.compose.material3.SnackbarDuration
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.business.state.EtlFile
 import com.felipimatheuz.primehunt.business.state.SyncEvent
 import com.felipimatheuz.primehunt.ui.component.AnimatedLoad
 import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
 import com.felipimatheuz.primehunt.viewmodel.SplashViewModel
+import kotlinx.coroutines.delay
+import kotlin.time.Duration.Companion.seconds
 
 @Composable
 fun SplashScreen(onReady: () -> Unit, viewModel: SplashViewModel = hiltViewModel()) {
-    ConstraintLayout(modifier = Modifier.fillMaxSize()) {
-        val (loadItem, bottomLogo) = createRefs()
-        Column(modifier = Modifier.constrainAs(loadItem) {
-            top.linkTo(parent.top)
-            bottom.linkTo(parent.bottom)
-            start.linkTo(parent.start)
-            end.linkTo(parent.end)
-        }, horizontalAlignment = Alignment.CenterHorizontally) {
-            val syncEvent = viewModel.syncEvent.collectAsState()
-            when (val event = syncEvent.value) {
-                SyncEvent.Starting -> {
-                    ShowLoading(R.string.starting_sync)
-                }
+    val syncEvent = viewModel.syncEvent.collectAsState()
+    SplashContent(onReady, syncEvent.value)
+}
 
-                is SyncEvent.CheckingManifest -> {
-                    ShowLoading(R.string.check_manifest)
-                }
+@Composable
+fun SplashContent(onReady: () -> Unit, syncEvent: SyncEvent) {
 
-                is SyncEvent.Downloading -> {
-                    ShowLoading(R.string.downloading_content, event.file)
-                }
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier.align(Alignment.Center),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            AnimatedLoad(syncEvent is SyncEvent.Error)
+            when (syncEvent) {
+                SyncEvent.Starting -> ShowStatusText(R.string.starting_sync)
 
-                is SyncEvent.Importing -> {
-                    ShowLoading(R.string.importing_content, event.file)
-                }
+                is SyncEvent.CheckingManifest -> ShowStatusText(R.string.check_manifest)
 
-                is SyncEvent.Success -> {
-                    ShowLoading(R.string.sync_success)
+                is SyncEvent.Downloading -> ShowStatusText(
+                    R.string.downloading_content,
+                    syncEvent.file
+                )
+
+                is SyncEvent.Importing -> ShowStatusText(R.string.importing_content, syncEvent.file)
+
+                is SyncEvent.Success, SyncEvent.AlreadyUpToDate, SyncEvent.Error -> {
+                    val textRes = when (syncEvent) {
+                        is SyncEvent.Success -> {
+                            R.string.sync_success
+                        }
+
+                        is SyncEvent.AlreadyUpToDate -> {
+                            R.string.sync_up_to_date
+                        }
+
+                        else -> {
+                            R.string.sync_failed
+                        }
+                    }
+                    ShowStatusText(textRes)
                     LaunchedEffect(Unit) {
+                        delay(1.seconds)
                         onReady()
                     }
-                }
-
-                is SyncEvent.AlreadyUpToDate -> {
-                    ShowLoading(R.string.sync_up_to_date)
-                    LaunchedEffect(Unit) {
-                        onReady()
-                    }
-                }
-
-                is SyncEvent.Error -> {
-                    ShowError { onReady() }
                 }
             }
         }
-
         Row(
             modifier = Modifier
-                .constrainAs(bottomLogo) {
-                    bottom.linkTo(parent.bottom)
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
-                }
-                .padding(bottom = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
             Text(
                 text = stringResource(R.string.by_owner),
-                Modifier.padding(end = 8.dp),
+                textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.labelLarge.copy(
                     color = MaterialTheme.colorScheme.onSurface
                 )
@@ -103,13 +98,12 @@ fun SplashScreen(onReady: () -> Unit, viewModel: SplashViewModel = hiltViewModel
                 contentDescription = stringResource(R.string.logo)
             )
         }
-
     }
 }
 
+
 @Composable
-private fun ShowLoading(textRes: Int, file: EtlFile? = null) {
-    AnimatedLoad()
+private fun ShowStatusText(textRes: Int, file: EtlFile? = null) {
 
     val finalText = if (file == null) {
         stringResource(textRes)
@@ -118,54 +112,19 @@ private fun ShowLoading(textRes: Int, file: EtlFile? = null) {
     }
 
     Text(
-        text = finalText, style = MaterialTheme.typography.labelLarge.copy(
+        text = finalText,
+        modifier = Modifier.padding(horizontal = 24.dp),
+        textAlign = TextAlign.Center,
+        style = MaterialTheme.typography.labelLarge.copy(
             color = MaterialTheme.colorScheme.onSurface
         )
     )
 }
 
-@Composable
-private fun ShowError(onReady: () -> Unit) {
-    val snackbarHostState = remember { SnackbarHostState() }
-    val errorMessage = stringResource(R.string.sync_failed)
-
-    LaunchedEffect(Unit) {
-        snackbarHostState.showSnackbar(
-            message = errorMessage,
-            duration = SnackbarDuration.Short
-        )
-        onReady()
-    }
-
-    Box(modifier = Modifier.fillMaxSize()) {
-        SnackbarHost(
-            hostState = snackbarHostState,
-            modifier = Modifier.align(Alignment.BottomCenter)
-        ) { data ->
-            Snackbar(
-                modifier = Modifier.padding(12.dp),
-                shape = RoundedCornerShape(10.dp)
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.wifi_off),
-                        contentDescription = null,
-                        modifier = Modifier.size(24.dp)
-                    )
-                    Text(text = data.visuals.message)
-                }
-            }
-        }
-    }
-}
-
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun SplashScreenPreview() {
     PrimeTrackerTheme {
-        SplashScreen({})
+        SplashContent({}, SyncEvent.Error)
     }
 }

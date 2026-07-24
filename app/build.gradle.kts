@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
     alias(libs.plugins.google.services)
+    kotlin("plugin.serialization") version "2.4.10"
 }
 
 android {
@@ -90,6 +91,10 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.constraintlayout.compose)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.navigationthree.runtime)
+    implementation(libs.androidx.navigationthree.ui)
+    implementation(libs.androidx.lifecycle.viewmodel.navigation3)
+    implementation(libs.kotlinx.serialization.json)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.material)
