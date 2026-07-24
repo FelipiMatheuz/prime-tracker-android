@@ -44,7 +44,7 @@ class SyncRepository @Inject constructor(
                 emit(SyncEvent.Downloading(EtlFile.RELICS))
                 val relics = service.getRelics()
                 emit(SyncEvent.Importing(EtlFile.RELICS))
-                importRelics(relics.filter { it.era != "Vanguard" })
+                importRelics(relics)
                 updatedFiles.add(EtlFile.RELICS)
             }
 

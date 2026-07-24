@@ -62,6 +62,7 @@
     <string name="vasto_prime" translatable="false">Vasto Prime</string>
 
     <!--Menu items-->
+    <string name="menu_button_description">Quick Menu</string>
     <string name="filter">Filter</string>
     <string name="close">Close</string>
     <string name="show_all">Show All</string>
