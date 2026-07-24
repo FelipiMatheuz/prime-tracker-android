@@ -32,9 +32,9 @@ fun TopToolbar(
         is PrimeSetsKey -> R.string.menu_prime_sets
         is OtherPrimesKey -> R.string.menu_other_prime
         is RelicsKey -> R.string.menu_relics
-        SyncKey -> R.string.sync
-        HelpKey -> R.string.help
-        AboutKey -> R.string.about
+        SyncKey -> R.string.menu_sync
+        HelpKey -> R.string.menu_help
+        AboutKey -> R.string.menu_about
     }
 
     TopAppBar(

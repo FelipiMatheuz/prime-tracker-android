@@ -3,6 +3,7 @@ package com.felipimatheuz.primehunt.ui.screen
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -34,6 +35,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun SyncAccountScreen(
+    padding: PaddingValues,
     viewModel: SyncViewModel = hiltViewModel()
 ) {
     val info = MenuDialogState.Sync
@@ -47,6 +49,7 @@ fun SyncAccountScreen(
                 color = MaterialTheme.colorScheme.surface
             )
             .fillMaxSize()
+            .padding(padding)
             .padding(16.dp)
     ) {
         val (imgHeader, txtHeader, txtContent, txtState) = createRefs()

@@ -1,6 +1,8 @@
 package com.felipimatheuz.primehunt.ui.screen
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
@@ -14,10 +16,25 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.ui.NavDisplay
 import com.felipimatheuz.primehunt.business.util.PrimeFilter
-import com.felipimatheuz.primehunt.ui.navigation.*
+import com.felipimatheuz.primehunt.ui.navigation.AboutKey
+import com.felipimatheuz.primehunt.ui.navigation.AppNavKey
+import com.felipimatheuz.primehunt.ui.navigation.HelpKey
+import com.felipimatheuz.primehunt.ui.navigation.Navigator
+import com.felipimatheuz.primehunt.ui.navigation.OtherPrimesKey
+import com.felipimatheuz.primehunt.ui.navigation.OverviewKey
+import com.felipimatheuz.primehunt.ui.navigation.PrimeSetsKey
+import com.felipimatheuz.primehunt.ui.navigation.RelicsKey
+import com.felipimatheuz.primehunt.ui.navigation.SyncKey
+import com.felipimatheuz.primehunt.ui.navigation.TopToolbar
+import com.felipimatheuz.primehunt.ui.navigation.rememberNavigationState
+import com.felipimatheuz.primehunt.ui.navigation.toEntries
 import kotlinx.coroutines.launch
 
 @Composable
@@ -25,65 +42,69 @@ fun MainScreen() {
     var finishSplash by rememberSaveable { mutableStateOf(false) }
 
     if (finishSplash) {
-        val navState = rememberNavigationState(
-            startRoute = OverviewKey,
-            topLevelRoutes = setOf(
-                OverviewKey,
-                PrimeSetsKey(),
-                OtherPrimesKey(),
-                RelicsKey(),
-                SyncKey,
-                HelpKey,
-                AboutKey
-            )
-        )
-        val navigator = remember(navState) { Navigator(navState) }
-        val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-        val scope = rememberCoroutineScope()
+        MainContent()
+    } else {
+        SplashScreen({ finishSplash = true })
+    }
+}
 
-        ModalNavigationDrawer(
-            drawerState = drawerState,
-            drawerContent = {
-                ModalDrawerSheet {
-                    DrawerContent(
-                        currentKey = navState.topLevelRoute as AppNavKey,
-                        onKeySelected = { key ->
-                            navigator.navigate(key)
-                            scope.launch { drawerState.close() }
-                        }
-                    )
-                }
-            }
-        ) {
-            Scaffold(
-                topBar = {
-                    TopToolbar(
-                        currentKey = navState.topLevelRoute as AppNavKey,
-                        onMenuClick = { scope.launch { drawerState.open() } }
-                    )
-                }
-            ) { padding ->
-                NavDisplay(
-                    entries = navState.toEntries { key ->
-                        NavEntry(key) {
-                            when (key) {
-                                OverviewKey -> OverviewScreen(padding, true, {})
-                                is PrimeSetsKey -> PrimeSetRoute(padding)
-                                is OtherPrimesKey -> OtherPrimeScreen(padding, PrimeFilter.valueOf(key.filter))
-                                is RelicsKey -> RelicScreen(padding, PrimeFilter.valueOf(key.filter))
-                                SyncKey -> SyncAccountScreen()
-                                HelpKey -> HelpScreen()
-                                AboutKey -> AboutScreen()
-                                else -> Text("Unknown Route")
-                            }
-                        }
-                    },
-                    onBack = { navigator.goBack() }
+@Composable
+fun MainContent() {
+    val navState = rememberNavigationState(
+        startRoute = OverviewKey,
+        topLevelRoutes = AppNavKey.topLevelRoutes
+    )
+    val navigator = remember(navState) { Navigator(navState) }
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val scope = rememberCoroutineScope()
+
+    ModalNavigationDrawer(
+        drawerState = drawerState,
+        drawerContent = {
+            ModalDrawerSheet {
+                DrawerContent(
+                    currentKey = navState.topLevelRoute as AppNavKey,
+                    onKeySelected = { key ->
+                        navigator.navigate(key)
+                        scope.launch { drawerState.close() }
+                    }
                 )
             }
         }
-    } else {
-        SplashScreen({ finishSplash = true })
+    ) {
+        Scaffold(
+            topBar = {
+                TopToolbar(
+                    currentKey = navState.topLevelRoute as AppNavKey,
+                    onMenuClick = { scope.launch { drawerState.open() } }
+                )
+            }
+        ) { padding ->
+            NavDisplay(
+                entries = navState.toEntries { key ->
+                    NavEntry(key) {
+                        when (val appNavKey = key as AppNavKey) {
+                            OverviewKey -> OverviewScreen(padding, true, {})
+                            is PrimeSetsKey -> PrimeSetRoute(padding)
+                            is OtherPrimesKey -> OtherPrimeScreen(
+                                padding,
+                                PrimeFilter.valueOf(appNavKey.filter)
+                            )
+
+                            is RelicsKey -> RelicScreen(
+                                padding,
+                                PrimeFilter.valueOf(appNavKey.filter)
+                            )
+
+                            SyncKey -> SyncAccountScreen(padding)
+                            HelpKey -> HelpScreen(padding)
+                            AboutKey -> AboutScreen(padding)
+                        }
+                    }
+                },
+                onBack = { navigator.goBack() }
+            )
+        }
     }
 }
 
@@ -92,21 +113,18 @@ fun DrawerContent(
     currentKey: AppNavKey,
     onKeySelected: (AppNavKey) -> Unit
 ) {
-    val items = listOf(
-        OverviewKey to "Overview",
-        PrimeSetsKey() to "Prime Sets",
-        OtherPrimesKey() to "Other Primes",
-        RelicsKey() to "Relics",
-        SyncKey to "Sync",
-        HelpKey to "Help",
-        AboutKey to "About"
-    )
-
-    items.forEach { (key, label) ->
+    AppNavKey.topLevelRoutes.forEach { appNavKey ->
         NavigationDrawerItem(
-            label = { Text(label) },
-            selected = currentKey::class == key::class,
-            onClick = { onKeySelected(key) }
+            modifier = Modifier.padding(8.dp),
+            label = { Text(stringResource(appNavKey.label)) },
+            icon = {
+                Icon(
+                    painter = painterResource(appNavKey.icon),
+                    contentDescription = null
+                )
+            },
+            selected = currentKey::class == appNavKey::class,
+            onClick = { onKeySelected(appNavKey) }
         )
     }
 }

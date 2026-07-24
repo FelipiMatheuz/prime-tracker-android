@@ -1,6 +1,7 @@
 package com.felipimatheuz.primehunt.ui.screen
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -12,9 +13,13 @@ import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.business.state.MenuDialogState
 
 @Composable
-fun HelpScreen() {
+fun HelpScreen(paddingValues: PaddingValues) {
     val state = MenuDialogState.Help
-    Column(modifier = Modifier.padding(16.dp)) {
+    Column(
+        modifier = Modifier
+            .padding(paddingValues)
+            .padding(16.dp)
+    ) {
         Text(
             text = stringResource(state.title),
             style = MaterialTheme.typography.headlineMedium,

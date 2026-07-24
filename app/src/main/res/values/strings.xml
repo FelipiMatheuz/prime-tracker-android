@@ -74,6 +74,9 @@
     <string name="menu_prime_sets">Prime Sets</string>
     <string name="menu_other_prime">Other Primes</string>
     <string name="menu_relics">Relics</string>
+    <string name="menu_help">Help</string>
+    <string name="menu_about">About</string>
+    <string name="menu_sync">Synchronize</string>
 
     <!--Other-->
     <string name="overall_stats">Total:  %1$s\nIn Progress:  %2$s\nCompleted:  %3$s</string>
@@ -90,9 +93,6 @@
     <string name="overview_other">Other</string>
 
     <!-- Dialog Info -->
-    <string name="help">Help</string>
-    <string name="about">About</string>
-    <string name="sync">Synchronize</string>
     <string name="help_content">%1$s:\n-Long press and slide left/right one of the items to check/uncheck (respectively) all items within the set
         \n-Click on one of the items to see details
         \n\tClick on a prime component to mark/unmark the item\n-Use the filter in the toolbar to ease your search

@@ -1,6 +1,7 @@
 package com.felipimatheuz.primehunt.ui.screen
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -17,10 +18,17 @@ import com.felipimatheuz.primehunt.business.state.MenuDialogState
 import com.felipimatheuz.primehunt.viewmodel.PrimeInfoViewModel
 
 @Composable
-fun AboutScreen(viewModel: PrimeInfoViewModel = hiltViewModel()) {
+fun AboutScreen(
+    paddingValues: PaddingValues,
+    viewModel: PrimeInfoViewModel = hiltViewModel()
+) {
     val state = MenuDialogState.Info
     val update by viewModel.updateState.collectAsState()
-    Column(modifier = Modifier.padding(16.dp)) {
+    Column(
+        modifier = Modifier
+            .padding(paddingValues)
+            .padding(16.dp)
+    ) {
         Text(
             text = stringResource(state.title),
             style = MaterialTheme.typography.headlineMedium,
