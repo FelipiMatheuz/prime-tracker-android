@@ -1,10 +1,10 @@
 package com.felipimatheuz.primehunt.data.remote
 
 import androidx.room.TypeConverter
-import com.felipimatheuz.primehunt.data.remote.entity.RelicEra
-import com.felipimatheuz.primehunt.data.remote.entity.RelicSource
+import com.felipimatheuz.primehunt.data.remote.enums.RelicEra
+import com.felipimatheuz.primehunt.data.remote.enums.RelicSource
 import com.felipimatheuz.primehunt.data.remote.enums.DropRarity
-import com.felipimatheuz.primehunt.data.remote.entity.PrimePartType
+import com.felipimatheuz.primehunt.data.remote.enums.PrimePartType
 import com.felipimatheuz.primehunt.data.remote.enums.PrimeType
 
 class Converters {

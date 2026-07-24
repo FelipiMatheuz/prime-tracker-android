@@ -1,4 +1,4 @@
-package com.felipimatheuz.primehunt.data.remote.entity
+package com.felipimatheuz.primehunt.data.remote.enums
 
 enum class PrimePartType {
     BLUEPRINT,
