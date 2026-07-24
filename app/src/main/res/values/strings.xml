@@ -10,7 +10,7 @@
     <string name="importing_content">Importing %1$s content…</string>
     <string name="sync_success">Synchronization Successful!</string>
     <string name="sync_up_to_date">All contents are already up to date.</string>
-    <string name="sync_failed">Failed to synchronize</string>
+    <string name="sync_failed">Failed to synchronize\nThe last successful sync will be used.</string>
 
     <!--Templates-->
     <string name="prime_set_template">%1$s Prime Set</string>

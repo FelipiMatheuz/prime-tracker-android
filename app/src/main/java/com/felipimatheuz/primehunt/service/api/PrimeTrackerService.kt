@@ -1,7 +1,9 @@
 package com.felipimatheuz.primehunt.service.api
 
-import com.felipimatheuz.primehunt.data.remote.dto.*
-import com.felipimatheuz.primehunt.model.PrimeItem
+import com.felipimatheuz.primehunt.data.remote.dto.PrimeCollectionDto
+import com.felipimatheuz.primehunt.data.remote.dto.PrimeSetDto
+import com.felipimatheuz.primehunt.data.remote.dto.RelicDto
+import com.felipimatheuz.primehunt.data.remote.dto.RemoteManifest
 import retrofit2.http.GET
 
 interface PrimeTrackerService {
@@ -17,7 +19,4 @@ interface PrimeTrackerService {
 
     @GET("relics.json")
     suspend fun getRelics(): List<RelicDto>
-
-    @GET("other_primes.json")
-    suspend fun otherPrimes(): List<PrimeItem>
 }

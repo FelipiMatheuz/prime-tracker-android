@@ -22,7 +22,5 @@ sealed interface SyncEvent {
 
     data object AlreadyUpToDate : SyncEvent
 
-    data class Error(
-        val throwable: Throwable
-    ) : SyncEvent
+    data object Error : SyncEvent
 }

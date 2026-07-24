@@ -2,9 +2,9 @@ package com.felipimatheuz.primehunt.business.util
 
 import com.felipimatheuz.primehunt.model.*
 
-lateinit var primeSetList: List<PrimeSet>
-lateinit var otherPrimeList: List<PrimeItem>
-lateinit var relicList: List<RelicSet>
+var primeSetList: List<PrimeSet> = listOf()
+var otherPrimeList: List<PrimeItem> = listOf()
+var relicList: List<RelicSet> = listOf()
 
 val urlPrimeItem = mapOf(
     "Akbronco" to "https://static.wikia.nocookie.net/warframe/images/1/1c/AkbroncoPrime.png/revision/latest?cb=20220407125704",

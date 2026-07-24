@@ -24,6 +24,8 @@ lifecycle = "2.11.0"
 material = "1.11.4"
 material-version = "1.14.0"
 navigation-compose = "2.9.8"
+navigation3 = "1.1.4"
+serialization = "1.11.0"
 playServicesAuth = "21.6.0"
 retrofit2 = "3.0.0"
 runtime = "1.11.4"
@@ -63,6 +65,10 @@ androidx-lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecy
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
 androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation-compose" }
+androidx-navigationthree-runtime = { group = "androidx.navigation3", name = "navigation3-runtime", version.ref = "navigation3" }
+androidx-navigationthree-ui = { group = "androidx.navigation3", name = "navigation3-ui", version.ref = "navigation3" }
+androidx-lifecycle-viewmodel-navigation3 = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-navigation3", version.ref = "lifecycle" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serialization" }
 app-update-ktx = { group = "com.google.android.play", name = "app-update-ktx", version.ref = "app-update-ktx" }
 compose = { group = "com.github.bumptech.glide", name = "compose", version.ref = "compose" }
 converter-jackson = { group = "com.squareup.retrofit2", name = "converter-jackson", version.ref = "retrofit2" }
