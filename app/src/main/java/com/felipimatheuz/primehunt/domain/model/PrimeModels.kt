@@ -10,10 +10,7 @@ data class PrimeCollection(
     val name: String,
     val promoImage: String,
     val sets: List<PrimeSetDomain>
-) {
-    val totalPieces: Int get() = sets.sumOf { it.totalPieces }
-    val ownedPieces: Int get() = sets.sumOf { it.ownedPieces }
-}
+)
 
 data class PrimeSetDomain(
     val id: String,
@@ -41,12 +38,12 @@ data class PrimePartDomain(
     val imageUrl: String? = null,
     val nestedParts: List<PrimePartDomain> = emptyList()
 ) {
-    val isComplete: Boolean get() = ownedQuantity >= neededQuantity
     val totalNeeded: Int get() = if (nestedParts.isEmpty()) neededQuantity else nestedParts.sumOf { it.totalNeeded }
     val totalOwned: Int get() = if (nestedParts.isEmpty()) minOf(ownedQuantity, neededQuantity) else nestedParts.sumOf { it.totalOwned }
 }
 
 data class RelicRewardDomain(
     val name: String,
-    val rarity: DropRarity
+    val rarity: DropRarity,
+    val source: RelicSource
 )
