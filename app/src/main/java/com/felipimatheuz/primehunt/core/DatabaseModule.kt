@@ -2,6 +2,7 @@ package com.felipimatheuz.primehunt.core
 
 import android.content.Context
 import androidx.room.Room
+import com.felipimatheuz.primehunt.data.local.dao.InventoryDao
 import com.felipimatheuz.primehunt.data.remote.AppDatabase
 import com.felipimatheuz.primehunt.data.remote.dao.*
 import dagger.Module
@@ -45,4 +46,7 @@ object DatabaseModule {
 
     @Provides
     fun providePrimeCollectionSetDao(db: AppDatabase): PrimeCollectionSetDao = db.primeCollectionSetDao()
+
+    @Provides
+    fun provideInventoryDao(db: AppDatabase): InventoryDao = db.inventoryDao()
 }

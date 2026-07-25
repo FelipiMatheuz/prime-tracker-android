@@ -38,7 +38,7 @@ fun AboutScreen(
             text = stringResource(
                 state.content,
                 BuildConfig.VERSION_NAME.plus(if (update) "*" else ""),
-                stringResource(R.string.menu_other_prime),
+                stringResource(R.string.menu_trackings),
                 stringResource(R.string.menu_relics)
             ),
             style = MaterialTheme.typography.bodyLarge

@@ -29,7 +29,7 @@ fun HelpScreen(paddingValues: PaddingValues) {
             text = stringResource(
                 state.content,
                 stringResource(R.string.menu_prime_sets),
-                stringResource(R.string.menu_other_prime),
+                stringResource(R.string.menu_trackings),
                 stringResource(R.string.menu_relics)
             ),
             style = MaterialTheme.typography.bodyLarge

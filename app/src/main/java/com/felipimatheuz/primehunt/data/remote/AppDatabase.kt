@@ -3,6 +3,8 @@ package com.felipimatheuz.primehunt.data.remote
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.felipimatheuz.primehunt.data.local.dao.InventoryDao
+import com.felipimatheuz.primehunt.data.local.entity.InventoryPartEntity
 import com.felipimatheuz.primehunt.data.remote.dao.RelicDao
 import com.felipimatheuz.primehunt.data.remote.dao.ManifestDao
 import com.felipimatheuz.primehunt.data.remote.dao.PrimeSetDao
@@ -20,7 +22,8 @@ import com.felipimatheuz.primehunt.data.remote.entity.*
         PrimePartEntity::class,
         PrimeComponentEntity::class,
         PrimeCollectionEntity::class,
-        PrimeCollectionSetCrossRef::class
+        PrimeCollectionSetCrossRef::class,
+        InventoryPartEntity::class
     ],
     version = 1,
     exportSchema = false
@@ -34,4 +37,5 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun primeComponentDao(): PrimeComponentDao
     abstract fun primeCollectionDao(): PrimeCollectionDao
     abstract fun primeCollectionSetDao(): PrimeCollectionSetDao
+    abstract fun inventoryDao(): InventoryDao
 }

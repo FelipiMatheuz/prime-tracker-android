@@ -23,6 +23,13 @@ interface PrimePartDao {
     """)
     suspend fun getById(id: String): PrimePartEntity?
 
+    @Query("""
+        SELECT *
+        FROM prime_part
+        WHERE primeSetId = :setId
+    """)
+    suspend fun getByPrimeSetSync(setId: String): List<PrimePartEntity>
+
     @Upsert
     suspend fun upsertAll(parts: List<PrimePartEntity>)
 }

@@ -12,9 +12,9 @@ sealed interface AppNavKey : NavKey {
     companion object {
         val topLevelRoutes = setOf(
             OverviewKey,
-            PrimeSetsKey(),
-            OtherPrimesKey(),
-            RelicsKey(),
+            PrimeSetsKey,
+            RelicsKey,
+            TrackingKey,
             SyncKey,
             HelpKey,
             AboutKey
@@ -29,19 +29,19 @@ data object OverviewKey : AppNavKey {
 }
 
 @Serializable
-data class PrimeSetsKey(val filter: String = "SHOW_ALL") : AppNavKey {
+data object PrimeSetsKey : AppNavKey {
     override val icon = R.drawable.ic_excalibur_prime
     override val label = R.string.menu_prime_sets
 }
 
 @Serializable
-data class OtherPrimesKey(val filter: String = "SHOW_ALL") : AppNavKey {
+data object TrackingKey : AppNavKey {
     override val icon = R.drawable.ic_lato_prime
-    override val label = R.string.menu_other_prime
+    override val label = R.string.menu_trackings
 }
 
 @Serializable
-data class RelicsKey(val filter: String = "SHOW_ALL") : AppNavKey {
+data object RelicsKey : AppNavKey {
     override val icon = R.drawable.ic_relic
     override val label = R.string.menu_relics
 }
@@ -62,4 +62,10 @@ data object HelpKey : AppNavKey {
 data object AboutKey : AppNavKey {
     override val icon = R.drawable.ic_info
     override val label = R.string.menu_about
+}
+
+@Serializable
+data class PrimeDetailKey(val setId: String) : AppNavKey {
+    override val icon = 0
+    override val label = 0
 }
