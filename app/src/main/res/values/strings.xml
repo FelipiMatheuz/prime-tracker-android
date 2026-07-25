@@ -20,8 +20,8 @@
     <string name="relic_item_template" translatable="false">%1$s Prime %2$s %3$s</string>
 
     <!--Prime Set Status-->
-    <string name="status_vault">Vault</string>
-    <string name="status_active" translatable="false"/>
+    <string name="status_mission">Available</string>
+    <string name="status_vault">Vaulted</string>
     <string name="status_baro">Baro (Trader)</string>
     <string name="status_resurgence">Varzia (Resurgence)</string>
 
@@ -65,6 +65,15 @@
     <!--Menu items-->
     <string name="menu_button_description">Quick Menu</string>
     <string name="filter">Filter</string>
+    <string name="filter_title">Filters</string>
+    <string name="filter_section_progress">Progress</string>
+    <string name="filter_section_category">Category</string>
+    <string name="filter_section_availability">Availability</string>
+    <string name="filter_clear_all">Clear All</string>
+    <string name="filter_progress_all">All</string>
+    <string name="filter_progress_complete">Complete</string>
+    <string name="filter_progress_incomplete">In Progress</string>
+    <string name="filter_progress_not_started">Not Started</string>
     <string name="close">Close</string>
     <string name="show_all">Show All</string>
     <string name="available">Available</string>
@@ -83,17 +92,24 @@
     <string name="overall_stats">Total:  %1$s\nIn Progress:  %2$s\nCompleted:  %3$s</string>
     <string name="overall">Overall</string>
     <string name="detailed">Detailed</string>
+    <string name="tab_collections">Collections</string>
+    <string name="tab_prime_sets">Prime Sets</string>
     <string name="search_label">Search primes</string>
     <string name="tier_relics">%1$s Relics</string>
     <string name="forma_blueprint">Forma Blueprint</string>
     <string name="no_results">No results found</string>
     <string name="load_content">Loading content…</string>
     <string name="sets_completed_template">%1$d of %2$d Sets Completed</string>
+    <string name="detail_pieces_owned_template">%1$d / %2$d Pieces Owned</string>
+    <string name="detail_action_add_set">+1 Set</string>
+    <string name="detail_action_remove_set">-1 Set</string>
     <string name="overview_warframes" translatable="false">Warframe</string>
     <string name="overview_primary">Primary</string>
     <string name="overview_secondary">Secondary</string>
     <string name="overview_melee">Melee</string>
-    <string name="overview_other">Other</string>
+    <string name="overview_arch_gun">Arch Gun</string>
+    <string name="overview_companion">Companion</string>
+    <string name="overview_archwing">Archwing</string>
 
     <!-- Dialog Info -->
     <string name="help_content">%1$s:\n-Long press and slide left/right one of the items to check/uncheck (respectively) all items within the set
