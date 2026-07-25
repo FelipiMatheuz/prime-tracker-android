@@ -43,7 +43,7 @@ import com.felipimatheuz.primehunt.service.ads.BannerAdView
 import com.felipimatheuz.primehunt.ui.component.RelicRewardsDialog
 import com.felipimatheuz.primehunt.ui.theme.Black
 import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
-import com.felipimatheuz.primehunt.viewmodel.RelicViewModel
+import com.felipimatheuz.primehunt.ui.viewmodel.RelicViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

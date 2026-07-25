@@ -1,4 +1,4 @@
-package com.felipimatheuz.primehunt.viewmodel
+package com.felipimatheuz.primehunt.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,8 +11,10 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -40,6 +42,7 @@ class PrimeDetailViewModel @AssistedInject constructor(
 
     override val state: StateFlow<PrimeDetailState> = repository.observeSetDetails(setId)
         .map { PrimeDetailState(primeSet = it, isLoading = false) }
+        .flowOn(Dispatchers.Default)
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000L),
@@ -49,12 +52,12 @@ class PrimeDetailViewModel @AssistedInject constructor(
     override fun onIntent(intent: PrimeDetailIntent) {
         when (intent) {
             is PrimeDetailIntent.UpdateQuantity -> {
-                viewModelScope.launch {
+                viewModelScope.launch(Dispatchers.IO) {
                     repository.updateInventory(intent.partId, intent.delta)
                 }
             }
             is PrimeDetailIntent.UpdateSetQuantity -> {
-                viewModelScope.launch {
+                viewModelScope.launch(Dispatchers.IO) {
                     repository.updateSetInventory(setId, intent.delta)
                 }
             }

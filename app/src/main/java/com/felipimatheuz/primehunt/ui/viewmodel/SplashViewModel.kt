@@ -1,4 +1,4 @@
-package com.felipimatheuz.primehunt.viewmodel
+package com.felipimatheuz.primehunt.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

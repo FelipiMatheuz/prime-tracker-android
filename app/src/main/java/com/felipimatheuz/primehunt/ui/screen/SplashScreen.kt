@@ -25,7 +25,7 @@ import com.felipimatheuz.primehunt.business.state.EtlFile
 import com.felipimatheuz.primehunt.business.state.SyncEvent
 import com.felipimatheuz.primehunt.ui.component.AnimatedLoad
 import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
-import com.felipimatheuz.primehunt.viewmodel.SplashViewModel
+import com.felipimatheuz.primehunt.ui.viewmodel.SplashViewModel
 import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.seconds
 

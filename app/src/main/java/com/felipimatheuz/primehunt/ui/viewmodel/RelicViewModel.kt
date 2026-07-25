@@ -1,4 +1,4 @@
-package com.felipimatheuz.primehunt.viewmodel
+package com.felipimatheuz.primehunt.ui.viewmodel
 
 import android.content.Context
 import androidx.compose.foundation.isSystemInDarkTheme

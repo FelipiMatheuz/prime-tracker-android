@@ -15,7 +15,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.felipimatheuz.primehunt.BuildConfig
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.business.state.MenuDialogState
-import com.felipimatheuz.primehunt.viewmodel.PrimeInfoViewModel
+import com.felipimatheuz.primehunt.ui.viewmodel.PrimeInfoViewModel
 
 @Composable
 fun AboutScreen(

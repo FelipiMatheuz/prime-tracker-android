@@ -71,8 +71,9 @@
     <string name="filter_section_availability">Availability</string>
     <string name="filter_clear_all">Clear All</string>
     <string name="filter_progress_all">All</string>
-    <string name="filter_progress_complete">Complete</string>
-    <string name="filter_progress_incomplete">In Progress</string>
+    <string name="filter_progress_complete">Completed</string>
+    <string name="filter_progress_incomplete">Incompleted</string>
+    <string name="filter_progress_in_progress">In Progress</string>
     <string name="filter_progress_not_started">Not Started</string>
     <string name="close">Close</string>
     <string name="show_all">Show All</string>

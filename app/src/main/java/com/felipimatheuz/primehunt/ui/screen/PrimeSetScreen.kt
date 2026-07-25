@@ -57,10 +57,10 @@ import com.felipimatheuz.primehunt.domain.model.PrimeSetDomain
 import com.felipimatheuz.primehunt.ui.component.CategoryHeader
 import com.felipimatheuz.primehunt.ui.component.CollectionCard
 import com.felipimatheuz.primehunt.ui.component.PrimeSetCard
-import com.felipimatheuz.primehunt.viewmodel.PrimeSetFilters
-import com.felipimatheuz.primehunt.viewmodel.PrimeSetIntent
-import com.felipimatheuz.primehunt.viewmodel.PrimeSetViewModel
-import com.felipimatheuz.primehunt.viewmodel.ProgressFilter
+import com.felipimatheuz.primehunt.ui.viewmodel.PrimeSetFilters
+import com.felipimatheuz.primehunt.ui.viewmodel.PrimeSetIntent
+import com.felipimatheuz.primehunt.ui.viewmodel.PrimeSetViewModel
+import com.felipimatheuz.primehunt.ui.viewmodel.ProgressFilter
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
@@ -70,10 +70,12 @@ fun PrimeSetScreen(
     onSetClick: (PrimeSetDomain) -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val viewOptions = listOf(
-        R.string.tab_collections,
-        R.string.tab_prime_sets
-    )
+    val viewOptions = remember {
+        listOf(
+            R.string.tab_collections,
+            R.string.tab_prime_sets
+        )
+    }
     
     val sheetState = rememberModalBottomSheetState()
     var showFilterSheet by remember { mutableStateOf(false) }
@@ -250,16 +252,10 @@ fun FilterBottomSheet(
             FilterSectionTitle(stringResource(R.string.filter_section_progress))
             FlowRow(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 ProgressFilter.entries.forEach { option ->
-                    val labelRes = when(option) {
-                        ProgressFilter.ALL -> R.string.filter_progress_all
-                        ProgressFilter.COMPLETE -> R.string.filter_progress_complete
-                        ProgressFilter.INCOMPLETE -> R.string.filter_progress_incomplete
-                        ProgressFilter.NOT_STARTED -> R.string.filter_progress_not_started
-                    }
                     FilterChip(
                         selected = filters.progress == option,
                         onClick = { onFiltersChanged(filters.copy(progress = option)) },
-                        label = { Text(stringResource(labelRes)) }
+                        label = { Text(stringResource(option.displayNameRes)) }
                     )
                 }
             }

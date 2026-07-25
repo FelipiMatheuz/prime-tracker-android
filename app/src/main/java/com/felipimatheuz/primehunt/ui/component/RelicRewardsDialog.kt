@@ -20,7 +20,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.model.RelicSet
 import com.felipimatheuz.primehunt.model.RelicTier
-import com.felipimatheuz.primehunt.viewmodel.RelicViewModel
+import com.felipimatheuz.primehunt.ui.viewmodel.RelicViewModel
 
 @Composable
 fun RelicRewardsDialog(relicTier: RelicTier, relicSet: RelicSet, dismiss: () -> Unit, viewModel: RelicViewModel = hiltViewModel()) {

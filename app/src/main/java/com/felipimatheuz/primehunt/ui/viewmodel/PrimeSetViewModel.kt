@@ -1,7 +1,8 @@
-package com.felipimatheuz.primehunt.viewmodel
+package com.felipimatheuz.primehunt.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.data.remote.enums.PrimeType
 import com.felipimatheuz.primehunt.data.remote.enums.RelicSource
 import com.felipimatheuz.primehunt.data.repository.PrimeRepository
@@ -11,10 +12,24 @@ import com.felipimatheuz.primehunt.ui.mvi.MviIntent
 import com.felipimatheuz.primehunt.ui.mvi.MviState
 import com.felipimatheuz.primehunt.ui.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
-enum class ProgressFilter { ALL, COMPLETE, INCOMPLETE, NOT_STARTED }
+enum class ProgressFilter(val displayNameRes: Int) {
+    ALL(R.string.filter_progress_all),
+    COMPLETE(R.string.filter_progress_complete),
+    INCOMPLETE(R.string.filter_progress_incomplete),
+    IN_PROGRESS(R.string.filter_progress_in_progress),
+    NOT_STARTED(R.string.filter_progress_not_started)
+}
 
 data class PrimeSetFilters(
     val progress: ProgressFilter = ProgressFilter.ALL,
@@ -56,11 +71,12 @@ class PrimeSetViewModel @Inject constructor(
     private val _filters = MutableStateFlow(PrimeSetFilters())
     private val _selectedView = MutableStateFlow(0)
 
+    @OptIn(FlowPreview::class)
     override val state: StateFlow<PrimeSetState> = combine(
         listOf(
-            repository.observeCollections(),
-            repository.observeWithoutCollection(),
-            repository.observeSetsGroupedByCategory(),
+            repository.observeCollections().distinctUntilChanged(),
+            repository.observeWithoutCollection().distinctUntilChanged(),
+            repository.observeSetsGroupedByCategory().distinctUntilChanged(),
             _searchText,
             _filters,
             _selectedView
@@ -72,9 +88,9 @@ class PrimeSetViewModel @Inject constructor(
         val query = array[3] as String
         val filters = array[4] as PrimeSetFilters
         val selectedView = array[5] as Int
-        
+
         val allCollections = collections + withoutCollection
-        
+
         val filteredCollections = allCollections.map { coll ->
             coll.copy(sets = applyFilters(coll.sets, query, filters))
         }.filter { it.sets.isNotEmpty() || (query.isEmpty() && filters == PrimeSetFilters()) }
@@ -91,11 +107,13 @@ class PrimeSetViewModel @Inject constructor(
             selectedView = selectedView,
             isLoading = false
         )
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000L),
-        initialValue = PrimeSetState()
-    )
+    }
+        .flowOn(Dispatchers.Default)
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000L),
+            initialValue = PrimeSetState()
+        )
 
     private fun applyFilters(
         sets: List<PrimeSetDomain>,
@@ -104,18 +122,21 @@ class PrimeSetViewModel @Inject constructor(
     ): List<PrimeSetDomain> {
         return sets.filter { set ->
             val matchesQuery = set.name.contains(query, ignoreCase = true)
-            
+
             val matchesProgress = when (filters.progress) {
                 ProgressFilter.ALL -> true
                 ProgressFilter.COMPLETE -> set.ownedPieces == set.totalPieces && set.totalPieces > 0
-                ProgressFilter.INCOMPLETE -> set.ownedPieces < set.totalPieces && set.ownedPieces > 0
+                ProgressFilter.INCOMPLETE -> set.ownedPieces < set.totalPieces && set.totalPieces > 0
+                ProgressFilter.IN_PROGRESS -> set.ownedPieces < set.totalPieces && set.ownedPieces > 0
                 ProgressFilter.NOT_STARTED -> set.ownedPieces == 0
             }
-            
-            val matchesCategory = filters.categories.isEmpty() || filters.categories.contains(set.type)
-            
-            val matchesAvailability = filters.availabilities.isEmpty() || filters.availabilities.contains(set.availability)
-            
+
+            val matchesCategory =
+                filters.categories.isEmpty() || filters.categories.contains(set.type)
+
+            val matchesAvailability =
+                filters.availabilities.isEmpty() || filters.availabilities.contains(set.availability)
+
             matchesQuery && matchesProgress && matchesCategory && matchesAvailability
         }
     }

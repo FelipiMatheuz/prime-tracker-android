@@ -1,4 +1,4 @@
-package com.felipimatheuz.primehunt.viewmodel
+package com.felipimatheuz.primehunt.ui.viewmodel
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.seconds
 
 @HiltViewModel
 class SyncViewModel @Inject constructor(
@@ -77,7 +78,7 @@ class SyncViewModel @Inject constructor(
         onError: () -> Unit
     ): Int? {
         CoroutineScope(Dispatchers.IO).launch {
-            delay(3000)
+            delay(3.seconds)
             resetState()
         }
         return when (state) {

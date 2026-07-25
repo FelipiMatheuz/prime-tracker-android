@@ -15,13 +15,16 @@ import com.felipimatheuz.primehunt.domain.model.PrimeCollection
 import com.felipimatheuz.primehunt.domain.model.PrimePartDomain
 import com.felipimatheuz.primehunt.domain.model.PrimeSetDomain
 import com.felipimatheuz.primehunt.domain.model.RelicRewardDomain
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -37,7 +40,7 @@ class PrimeRepository @Inject constructor(
 ) {
 
     fun observeCollections(): Flow<List<PrimeCollection>> =
-        collectionDao.getAll().flatMapLatest { collections ->
+        collectionDao.getAll().distinctUntilChanged().flatMapLatest { collections ->
             if (collections.isEmpty()) return@flatMapLatest flowOf(emptyList())
 
             val collectionFlows = collections.map { coll ->
@@ -133,8 +136,9 @@ class PrimeRepository @Inject constructor(
     private fun observePartDomain(part: PrimePartEntity, multiplier: Int): Flow<PrimePartDomain> {
         val ownedFlow = inventoryDao.observeInventory()
             .map { inv -> inv.find { it.primePartId == part.id }?.quantity ?: 0 }
+            .distinctUntilChanged()
 
-        val relicInfoFlow = componentDao.getByPrimePart(part.id).flatMapLatest { comps ->
+        val relicInfoFlow = componentDao.getByPrimePart(part.id).distinctUntilChanged().flatMapLatest { comps ->
             if (comps.isEmpty()) return@flatMapLatest flowOf(emptyList<RelicSource>() to emptyList())
             val relicFlows = comps.map { c ->
                 flow {
@@ -177,13 +181,13 @@ class PrimeRepository @Inject constructor(
         }
     }
 
-    suspend fun updateInventory(partId: String, delta: Int) {
+    suspend fun updateInventory(partId: String, delta: Int) = withContext(Dispatchers.IO) {
         val current = inventoryDao.get(partId)
         val newQuantity = maxOf(0, (current?.quantity ?: 0) + delta)
         inventoryDao.upsert(InventoryPartEntity(partId, newQuantity))
     }
 
-    suspend fun updateSetInventory(setId: String, delta: Int) {
+    suspend fun updateSetInventory(setId: String, delta: Int) = withContext(Dispatchers.IO) {
         val partsToUpdate = mutableMapOf<String, Int>()
         collectPartsRecursively(setId, 1, partsToUpdate)
         
