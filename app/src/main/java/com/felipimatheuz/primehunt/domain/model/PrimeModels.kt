@@ -40,6 +40,9 @@ data class PrimePartDomain(
 ) {
     val totalNeeded: Int get() = if (nestedParts.isEmpty()) neededQuantity else nestedParts.sumOf { it.totalNeeded }
     val totalOwned: Int get() = if (nestedParts.isEmpty()) minOf(ownedQuantity, neededQuantity) else nestedParts.sumOf { it.totalOwned }
+    
+    val availableRelics: List<RelicRewardDomain> get() = relics.filter { it.source != RelicSource.VAULT }
+    val vaultedRelics: List<RelicRewardDomain> get() = relics.filter { it.source == RelicSource.VAULT }
 }
 
 data class RelicRewardDomain(

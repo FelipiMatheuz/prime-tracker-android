@@ -2,7 +2,6 @@ package com.felipimatheuz.primehunt.ui.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -49,20 +48,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.data.remote.enums.DropRarity
 import com.felipimatheuz.primehunt.data.remote.enums.PrimePartType
-import com.felipimatheuz.primehunt.data.remote.enums.RelicSource
 import com.felipimatheuz.primehunt.domain.model.PrimePartDomain
 import com.felipimatheuz.primehunt.domain.model.PrimeSetDomain
 import com.felipimatheuz.primehunt.domain.model.RelicRewardDomain
-import com.felipimatheuz.primehunt.ui.theme.Common
-import com.felipimatheuz.primehunt.ui.theme.CommonDark
 import com.felipimatheuz.primehunt.ui.theme.High
 import com.felipimatheuz.primehunt.ui.theme.Low
-import com.felipimatheuz.primehunt.ui.theme.Rare
-import com.felipimatheuz.primehunt.ui.theme.RareDark
-import com.felipimatheuz.primehunt.ui.theme.Uncommon
-import com.felipimatheuz.primehunt.ui.theme.UncommonDark
 import com.felipimatheuz.primehunt.ui.theme.Zero
 import com.felipimatheuz.primehunt.viewmodel.PrimeDetailIntent
 import com.felipimatheuz.primehunt.viewmodel.PrimeDetailViewModel
@@ -166,27 +157,10 @@ private fun RelicGroup(relics: List<RelicRewardDomain>, modifier: Modifier = Mod
                     text = relic.name,
                     style = MaterialTheme.typography.labelSmall,
                     fontWeight = FontWeight.Bold,
-                    color = getRarityColor(relic.rarity),
+                    color = relic.rarity.getColor(),
                     modifier = Modifier.padding(horizontal = 4.dp)
                 )
             }
-        }
-    }
-}
-
-@Composable
-private fun getRarityColor(rarity: DropRarity): Color {
-    return if (isSystemInDarkTheme()) {
-        when (rarity) {
-            DropRarity.COMMON -> CommonDark
-            DropRarity.UNCOMMON -> UncommonDark
-            DropRarity.RARE -> RareDark
-        }
-    } else {
-        when (rarity) {
-            DropRarity.COMMON -> Common
-            DropRarity.UNCOMMON -> Uncommon
-            DropRarity.RARE -> Rare
         }
     }
 }
@@ -221,8 +195,7 @@ private fun HeaderSection(primeSet: PrimeSetDomain) {
             fontWeight = FontWeight.Bold
         )
         Text(
-            text = primeSet.type.name.lowercase().replace("_", " ")
-                .replaceFirstChar { it.uppercase() },
+            text = stringResource(primeSet.type.displayNameRes),
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.primary
         )
@@ -241,7 +214,7 @@ private fun HeaderSection(primeSet: PrimeSetDomain) {
             color = if (progress == 1f) High else if (progress > 0) Low else Zero
         )
         Text(
-            text = "${primeSet.ownedPieces}/${primeSet.totalPieces} Pieces Owned",
+            text = stringResource(R.string.detail_pieces_owned_template, primeSet.ownedPieces, primeSet.totalPieces),
             style = MaterialTheme.typography.labelMedium,
             modifier = Modifier.padding(top = 4.dp)
         )
@@ -267,13 +240,13 @@ private fun QuickActions(
                 contentColor = MaterialTheme.colorScheme.onSurfaceVariant
             )
         ) {
-            Text("-1 Set")
+            Text(stringResource(R.string.detail_action_remove_set))
         }
         Button(
             onClick = onAddSet,
             modifier = Modifier.weight(1f)
         ) {
-            Text("+1 Set")
+            Text(stringResource(R.string.detail_action_add_set))
         }
     }
 }
@@ -332,20 +305,17 @@ private fun ComponentItem(
                 color = if (isSet) MaterialTheme.colorScheme.primary else Color.Unspecified
             )
             if (!isSet && part.relics.isNotEmpty()) {
-                val availableRelics = part.relics.filter { it.source != RelicSource.VAULT }
-                val unavailableRelics = part.relics.filter { it.source == RelicSource.VAULT }
-
-                if (availableRelics.isNotEmpty()) {
+                if (part.availableRelics.isNotEmpty()) {
                     RelicGroup(
-                        relics = availableRelics, modifier = Modifier.background(
+                        relics = part.availableRelics, modifier = Modifier.background(
                             MaterialTheme.colorScheme.secondary.copy(alpha = 0.2f),
                             RoundedCornerShape(4.dp)
                         )
                     )
                 }
 
-                if (unavailableRelics.isNotEmpty()) {
-                    RelicGroup(relics = unavailableRelics)
+                if (part.vaultedRelics.isNotEmpty()) {
+                    RelicGroup(relics = part.vaultedRelics)
                 }
             }
         }

@@ -33,9 +33,10 @@ data class PrimeSetFilters(
 
 data class PrimeSetState(
     val collections: List<PrimeCollection> = emptyList(),
-    val groupedSets: Map<String, List<PrimeSetDomain>> = emptyMap(),
+    val groupedSets: Map<PrimeType, List<PrimeSetDomain>> = emptyMap(),
     val queryFilter: String = "",
     val activeFilters: PrimeSetFilters = PrimeSetFilters(),
+    val selectedView: Int = 0,
     val isLoading: Boolean = true
 ) : MviState
 
@@ -43,6 +44,7 @@ sealed class PrimeSetIntent : MviIntent {
     data class Search(val query: String) : PrimeSetIntent()
     object ClearSearch : PrimeSetIntent()
     data class UpdateFilters(val filters: PrimeSetFilters) : PrimeSetIntent()
+    data class ChangeView(val index: Int) : PrimeSetIntent()
 }
 
 @HiltViewModel
@@ -52,14 +54,24 @@ class PrimeSetViewModel @Inject constructor(
 
     private val _searchText = MutableStateFlow("")
     private val _filters = MutableStateFlow(PrimeSetFilters())
+    private val _selectedView = MutableStateFlow(0)
 
     override val state: StateFlow<PrimeSetState> = combine(
-        repository.observeCollections(),
-        repository.observeWithoutCollection(),
-        repository.observeSetsGroupedByCategory(),
-        _searchText,
-        _filters
-    ) { collections, withoutCollection, groupedByCategory, query, filters ->
+        listOf(
+            repository.observeCollections(),
+            repository.observeWithoutCollection(),
+            repository.observeSetsGroupedByCategory(),
+            _searchText,
+            _filters,
+            _selectedView
+        )
+    ) { array ->
+        val collections = array[0] as List<PrimeCollection>
+        val withoutCollection = array[1] as PrimeCollection
+        val groupedByCategory = array[2] as Map<PrimeType, List<PrimeSetDomain>>
+        val query = array[3] as String
+        val filters = array[4] as PrimeSetFilters
+        val selectedView = array[5] as Int
         
         val allCollections = collections + withoutCollection
         
@@ -69,13 +81,14 @@ class PrimeSetViewModel @Inject constructor(
 
         val filteredGrouped = groupedByCategory.mapValues { (_, sets) ->
             applyFilters(sets, query, filters)
-        }.filterValues { it.isNotEmpty() }.mapKeys { it.key.name }
+        }.filterValues { it.isNotEmpty() }
 
         PrimeSetState(
             collections = filteredCollections,
             groupedSets = filteredGrouped,
             queryFilter = query,
             activeFilters = filters,
+            selectedView = selectedView,
             isLoading = false
         )
     }.stateIn(
@@ -112,6 +125,7 @@ class PrimeSetViewModel @Inject constructor(
             is PrimeSetIntent.Search -> _searchText.value = intent.query
             is PrimeSetIntent.ClearSearch -> _searchText.value = ""
             is PrimeSetIntent.UpdateFilters -> _filters.value = intent.filters
+            is PrimeSetIntent.ChangeView -> _selectedView.value = intent.index
         }
     }
 }

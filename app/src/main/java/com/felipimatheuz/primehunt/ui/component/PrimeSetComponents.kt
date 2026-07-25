@@ -117,7 +117,7 @@ fun PrimeSetCard(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = primeSet.type.name.lowercase().replace("_", " ").replaceFirstChar { it.uppercase() },
+                        text = stringResource(primeSet.type.displayNameRes),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -129,7 +129,7 @@ fun PrimeSetCard(
                     }
                     
                     Text(
-                        text = primeSet.availability.name.lowercase().replaceFirstChar { it.uppercase() },
+                        text = stringResource(primeSet.availability.displayNameRes),
                         style = MaterialTheme.typography.labelSmall,
                         fontWeight = FontWeight.Bold,
                         color = availabilityColor
@@ -301,11 +301,11 @@ fun CollectionCard(
 
 @Composable
 fun CategoryHeader(
-    title: String,
+    titleRes: Int,
     modifier: Modifier = Modifier
 ) {
     Text(
-        text = title.replace("_", " "),
+        text = stringResource(titleRes),
         style = MaterialTheme.typography.titleSmall,
         fontWeight = FontWeight.Bold,
         color = MaterialTheme.colorScheme.primary,

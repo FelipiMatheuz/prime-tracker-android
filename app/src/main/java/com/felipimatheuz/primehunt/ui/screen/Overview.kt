@@ -102,7 +102,7 @@ fun OverviewScreen(
                 scaleSize = 0.5f
             )
             PrimeChart(
-                labelRes = R.string.overview_other,
+                labelRes = R.string.overview_companion,
                 data = (setPrimeItems + otherPrimeItems).filter { it.type == PrimeType.OTHER },
                 modifier = Modifier.constrainAs(otherChart) {
                     end.linkTo(parent.end, 16.dp)
