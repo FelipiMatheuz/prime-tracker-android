@@ -137,6 +137,8 @@ fun PrimeSetCard(
                 }
             }
 
+            Spacer(modifier = Modifier.width(12.dp))
+
             Column(horizontalAlignment = Alignment.End) {
                 val textColor = when {
                     primeSet.ownedPieces == primeSet.totalPieces && primeSet.totalPieces > 0 -> High

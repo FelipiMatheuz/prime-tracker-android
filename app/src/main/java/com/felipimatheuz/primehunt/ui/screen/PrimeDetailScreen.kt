@@ -51,9 +51,19 @@ import com.bumptech.glide.integration.compose.GlideImage
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.data.remote.enums.DropRarity
 import com.felipimatheuz.primehunt.data.remote.enums.PrimePartType
+import com.felipimatheuz.primehunt.data.remote.enums.RelicSource
 import com.felipimatheuz.primehunt.domain.model.PrimePartDomain
 import com.felipimatheuz.primehunt.domain.model.PrimeSetDomain
-import com.felipimatheuz.primehunt.ui.theme.*
+import com.felipimatheuz.primehunt.domain.model.RelicRewardDomain
+import com.felipimatheuz.primehunt.ui.theme.Common
+import com.felipimatheuz.primehunt.ui.theme.CommonDark
+import com.felipimatheuz.primehunt.ui.theme.High
+import com.felipimatheuz.primehunt.ui.theme.Low
+import com.felipimatheuz.primehunt.ui.theme.Rare
+import com.felipimatheuz.primehunt.ui.theme.RareDark
+import com.felipimatheuz.primehunt.ui.theme.Uncommon
+import com.felipimatheuz.primehunt.ui.theme.UncommonDark
+import com.felipimatheuz.primehunt.ui.theme.Zero
 import com.felipimatheuz.primehunt.viewmodel.PrimeDetailIntent
 import com.felipimatheuz.primehunt.viewmodel.PrimeDetailViewModel
 
@@ -103,9 +113,16 @@ fun PrimeDetailScreen(
                         }
 
                         if (part.nestedParts.isNotEmpty()) {
-                            items(part.nestedParts, key = { "nested_${part.id}_${it.id}" }) { nested ->
+                            items(
+                                part.nestedParts,
+                                key = { "nested_${part.id}_${it.id}" }) { nested ->
                                 ComponentItem(nested, isNested = true) { delta ->
-                                    viewModel.onIntent(PrimeDetailIntent.UpdateQuantity(nested.id, delta))
+                                    viewModel.onIntent(
+                                        PrimeDetailIntent.UpdateQuantity(
+                                            nested.id,
+                                            delta
+                                        )
+                                    )
                                 }
                             }
                         }
@@ -133,6 +150,26 @@ fun PrimeDetailScreen(
                 contentDescription = "Back",
                 tint = MaterialTheme.colorScheme.onSurface
             )
+        }
+    }
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+private fun RelicGroup(relics: List<RelicRewardDomain>, modifier: Modifier = Modifier) {
+    Box(modifier = modifier) {
+        FlowRow(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            relics.forEach { relic ->
+                Text(
+                    text = relic.name,
+                    style = MaterialTheme.typography.labelSmall,
+                    fontWeight = FontWeight.Bold,
+                    color = getRarityColor(relic.rarity),
+                    modifier = Modifier.padding(horizontal = 4.dp)
+                )
+            }
         }
     }
 }
@@ -184,7 +221,8 @@ private fun HeaderSection(primeSet: PrimeSetDomain) {
             fontWeight = FontWeight.Bold
         )
         Text(
-            text = primeSet.type.name.lowercase().replace("_", " ").replaceFirstChar { it.uppercase() },
+            text = primeSet.type.name.lowercase().replace("_", " ")
+                .replaceFirstChar { it.uppercase() },
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.primary
         )
@@ -248,11 +286,16 @@ private fun ComponentItem(
     onUpdateQuantity: (Int) -> Unit
 ) {
     val isSet = part.name == PrimePartType.PRIME_SET
-    
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = if (isNested) 48.dp else 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp),
+            .padding(
+                start = if (isNested) 48.dp else 16.dp,
+                end = 16.dp,
+                top = 8.dp,
+                bottom = 8.dp
+            ),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
@@ -282,31 +325,32 @@ private fun ComponentItem(
 
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                text = if (isSet) part.id.replace("_", " ").replaceFirstChar { it.uppercase() } 
-                       else stringResource(part.name.text),
+                text = if (isSet) part.id.replace("_", " ").replaceFirstChar { it.uppercase() }
+                else stringResource(part.name.text),
                 style = if (isSet) MaterialTheme.typography.titleMedium else MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.Bold,
                 color = if (isSet) MaterialTheme.colorScheme.primary else Color.Unspecified
             )
             if (!isSet && part.relics.isNotEmpty()) {
-                FlowRow(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 4.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    part.relics.forEach { relic ->
-                        Text(
-                            text = relic.name,
-                            style = MaterialTheme.typography.labelSmall,
-                            fontWeight = FontWeight.Bold,
-                            color = getRarityColor(relic.rarity)
+                val availableRelics = part.relics.filter { it.source != RelicSource.VAULT }
+                val unavailableRelics = part.relics.filter { it.source == RelicSource.VAULT }
+
+                if (availableRelics.isNotEmpty()) {
+                    RelicGroup(
+                        relics = availableRelics, modifier = Modifier.background(
+                            MaterialTheme.colorScheme.secondary.copy(alpha = 0.2f),
+                            RoundedCornerShape(4.dp)
                         )
-                    }
+                    )
+                }
+
+                if (unavailableRelics.isNotEmpty()) {
+                    RelicGroup(relics = unavailableRelics)
                 }
             }
         }
+
+        Spacer(modifier = Modifier.width(16.dp))
 
         if (!isSet) {
             Row(

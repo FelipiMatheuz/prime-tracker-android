@@ -66,12 +66,22 @@ fun PrimeSetScreen(
                                     Icon(painterResource(R.drawable.btn_close), contentDescription = "Clear")
                                 }
                             }
-                            IconButton(onClick = { showFilterSheet = true }) {
-                                Icon(
-                                    painter = painterResource(R.drawable.btn_filter),
-                                    contentDescription = "Filter",
-                                    tint = if (state.activeFilters != PrimeSetFilters()) MaterialTheme.colorScheme.primary else LocalContentColor.current
-                                )
+                            BadgedBox(
+                                badge = {
+                                    if (state.activeFilters.activeCount > 0) {
+                                        Badge {
+                                            Text(state.activeFilters.activeCount.toString())
+                                        }
+                                    }
+                                }
+                            ) {
+                                IconButton(onClick = { showFilterSheet = true }) {
+                                    Icon(
+                                        painter = painterResource(R.drawable.btn_filter),
+                                        contentDescription = "Filter",
+                                        tint = if (state.activeFilters.activeCount > 0) MaterialTheme.colorScheme.primary else LocalContentColor.current
+                                    )
+                                }
                             }
                         }
                     }

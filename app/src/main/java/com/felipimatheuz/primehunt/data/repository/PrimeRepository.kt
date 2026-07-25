@@ -94,7 +94,7 @@ class PrimeRepository @Inject constructor(
     fun observeSetDetails(setId: String): Flow<PrimeSetDomain?> = setDao.observeById(setId)
         .flatMapLatest { setEntity ->
             if (setEntity == null) return@flatMapLatest flowOf(null)
-            observePartList(setId).map { domainParts ->
+            observePartList(setId, 1).map { domainParts ->
                 PrimeSetDomain(
                     id = setEntity.id,
                     name = setEntity.name,
@@ -105,7 +105,7 @@ class PrimeRepository @Inject constructor(
             }
         }
 
-    private fun observePartList(setId: String): Flow<List<PrimePartDomain>> =
+    private fun observePartList(setId: String, multiplier: Int): Flow<List<PrimePartDomain>> =
         partDao.getByPrimeSet(setId).flatMapLatest { parts ->
             val hasBlueprintInParts = parts.any { it.id == setId }
 
@@ -113,23 +113,24 @@ class PrimeRepository @Inject constructor(
                 componentDao.getByPrimePart(setId).flatMapLatest { comps ->
                     if (comps.isNotEmpty()) {
                         val blueprintFlow = observePartDomain(
-                            PrimePartEntity(setId, setId, PrimePartType.BLUEPRINT, 1)
+                            PrimePartEntity(setId, setId, PrimePartType.BLUEPRINT, 1),
+                            multiplier
                         )
-                        val otherPartsFlows = parts.map { observePartDomain(it) }
+                        val otherPartsFlows = parts.map { observePartDomain(it, multiplier) }
                         combine(otherPartsFlows + blueprintFlow) { it.toList() }
                     } else {
                         if (parts.isEmpty()) flowOf(emptyList())
-                        else combine(parts.map { observePartDomain(it) }) { it.toList() }
+                        else combine(parts.map { observePartDomain(it, multiplier) }) { it.toList() }
                     }
                 }
             } else {
                 if (parts.isEmpty()) flowOf(emptyList())
-                else combine(parts.map { observePartDomain(it) }) { it.toList() }
+                else combine(parts.map { observePartDomain(it, multiplier) }) { it.toList() }
             }
             initialPartsFlow
         }
 
-    private fun observePartDomain(part: PrimePartEntity): Flow<PrimePartDomain> {
+    private fun observePartDomain(part: PrimePartEntity, multiplier: Int): Flow<PrimePartDomain> {
         val ownedFlow = inventoryDao.observeInventory()
             .map { inv -> inv.find { it.primePartId == part.id }?.quantity ?: 0 }
 
@@ -139,7 +140,7 @@ class PrimeRepository @Inject constructor(
                 flow {
                     val relic = relicDao.getById(c.relicId)
                     val formattedName = if (relic != null) "${relic.era.name.lowercase().replaceFirstChar { it.uppercase() }} ${relic.name}" else ""
-                    emit(relic?.source to RelicRewardDomain(formattedName, c.rarity))
+                    emit(relic?.source to RelicRewardDomain(formattedName, c.rarity, relic?.source ?: RelicSource.VAULT))
                 }
             }
             combine(relicFlows) { it.toList() }.map { list ->
@@ -148,7 +149,7 @@ class PrimeRepository @Inject constructor(
         }
 
         val nestedPartsFlow = if (part.part == PrimePartType.PRIME_SET) {
-            observePartList(part.id)
+            observePartList(part.id, multiplier * part.quantity)
         } else {
             flowOf(emptyList())
         }
@@ -166,7 +167,7 @@ class PrimeRepository @Inject constructor(
             PrimePartDomain(
                 id = part.id,
                 name = part.part,
-                neededQuantity = part.quantity,
+                neededQuantity = part.quantity * multiplier,
                 ownedQuantity = owned,
                 relics = relics,
                 bestSource = bestSource,

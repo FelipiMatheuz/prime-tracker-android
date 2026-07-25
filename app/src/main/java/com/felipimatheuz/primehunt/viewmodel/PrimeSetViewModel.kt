@@ -20,7 +20,16 @@ data class PrimeSetFilters(
     val progress: ProgressFilter = ProgressFilter.ALL,
     val categories: Set<PrimeType> = emptySet(),
     val availabilities: Set<RelicSource> = emptySet()
-)
+) {
+    val activeCount: Int
+        get() {
+            var count = 0
+            if (progress != ProgressFilter.ALL) count++
+            count += categories.size
+            count += availabilities.size
+            return count
+        }
+}
 
 data class PrimeSetState(
     val collections: List<PrimeCollection> = emptyList(),
