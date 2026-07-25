@@ -55,8 +55,8 @@ import com.felipimatheuz.primehunt.domain.model.RelicRewardDomain
 import com.felipimatheuz.primehunt.ui.theme.High
 import com.felipimatheuz.primehunt.ui.theme.Low
 import com.felipimatheuz.primehunt.ui.theme.Zero
-import com.felipimatheuz.primehunt.viewmodel.PrimeDetailIntent
-import com.felipimatheuz.primehunt.viewmodel.PrimeDetailViewModel
+import com.felipimatheuz.primehunt.ui.viewmodel.PrimeDetailIntent
+import com.felipimatheuz.primehunt.ui.viewmodel.PrimeDetailViewModel
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalGlideComposeApi::class)
 @Composable
@@ -304,6 +304,7 @@ private fun ComponentItem(
                 fontWeight = FontWeight.Bold,
                 color = if (isSet) MaterialTheme.colorScheme.primary else Color.Unspecified
             )
+            Spacer(modifier = Modifier.height(4.dp))
             if (!isSet && part.relics.isNotEmpty()) {
                 if (part.availableRelics.isNotEmpty()) {
                     RelicGroup(

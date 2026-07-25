@@ -26,7 +26,7 @@ import com.felipimatheuz.primehunt.model.PrimeItem
 import com.felipimatheuz.primehunt.model.PrimeType
 import com.felipimatheuz.primehunt.ui.component.PrimeChart
 import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
-import com.felipimatheuz.primehunt.viewmodel.OverviewViewModel
+import com.felipimatheuz.primehunt.ui.viewmodel.OverviewViewModel
 
 
 @Composable
