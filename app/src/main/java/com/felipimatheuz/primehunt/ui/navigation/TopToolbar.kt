@@ -29,8 +29,8 @@ fun TopToolbar(
 ) {
     val titleRes = when (currentKey) {
         OverviewKey -> R.string.menu_overview
-        is PrimeSetsKey -> R.string.menu_prime_sets
-        is OtherPrimesKey -> R.string.menu_other_prime
+        is PrimeSetsKey, is PrimeDetailKey -> R.string.menu_prime_sets
+        is TrackingKey -> R.string.menu_trackings
         is RelicsKey -> R.string.menu_relics
         SyncKey -> R.string.menu_sync
         HelpKey -> R.string.menu_help
@@ -71,6 +71,6 @@ fun TopToolbar(
 @Composable
 fun TopToolbarPreview() {
     PrimeTrackerTheme {
-        TopToolbar(OverviewKey, {})
+        TopToolbar(OverviewKey) {}
     }
 }

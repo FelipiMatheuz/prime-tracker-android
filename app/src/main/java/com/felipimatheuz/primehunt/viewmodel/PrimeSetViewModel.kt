@@ -1,113 +1,108 @@
 package com.felipimatheuz.primehunt.viewmodel
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.business.resources.PrimeSetData
-import com.felipimatheuz.primehunt.business.state.PrimeSetUiState
-import com.felipimatheuz.primehunt.business.util.PrimeFilter
-import com.felipimatheuz.primehunt.model.PrimeSet
-import com.felipimatheuz.primehunt.model.PrimeStatus
+import com.felipimatheuz.primehunt.data.remote.enums.PrimeType
+import com.felipimatheuz.primehunt.data.remote.enums.RelicSource
+import com.felipimatheuz.primehunt.data.repository.PrimeRepository
+import com.felipimatheuz.primehunt.domain.model.PrimeCollection
+import com.felipimatheuz.primehunt.domain.model.PrimeSetDomain
+import com.felipimatheuz.primehunt.ui.mvi.MviIntent
+import com.felipimatheuz.primehunt.ui.mvi.MviState
+import com.felipimatheuz.primehunt.ui.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
+
+enum class ProgressFilter { ALL, COMPLETE, INCOMPLETE, NOT_STARTED }
+
+data class PrimeSetFilters(
+    val progress: ProgressFilter = ProgressFilter.ALL,
+    val categories: Set<PrimeType> = emptySet(),
+    val availabilities: Set<RelicSource> = emptySet()
+)
+
+data class PrimeSetState(
+    val collections: List<PrimeCollection> = emptyList(),
+    val groupedSets: Map<String, List<PrimeSetDomain>> = emptyMap(),
+    val queryFilter: String = "",
+    val activeFilters: PrimeSetFilters = PrimeSetFilters(),
+    val isLoading: Boolean = true
+) : MviState
+
+sealed class PrimeSetIntent : MviIntent {
+    data class Search(val query: String) : PrimeSetIntent()
+    object ClearSearch : PrimeSetIntent()
+    data class UpdateFilters(val filters: PrimeSetFilters) : PrimeSetIntent()
+}
 
 @HiltViewModel
 class PrimeSetViewModel @Inject constructor(
-    private val primeSetData: PrimeSetData,
-    savedStateHandle: SavedStateHandle
-) : ViewModel() {
-    private val searchText = MutableStateFlow("")
-    private val selectedPrimeSet = MutableStateFlow("")
-    private val primeFilter: StateFlow<PrimeFilter> =
-        savedStateHandle.getStateFlow<String?>("filter", PrimeFilter.SHOW_ALL.name)
-            .map { filterName ->
-                try {
-                    PrimeFilter.valueOf(filterName ?: PrimeFilter.SHOW_ALL.name)
-                } catch (_: IllegalArgumentException) {
-                    PrimeFilter.SHOW_ALL
-                }
-            }
-            .stateIn(
-                viewModelScope,
-                SharingStarted.WhileSubscribed(5000L), PrimeFilter.SHOW_ALL
-            )
+    repository: PrimeRepository
+) : ViewModel(), MviViewModel<PrimeSetState, PrimeSetIntent> {
 
-    val uiState: StateFlow<PrimeSetUiState> =
-        combine(
-            primeSetData.getListSetDataFlow(),
-            searchText,
-            primeFilter,
-            selectedPrimeSet
-        ) { sets, query, currentFilterValue, selected ->
-            val filteredSets = sets.filter { primeSet ->
-                val filterMatches = when (currentFilterValue) {
-                    PrimeFilter.SHOW_ALL -> true
-                    PrimeFilter.COMPLETE -> isComplete(primeSet)
-                    PrimeFilter.INCOMPLETE -> !isComplete(primeSet)
-                    PrimeFilter.AVAILABLE -> primeSet.status != PrimeStatus.VAULT
-                    PrimeFilter.UNAVAILABLE -> primeSet.status == PrimeStatus.VAULT
-                }
-                val searchMatches = if (query.isNotBlank()) {
-                    primeSet.primeItems.any { primeItem ->
-                        primeItem.name.contains(query, ignoreCase = true)
-                    }
-                } else {
-                    true
-                }
-                filterMatches && searchMatches
-            }
-            PrimeSetUiState(
-                primeSets = filteredSets,
-                queryFilter = query,
-                selectedPrimeSet = selected,
-            )
-        }.stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000L),
-            initialValue = PrimeSetUiState(emptyList(), queryFilter = "")
+    private val _searchText = MutableStateFlow("")
+    private val _filters = MutableStateFlow(PrimeSetFilters())
+
+    override val state: StateFlow<PrimeSetState> = combine(
+        repository.observeCollections(),
+        repository.observeWithoutCollection(),
+        repository.observeSetsGroupedByCategory(),
+        _searchText,
+        _filters
+    ) { collections, withoutCollection, groupedByCategory, query, filters ->
+        
+        val allCollections = collections + withoutCollection
+        
+        val filteredCollections = allCollections.map { coll ->
+            coll.copy(sets = applyFilters(coll.sets, query, filters))
+        }.filter { it.sets.isNotEmpty() || (query.isEmpty() && filters == PrimeSetFilters()) }
+
+        val filteredGrouped = groupedByCategory.mapValues { (_, sets) ->
+            applyFilters(sets, query, filters)
+        }.filterValues { it.isNotEmpty() }.mapKeys { it.key.name }
+
+        PrimeSetState(
+            collections = filteredCollections,
+            groupedSets = filteredGrouped,
+            queryFilter = query,
+            activeFilters = filters,
+            isLoading = false
         )
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000L),
+        initialValue = PrimeSetState()
+    )
 
-    fun refresh() {
-        viewModelScope.launch {
-            selectedPrimeSet.update { "" }
-        }
-    }
-
-    fun getStatusTextRes(status: PrimeStatus): Int {
-        val statusText = when (status) {
-            PrimeStatus.VAULT -> R.string.status_vault
-            PrimeStatus.ACTIVE -> R.string.status_active
-            PrimeStatus.BARO -> R.string.status_baro
-            PrimeStatus.RESURGENCE -> R.string.status_resurgence
-        }
-        return statusText
-    }
-
-    fun togglePrimeSet(primeSet: PrimeSet, checkAll: Boolean) {
-        viewModelScope.launch {
-            primeSetData.togglePrimeSet(primeSet, checkAll)
-        }
-    }
-
-    fun updateSearchText(text: String) {
-        searchText.update { text }
-    }
-
-    fun setSelectedSet(set: String) {
-        selectedPrimeSet.update { set }
-    }
-
-    private fun isComplete(primeSet: PrimeSet) = primeSet.primeItems.all { it.blueprint } &&
-            primeSet.primeItems.all { primeItem ->
-                primeItem.components.all { itemComponent -> itemComponent.obtained }
+    private fun applyFilters(
+        sets: List<PrimeSetDomain>,
+        query: String,
+        filters: PrimeSetFilters
+    ): List<PrimeSetDomain> {
+        return sets.filter { set ->
+            val matchesQuery = set.name.contains(query, ignoreCase = true)
+            
+            val matchesProgress = when (filters.progress) {
+                ProgressFilter.ALL -> true
+                ProgressFilter.COMPLETE -> set.ownedPieces == set.totalPieces && set.totalPieces > 0
+                ProgressFilter.INCOMPLETE -> set.ownedPieces < set.totalPieces && set.ownedPieces > 0
+                ProgressFilter.NOT_STARTED -> set.ownedPieces == 0
             }
+            
+            val matchesCategory = filters.categories.isEmpty() || filters.categories.contains(set.type)
+            
+            val matchesAvailability = filters.availabilities.isEmpty() || filters.availabilities.contains(set.availability)
+            
+            matchesQuery && matchesProgress && matchesCategory && matchesAvailability
+        }
+    }
+
+    override fun onIntent(intent: PrimeSetIntent) {
+        when (intent) {
+            is PrimeSetIntent.Search -> _searchText.value = intent.query
+            is PrimeSetIntent.ClearSearch -> _searchText.value = ""
+            is PrimeSetIntent.UpdateFilters -> _filters.value = intent.filters
+        }
+    }
 }

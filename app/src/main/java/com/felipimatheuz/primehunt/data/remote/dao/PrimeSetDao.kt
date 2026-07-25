@@ -22,7 +22,7 @@ interface PrimeSetDao {
         FROM prime_set
         WHERE id = :id
     """)
-    suspend fun getById(id: String): PrimeSetEntity?
+    fun observeById(id: String): Flow<PrimeSetEntity?>
 
     @Query("""
         SELECT *
@@ -39,6 +39,29 @@ interface PrimeSetDao {
         ORDER BY name
     """)
     fun search(query: String): Flow<List<PrimeSetEntity>>
+
+    @Query("""
+        SELECT *
+        FROM prime_set
+        WHERE id IN (SELECT primeSetId FROM prime_collection_set WHERE collectionId = :collectionId)
+        ORDER BY name
+    """)
+    fun getByCollection(collectionId: String): Flow<List<PrimeSetEntity>>
+
+    @Query("""
+        SELECT *
+        FROM prime_set
+        WHERE id NOT IN (SELECT primeSetId FROM prime_collection_set)
+        ORDER BY name
+    """)
+    fun getWithoutCollection(): Flow<List<PrimeSetEntity>>
+
+    @Query("""
+        SELECT *
+        FROM prime_set
+        WHERE id = :id
+    """)
+    suspend fun getByIdSync(id: String): PrimeSetEntity?
 
     @Upsert
     suspend fun upsertAll(items: List<PrimeSetEntity>)

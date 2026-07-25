@@ -57,11 +57,11 @@ fun RelicScreen(padding: PaddingValues, primeFilter: PrimeFilter) {
             leadingIcon = {
                 Icon(
                     painterResource(R.drawable.ic_search),
-                    contentDescription = stringResource(R.string.search_items_by_name),
+                    contentDescription = stringResource(R.string.search_label),
                     modifier = Modifier.padding(start = 3.dp)
                 )
             },
-            label = { Text(text = stringResource(R.string.search_items_by_name)) },
+            label = { Text(text = stringResource(R.string.search_label)) },
             onValueChange = {
                 searchText = it
             },

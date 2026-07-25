@@ -23,6 +23,13 @@ interface PrimeComponentDao {
     """)
     fun getByPrimePart(partId: String): Flow<List<PrimeComponentEntity>>
 
+    @Query("""
+        SELECT *
+        FROM prime_component
+        WHERE primePartId = :partId
+    """)
+    suspend fun getByPrimePartSync(partId: String): List<PrimeComponentEntity>
+
     @Upsert
     suspend fun upsertAll(components: List<PrimeComponentEntity>)
 }

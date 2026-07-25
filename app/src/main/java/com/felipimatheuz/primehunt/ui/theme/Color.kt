@@ -17,8 +17,8 @@ val White = Color(0xFFFFFFFF)
 
 //Stats
 val Zero = Color(0xBB625D5D)
-val Low = Color(0xBBE0115F)
-val High = Color(0xBB50C878)
+val Low = Color(0xFFCCCC00)
+val High = Color(0xFF339900)
 val Complete = Color(0xBB0F52BA)
 
 //Rarity

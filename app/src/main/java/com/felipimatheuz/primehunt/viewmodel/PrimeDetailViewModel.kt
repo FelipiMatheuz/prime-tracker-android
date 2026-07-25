@@ -1,0 +1,63 @@
+package com.felipimatheuz.primehunt.viewmodel
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.felipimatheuz.primehunt.data.repository.PrimeRepository
+import com.felipimatheuz.primehunt.domain.model.PrimeSetDomain
+import com.felipimatheuz.primehunt.ui.mvi.MviIntent
+import com.felipimatheuz.primehunt.ui.mvi.MviState
+import com.felipimatheuz.primehunt.ui.mvi.MviViewModel
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
+
+data class PrimeDetailState(
+    val primeSet: PrimeSetDomain? = null,
+    val isLoading: Boolean = true
+) : MviState
+
+sealed class PrimeDetailIntent : MviIntent {
+    data class UpdateQuantity(val partId: String, val delta: Int) : PrimeDetailIntent()
+    data class UpdateSetQuantity(val delta: Int) : PrimeDetailIntent()
+}
+
+@HiltViewModel(assistedFactory = PrimeDetailViewModel.Factory::class)
+class PrimeDetailViewModel @AssistedInject constructor(
+    private val repository: PrimeRepository,
+    @Assisted private val setId: String
+) : ViewModel(), MviViewModel<PrimeDetailState, PrimeDetailIntent> {
+
+    @AssistedFactory
+    interface Factory {
+        fun create(setId: String): PrimeDetailViewModel
+    }
+
+    override val state: StateFlow<PrimeDetailState> = repository.observeSetDetails(setId)
+        .map { PrimeDetailState(primeSet = it, isLoading = false) }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000L),
+            initialValue = PrimeDetailState()
+        )
+
+    override fun onIntent(intent: PrimeDetailIntent) {
+        when (intent) {
+            is PrimeDetailIntent.UpdateQuantity -> {
+                viewModelScope.launch {
+                    repository.updateInventory(intent.partId, intent.delta)
+                }
+            }
+            is PrimeDetailIntent.UpdateSetQuantity -> {
+                viewModelScope.launch {
+                    repository.updateSetInventory(setId, intent.delta)
+                }
+            }
+        }
+    }
+}

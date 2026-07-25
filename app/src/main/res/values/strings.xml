@@ -13,7 +13,8 @@
     <string name="sync_failed">Failed to synchronize\nThe last successful sync will be used.</string>
 
     <!--Templates-->
-    <string name="prime_set_template">%1$s Prime Set</string>
+    <string name="prime_collection_template">%1$s Bundle</string>
+    <string name="prime_no_collection">Standalone Primes</string>
     <string name="prime_template" translatable="false">%1$s Prime</string>
     <string name="relic_template">%1$s Relic</string>
     <string name="relic_item_template" translatable="false">%1$s Prime %2$s %3$s</string>
@@ -72,7 +73,7 @@
     <string name="complete">Complete</string>
     <string name="menu_overview">Overview</string>
     <string name="menu_prime_sets">Prime Sets</string>
-    <string name="menu_other_prime">Other Primes</string>
+    <string name="menu_trackings">Trackings</string>
     <string name="menu_relics">Relics</string>
     <string name="menu_help">Help</string>
     <string name="menu_about">About</string>
@@ -82,10 +83,12 @@
     <string name="overall_stats">Total:  %1$s\nIn Progress:  %2$s\nCompleted:  %3$s</string>
     <string name="overall">Overall</string>
     <string name="detailed">Detailed</string>
-    <string name="search_items_by_name">Search items by name</string>
+    <string name="search_label">Search primes</string>
     <string name="tier_relics">%1$s Relics</string>
     <string name="forma_blueprint">Forma Blueprint</string>
     <string name="no_results">No results found</string>
+    <string name="load_content">Loading content…</string>
+    <string name="sets_completed_template">%1$d of %2$d Sets Completed</string>
     <string name="overview_warframes" translatable="false">Warframe</string>
     <string name="overview_primary">Primary</string>
     <string name="overview_secondary">Secondary</string>

@@ -22,16 +22,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.ui.NavDisplay
-import com.felipimatheuz.primehunt.business.util.PrimeFilter
-import com.felipimatheuz.primehunt.ui.navigation.AboutKey
 import com.felipimatheuz.primehunt.ui.navigation.AppNavKey
-import com.felipimatheuz.primehunt.ui.navigation.HelpKey
 import com.felipimatheuz.primehunt.ui.navigation.Navigator
-import com.felipimatheuz.primehunt.ui.navigation.OtherPrimesKey
 import com.felipimatheuz.primehunt.ui.navigation.OverviewKey
+import com.felipimatheuz.primehunt.ui.navigation.PrimeDetailKey
 import com.felipimatheuz.primehunt.ui.navigation.PrimeSetsKey
-import com.felipimatheuz.primehunt.ui.navigation.RelicsKey
-import com.felipimatheuz.primehunt.ui.navigation.SyncKey
 import com.felipimatheuz.primehunt.ui.navigation.TopToolbar
 import com.felipimatheuz.primehunt.ui.navigation.rememberNavigationState
 import com.felipimatheuz.primehunt.ui.navigation.toEntries
@@ -84,21 +79,15 @@ fun MainContent() {
                 entries = navState.toEntries { key ->
                     NavEntry(key) {
                         when (val appNavKey = key as AppNavKey) {
-                            OverviewKey -> OverviewScreen(padding, true, {})
-                            is PrimeSetsKey -> PrimeSetRoute(padding)
-                            is OtherPrimesKey -> OtherPrimeScreen(
-                                padding,
-                                PrimeFilter.valueOf(appNavKey.filter)
-                            )
-
-                            is RelicsKey -> RelicScreen(
-                                padding,
-                                PrimeFilter.valueOf(appNavKey.filter)
-                            )
-
-                            SyncKey -> SyncAccountScreen(padding)
-                            HelpKey -> HelpScreen(padding)
-                            AboutKey -> AboutScreen(padding)
+                            is PrimeSetsKey -> PrimeSetScreen(padding) { set ->
+                                navigator.navigate(PrimeDetailKey(set.id))
+                            }
+                            is PrimeDetailKey -> {
+                                PrimeDetailScreen(padding, appNavKey.setId) {
+                                    navigator.goBack()
+                                }
+                            }
+                            else -> {}
                         }
                     }
                 },
