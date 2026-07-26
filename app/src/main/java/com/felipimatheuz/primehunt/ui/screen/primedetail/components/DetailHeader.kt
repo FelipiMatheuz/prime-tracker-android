@@ -27,6 +27,7 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.domain.model.PrimeSetDomain
+import com.felipimatheuz.primehunt.ui.screen.components.PrimePanel
 import com.felipimatheuz.primehunt.ui.theme.High
 import com.felipimatheuz.primehunt.ui.theme.Low
 import com.felipimatheuz.primehunt.ui.theme.Zero
@@ -39,7 +40,8 @@ fun DetailHeader(primeSet: PrimeSetDomain) {
             .fillMaxWidth()
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
-    ) {
+    )
+    {
         PrimePanel(modifier = Modifier.size(200.dp)) {
             GlideImage(
                 model = primeSet.imageUrl,

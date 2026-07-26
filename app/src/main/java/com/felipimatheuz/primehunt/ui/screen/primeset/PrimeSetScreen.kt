@@ -43,12 +43,12 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.domain.model.PrimeSetDomain
-import com.felipimatheuz.primehunt.ui.screen.components.LoadingUI
 import com.felipimatheuz.primehunt.ui.screen.primeset.components.CategoryHeader
 import com.felipimatheuz.primehunt.ui.screen.primeset.components.CollectionCard
 import com.felipimatheuz.primehunt.ui.screen.primeset.components.EmptyStateMessage
 import com.felipimatheuz.primehunt.ui.screen.primeset.components.FilterBottomSheet
 import com.felipimatheuz.primehunt.ui.screen.primeset.components.PrimeSetCard
+import com.felipimatheuz.primehunt.ui.screen.primeset.components.PrimeSetSkeleton
 import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
 import com.felipimatheuz.primehunt.ui.viewmodel.primeset.PrimeSetIntent
 import com.felipimatheuz.primehunt.ui.viewmodel.primeset.PrimeSetState
@@ -88,94 +88,91 @@ fun PrimeSetContent(
     val sheetState = rememberModalBottomSheetState()
     var showFilterSheet by remember { mutableStateOf(false) }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(paddingValues)
-    ) {
-        SearchBar(
-            inputField = {
-                SearchBarDefaults.InputField(
-                    query = state.queryFilter,
-                    onQueryChange = { onIntent(PrimeSetIntent.Search(it)) },
-                    onSearch = { },
-                    expanded = false,
-                    onExpandedChange = { },
-                    placeholder = { Text(stringResource(R.string.search_label)) },
-                    leadingIcon = {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_search),
-                            contentDescription = null
-                        )
-                    },
-                    trailingIcon = {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            if (state.queryFilter.isNotEmpty()) {
-                                IconButton(onClick = { onIntent(PrimeSetIntent.ClearSearch) }) {
-                                    Icon(
-                                        painterResource(R.drawable.btn_close),
-                                        contentDescription = stringResource(R.string.close)
-                                    )
-                                }
-                            }
-                            BadgedBox(
-                                badge = {
-                                    if (state.activeFilters.activeCount > 0) {
-                                        Badge {
-                                            Text(state.activeFilters.activeCount.toString())
-                                        }
+    if (state.isLoading) {
+        PrimeSetSkeleton(paddingValues = paddingValues)
+    } else {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+        ) {
+            SearchBar(
+                inputField = {
+                    SearchBarDefaults.InputField(
+                        query = state.queryFilter,
+                        onQueryChange = { onIntent(PrimeSetIntent.Search(it)) },
+                        onSearch = { },
+                        expanded = false,
+                        onExpandedChange = { },
+                        placeholder = { Text(stringResource(R.string.search_label)) },
+                        leadingIcon = {
+                            Icon(
+                                painter = painterResource(R.drawable.ic_search),
+                                contentDescription = null
+                            )
+                        },
+                        trailingIcon = {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                if (state.queryFilter.isNotEmpty()) {
+                                    IconButton(onClick = { onIntent(PrimeSetIntent.ClearSearch) }) {
+                                        Icon(
+                                            painterResource(R.drawable.btn_close),
+                                            contentDescription = stringResource(R.string.close)
+                                        )
                                     }
                                 }
-                            ) {
-                                IconButton(onClick = { showFilterSheet = true }) {
-                                    Icon(
-                                        painter = painterResource(R.drawable.btn_filter),
-                                        contentDescription = stringResource(R.string.filter),
-                                        tint = if (state.activeFilters.activeCount > 0) MaterialTheme.colorScheme.primary else LocalContentColor.current
-                                    )
+                                BadgedBox(
+                                    badge = {
+                                        if (state.activeFilters.activeCount > 0) {
+                                            Badge {
+                                                Text(state.activeFilters.activeCount.toString())
+                                            }
+                                        }
+                                    }
+                                ) {
+                                    IconButton(onClick = { showFilterSheet = true }) {
+                                        Icon(
+                                            painter = painterResource(R.drawable.btn_filter),
+                                            contentDescription = stringResource(R.string.filter),
+                                            tint = if (state.activeFilters.activeCount > 0) MaterialTheme.colorScheme.primary else LocalContentColor.current
+                                        )
+                                    }
                                 }
                             }
                         }
-                    }
-                )
-            },
-            expanded = false,
-            onExpandedChange = { },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 8.dp)
-        ) { }
+                    )
+                },
+                expanded = false,
+                onExpandedChange = { },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
+            ) { }
 
-        SingleChoiceSegmentedButtonRow(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 16.dp, end = 16.dp, bottom = 8.dp)
-        ) {
-            viewOptions.forEachIndexed { index, labelRes ->
-                SegmentedButton(
-                    shape = SegmentedButtonDefaults.itemShape(
-                        index = index,
-                        count = viewOptions.size
-                    ),
-                    onClick = { onIntent(PrimeSetIntent.ChangeView(index)) },
-                    selected = state.selectedView == index
-                ) {
-                    Text(stringResource(labelRes))
+            SingleChoiceSegmentedButtonRow(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, end = 16.dp, bottom = 8.dp)
+            ) {
+                viewOptions.forEachIndexed { index, labelRes ->
+                    SegmentedButton(
+                        shape = SegmentedButtonDefaults.itemShape(
+                            index = index,
+                            count = viewOptions.size
+                        ),
+                        onClick = { onIntent(PrimeSetIntent.ChangeView(index)) },
+                        selected = state.selectedView == index
+                    ) {
+                        Text(stringResource(labelRes))
+                    }
                 }
             }
-        }
 
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f)
-        ) {
-            if (state.isLoading) {
-                LoadingUI(
-                    loadText = stringResource(R.string.load_list_content),
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            } else {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+            ) {
                 AnimatedContent(
                     targetState = state.selectedView,
                     label = "viewTransition",
