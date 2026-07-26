@@ -1,5 +1,8 @@
 package com.felipimatheuz.primehunt.ui.screen.primedetail.components
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,6 +15,7 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -63,13 +67,25 @@ fun DetailHeader(primeSet: PrimeSetDomain) {
         val progress =
             if (primeSet.totalPieces > 0) primeSet.ownedPieces.toFloat() / primeSet.totalPieces else 0f
 
+        val animatedProgress by animateFloatAsState(
+            targetValue = progress,
+            label = "progressAnimation"
+        )
+
+        val targetColor = if (progress == 1f) High else if (progress > 0) Low else Zero
+        val animatedColor by animateColorAsState(
+            targetValue = targetColor,
+            animationSpec = tween(300),
+            label = "colorAnimation"
+        )
+
         LinearProgressIndicator(
-            progress = { progress },
+            progress = { animatedProgress },
             modifier = Modifier
                 .fillMaxWidth(0.6f)
                 .height(8.dp)
                 .clip(CircleShape),
-            color = if (progress == 1f) High else if (progress > 0) Low else Zero
+            color = animatedColor
         )
         Text(
             text = stringResource(

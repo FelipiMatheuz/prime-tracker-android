@@ -53,6 +53,7 @@ fun PrimeDetailScreen(
         onBack = onBack
     )
 }
+
 @Composable
 fun PrimeDetailContent(
     padding: PaddingValues,
@@ -137,19 +138,19 @@ fun PrimeDetailContent(
                     }
                 }
             }
-        }
 
-        IconButton(
-            onClick = onBack,
-            modifier = Modifier
-                .padding(8.dp)
-                .align(Alignment.TopEnd)
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_cross),
-                contentDescription = "Back",
-                tint = MaterialTheme.colorScheme.onSurface
-            )
+            IconButton(
+                onClick = onBack,
+                modifier = Modifier
+                    .padding(8.dp)
+                    .align(Alignment.TopEnd)
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_cross),
+                    contentDescription = "Back",
+                    tint = MaterialTheme.colorScheme.onSurface
+                )
+            }
         }
     }
 }
