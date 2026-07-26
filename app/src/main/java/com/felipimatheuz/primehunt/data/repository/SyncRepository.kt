@@ -1,5 +1,6 @@
 package com.felipimatheuz.primehunt.data.repository
 
+import androidx.compose.runtime.mutableIntStateOf
 import com.felipimatheuz.primehunt.business.state.EtlFile
 import com.felipimatheuz.primehunt.business.state.SyncEvent
 import com.felipimatheuz.primehunt.data.remote.dao.*
@@ -36,7 +37,7 @@ class SyncRepository @Inject constructor(
 
             emit(SyncEvent.CheckingManifest(remoteManifest.generatorVersion))
 
-            val updatedFiles = mutableListOf<EtlFile>()
+            val updatedFiles = mutableIntStateOf(0)
 
             // Sync Relics
             val remoteRelicsHash = remoteManifest.files.find { it.name == "relics.json" }?.sha256
@@ -45,7 +46,7 @@ class SyncRepository @Inject constructor(
                 val relics = service.getRelics()
                 emit(SyncEvent.Importing(EtlFile.RELICS))
                 importRelics(relics)
-                updatedFiles.add(EtlFile.RELICS)
+                updatedFiles.intValue++
             }
 
             // Sync Prime Sets
@@ -55,7 +56,7 @@ class SyncRepository @Inject constructor(
                 val sets = service.getPrimeSets()
                 emit(SyncEvent.Importing(EtlFile.PRIME_SETS))
                 importPrimeSets(sets)
-                updatedFiles.add(EtlFile.PRIME_SETS)
+                updatedFiles.intValue++
             }
 
             // Sync Collections
@@ -65,10 +66,10 @@ class SyncRepository @Inject constructor(
                 val collections = service.getPrimeCollections()
                 emit(SyncEvent.Importing(EtlFile.PRIME_COLLECTIONS))
                 importCollections(collections)
-                updatedFiles.add(EtlFile.PRIME_COLLECTIONS)
+                updatedFiles.intValue++
             }
 
-            if (updatedFiles.isNotEmpty()) {
+            if (updatedFiles.intValue > 0) {
                 val newManifest = LocalManifest(
                     lastSync = System.currentTimeMillis(),
                     relicsHash = remoteRelicsHash,
@@ -76,7 +77,7 @@ class SyncRepository @Inject constructor(
                     collectionsHash = remoteCollectionsHash
                 )
                 manifestDao.upsert(newManifest)
-                emit(SyncEvent.Success(updatedFiles))
+                emit(SyncEvent.Success)
             } else {
                 emit(SyncEvent.AlreadyUpToDate)
             }

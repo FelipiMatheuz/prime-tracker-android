@@ -1,36 +1,39 @@
 package com.felipimatheuz.primehunt.ui.screen.splash
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.business.state.SyncEvent
-import com.felipimatheuz.primehunt.ui.screen.splash.components.AnimatedLoad
-import com.felipimatheuz.primehunt.ui.screen.splash.components.SplashFooter
-import com.felipimatheuz.primehunt.ui.screen.splash.components.SplashSyncStatus
+import com.felipimatheuz.primehunt.ui.screen.splash.components.CephalonAnimation
+import com.felipimatheuz.primehunt.ui.screen.splash.components.TextSyncAnimation
 import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
 import com.felipimatheuz.primehunt.ui.viewmodel.splash.SplashViewModel
-import kotlinx.coroutines.delay
-import kotlin.time.Duration.Companion.seconds
 
 @Composable
 fun SplashScreen(onReady: () -> Unit, viewModel: SplashViewModel = hiltViewModel()) {
     val syncEvent = viewModel.syncEvent.collectAsState()
-    SplashContent(onReady, syncEvent.value)
+    SplashContent(syncEvent.value, viewModel::startSync, onReady)
 }
 
 @Composable
-fun SplashContent(onReady: () -> Unit, syncEvent: SyncEvent) {
+fun SplashContent(syncEvent: SyncEvent, onStart: () -> Unit, onReady: () -> Unit) {
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -38,49 +41,28 @@ fun SplashContent(onReady: () -> Unit, syncEvent: SyncEvent) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            AnimatedLoad(syncEvent is SyncEvent.Error)
-            when (syncEvent) {
-                SyncEvent.Starting -> SplashSyncStatus(R.string.starting_sync)
-
-                is SyncEvent.CheckingManifest -> SplashSyncStatus(R.string.check_manifest)
-
-                is SyncEvent.Downloading -> SplashSyncStatus(
-                    R.string.downloading_content,
-                    syncEvent.file
-                )
-
-                is SyncEvent.Importing -> SplashSyncStatus(
-                    R.string.importing_content,
-                    syncEvent.file
-                )
-
-                is SyncEvent.Success, SyncEvent.AlreadyUpToDate, SyncEvent.Error -> {
-                    val textRes = when (syncEvent) {
-                        is SyncEvent.Success -> {
-                            R.string.sync_success
-                        }
-
-                        is SyncEvent.AlreadyUpToDate -> {
-                            R.string.sync_up_to_date
-                        }
-
-                        else -> {
-                            R.string.sync_failed
-                        }
-                    }
-                    SplashSyncStatus(textRes)
-                    LaunchedEffect(Unit) {
-                        delay(1.seconds)
-                        onReady()
-                    }
-                }
-            }
+            CephalonAnimation(syncEvent, onStart, onReady)
+            TextSyncAnimation(syncEvent)
         }
-        SplashFooter(
+        Row(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .padding(bottom = 16.dp)
-        )
+                .padding(bottom = 16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Text(
+                text = stringResource(R.string.by_owner),
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.labelLarge.copy(
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            )
+            Image(
+                painterResource(R.drawable.cs_logo),
+                contentDescription = stringResource(R.string.logo)
+            )
+        }
     }
 }
 
@@ -88,6 +70,6 @@ fun SplashContent(onReady: () -> Unit, syncEvent: SyncEvent) {
 @Composable
 fun SplashScreenPreview() {
     PrimeTrackerTheme {
-        SplashContent({}, SyncEvent.Error)
+        SplashContent(SyncEvent.Error, {}, {})
     }
 }

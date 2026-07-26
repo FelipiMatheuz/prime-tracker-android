@@ -21,6 +21,8 @@ val Low = Color(0xFFCCCC00)
 val High = Color(0xFF339900)
 val Complete = Color(0xBB0F52BA)
 
+val Error = Color(0xFFB00020)
+
 //Rarity
 val Common = Color(0xFF986634)
 val CommonDark = Color(0xFFCD7F32)

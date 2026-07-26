@@ -16,9 +16,7 @@ sealed interface SyncEvent {
         val file: EtlFile
     ) : SyncEvent
 
-    data class Success(
-        val updatedFiles: List<EtlFile>
-    ) : SyncEvent
+    data object Success : SyncEvent
 
     data object AlreadyUpToDate : SyncEvent
 
