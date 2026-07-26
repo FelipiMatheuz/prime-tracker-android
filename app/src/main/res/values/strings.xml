@@ -65,7 +65,7 @@
     <!--Menu items-->
     <string name="menu_button_description">Quick Menu</string>
     <string name="filter">Filter</string>
-    <string name="filter_title">Filters</string>
+    <string name="filter_title">Advanced Filters</string>
     <string name="filter_section_progress">Progress</string>
     <string name="filter_section_category">Category</string>
     <string name="filter_section_availability">Availability</string>
@@ -99,7 +99,8 @@
     <string name="tier_relics">%1$s Relics</string>
     <string name="forma_blueprint">Forma Blueprint</string>
     <string name="no_results">No results found</string>
-    <string name="load_content">Loading content…</string>
+    <string name="load_list_content">Rendering prime list…</string>
+    <string name="load_detail_content">Rendering prime details…</string>
     <string name="sets_completed_template">%1$d of %2$d Sets Completed</string>
     <string name="detail_pieces_owned_template">%1$d / %2$d Pieces Owned</string>
     <string name="detail_action_add_set">+1 Set</string>

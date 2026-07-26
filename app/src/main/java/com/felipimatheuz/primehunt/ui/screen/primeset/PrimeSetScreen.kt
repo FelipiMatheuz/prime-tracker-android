@@ -1,6 +1,5 @@
 package com.felipimatheuz.primehunt.ui.screen.primeset
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -12,7 +11,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -34,20 +32,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.domain.model.PrimeSetDomain
+import com.felipimatheuz.primehunt.ui.screen.components.LoadingUI
 import com.felipimatheuz.primehunt.ui.screen.primeset.components.CategoryHeader
 import com.felipimatheuz.primehunt.ui.screen.primeset.components.CollectionCard
 import com.felipimatheuz.primehunt.ui.screen.primeset.components.EmptyStateMessage
 import com.felipimatheuz.primehunt.ui.screen.primeset.components.FilterBottomSheet
 import com.felipimatheuz.primehunt.ui.screen.primeset.components.PrimeSetCard
+import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
 import com.felipimatheuz.primehunt.ui.viewmodel.primeset.PrimeSetIntent
+import com.felipimatheuz.primehunt.ui.viewmodel.primeset.PrimeSetState
 import com.felipimatheuz.primehunt.ui.viewmodel.primeset.PrimeSetViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PrimeSetScreen(
     paddingValues: PaddingValues,
@@ -55,13 +56,30 @@ fun PrimeSetScreen(
     onSetClick: (PrimeSetDomain) -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+
+    PrimeSetContent(
+        paddingValues = paddingValues,
+        state = state,
+        onIntent = viewModel::onIntent,
+        onSetClick = onSetClick
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun PrimeSetContent(
+    paddingValues: PaddingValues,
+    state: PrimeSetState,
+    onIntent: (PrimeSetIntent) -> Unit,
+    onSetClick: (PrimeSetDomain) -> Unit
+) {
     val viewOptions = remember {
         listOf(
             R.string.tab_collections,
             R.string.tab_prime_sets
         )
     }
-    
+
     val sheetState = rememberModalBottomSheetState()
     var showFilterSheet by remember { mutableStateOf(false) }
 
@@ -74,7 +92,7 @@ fun PrimeSetScreen(
             inputField = {
                 SearchBarDefaults.InputField(
                     query = state.queryFilter,
-                    onQueryChange = { viewModel.onIntent(PrimeSetIntent.Search(it)) },
+                    onQueryChange = { onIntent(PrimeSetIntent.Search(it)) },
                     onSearch = { },
                     expanded = false,
                     onExpandedChange = { },
@@ -88,8 +106,11 @@ fun PrimeSetScreen(
                     trailingIcon = {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             if (state.queryFilter.isNotEmpty()) {
-                                IconButton(onClick = { viewModel.onIntent(PrimeSetIntent.ClearSearch) }) {
-                                    Icon(painterResource(R.drawable.btn_close), contentDescription = stringResource(R.string.close))
+                                IconButton(onClick = { onIntent(PrimeSetIntent.ClearSearch) }) {
+                                    Icon(
+                                        painterResource(R.drawable.btn_close),
+                                        contentDescription = stringResource(R.string.close)
+                                    )
                                 }
                             }
                             BadgedBox(
@@ -131,7 +152,7 @@ fun PrimeSetScreen(
                         index = index,
                         count = viewOptions.size
                     ),
-                    onClick = { viewModel.onIntent(PrimeSetIntent.ChangeView(index)) },
+                    onClick = { onIntent(PrimeSetIntent.ChangeView(index)) },
                     selected = state.selectedView == index
                 ) {
                     Text(stringResource(labelRes))
@@ -139,17 +160,16 @@ fun PrimeSetScreen(
             }
         }
 
-        Box(modifier = Modifier.fillMaxWidth().weight(1f)) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+        ) {
             if (state.isLoading) {
-                Column(modifier = Modifier.align(Alignment.Center),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    CircularProgressIndicator()
-                    Text(
-                        text = stringResource(R.string.load_content),
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-                }
+                LoadingUI(
+                    loadText = stringResource(R.string.load_list_content),
+                    modifier = Modifier.align(Alignment.Center)
+                )
             } else {
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
@@ -192,9 +212,22 @@ fun PrimeSetScreen(
     if (showFilterSheet) {
         FilterBottomSheet(
             filters = state.activeFilters,
-            onFiltersChanged = { viewModel.onIntent(PrimeSetIntent.UpdateFilters(it)) },
+            onFiltersChanged = { onIntent(PrimeSetIntent.UpdateFilters(it)) },
             onDismiss = { showFilterSheet = false },
             sheetState = sheetState
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PrimeSetScreenPreview() {
+    PrimeTrackerTheme {
+        PrimeSetContent(
+            paddingValues = PaddingValues(),
+            state = PrimeSetState(),
+            onIntent = {},
+            onSetClick = {}
         )
     }
 }
