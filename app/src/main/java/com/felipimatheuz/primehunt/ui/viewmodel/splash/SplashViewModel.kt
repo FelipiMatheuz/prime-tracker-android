@@ -1,4 +1,4 @@
-package com.felipimatheuz.primehunt.ui.viewmodel
+package com.felipimatheuz.primehunt.ui.viewmodel.splash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

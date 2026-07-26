@@ -1,4 +1,4 @@
-package com.felipimatheuz.primehunt.ui.component
+package com.felipimatheuz.primehunt.ui.screen.splash.components
 
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.LinearEasing

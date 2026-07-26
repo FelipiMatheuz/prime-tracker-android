@@ -1,11 +1,8 @@
-package com.felipimatheuz.primehunt.ui.viewmodel
+package com.felipimatheuz.primehunt.ui.viewmodel.primedetail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.felipimatheuz.primehunt.data.repository.PrimeRepository
-import com.felipimatheuz.primehunt.domain.model.PrimeSetDomain
-import com.felipimatheuz.primehunt.ui.mvi.MviIntent
-import com.felipimatheuz.primehunt.ui.mvi.MviState
 import com.felipimatheuz.primehunt.ui.mvi.MviViewModel
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -18,16 +15,6 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-
-data class PrimeDetailState(
-    val primeSet: PrimeSetDomain? = null,
-    val isLoading: Boolean = true
-) : MviState
-
-sealed class PrimeDetailIntent : MviIntent {
-    data class UpdateQuantity(val partId: String, val delta: Int) : PrimeDetailIntent()
-    data class UpdateSetQuantity(val delta: Int) : PrimeDetailIntent()
-}
 
 @HiltViewModel(assistedFactory = PrimeDetailViewModel.Factory::class)
 class PrimeDetailViewModel @AssistedInject constructor(

@@ -30,6 +30,9 @@ import com.felipimatheuz.primehunt.ui.navigation.PrimeSetsKey
 import com.felipimatheuz.primehunt.ui.navigation.TopToolbar
 import com.felipimatheuz.primehunt.ui.navigation.rememberNavigationState
 import com.felipimatheuz.primehunt.ui.navigation.toEntries
+import com.felipimatheuz.primehunt.ui.screen.primedetail.PrimeDetailScreen
+import com.felipimatheuz.primehunt.ui.screen.primeset.PrimeSetScreen
+import com.felipimatheuz.primehunt.ui.screen.splash.SplashScreen
 import kotlinx.coroutines.launch
 
 @Composable
