@@ -2,14 +2,11 @@ package com.felipimatheuz.primehunt.ui.viewmodel.primeset
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.felipimatheuz.primehunt.data.remote.enums.PrimeType
 import com.felipimatheuz.primehunt.data.repository.PrimeRepository
-import com.felipimatheuz.primehunt.domain.model.PrimeCollection
 import com.felipimatheuz.primehunt.domain.model.PrimeSetDomain
 import com.felipimatheuz.primehunt.ui.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -28,23 +25,18 @@ class PrimeSetViewModel @Inject constructor(
     private val _filters = MutableStateFlow(PrimeSetFilters())
     private val _selectedView = MutableStateFlow(0)
 
-    @OptIn(FlowPreview::class)
     override val state: StateFlow<PrimeSetState> = combine(
-        listOf(
+        combine(
             repository.observeCollections().distinctUntilChanged(),
             repository.observeWithoutCollection().distinctUntilChanged(),
             repository.observeSetsGroupedByCategory().distinctUntilChanged(),
-            _searchText,
-            _filters,
-            _selectedView
-        )
-    ) { array ->
-        val collections = array[0] as List<PrimeCollection>
-        val withoutCollection = array[1] as PrimeCollection
-        val groupedByCategory = array[2] as Map<PrimeType, List<PrimeSetDomain>>
-        val query = array[3] as String
-        val filters = array[4] as PrimeSetFilters
-        val selectedView = array[5] as Int
+            ::Triple
+        ),
+        _searchText,
+        _filters,
+        _selectedView
+    ) { repoData, query, filters, selectedView ->
+        val (collections, withoutCollection, groupedByCategory) = repoData
 
         val allCollections = collections + withoutCollection
 

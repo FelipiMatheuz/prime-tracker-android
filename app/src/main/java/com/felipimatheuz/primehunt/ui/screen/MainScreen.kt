@@ -24,6 +24,8 @@ import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.ui.NavDisplay
 import com.felipimatheuz.primehunt.ui.navigation.AppNavKey
 import com.felipimatheuz.primehunt.ui.navigation.Navigator
+import com.felipimatheuz.primehunt.ui.navigation.NavTransitions.calculatePopTransition
+import com.felipimatheuz.primehunt.ui.navigation.NavTransitions.calculateTransition
 import com.felipimatheuz.primehunt.ui.navigation.OverviewKey
 import com.felipimatheuz.primehunt.ui.navigation.PrimeDetailKey
 import com.felipimatheuz.primehunt.ui.navigation.PrimeSetsKey
@@ -80,7 +82,7 @@ fun MainContent() {
         ) { padding ->
             NavDisplay(
                 entries = navState.toEntries { key ->
-                    NavEntry(key) {
+                    NavEntry(key, metadata = mapOf("route" to key)) {
                         when (val appNavKey = key as AppNavKey) {
                             is PrimeSetsKey -> PrimeSetScreen(padding) { set ->
                                 navigator.navigate(PrimeDetailKey(set.id))
@@ -94,6 +96,8 @@ fun MainContent() {
                         }
                     }
                 },
+                transitionSpec = { calculateTransition() },
+                popTransitionSpec = { calculatePopTransition() },
                 onBack = { navigator.goBack() }
             )
         }
