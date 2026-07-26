@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.felipimatheuz.primehunt.business.state.SyncEvent
 import com.felipimatheuz.primehunt.data.repository.SyncRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,7 +18,7 @@ class SplashViewModel @Inject constructor(private val syncRepository: SyncReposi
     val syncEvent: StateFlow<SyncEvent> = _syncEvent.asStateFlow()
 
     fun startSync() {
-        viewModelScope.launch(Dispatchers.Default) {
+        viewModelScope.launch {
             syncRepository.performSync().collect { event ->
                 _syncEvent.value = event
             }

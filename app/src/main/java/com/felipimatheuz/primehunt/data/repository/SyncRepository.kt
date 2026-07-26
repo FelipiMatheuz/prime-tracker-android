@@ -1,6 +1,5 @@
 package com.felipimatheuz.primehunt.data.repository
 
-import androidx.compose.runtime.mutableIntStateOf
 import com.felipimatheuz.primehunt.business.state.EtlFile
 import com.felipimatheuz.primehunt.business.state.SyncEvent
 import com.felipimatheuz.primehunt.data.remote.dao.*
@@ -12,8 +11,10 @@ import com.felipimatheuz.primehunt.data.remote.enums.PrimeType
 import com.felipimatheuz.primehunt.data.remote.enums.RelicEra
 import com.felipimatheuz.primehunt.data.remote.enums.RelicSource
 import com.felipimatheuz.primehunt.service.api.PrimeTrackerService
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -37,7 +38,7 @@ class SyncRepository @Inject constructor(
 
             emit(SyncEvent.CheckingManifest(remoteManifest.generatorVersion))
 
-            val updatedFiles = mutableIntStateOf(0)
+            var updatedFiles = 0
 
             // Sync Relics
             val remoteRelicsHash = remoteManifest.files.find { it.name == "relics.json" }?.sha256
@@ -46,7 +47,7 @@ class SyncRepository @Inject constructor(
                 val relics = service.getRelics()
                 emit(SyncEvent.Importing(EtlFile.RELICS))
                 importRelics(relics)
-                updatedFiles.intValue++
+                updatedFiles++
             }
 
             // Sync Prime Sets
@@ -56,20 +57,21 @@ class SyncRepository @Inject constructor(
                 val sets = service.getPrimeSets()
                 emit(SyncEvent.Importing(EtlFile.PRIME_SETS))
                 importPrimeSets(sets)
-                updatedFiles.intValue++
+                updatedFiles++
             }
 
             // Sync Collections
-            val remoteCollectionsHash = remoteManifest.files.find { it.name == "prime-collections.json" }?.sha256
+            val remoteCollectionsHash =
+                remoteManifest.files.find { it.name == "prime-collections.json" }?.sha256
             if (remoteCollectionsHash != localManifest?.collectionsHash) {
                 emit(SyncEvent.Downloading(EtlFile.PRIME_COLLECTIONS))
                 val collections = service.getPrimeCollections()
                 emit(SyncEvent.Importing(EtlFile.PRIME_COLLECTIONS))
                 importCollections(collections)
-                updatedFiles.intValue++
+                updatedFiles++
             }
 
-            if (updatedFiles.intValue > 0) {
+            if (updatedFiles > 0) {
                 val newManifest = LocalManifest(
                     lastSync = System.currentTimeMillis(),
                     relicsHash = remoteRelicsHash,
@@ -85,7 +87,7 @@ class SyncRepository @Inject constructor(
         } catch (_: Exception) {
             emit(SyncEvent.Error)
         }
-    }
+    }.flowOn(Dispatchers.IO)
 
     private suspend fun importRelics(relics: List<RelicDto>) {
         val relicEntities = relics.map { dto ->

@@ -150,7 +150,7 @@ private suspend fun playStartup(
         bodyAlpha.snapTo(0f)
         bodyAlpha.animateTo(
             1f,
-            tween(250)
+            tween(125)
         )
     }
 
@@ -168,7 +168,7 @@ private suspend fun playStartup(
         piecesAlpha.snapTo(0f)
         piecesAlpha.animateTo(
             1f,
-            tween(250)
+            tween(125)
         )
     }
 
@@ -183,12 +183,12 @@ private suspend fun playStartup(
 
         piecesScale.animateTo(
             1.05f,
-            tween(90)
+            tween(45)
         )
 
         piecesScale.animateTo(
             1f,
-            tween(90)
+            tween(45)
         )
     }
 
