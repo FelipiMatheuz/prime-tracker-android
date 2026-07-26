@@ -10,7 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -19,6 +19,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.business.state.SyncEvent
 import com.felipimatheuz.primehunt.ui.screen.splash.components.CephalonAnimation
@@ -28,8 +29,8 @@ import com.felipimatheuz.primehunt.ui.viewmodel.splash.SplashViewModel
 
 @Composable
 fun SplashScreen(onReady: () -> Unit, viewModel: SplashViewModel = hiltViewModel()) {
-    val syncEvent = viewModel.syncEvent.collectAsState()
-    SplashContent(syncEvent.value, viewModel::startSync, onReady)
+    val syncEvent by viewModel.syncEvent.collectAsStateWithLifecycle()
+    SplashContent(syncEvent, viewModel::startSync, onReady)
 }
 
 @Composable
