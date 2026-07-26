@@ -1,4 +1,4 @@
-package com.felipimatheuz.primehunt.ui.screen.primedetail.components
+package com.felipimatheuz.primehunt.ui.screen.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope

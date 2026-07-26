@@ -2,6 +2,7 @@ package com.felipimatheuz.primehunt.ui.screen.primeset.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -36,6 +37,7 @@ import com.felipimatheuz.primehunt.domain.model.PrimeSetDomain
 import com.felipimatheuz.primehunt.ui.theme.Complete
 import com.felipimatheuz.primehunt.ui.theme.High
 import com.felipimatheuz.primehunt.ui.theme.Low
+import com.felipimatheuz.primehunt.ui.theme.Zero
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
@@ -62,8 +64,9 @@ fun PrimeSetCard(
             Box(
                 modifier = Modifier
                     .size(64.dp)
-                    .clip(RoundedCornerShape(8.dp))
+                    .clip(RoundedCornerShape(8.dp, 0.dp, 0.dp, 8.dp))
                     .background(MaterialTheme.colorScheme.surface)
+                    .border(2.dp, Zero, RoundedCornerShape(8.dp, 0.dp, 0.dp, 8.dp))
             ) {
                 GlideImage(
                     model = primeSet.imageUrl,

@@ -17,16 +17,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.ui.screen.components.LoadingUI
 import com.felipimatheuz.primehunt.ui.screen.primedetail.components.DetailComponentItem
+import com.felipimatheuz.primehunt.ui.screen.primedetail.components.DetailError
 import com.felipimatheuz.primehunt.ui.screen.primedetail.components.DetailHeader
 import com.felipimatheuz.primehunt.ui.screen.primedetail.components.DetailQuickActions
+import com.felipimatheuz.primehunt.ui.screen.primedetail.components.PrimeDetailSkeleton
 import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
 import com.felipimatheuz.primehunt.ui.viewmodel.primedetail.PrimeDetailIntent
 import com.felipimatheuz.primehunt.ui.viewmodel.primedetail.PrimeDetailState
@@ -67,10 +67,7 @@ fun PrimeDetailContent(
             .padding(padding)
     ) {
         if (state.isLoading) {
-            LoadingUI(
-                loadText = stringResource(R.string.load_detail_content),
-                modifier = Modifier.align(Alignment.Center)
-            )
+            PrimeDetailSkeleton()
         } else {
             state.primeSet?.let { set ->
                 Column(modifier = Modifier.fillMaxSize()) {
@@ -137,8 +134,7 @@ fun PrimeDetailContent(
                         }
                     }
                 }
-            }
-
+            } ?: DetailError()
             IconButton(
                 onClick = onBack,
                 modifier = Modifier
