@@ -1,5 +1,10 @@
 package com.felipimatheuz.primehunt.ui.screen.primeset
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -171,35 +176,49 @@ fun PrimeSetContent(
                     modifier = Modifier.align(Alignment.Center)
                 )
             } else {
-                LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
-                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
-                ) {
-                    if (state.selectedView == 0) {
-                        if (state.collections.isEmpty()) {
-                            item { EmptyStateMessage() }
-                        } else {
-                            items(state.collections, key = { it.id }) { collection ->
-                                CollectionCard(
-                                    collection = collection,
-                                    onSetClick = onSetClick
-                                )
-                            }
-                        }
-                    } else {
-                        if (state.groupedSets.isEmpty()) {
-                            item { EmptyStateMessage() }
-                        } else {
-                            state.groupedSets.forEach { (type, sets) ->
-                                item(key = type.name) {
-                                    CategoryHeader(titleRes = type.displayNameRes)
-                                }
-                                items(sets, key = { it.id }) { set ->
-                                    PrimeSetCard(
-                                        primeSet = set,
-                                        modifier = Modifier.padding(vertical = 4.dp),
-                                        onClick = { onSetClick(set) }
+                AnimatedContent(
+                    targetState = state.selectedView,
+                    label = "viewTransition",
+                    transitionSpec = {
+                        fadeIn(animationSpec = tween(300)) togetherWith fadeOut(animationSpec = tween(300))
+                    }
+                ) { selectedView ->
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize(),
+                        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
+                    ) {
+                        if (selectedView == 0) {
+                            if (state.collections.isEmpty()) {
+                                item { EmptyStateMessage() }
+                            } else {
+                                items(state.collections, key = { it.id }) { collection ->
+                                    CollectionCard(
+                                        modifier = Modifier.animateItem(),
+                                        collection = collection,
+                                        onSetClick = onSetClick
                                     )
+                                }
+                            }
+                        } else {
+                            if (state.groupedSets.isEmpty()) {
+                                item { EmptyStateMessage() }
+                            } else {
+                                state.groupedSets.forEach { (type, sets) ->
+                                    item(key = type.name) {
+                                        CategoryHeader(
+                                            modifier = Modifier.animateItem(),
+                                            titleRes = type.displayNameRes
+                                        )
+                                    }
+                                    items(sets, key = { it.id }) { set ->
+                                        PrimeSetCard(
+                                            primeSet = set,
+                                            modifier = Modifier
+                                                .padding(vertical = 4.dp)
+                                                .animateItem(),
+                                            onClick = { onSetClick(set) }
+                                        )
+                                    }
                                 }
                             }
                         }

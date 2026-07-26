@@ -1,7 +1,9 @@
 package com.felipimatheuz.primehunt.ui.screen.primeset.components
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -53,13 +55,14 @@ import com.felipimatheuz.primehunt.ui.theme.Zero
 @Composable
 fun CollectionCard(
     collection: PrimeCollection,
+    modifier: Modifier = Modifier,
     onSetClick: (PrimeSetDomain) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
     val rotation by animateFloatAsState(if (expanded) 180f else 0f, label = "arrowRotation")
 
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(vertical = 4.dp),
         shape = RoundedCornerShape(16.dp),
@@ -80,17 +83,34 @@ fun CollectionCard(
                 val progress =
                     if (collection.sets.isNotEmpty()) completedSets.toFloat() / collection.sets.size else 0f
 
-                val progressColor = when {
+                val animatedProgress by animateFloatAsState(
+                    targetValue = progress,
+                    label = "borderProgressAnimation"
+                )
+
+                val targetProgressColor = when {
                     completedSets == collection.sets.size && collection.sets.isNotEmpty() -> High
                     completedSets > 0 -> Low
                     else -> MaterialTheme.colorScheme.primary
                 }
+                
+                val animatedProgressColor by animateColorAsState(
+                    targetValue = targetProgressColor,
+                    animationSpec = tween(300),
+                    label = "progressColorAnimation"
+                )
 
-                val textColor = when {
+                val targetTextColor = when {
                     completedSets == collection.sets.size && collection.sets.isNotEmpty() -> High
                     completedSets > 0 -> Low
                     else -> MaterialTheme.colorScheme.onSurfaceVariant
                 }
+                
+                val animatedTextColor by animateColorAsState(
+                    targetValue = targetTextColor,
+                    animationSpec = tween(300),
+                    label = "textColorAnimation"
+                )
 
                 val borderWidth = 4.dp
 
@@ -100,7 +120,7 @@ fun CollectionCard(
                     contentAlignment = Alignment.Center
                 ) {
                     Canvas(modifier = Modifier.fillMaxSize()) {
-                        if (progress > 0f) {
+                        if (animatedProgress > 0f) {
                             val strokeWidth = borderWidth.toPx()
                             val cornerRadius = 12.dp.toPx()
                             val path = Path().apply {
@@ -119,11 +139,11 @@ fun CollectionCard(
                             pathMeasure.setPath(path, false)
                             val totalLength = pathMeasure.length
                             val segmentPath = Path()
-                            pathMeasure.getSegment(0f, totalLength * progress, segmentPath, true)
+                            pathMeasure.getSegment(0f, totalLength * animatedProgress, segmentPath, true)
 
                             drawPath(
                                 path = segmentPath,
-                                color = progressColor,
+                                color = animatedProgressColor,
                                 style = Stroke(width = strokeWidth, cap = StrokeCap.Round)
                             )
                         }
@@ -163,7 +183,7 @@ fun CollectionCard(
                             collection.sets.size
                         ),
                         style = MaterialTheme.typography.bodyMedium,
-                        color = textColor
+                        color = animatedTextColor
                     )
                 }
 
