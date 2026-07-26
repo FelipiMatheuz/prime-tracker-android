@@ -8,9 +8,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -39,11 +36,7 @@ fun DetailHeader(primeSet: PrimeSetDomain) {
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Card(
-            modifier = Modifier.size(200.dp),
-            shape = RoundedCornerShape(24.dp),
-            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
-        ) {
+        PrimePanel(modifier = Modifier.size(200.dp)) {
             GlideImage(
                 model = primeSet.imageUrl,
                 contentDescription = null,
@@ -79,7 +72,11 @@ fun DetailHeader(primeSet: PrimeSetDomain) {
             color = if (progress == 1f) High else if (progress > 0) Low else Zero
         )
         Text(
-            text = stringResource(R.string.detail_pieces_owned_template, primeSet.ownedPieces, primeSet.totalPieces),
+            text = stringResource(
+                R.string.detail_pieces_owned_template,
+                primeSet.ownedPieces,
+                primeSet.totalPieces
+            ),
             style = MaterialTheme.typography.labelMedium,
             modifier = Modifier.padding(top = 4.dp)
         )
