@@ -29,9 +29,11 @@ import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -88,6 +90,14 @@ fun PrimeSetContent(
     val sheetState = rememberModalBottomSheetState()
     var showFilterSheet by remember { mutableStateOf(false) }
 
+    var localSearchQuery by rememberSaveable { mutableStateOf(state.queryFilter) }
+
+    LaunchedEffect(state.queryFilter) {
+        if (localSearchQuery != state.queryFilter) {
+            localSearchQuery = state.queryFilter
+        }
+    }
+
     if (state.isLoading) {
         PrimeSetSkeleton(paddingValues = paddingValues)
     } else {
@@ -99,8 +109,11 @@ fun PrimeSetContent(
             SearchBar(
                 inputField = {
                     SearchBarDefaults.InputField(
-                        query = state.queryFilter,
-                        onQueryChange = { onIntent(PrimeSetIntent.Search(it)) },
+                        query = localSearchQuery,
+                        onQueryChange = {
+                            localSearchQuery = it
+                            onIntent(PrimeSetIntent.Search(it))
+                        },
                         onSearch = { },
                         expanded = false,
                         onExpandedChange = { },

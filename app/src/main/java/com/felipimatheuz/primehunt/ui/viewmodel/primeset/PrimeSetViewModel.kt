@@ -7,14 +7,17 @@ import com.felipimatheuz.primehunt.domain.model.PrimeSetDomain
 import com.felipimatheuz.primehunt.ui.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.milliseconds
 
 @HiltViewModel
 class PrimeSetViewModel @Inject constructor(
@@ -25,6 +28,7 @@ class PrimeSetViewModel @Inject constructor(
     private val _filters = MutableStateFlow(PrimeSetFilters())
     private val _selectedView = MutableStateFlow(0)
 
+    @OptIn(FlowPreview::class)
     override val state: StateFlow<PrimeSetState> = combine(
         combine(
             repository.observeCollections().distinctUntilChanged(),
@@ -32,7 +36,7 @@ class PrimeSetViewModel @Inject constructor(
             repository.observeSetsGroupedByCategory().distinctUntilChanged(),
             ::Triple
         ),
-        _searchText,
+        _searchText.debounce(300.milliseconds),
         _filters,
         _selectedView
     ) { repoData, query, filters, selectedView ->
