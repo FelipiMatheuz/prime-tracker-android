@@ -2,7 +2,7 @@ package com.felipimatheuz.primehunt.ui.viewmodel.primedetail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.felipimatheuz.primehunt.data.repository.PrimeRepository
+import com.felipimatheuz.primehunt.data.repository.PrimeDetailRepository
 import com.felipimatheuz.primehunt.ui.mvi.MviViewModel
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel(assistedFactory = PrimeDetailViewModel.Factory::class)
 class PrimeDetailViewModel @AssistedInject constructor(
-    private val repository: PrimeRepository,
+    private val repository: PrimeDetailRepository,
     @Assisted private val setId: String
 ) : ViewModel(), MviViewModel<PrimeDetailState, PrimeDetailIntent> {
 

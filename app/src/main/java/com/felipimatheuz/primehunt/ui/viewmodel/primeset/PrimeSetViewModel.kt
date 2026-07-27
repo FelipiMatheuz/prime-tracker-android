@@ -2,7 +2,7 @@ package com.felipimatheuz.primehunt.ui.viewmodel.primeset
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.felipimatheuz.primehunt.data.repository.PrimeRepository
+import com.felipimatheuz.primehunt.data.repository.PrimeSetRepository
 import com.felipimatheuz.primehunt.domain.model.PrimeSetDomain
 import com.felipimatheuz.primehunt.ui.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,7 +21,7 @@ import kotlin.time.Duration.Companion.milliseconds
 
 @HiltViewModel
 class PrimeSetViewModel @Inject constructor(
-    repository: PrimeRepository
+    repository: PrimeSetRepository
 ) : ViewModel(), MviViewModel<PrimeSetState, PrimeSetIntent> {
 
     private val _searchText = MutableStateFlow("")
