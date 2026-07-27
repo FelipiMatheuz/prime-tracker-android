@@ -1,9 +1,6 @@
 package com.felipimatheuz.primehunt.data.repository
 
 import com.felipimatheuz.primehunt.data.local.dao.InventoryDao
-import com.felipimatheuz.primehunt.data.local.entity.InventoryPartEntity
-import com.felipimatheuz.primehunt.data.remote.dao.PrimeCollectionDao
-import com.felipimatheuz.primehunt.data.remote.dao.PrimeCollectionSetDao
 import com.felipimatheuz.primehunt.data.remote.dao.PrimeComponentDao
 import com.felipimatheuz.primehunt.data.remote.dao.PrimePartDao
 import com.felipimatheuz.primehunt.data.remote.dao.PrimeSetDao
@@ -14,33 +11,31 @@ import com.felipimatheuz.primehunt.data.remote.entity.PrimeSetEntity
 import com.felipimatheuz.primehunt.data.remote.entity.RelicEntity
 import com.felipimatheuz.primehunt.data.remote.enums.PrimePartType
 import com.felipimatheuz.primehunt.data.remote.enums.RelicSource
-import com.felipimatheuz.primehunt.domain.model.PrimeCollection
 import com.felipimatheuz.primehunt.domain.model.PrimePartDomain
 import com.felipimatheuz.primehunt.domain.model.PrimeSetDomain
 import com.felipimatheuz.primehunt.domain.model.RelicRewardDomain
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@OptIn(ExperimentalCoroutinesApi::class)
 @Singleton
-class PrimeRepository @Inject constructor(
-    private val collectionDao: PrimeCollectionDao,
-    private val setDao: PrimeSetDao,
-    private val partDao: PrimePartDao,
-    private val componentDao: PrimeComponentDao,
-    private val relicDao: RelicDao,
-    private val inventoryDao: InventoryDao,
-    private val collectionSetDao: PrimeCollectionSetDao
+class PrimeDataStore @Inject constructor(
+    setDao: PrimeSetDao,
+    partDao: PrimePartDao,
+    componentDao: PrimeComponentDao,
+    relicDao: RelicDao,
+    inventoryDao: InventoryDao
 ) {
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
-    private fun observeRawData() = combine(
+    val allSets: Flow<List<PrimeSetDomain>> = combine(
         setDao.getAll().distinctUntilChanged(),
         partDao.getAll().distinctUntilChanged(),
         componentDao.getAll().distinctUntilChanged(),
@@ -50,39 +45,11 @@ class PrimeRepository @Inject constructor(
         val invMap = inventory.associate { it.primePartId to it.quantity }
         mapToDomain(sets, parts, components, relics, invMap)
     }
-
-    fun observeCollections(): Flow<List<PrimeCollection>> = combine(
-        collectionDao.getAll().distinctUntilChanged(),
-        collectionSetDao.getAll().distinctUntilChanged(),
-        observeRawData()
-    ) { collections, relations, allSets ->
-        collections.map { coll ->
-            val setIds = relations.filter { it.collectionId == coll.id }.map { it.primeSetId }
-            PrimeCollection(
-                id = coll.id,
-                name = coll.name,
-                promoImage = coll.promoImage,
-                sets = allSets.filter { it.id in setIds }
-            )
-        }
-    }
-
-    fun observeWithoutCollection(): Flow<PrimeCollection> = combine(
-        collectionSetDao.getAll().distinctUntilChanged(),
-        observeRawData()
-    ) { relations, allSets ->
-        val setsWithCollection = relations.map { it.primeSetId }.toSet()
-        val setsWithout = allSets.filter { it.id !in setsWithCollection }
-        PrimeCollection(
-            "none",
-            "",
-            "https://www-static.warframe.com/images/guide/quests/sacrifice-key.jpg",
-            setsWithout
+        .stateIn(
+            scope = scope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = emptyList()
         )
-    }
-
-    fun observeSetDetails(setId: String): Flow<PrimeSetDomain?> = observeRawData()
-        .map { allSets -> allSets.find { it.id == setId } }
 
     private fun mapToDomain(
         sets: List<PrimeSetEntity>,
@@ -151,41 +118,6 @@ class PrimeRepository @Inject constructor(
                 imageUrl = set.image,
                 parts = domainParts.sortedBy { it.name }
             )
-        }
-    }
-
-    suspend fun updateInventory(partId: String, delta: Int) = withContext(Dispatchers.IO) {
-        val current = inventoryDao.get(partId)
-        val newQuantity = maxOf(0, (current?.quantity ?: 0) + delta)
-        inventoryDao.upsert(InventoryPartEntity(partId, newQuantity))
-    }
-
-    suspend fun updateSetInventory(setId: String, delta: Int) = withContext(Dispatchers.IO) {
-        val partsToUpdate = mutableMapOf<String, Int>()
-        collectPartsRecursively(setId, 1, partsToUpdate)
-        
-        partsToUpdate.forEach { (partId, needed) ->
-            updateInventory(partId, needed * delta)
-        }
-    }
-
-    private suspend fun collectPartsRecursively(setId: String, multiplier: Int, result: MutableMap<String, Int>) {
-        val parts = partDao.getByPrimeSetSync(setId)
-        val hasBlueprint = parts.any { it.id == setId }
-        
-        if (!hasBlueprint) {
-            val comps = componentDao.getByPrimePartSync(setId)
-            if (comps.isNotEmpty()) {
-                result[setId] = (result[setId] ?: 0) + multiplier
-            }
-        }
-        
-        parts.forEach { part ->
-            if (part.part == PrimePartType.PRIME_SET) {
-                collectPartsRecursively(part.id, multiplier * part.quantity, result)
-            } else {
-                result[part.id] = (result[part.id] ?: 0) + multiplier * part.quantity
-            }
         }
     }
 }
