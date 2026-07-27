@@ -37,6 +37,7 @@ fun PrimeSetSkeleton(
             .fillMaxSize()
             .padding(paddingValues)
     ) {
+        Spacer(modifier = Modifier.height(8.dp))
         // Search Bar Skeleton
         Box(
             modifier = Modifier
