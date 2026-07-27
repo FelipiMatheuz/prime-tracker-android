@@ -3,13 +3,16 @@ package com.felipimatheuz.primehunt.data.repository
 import com.felipimatheuz.primehunt.data.local.dao.InventoryDao
 import com.felipimatheuz.primehunt.data.local.entity.InventoryPartEntity
 import com.felipimatheuz.primehunt.data.remote.dao.PrimeCollectionDao
+import com.felipimatheuz.primehunt.data.remote.dao.PrimeCollectionSetDao
 import com.felipimatheuz.primehunt.data.remote.dao.PrimeComponentDao
 import com.felipimatheuz.primehunt.data.remote.dao.PrimePartDao
 import com.felipimatheuz.primehunt.data.remote.dao.PrimeSetDao
 import com.felipimatheuz.primehunt.data.remote.dao.RelicDao
+import com.felipimatheuz.primehunt.data.remote.entity.PrimeComponentEntity
 import com.felipimatheuz.primehunt.data.remote.entity.PrimePartEntity
+import com.felipimatheuz.primehunt.data.remote.entity.PrimeSetEntity
+import com.felipimatheuz.primehunt.data.remote.entity.RelicEntity
 import com.felipimatheuz.primehunt.data.remote.enums.PrimePartType
-import com.felipimatheuz.primehunt.data.remote.enums.PrimeType
 import com.felipimatheuz.primehunt.data.remote.enums.RelicSource
 import com.felipimatheuz.primehunt.domain.model.PrimeCollection
 import com.felipimatheuz.primehunt.domain.model.PrimePartDomain
@@ -20,9 +23,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -36,147 +36,120 @@ class PrimeRepository @Inject constructor(
     private val partDao: PrimePartDao,
     private val componentDao: PrimeComponentDao,
     private val relicDao: RelicDao,
-    private val inventoryDao: InventoryDao
+    private val inventoryDao: InventoryDao,
+    private val collectionSetDao: PrimeCollectionSetDao
 ) {
 
-    fun observeCollections(): Flow<List<PrimeCollection>> =
-        collectionDao.getAll().distinctUntilChanged().flatMapLatest { collections ->
-            if (collections.isEmpty()) return@flatMapLatest flowOf(emptyList())
+    private fun observeRawData() = combine(
+        setDao.getAll().distinctUntilChanged(),
+        partDao.getAll().distinctUntilChanged(),
+        componentDao.getAll().distinctUntilChanged(),
+        relicDao.getAll().distinctUntilChanged(),
+        inventoryDao.observeInventory().distinctUntilChanged()
+    ) { sets, parts, components, relics, inventory ->
+        val invMap = inventory.associate { it.primePartId to it.quantity }
+        mapToDomain(sets, parts, components, relics, invMap)
+    }
 
-            val collectionFlows = collections.map { coll ->
-                observeSetsByCollection(coll.id).map { sets ->
-                    PrimeCollection(
-                        id = coll.id,
-                        name = coll.name,
-                        promoImage = coll.promoImage,
-                        sets = sets
-                    )
-                }
-            }
-            combine(collectionFlows) { it.toList() }
-        }
-
-    fun observeWithoutCollection(): Flow<PrimeCollection> =
-        setDao.getWithoutCollection().flatMapLatest { sets ->
-            if (sets.isEmpty()) return@flatMapLatest flowOf(
-                PrimeCollection(
-                    "none",
-                    "",
-                    "https://www-static.warframe.com/images/guide/quests/sacrifice-key.jpg",
-                    emptyList()
-                )
+    fun observeCollections(): Flow<List<PrimeCollection>> = combine(
+        collectionDao.getAll().distinctUntilChanged(),
+        collectionSetDao.getAll().distinctUntilChanged(),
+        observeRawData()
+    ) { collections, relations, allSets ->
+        collections.map { coll ->
+            val setIds = relations.filter { it.collectionId == coll.id }.map { it.primeSetId }
+            PrimeCollection(
+                id = coll.id,
+                name = coll.name,
+                promoImage = coll.promoImage,
+                sets = allSets.filter { it.id in setIds }
             )
+        }
+    }
 
-            val setFlows = sets.map { observeSetDetails(it.id) }
-            combine(setFlows) { it.toList().filterNotNull() }.map {
-                PrimeCollection(
-                    "none",
-                    "",
-                    "https://www-static.warframe.com/images/guide/quests/sacrifice-key.jpg",
-                    it
-                )
+    fun observeWithoutCollection(): Flow<PrimeCollection> = combine(
+        collectionSetDao.getAll().distinctUntilChanged(),
+        observeRawData()
+    ) { relations, allSets ->
+        val setsWithCollection = relations.map { it.primeSetId }.toSet()
+        val setsWithout = allSets.filter { it.id !in setsWithCollection }
+        PrimeCollection(
+            "none",
+            "",
+            "https://www-static.warframe.com/images/guide/quests/sacrifice-key.jpg",
+            setsWithout
+        )
+    }
+
+    fun observeSetDetails(setId: String): Flow<PrimeSetDomain?> = observeRawData()
+        .map { allSets -> allSets.find { it.id == setId } }
+
+    private fun mapToDomain(
+        sets: List<PrimeSetEntity>,
+        parts: List<PrimePartEntity>,
+        components: List<PrimeComponentEntity>,
+        relics: List<RelicEntity>,
+        inventory: Map<String, Int>
+    ): List<PrimeSetDomain> {
+        val relicMap = relics.associateBy { it.id }
+        val componentMap = components.groupBy { it.primePartId }
+        val partsBySetMap = parts.groupBy { it.primeSetId }
+
+        fun mapPart(part: PrimePartEntity, multiplier: Int): PrimePartDomain {
+            val comps = componentMap[part.id] ?: emptyList()
+            val relicRewards = comps.map { c ->
+                val relic = relicMap[c.relicId]
+                val formattedName = if (relic != null) "${relic.era.name.lowercase().replaceFirstChar { it.uppercase() }} ${relic.name}" else ""
+                RelicRewardDomain(formattedName, c.rarity, relic?.source ?: RelicSource.VAULT)
             }
-        }
-
-    fun observeSetsGroupedByCategory(): Flow<Map<PrimeType, List<PrimeSetDomain>>> =
-        observeAllSetsWithProgress()
-            .map { sets -> sets.groupBy { it.type } }
-
-    private fun observeSetsByCollection(collectionId: String): Flow<List<PrimeSetDomain>> =
-        setDao.getByCollection(collectionId).flatMapLatest { sets ->
-            if (sets.isEmpty()) return@flatMapLatest flowOf(emptyList())
-            combine(sets.map { observeSetDetails(it.id) }) { it.toList().filterNotNull() }
-        }
-
-    fun observeAllSetsWithProgress(): Flow<List<PrimeSetDomain>> =
-        setDao.getAll().flatMapLatest { sets ->
-            if (sets.isEmpty()) return@flatMapLatest flowOf(emptyList())
-            combine(sets.map { observeSetDetails(it.id) }) { it.toList().filterNotNull() }
-        }
-
-    fun observeSetDetails(setId: String): Flow<PrimeSetDomain?> = setDao.observeById(setId)
-        .flatMapLatest { setEntity ->
-            if (setEntity == null) return@flatMapLatest flowOf(null)
-            observePartList(setId, 1).map { domainParts ->
-                PrimeSetDomain(
-                    id = setEntity.id,
-                    name = setEntity.name,
-                    type = setEntity.type,
-                    imageUrl = setEntity.image,
-                    parts = domainParts.sortedBy { it.name }
-                )
-            }
-        }
-
-    private fun observePartList(setId: String, multiplier: Int): Flow<List<PrimePartDomain>> =
-        partDao.getByPrimeSet(setId).flatMapLatest { parts ->
-            val hasBlueprintInParts = parts.any { it.id == setId }
-
-            val initialPartsFlow = if (!hasBlueprintInParts) {
-                componentDao.getByPrimePart(setId).flatMapLatest { comps ->
-                    if (comps.isNotEmpty()) {
-                        val blueprintFlow = observePartDomain(
-                            PrimePartEntity(setId, setId, PrimePartType.BLUEPRINT, 1),
-                            multiplier
-                        )
-                        val otherPartsFlows = parts.map { observePartDomain(it, multiplier) }
-                        combine(otherPartsFlows + blueprintFlow) { it.toList() }
-                    } else {
-                        if (parts.isEmpty()) flowOf(emptyList())
-                        else combine(parts.map { observePartDomain(it, multiplier) }) { it.toList() }
-                    }
-                }
-            } else {
-                if (parts.isEmpty()) flowOf(emptyList())
-                else combine(parts.map { observePartDomain(it, multiplier) }) { it.toList() }
-            }
-            initialPartsFlow
-        }
-
-    private fun observePartDomain(part: PrimePartEntity, multiplier: Int): Flow<PrimePartDomain> {
-        val ownedFlow = inventoryDao.observeInventory()
-            .map { inv -> inv.find { it.primePartId == part.id }?.quantity ?: 0 }
-            .distinctUntilChanged()
-
-        val relicInfoFlow = componentDao.getByPrimePart(part.id).distinctUntilChanged().flatMapLatest { comps ->
-            if (comps.isEmpty()) return@flatMapLatest flowOf(emptyList<RelicSource>() to emptyList())
-            val relicFlows = comps.map { c ->
-                flow {
-                    val relic = relicDao.getById(c.relicId)
-                    val formattedName = if (relic != null) "${relic.era.name.lowercase().replaceFirstChar { it.uppercase() }} ${relic.name}" else ""
-                    emit(relic?.source to RelicRewardDomain(formattedName, c.rarity, relic?.source ?: RelicSource.VAULT))
-                }
-            }
-            combine(relicFlows) { it.toList() }.map { list ->
-                list.mapNotNull { it.first } to list.map { it.second }.filter { it.name.isNotEmpty() }
-            }
-        }
-
-        val nestedPartsFlow = if (part.part == PrimePartType.PRIME_SET) {
-            observePartList(part.id, multiplier * part.quantity)
-        } else {
-            flowOf(emptyList())
-        }
-
-        val imageUrlFlow = if (part.part == PrimePartType.PRIME_SET) {
-            flow { emit(setDao.getByIdSync(part.id)?.image) }
-        } else {
-            flowOf<String?>(null)
-        }
-
-        return combine(ownedFlow, relicInfoFlow, nestedPartsFlow, imageUrlFlow) { owned, sourceInfo, nested, imageUrl ->
-            val (sources, relics) = sourceInfo
+            val sources = comps.mapNotNull { relicMap[it.relicId]?.source }
             val bestSource = sources.minByOrNull { it.ordinal } ?: RelicSource.VAULT
 
-            PrimePartDomain(
+            val nested = if (part.part == PrimePartType.PRIME_SET) {
+                partsBySetMap[part.id]?.map { mapPart(it, multiplier * part.quantity) } ?: emptyList()
+            } else {
+                emptyList()
+            }
+
+            val imageUrl = if (part.part == PrimePartType.PRIME_SET) {
+                sets.find { it.id == part.id }?.image
+            } else null
+
+            return PrimePartDomain(
                 id = part.id,
                 name = part.part,
                 neededQuantity = part.quantity * multiplier,
-                ownedQuantity = owned,
-                relics = relics,
+                ownedQuantity = inventory[part.id] ?: 0,
+                relics = relicRewards,
                 bestSource = bestSource,
                 imageUrl = imageUrl,
                 nestedParts = nested
+            )
+        }
+
+        return sets.map { set ->
+            val setParts = partsBySetMap[set.id] ?: emptyList()
+            val hasBlueprint = setParts.any { it.id == set.id }
+
+            val domainParts = if (!hasBlueprint) {
+                val comps = componentMap[set.id] ?: emptyList()
+                if (comps.isNotEmpty()) {
+                    val blueprint = mapPart(PrimePartEntity(set.id, set.id, PrimePartType.BLUEPRINT, 1), 1)
+                    val others = setParts.map { mapPart(it, 1) }
+                    others + blueprint
+                } else {
+                    setParts.map { mapPart(it, 1) }
+                }
+            } else {
+                setParts.map { mapPart(it, 1) }
+            }
+
+            PrimeSetDomain(
+                id = set.id,
+                name = set.name,
+                type = set.type,
+                imageUrl = set.image,
+                parts = domainParts.sortedBy { it.name }
             )
         }
     }

@@ -30,27 +30,22 @@ class PrimeSetViewModel @Inject constructor(
 
     @OptIn(FlowPreview::class)
     override val state: StateFlow<PrimeSetState> = combine(
-        combine(
-            repository.observeCollections().distinctUntilChanged(),
-            repository.observeWithoutCollection().distinctUntilChanged(),
-            repository.observeSetsGroupedByCategory().distinctUntilChanged(),
-            ::Triple
-        ),
-        _searchText.debounce(300.milliseconds),
+        repository.observeCollections().distinctUntilChanged(),
+        repository.observeWithoutCollection().distinctUntilChanged(),
+        _searchText.debounce(300.milliseconds).distinctUntilChanged(),
         _filters,
         _selectedView
-    ) { repoData, query, filters, selectedView ->
-        val (collections, withoutCollection, groupedByCategory) = repoData
-
+    ) { collections, withoutCollection, query, filters, selectedView ->
         val allCollections = collections + withoutCollection
 
         val filteredCollections = allCollections.map { coll ->
             coll.copy(sets = applyFilters(coll.sets, query, filters))
         }.filter { it.sets.isNotEmpty() || (query.isEmpty() && filters == PrimeSetFilters()) }
 
-        val filteredGrouped = groupedByCategory.mapValues { (_, sets) ->
-            applyFilters(sets, query, filters)
-        }.filterValues { it.isNotEmpty() }
+        val allSets = allCollections.flatMap { it.sets }
+        val filteredGrouped = applyFilters(allSets, query, filters)
+            .groupBy { it.type }
+            .filterValues { it.isNotEmpty() }
 
         PrimeSetState(
             collections = filteredCollections,

@@ -9,6 +9,9 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface PrimeComponentDao {
 
+    @Query("SELECT * FROM prime_component")
+    fun getAll(): Flow<List<PrimeComponentEntity>>
+
     @Query("""
         SELECT *
         FROM prime_component
