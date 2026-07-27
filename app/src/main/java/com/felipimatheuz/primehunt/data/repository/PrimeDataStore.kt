@@ -62,6 +62,24 @@ class PrimeDataStore @Inject constructor(
         val componentMap = components.groupBy { it.primePartId }
         val partsBySetMap = parts.groupBy { it.primeSetId }
 
+        fun resolveParts(setId: String, multiplier: Int, mapper: (PrimePartEntity, Int) -> PrimePartDomain): List<PrimePartDomain> {
+            val setParts = partsBySetMap[setId] ?: emptyList()
+            val hasBlueprint = setParts.any { it.id == setId }
+
+            return if (!hasBlueprint) {
+                val comps = componentMap[setId] ?: emptyList()
+                if (comps.isNotEmpty()) {
+                    val blueprint = mapper(PrimePartEntity(setId, setId, PrimePartType.BLUEPRINT, 1), multiplier)
+                    val others = setParts.map { mapper(it, multiplier) }
+                    listOf(blueprint) + others
+                } else {
+                    setParts.map { mapper(it, multiplier) }
+                }
+            } else {
+                setParts.map { mapper(it, multiplier) }
+            }
+        }
+
         fun mapPart(part: PrimePartEntity, multiplier: Int): PrimePartDomain {
             val comps = componentMap[part.id] ?: emptyList()
             val relicRewards = comps.map { c ->
@@ -73,7 +91,7 @@ class PrimeDataStore @Inject constructor(
             val bestSource = sources.minByOrNull { it.ordinal } ?: RelicSource.VAULT
 
             val nested = if (part.part == PrimePartType.PRIME_SET) {
-                partsBySetMap[part.id]?.map { mapPart(it, multiplier * part.quantity) } ?: emptyList()
+                resolveParts(part.id, multiplier * part.quantity, ::mapPart)
             } else {
                 emptyList()
             }
@@ -95,28 +113,12 @@ class PrimeDataStore @Inject constructor(
         }
 
         return sets.map { set ->
-            val setParts = partsBySetMap[set.id] ?: emptyList()
-            val hasBlueprint = setParts.any { it.id == set.id }
-
-            val domainParts = if (!hasBlueprint) {
-                val comps = componentMap[set.id] ?: emptyList()
-                if (comps.isNotEmpty()) {
-                    val blueprint = mapPart(PrimePartEntity(set.id, set.id, PrimePartType.BLUEPRINT, 1), 1)
-                    val others = setParts.map { mapPart(it, 1) }
-                    others + blueprint
-                } else {
-                    setParts.map { mapPart(it, 1) }
-                }
-            } else {
-                setParts.map { mapPart(it, 1) }
-            }
-
             PrimeSetDomain(
                 id = set.id,
                 name = set.name,
                 type = set.type,
                 imageUrl = set.image,
-                parts = domainParts.sortedBy { it.name }
+                parts = resolveParts(set.id, 1, ::mapPart).sortedBy { it.name }
             )
         }
     }
