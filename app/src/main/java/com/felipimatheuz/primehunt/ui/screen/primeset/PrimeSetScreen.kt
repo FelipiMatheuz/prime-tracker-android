@@ -117,7 +117,7 @@ fun PrimeSetContent(
                         onSearch = { },
                         expanded = false,
                         onExpandedChange = { },
-                        placeholder = { Text(stringResource(R.string.search_label)) },
+                        placeholder = { Text(stringResource(R.string.primeset_search_label)) },
                         leadingIcon = {
                             Icon(
                                 painter = painterResource(R.drawable.ic_search),

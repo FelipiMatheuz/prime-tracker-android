@@ -20,4 +20,10 @@ enum class DropRarity(val lightColor: Color, val darkColor: Color) {
         val isDark = isSystemInDarkTheme()
         return if (isDark) darkColor else lightColor
     }
+
+    companion object {
+        fun fromString(value: String): DropRarity {
+            return entries.find { it.name.equals(value, ignoreCase = true) } ?: COMMON
+        }
+    }
 }

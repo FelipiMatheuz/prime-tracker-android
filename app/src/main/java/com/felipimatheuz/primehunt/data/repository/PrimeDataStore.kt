@@ -1,5 +1,6 @@
 package com.felipimatheuz.primehunt.data.repository
 
+import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.data.local.dao.InventoryDao
 import com.felipimatheuz.primehunt.data.remote.dao.PrimeComponentDao
 import com.felipimatheuz.primehunt.data.remote.dao.PrimePartDao
@@ -13,6 +14,8 @@ import com.felipimatheuz.primehunt.data.remote.enums.PrimePartType
 import com.felipimatheuz.primehunt.data.remote.enums.RelicSource
 import com.felipimatheuz.primehunt.domain.model.PrimePartDomain
 import com.felipimatheuz.primehunt.domain.model.PrimeSetDomain
+import com.felipimatheuz.primehunt.domain.model.RelicComponentDomain
+import com.felipimatheuz.primehunt.domain.model.RelicDomain
 import com.felipimatheuz.primehunt.domain.model.RelicRewardDomain
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -50,6 +53,97 @@ class PrimeDataStore @Inject constructor(
             started = SharingStarted.WhileSubscribed(5000),
             initialValue = emptyList()
         )
+
+    val allRelics: Flow<List<RelicDomain>> = combine(
+        setDao.getAll().distinctUntilChanged(),
+        partDao.getAll().distinctUntilChanged(),
+        componentDao.getAll().distinctUntilChanged(),
+        relicDao.getAll().distinctUntilChanged(),
+        inventoryDao.observeInventory().distinctUntilChanged()
+    ) { sets, parts, components, relics, inventory ->
+        val invMap = inventory.associate { it.primePartId to it.quantity }
+        mapToRelicDomain(relics, components, parts, sets, invMap)
+    }
+        .stateIn(
+            scope = scope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = emptyList()
+        )
+
+    private fun mapToRelicDomain(
+        relics: List<RelicEntity>,
+        components: List<PrimeComponentEntity>,
+        parts: List<PrimePartEntity>,
+        sets: List<PrimeSetEntity>,
+        inventory: Map<String, Int>
+    ): List<RelicDomain> {
+        val partMap = parts.associateBy { it.id }
+        val setMap = sets.associateBy { it.id }
+        val componentMap = components.groupBy { it.relicId }
+        val partsBySetMap = parts.groupBy { it.primeSetId }
+
+        return relics.map { relic ->
+            val relicComponents = componentMap[relic.id]?.map { comp ->
+                val part = partMap[comp.primePartId]
+                val set = part?.let { setMap[it.primeSetId] } ?: setMap[comp.primePartId]
+
+                var isForma = false
+                var suffixRes: Int? = null
+
+                val name = when {
+                    part != null && set != null -> {
+                        "${set.name} ${
+                            part.part.name.replace("_", " ").lowercase().capitalizeWords()
+                        }"
+                    }
+
+                    set != null -> {
+                        suffixRes = R.string.comp_blueprint
+                        set.name
+                    }
+
+                    else -> {
+                        isForma = true
+                        ""
+                    }
+                }
+
+                val owned = part?.let { inventory[it.id] ?: 0 } ?: inventory[comp.primePartId] ?: 0
+                val needed = part?.quantity ?: 1
+                val isObtained = owned >= needed
+
+                val compositeInfo = part?.let { p ->
+                    partsBySetMap[p.primeSetId]?.find { it.part == PrimePartType.PRIME_SET }?.let { dep ->
+                        setMap[dep.id]?.let { depSet ->
+                            "${depSet.name} ×${dep.quantity}"
+                        }
+                    }
+                }
+
+                RelicComponentDomain(
+                    name = name,
+                    rarity = comp.rarity,
+                    isObtained = isObtained,
+                    neededQuantity = needed,
+                    ownedQuantity = owned,
+                    compositeInfo = compositeInfo,
+                    isForma = isForma,
+                    nameSuffixRes = suffixRes
+                )
+            } ?: emptyList()
+
+            RelicDomain(
+                id = relic.id,
+                name = relic.name,
+                era = relic.era,
+                source = relic.source,
+                rewards = relicComponents
+            )
+        }
+    }
+
+    private fun String.capitalizeWords(): String =
+        split(" ").joinToString(" ") { it.replaceFirstChar { char -> char.uppercase() } }
 
     private fun mapToDomain(
         sets: List<PrimeSetEntity>,

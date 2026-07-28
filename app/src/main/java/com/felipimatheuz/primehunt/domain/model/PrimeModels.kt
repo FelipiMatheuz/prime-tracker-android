@@ -3,6 +3,7 @@ package com.felipimatheuz.primehunt.domain.model
 import com.felipimatheuz.primehunt.data.remote.enums.DropRarity
 import com.felipimatheuz.primehunt.data.remote.enums.PrimePartType
 import com.felipimatheuz.primehunt.data.remote.enums.PrimeType
+import com.felipimatheuz.primehunt.data.remote.enums.RelicEra
 import com.felipimatheuz.primehunt.data.remote.enums.RelicSource
 
 data class PrimeCollection(
@@ -49,4 +50,29 @@ data class RelicRewardDomain(
     val name: String,
     val rarity: DropRarity,
     val source: RelicSource
+)
+
+data class RelicDomain(
+    val id: String,
+    val name: String,
+    val era: RelicEra,
+    val source: RelicSource,
+    val rewards: List<RelicComponentDomain>
+) {
+    val missingCount: Int get() = rewards.count { !it.isObtained && !it.isForma }
+    val hasForma: Boolean get() = rewards.any { it.isForma }
+    val isCompleted: Boolean get() = missingCount == 0
+    val trackedCount: Int get() = rewards.count { it.trackingTags.isNotEmpty() }
+}
+
+data class RelicComponentDomain(
+    val name: String,
+    val rarity: DropRarity,
+    val isObtained: Boolean,
+    val neededQuantity: Int = 0,
+    val ownedQuantity: Int = 0,
+    val compositeInfo: String? = null,
+    val trackingTags: List<Int> = emptyList(),
+    val isForma: Boolean = false,
+    val nameSuffixRes: Int? = null
 )
