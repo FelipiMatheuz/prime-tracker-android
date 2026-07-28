@@ -36,5 +36,11 @@ enum class PrimePartType(@param:StringRes val text: Int, @param:DrawableRes val 
     GUARD(R.string.comp_guard, R.drawable.prime_guard),
     BOOT(R.string.comp_boot, R.drawable.prime_guard),
     CHAIN(R.string.comp_chain, R.drawable.prime_stock),
-    PRIME_SET(0, 0)
+    PRIME_SET(0, 0);
+
+    companion object {
+        fun fromString(value: String): PrimePartType {
+            return entries.find { it.name.equals(value, ignoreCase = true) } ?: BLUEPRINT
+        }
+    }
 }

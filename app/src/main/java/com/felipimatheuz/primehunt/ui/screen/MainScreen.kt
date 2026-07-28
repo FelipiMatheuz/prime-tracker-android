@@ -29,11 +29,13 @@ import com.felipimatheuz.primehunt.ui.navigation.NavTransitions.calculateTransit
 import com.felipimatheuz.primehunt.ui.navigation.OverviewKey
 import com.felipimatheuz.primehunt.ui.navigation.PrimeDetailKey
 import com.felipimatheuz.primehunt.ui.navigation.PrimeSetsKey
+import com.felipimatheuz.primehunt.ui.navigation.RelicsKey
 import com.felipimatheuz.primehunt.ui.navigation.TopToolbar
 import com.felipimatheuz.primehunt.ui.navigation.rememberNavigationState
 import com.felipimatheuz.primehunt.ui.navigation.toEntries
 import com.felipimatheuz.primehunt.ui.screen.primedetail.PrimeDetailScreen
 import com.felipimatheuz.primehunt.ui.screen.primeset.PrimeSetScreen
+import com.felipimatheuz.primehunt.ui.screen.relic.RelicsScreen
 import com.felipimatheuz.primehunt.ui.screen.splash.SplashScreen
 import kotlinx.coroutines.launch
 
@@ -91,6 +93,9 @@ fun MainContent() {
                                 PrimeDetailScreen(padding, appNavKey.setId,) {
                                     navigator.goBack()
                                 }
+                            }
+                            is RelicsKey -> {
+                                RelicsScreen(padding)
                             }
                             else -> {}
                         }

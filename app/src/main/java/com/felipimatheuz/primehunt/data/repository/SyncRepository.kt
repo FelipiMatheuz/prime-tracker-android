@@ -94,8 +94,8 @@ class SyncRepository @Inject constructor(
             RelicEntity(
                 id = dto.id,
                 name = dto.name,
-                era = RelicEra.valueOf(dto.era.uppercase()),
-                source = RelicSource.valueOf(dto.source.uppercase())
+                era = RelicEra.fromString(dto.era),
+                source = RelicSource.fromString(dto.source)
             )
         }
         val componentEntities = relics.flatMap { relicDto ->
@@ -104,7 +104,7 @@ class SyncRepository @Inject constructor(
                     id = "${relicDto.id}_${dropDto.id}",
                     relicId = relicDto.id,
                     primePartId = dropDto.id,
-                    rarity = DropRarity.valueOf(dropDto.rarity.uppercase())
+                    rarity = DropRarity.fromString(dropDto.rarity)
                 )
             }
         }
@@ -117,7 +117,7 @@ class SyncRepository @Inject constructor(
             PrimeSetEntity(
                 id = dto.id,
                 name = dto.name,
-                type = PrimeType.valueOf(dto.type.uppercase()),
+                type = PrimeType.fromString(dto.type),
                 image = dto.image
             )
         }
@@ -126,7 +126,7 @@ class SyncRepository @Inject constructor(
                 PrimePartEntity(
                     id = compDto.id,
                     primeSetId = setDto.id,
-                    part = PrimePartType.valueOf(compDto.part.uppercase()),
+                    part = PrimePartType.fromString(compDto.part),
                     quantity = compDto.quantity
                 )
             }

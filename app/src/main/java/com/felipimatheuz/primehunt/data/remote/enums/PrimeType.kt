@@ -9,5 +9,11 @@ enum class PrimeType(val displayNameRes: Int) {
     MELEE(R.string.overview_melee),
     ARCH_GUN(R.string.overview_arch_gun),
     COMPANION(R.string.overview_companion),
-    ARCHWING(R.string.overview_archwing)
+    ARCHWING(R.string.overview_archwing);
+
+    companion object {
+        fun fromString(value: String): PrimeType {
+            return entries.find { it.name.equals(value, ignoreCase = true) } ?: WARFRAME
+        }
+    }
 }

@@ -16,7 +16,7 @@
     <string name="prime_collection_template">%1$s Bundle</string>
     <string name="prime_no_collection">Standalone Primes</string>
     <string name="prime_template" translatable="false">%1$s Prime</string>
-    <string name="relic_template">%1$s Relic</string>
+    <string name="relic_template">%1$s %2$s Relic</string>
     <string name="relic_item_template" translatable="false">%1$s Prime %2$s %3$s</string>
 
     <!--Prime Set Status-->
@@ -95,7 +95,31 @@
     <string name="detailed">Detailed</string>
     <string name="tab_collections">Collections</string>
     <string name="tab_prime_sets">Prime Sets</string>
-    <string name="search_label">Search primes</string>
+    <string name="primeset_search_label">Search Prime sets…</string>
+    <string name="relic_search_label">Search relics, sets or parts…</string>
+    <string name="view_relic_era">Era</string>
+    <string name="view_relic_availability">Availability</string>
+    <string name="view_relic_progress">Progress</string>
+    <string name="relic_era_lith">Lith</string>
+    <string name="relic_era_meso">Meso</string>
+    <string name="relic_era_neo">Neo</string>
+    <string name="relic_era_axi">Axi</string>
+    <string name="relic_missing_indicator">%1$d Missing</string>
+    <string name="relic_completed">Completed</string>
+    <string name="relic_tracked_indicator">%1$d Tracked</string>
+    <string name="relic_needed_indicator">%1$d Needed</string>
+    <string name="relic_requires_label">Requires %1$s</string>
+    <string name="relic_origin_current">Current Rotation</string>
+    <string name="relic_origin_resurgence">Prime Resurgence</string>
+    <string name="relic_origin_baro">Baro Ki\'Teer</string>
+    <string name="relic_origin_vaulted">Vaulted</string>
+    <string name="relic_group_available">Available</string>
+    <string name="tracking_tag_collection">Collection</string>
+    <string name="tracking_tag_trade">Trade</string>
+    <string name="relic_group_events">Events (Resurgence / Baro)</string>
+    <string name="relic_group_missing_4_plus">Missing 4+</string>
+    <string name="relic_group_missing_1_3">Missing 1–3</string>
+    <string name="filter_section_era">Era</string>
     <string name="tier_relics">%1$s Relics</string>
     <string name="forma_blueprint">Forma Blueprint</string>
     <string name="no_results">No results found</string>
