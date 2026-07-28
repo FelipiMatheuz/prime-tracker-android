@@ -30,13 +30,13 @@ data object OverviewKey : AppNavKey {
 
 @Serializable
 data object PrimeSetsKey : AppNavKey {
-    override val icon = R.drawable.ic_excalibur_prime
+    override val icon = R.drawable.ic_prime
     override val label = R.string.menu_prime_sets
 }
 
 @Serializable
 data object TrackingKey : AppNavKey {
-    override val icon = R.drawable.ic_lato_prime
+    override val icon = R.drawable.ic_waypoint
     override val label = R.string.menu_trackings
 }
 

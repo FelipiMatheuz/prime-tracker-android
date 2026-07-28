@@ -119,7 +119,7 @@ fun RelicCard(
 
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Image(
-                        painter = painterResource(R.drawable.ic_lato_prime),
+                        painter = painterResource(R.drawable.ic_waypoint),
                         contentDescription = null,
                         modifier = Modifier.size(14.dp),
                         colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary)

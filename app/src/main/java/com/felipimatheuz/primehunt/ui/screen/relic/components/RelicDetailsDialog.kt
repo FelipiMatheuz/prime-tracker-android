@@ -25,6 +25,7 @@ import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.data.remote.enums.RelicSource
 import com.felipimatheuz.primehunt.domain.model.RelicComponentDomain
 import com.felipimatheuz.primehunt.domain.model.RelicDomain
+import com.felipimatheuz.primehunt.ui.screen.components.PrimePanel
 import com.felipimatheuz.primehunt.ui.theme.Complete
 import com.felipimatheuz.primehunt.ui.theme.High
 import kotlinx.coroutines.delay
@@ -114,40 +115,32 @@ fun RelicDetailsDialog(
                         enter = fadeIn(tween(300)) + expandVertically(tween(300))
                     ) {
                         Column {
-                            HorizontalDivider(
-                                modifier = Modifier.padding(vertical = 16.dp),
-                                thickness = 0.5.dp,
-                                color = MaterialTheme.colorScheme.outlineVariant
-                            )
-
                             // Summary Section
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.SpaceBetween
-                            ) {
-                                Text(
-                                    text = stringResource(
-                                        R.string.relic_missing_indicator,
-                                        relic.missingCount
-                                    ),
-                                    style = MaterialTheme.typography.bodyMedium,
-                                    fontWeight = FontWeight.Medium
-                                )
-                                Text(
-                                    text = stringResource(
-                                        R.string.relic_tracked_indicator,
-                                        relic.trackedCount
-                                    ),
-                                    style = MaterialTheme.typography.bodyMedium,
-                                    fontWeight = FontWeight.Medium
-                                )
+                            PrimePanel {
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = 8.dp, horizontal = 16.dp),
+                                    horizontalArrangement = Arrangement.SpaceBetween
+                                ) {
+                                    Text(
+                                        text = stringResource(
+                                            R.string.relic_missing_indicator,
+                                            relic.missingCount
+                                        ),
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        fontWeight = FontWeight.Medium
+                                    )
+                                    Text(
+                                        text = stringResource(
+                                            R.string.relic_tracked_indicator,
+                                            relic.trackedCount
+                                        ),
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        fontWeight = FontWeight.Medium
+                                    )
+                                }
                             }
-
-                            HorizontalDivider(
-                                modifier = Modifier.padding(vertical = 16.dp),
-                                thickness = 0.5.dp,
-                                color = MaterialTheme.colorScheme.outlineVariant
-                            )
                         }
                     }
 
@@ -266,7 +259,10 @@ private fun RelicRewardItem(reward: RelicComponentDomain) {
                     )
                 } else if (!reward.isForma) {
                     Text(
-                        text = stringResource(R.string.relic_needed_indicator, reward.neededQuantity),
+                        text = stringResource(
+                            R.string.relic_needed_indicator,
+                            reward.neededQuantity
+                        ),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )

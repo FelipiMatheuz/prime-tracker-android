@@ -72,7 +72,7 @@ fun DetailComponentItem(
                 )
             } else {
                 Image(
-                    painter = painterResource(id = if (isSet) R.drawable.ic_lato_prime else part.name.icon),
+                    painter = painterResource(id = if (isSet) R.drawable.ic_prime else part.name.icon),
                     contentDescription = null,
                     modifier = Modifier.size(if (isSet) 40.dp else 32.dp)
                 )
