@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,6 +32,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.AndroidUiModes.UI_MODE_NIGHT_YES
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -90,7 +92,7 @@ fun RelicCard(
                     )
 
                     if (relic.hasForma) {
-                        Image(
+                        Icon(
                             painter = painterResource(R.drawable.ic_forma),
                             contentDescription = null,
                             modifier = Modifier.size(16.dp)
@@ -186,6 +188,23 @@ fun Modifier.drawGlow(
 @Preview(showBackground = true)
 @Composable
 fun RelicCardPreview() {
+    PrimeTrackerTheme {
+        RelicCard(
+            relic = RelicDomain(
+                "meso_Z99", "Z99", RelicEra.MESO, RelicSource.MISSION, listOf(
+                    RelicComponentDomain("teste", DropRarity.COMMON, false),
+                    RelicComponentDomain("teste", DropRarity.COMMON, false),
+                    RelicComponentDomain("", DropRarity.COMMON, false, isForma = true),
+                    RelicComponentDomain("teste", DropRarity.COMMON, false)
+                )
+            )
+        ) {}
+    }
+}
+
+@Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
+@Composable
+fun RelicCardDarkPreview() {
     PrimeTrackerTheme {
         RelicCard(
             relic = RelicDomain(
