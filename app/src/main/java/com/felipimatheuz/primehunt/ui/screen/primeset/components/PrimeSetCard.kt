@@ -89,7 +89,7 @@ fun PrimeSetCard(
                     if (primeSet.isNested) {
                         Spacer(modifier = Modifier.width(8.dp))
                         Image(
-                            painter = painterResource(R.drawable.link_comp),
+                            painter = painterResource(R.drawable.ic_nested),
                             contentDescription = "Dependency",
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary),
                             modifier = Modifier.size(16.dp)

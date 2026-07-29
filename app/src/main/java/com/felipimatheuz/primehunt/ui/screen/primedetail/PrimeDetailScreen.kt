@@ -142,7 +142,7 @@ fun PrimeDetailContent(
                     .align(Alignment.TopEnd)
             ) {
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_cross),
+                    painter = painterResource(id = R.drawable.ic_close),
                     contentDescription = "Back",
                     tint = MaterialTheme.colorScheme.onSurface
                 )

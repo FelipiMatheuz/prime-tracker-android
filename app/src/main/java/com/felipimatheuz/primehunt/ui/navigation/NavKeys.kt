@@ -24,7 +24,7 @@ sealed interface AppNavKey : NavKey {
 
 @Serializable
 data object OverviewKey : AppNavKey {
-    override val icon = R.drawable.ic_graph
+    override val icon = R.drawable.ic_focus
     override val label = R.string.menu_overview
 }
 
@@ -48,7 +48,7 @@ data object RelicsKey : AppNavKey {
 
 @Serializable
 data object SyncKey : AppNavKey {
-    override val icon = R.drawable.ic_google
+    override val icon = R.drawable.ic_transference
     override val label = R.string.menu_sync
 }
 
