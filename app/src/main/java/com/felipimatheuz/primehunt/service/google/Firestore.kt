@@ -84,7 +84,7 @@ class Firestore @Inject constructor(
         val otherData = otherPrimeData.getLocalData()
 
         Firebase.firestore.collection("checklist").document(userId)
-            .set(mapOf("SET" to setData.all, "OTHER" to otherData.all))
+            .set(mapOf("SET" to setData?.all, "OTHER" to otherData.all))
             .addOnCompleteListener { task ->
                 state.update {
                     if (task.exception != null) {

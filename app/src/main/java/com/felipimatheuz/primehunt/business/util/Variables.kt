@@ -4,4 +4,3 @@ import com.felipimatheuz.primehunt.model.*
 
 var primeSetList: List<PrimeSet> = listOf()
 var otherPrimeList: List<PrimeItem> = listOf()
-var relicList: List<RelicSet> = listOf()
