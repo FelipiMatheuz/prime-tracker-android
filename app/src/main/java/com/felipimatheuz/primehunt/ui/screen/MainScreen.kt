@@ -90,7 +90,7 @@ fun MainContent() {
                                 navigator.navigate(PrimeDetailKey(set.id))
                             }
                             is PrimeDetailKey -> {
-                                PrimeDetailScreen(padding, appNavKey.setId,) {
+                                PrimeDetailScreen(padding, appNavKey.setId) {
                                     navigator.goBack()
                                 }
                             }

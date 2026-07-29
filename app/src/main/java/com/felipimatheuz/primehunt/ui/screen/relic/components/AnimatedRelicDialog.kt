@@ -45,7 +45,7 @@ import kotlin.time.Duration.Companion.milliseconds
 fun AnimatedRelicDialog(
     relicEraIcon: Int,
     onDismiss: () -> Unit,
-    content: @Composable () -> Unit
+    content: @Composable (() -> Unit) -> Unit
 ) {
     val scope = rememberCoroutineScope()
 
@@ -182,7 +182,7 @@ fun AnimatedRelicDialog(
                                     bottom = 20.dp
                                 )
                             ) {
-                                content()
+                                content(::dismiss)
                             }
 
                         }

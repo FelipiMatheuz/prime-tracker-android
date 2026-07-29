@@ -30,10 +30,10 @@ fun RelicDetailsDialog(
     AnimatedRelicDialog(
         relicEraIcon = relic.era.icon,
         onDismiss = onDismiss
-    ) {
+    ) { closeDialog  ->
         RelicDetailsContent(
             relic = relic,
-            onDismiss = onDismiss
+            onDismiss = closeDialog
         )
     }
 }
