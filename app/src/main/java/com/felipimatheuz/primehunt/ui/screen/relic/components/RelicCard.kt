@@ -110,20 +110,22 @@ fun RelicCard(
 
                 Spacer(modifier = Modifier.height(4.dp))
 
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Image(
-                        painter = painterResource(R.drawable.ic_waypoint),
-                        contentDescription = null,
-                        modifier = Modifier.size(14.dp),
-                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary)
-                    )
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text(
-                        text = "3",
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.primary,
-                        fontSize = 10.sp
-                    )
+                if (relic.trackedCount > 0) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Image(
+                            painter = painterResource(R.drawable.ic_waypoint),
+                            contentDescription = null,
+                            modifier = Modifier.size(14.dp),
+                            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary)
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(
+                            text = relic.trackedCount.toString(),
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.primary,
+                            fontSize = 10.sp
+                        )
+                    }
                 }
             }
         }
@@ -183,7 +185,7 @@ fun RelicCardPreview() {
         RelicCard(
             relic = RelicDomain(
                 "meso_Z99", "Z99", RelicEra.MESO, RelicSource.MISSION, listOf(
-                    RelicComponentDomain("teste", DropRarity.COMMON, false),
+                    RelicComponentDomain("teste", DropRarity.COMMON, false, trackingTags = listOf(R.string.tracking_tag_collection)),
                     RelicComponentDomain("teste", DropRarity.COMMON, false),
                     RelicComponentDomain("", DropRarity.COMMON, false, isForma = true),
                     RelicComponentDomain("teste", DropRarity.COMMON, false)
@@ -200,7 +202,7 @@ fun RelicCardDarkPreview() {
         RelicCard(
             relic = RelicDomain(
                 "meso_Z99", "Z99", RelicEra.MESO, RelicSource.MISSION, listOf(
-                    RelicComponentDomain("teste", DropRarity.COMMON, false),
+                    RelicComponentDomain("teste", DropRarity.COMMON, false, trackingTags = listOf(R.string.tracking_tag_collection)),
                     RelicComponentDomain("teste", DropRarity.COMMON, false),
                     RelicComponentDomain("", DropRarity.COMMON, false, isForma = true),
                     RelicComponentDomain("teste", DropRarity.COMMON, false)

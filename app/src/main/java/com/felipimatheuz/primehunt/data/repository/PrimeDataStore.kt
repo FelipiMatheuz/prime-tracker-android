@@ -120,6 +120,15 @@ class PrimeDataStore @Inject constructor(
                     }
                 }
 
+                // Mocked tracking tags for "plugged in" UI demonstration
+                val mockTracking = if (!isObtained && !isForma) {
+                    when (relic.id.hashCode() % 3) {
+                        0 -> listOf(R.string.tracking_tag_collection)
+                        1 -> listOf(R.string.tracking_tag_collection, R.string.tracking_tag_trade)
+                        else -> emptyList()
+                    }
+                } else emptyList()
+
                 RelicComponentDomain(
                     name = name,
                     rarity = comp.rarity,
@@ -128,7 +137,8 @@ class PrimeDataStore @Inject constructor(
                     ownedQuantity = owned,
                     compositeInfo = compositeInfo,
                     isForma = isForma,
-                    nameSuffixRes = suffixRes
+                    nameSuffixRes = suffixRes,
+                    trackingTags = mockTracking
                 )
             } ?: emptyList()
 

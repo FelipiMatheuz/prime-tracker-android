@@ -1,10 +1,10 @@
 package com.felipimatheuz.primehunt.business.resources
 
 import android.content.Context
-import com.felipimatheuz.primehunt.model.ItemComponent
-import com.felipimatheuz.primehunt.model.PrimeItem
+import androidx.core.content.edit
 import com.felipimatheuz.primehunt.business.util.getFieldName
 import com.felipimatheuz.primehunt.business.util.otherPrimeList
+import com.felipimatheuz.primehunt.model.PrimeItem
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -42,42 +42,8 @@ class OtherPrimeData @Inject constructor(@ApplicationContext context: Context) {
     fun getListOtherData(): List<PrimeItem> = otherPrimeList.sortedBy { it.name }
 
     fun setStatusItem(name: String, value: Boolean) {
-        val editor = localData.edit()
-        editor.putBoolean(name, value)
-        editor.apply()
-    }
-
-    fun togglePrimeItemComp(primeItem: PrimeItem, itemComponent: ItemComponent?) {
-        if (itemComponent == null) {
-            primeItem.blueprint = !primeItem.blueprint
-            setStatusItem(getFieldName(primeItem = primeItem), primeItem.blueprint)
-        } else {
-            val itemComp = primeItem.components.filter { it.part == itemComponent.part }
-            if (itemComp.size == 1) {
-                itemComp[0].obtained = !itemComp[0].obtained
-                setStatusItem(
-                    getFieldName(primeItem = primeItem, primeComp = itemComp[0], index = 0),
-                    itemComp[0].obtained
-                )
-            } else {
-                val getFalse = itemComp.firstOrNull { !it.obtained }
-                if (getFalse == null) {
-                    itemComp.forEachIndexed { index, comp ->
-                        comp.obtained = false
-                        setStatusItem(
-                            getFieldName(primeItem = primeItem, primeComp = comp, index = index),
-                            comp.obtained
-                        )
-                    }
-                } else {
-                    val falseIndex = itemComp.indexOfFirst { !it.obtained }
-                    getFalse.obtained = true
-                    setStatusItem(
-                        getFieldName(primeItem = primeItem, primeComp = getFalse, index = falseIndex),
-                        getFalse.obtained
-                    )
-                }
-            }
+        localData.edit {
+            putBoolean(name, value)
         }
     }
 }
