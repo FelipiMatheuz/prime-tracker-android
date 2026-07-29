@@ -1,6 +1,5 @@
 package com.felipimatheuz.primehunt.ui.navigation
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -27,28 +26,20 @@ fun TopToolbar(
     currentKey: AppNavKey,
     onMenuClick: () -> Unit
 ) {
-    val titleRes = when (currentKey) {
-        OverviewKey -> R.string.menu_overview
-        is PrimeSetsKey, is PrimeDetailKey -> R.string.menu_prime_sets
-        is TrackingKey -> R.string.menu_trackings
-        is RelicsKey -> R.string.menu_relics
-        SyncKey -> R.string.menu_sync
-        HelpKey -> R.string.menu_help
-        AboutKey -> R.string.menu_about
-    }
 
     TopAppBar(
         title = {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Image(
-                    painter = painterResource(id = R.drawable.regal_aya),
+                Icon(
+                    painter = painterResource(id = currentKey.icon),
                     contentDescription = null,
                     modifier = Modifier
                         .size(40.dp)
-                        .padding(end = 8.dp)
+                        .padding(end = 8.dp),
+                    tint = MaterialTheme.colorScheme.onPrimary
                 )
                 Text(
-                    text = stringResource(titleRes),
+                    text = stringResource(currentKey.label),
                     color = MaterialTheme.colorScheme.onPrimary
                 )
             }

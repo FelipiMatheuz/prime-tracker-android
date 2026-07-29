@@ -93,7 +93,7 @@ fun CollectionCard(
                     completedSets > 0 -> Low
                     else -> MaterialTheme.colorScheme.primary
                 }
-                
+
                 val animatedProgressColor by animateColorAsState(
                     targetValue = targetProgressColor,
                     animationSpec = tween(300),
@@ -105,7 +105,7 @@ fun CollectionCard(
                     completedSets > 0 -> Low
                     else -> MaterialTheme.colorScheme.onSurfaceVariant
                 }
-                
+
                 val animatedTextColor by animateColorAsState(
                     targetValue = targetTextColor,
                     animationSpec = tween(300),
@@ -139,7 +139,12 @@ fun CollectionCard(
                             pathMeasure.setPath(path, false)
                             val totalLength = pathMeasure.length
                             val segmentPath = Path()
-                            pathMeasure.getSegment(0f, totalLength * animatedProgress, segmentPath, true)
+                            pathMeasure.getSegment(
+                                0f,
+                                totalLength * animatedProgress,
+                                segmentPath,
+                                true
+                            )
 
                             drawPath(
                                 path = segmentPath,
