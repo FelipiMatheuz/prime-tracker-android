@@ -1,9 +1,13 @@
 package com.felipimatheuz.primehunt.ui.screen.primedetail.components
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -89,14 +94,24 @@ fun DetailHeader(primeSet: PrimeSetDomain) {
                 .clip(CircleShape),
             color = animatedColor
         )
-        Text(
-            text = stringResource(
-                R.string.detail_pieces_owned_template,
-                primeSet.ownedPieces,
-                primeSet.totalPieces
-            ),
-            style = MaterialTheme.typography.labelMedium,
-            modifier = Modifier.padding(top = 4.dp)
-        )
+        Row(verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+            Text(
+                text = stringResource(
+                    R.string.detail_pieces_owned_template,
+                    primeSet.ownedPieces,
+                    primeSet.totalPieces
+                ),
+                style = MaterialTheme.typography.labelMedium,
+                modifier = Modifier.padding(top = 4.dp)
+            )
+            AnimatedVisibility(targetColor == High) {
+                Image(
+                    painter = painterResource(id = R.drawable.mastery_rank),
+                    contentDescription = null,
+                    modifier = Modifier.size(24.dp)
+                )
+            }
+        }
     }
 }

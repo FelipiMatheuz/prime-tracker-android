@@ -1,5 +1,6 @@
 package com.felipimatheuz.primehunt.ui.screen.primeset.components
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -85,7 +86,7 @@ fun PrimeSetCard(
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold
                     )
-                    
+
                     if (primeSet.isNested) {
                         Spacer(modifier = Modifier.width(8.dp))
                         Image(
@@ -106,13 +107,13 @@ fun PrimeSetCard(
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
-                    
-                    val availabilityColor = when(primeSet.availability) {
+
+                    val availabilityColor = when (primeSet.availability) {
                         RelicSource.MISSION -> MaterialTheme.colorScheme.onSurfaceVariant
                         RelicSource.RESURGENCE, RelicSource.BARO -> MaterialTheme.colorScheme.primary
                         RelicSource.VAULT -> Complete
                     }
-                    
+
                     Text(
                         text = stringResource(primeSet.availability.displayNameRes),
                         style = MaterialTheme.typography.labelSmall,
@@ -124,11 +125,19 @@ fun PrimeSetCard(
 
             Spacer(modifier = Modifier.width(12.dp))
 
-            Column(horizontalAlignment = Alignment.End) {
+            Column(horizontalAlignment = Alignment.End,
+                verticalArrangement = Arrangement.Center) {
                 val textColor = when {
                     primeSet.ownedPieces == primeSet.totalPieces && primeSet.totalPieces > 0 -> High
                     primeSet.ownedPieces > 0 -> Low
                     else -> MaterialTheme.colorScheme.onSurfaceVariant
+                }
+                AnimatedVisibility(textColor == High) {
+                    Image(
+                        painter = painterResource(id = R.drawable.mastery_rank),
+                        contentDescription = null,
+                        modifier = Modifier.size(16.dp)
+                    )
                 }
                 Text(
                     text = "${primeSet.ownedPieces}/${primeSet.totalPieces}",
