@@ -27,11 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.felipimatheuz.primehunt.domain.model.RelicDomain
-import com.felipimatheuz.primehunt.ui.screen.relic.components.RelicDetailsDialog
-import com.felipimatheuz.primehunt.ui.screen.relic.components.RelicFilterBottomSheet
-import com.felipimatheuz.primehunt.ui.screen.relic.components.RelicSection
-import com.felipimatheuz.primehunt.ui.screen.relic.components.RelicsSearchBar
-import com.felipimatheuz.primehunt.ui.screen.relic.components.RelicsViewSelector
+import com.felipimatheuz.primehunt.ui.screen.relic.components.*
 import com.felipimatheuz.primehunt.ui.viewmodel.relic.RelicIntent
 import com.felipimatheuz.primehunt.ui.viewmodel.relic.RelicState
 import com.felipimatheuz.primehunt.ui.viewmodel.relic.RelicViewModel
@@ -110,8 +106,7 @@ fun RelicsContent(
                     grouped.forEach { (group, relics) ->
                         item(key = group.toString()) {
                             RelicSection(
-                                title = stringResource(group.titleRes)
-                                ,
+                                title = stringResource(group.titleRes),
                                 relics = relics,
                                 onRelicClick = { selectedRelic = it }
                             )

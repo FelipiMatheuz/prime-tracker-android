@@ -1,10 +1,6 @@
 package com.felipimatheuz.primehunt.ui.screen.relic.components
 
-import androidx.compose.animation.*
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -15,12 +11,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.data.remote.enums.RelicSource
 import com.felipimatheuz.primehunt.domain.model.RelicComponentDomain
@@ -28,183 +21,125 @@ import com.felipimatheuz.primehunt.domain.model.RelicDomain
 import com.felipimatheuz.primehunt.ui.screen.components.PrimePanel
 import com.felipimatheuz.primehunt.ui.theme.Complete
 import com.felipimatheuz.primehunt.ui.theme.High
-import kotlinx.coroutines.delay
-import kotlin.time.Duration.Companion.milliseconds
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun RelicDetailsDialog(
     relic: RelicDomain,
     onDismiss: () -> Unit
 ) {
-    var animationStage by remember { mutableIntStateOf(0) }
-
-    LaunchedEffect(Unit) {
-        delay(100.milliseconds)
-        animationStage = 1 // Dialog expanded
-        delay(200.milliseconds)
-        animationStage = 2 // Summary & Divider
-        delay(200.milliseconds)
-        animationStage = 3 // Drops
-        delay(200.milliseconds)
-        animationStage = 4 // Close button
-    }
-
-    Dialog(
-        onDismissRequest = onDismiss,
-        properties = DialogProperties(usePlatformDefaultWidth = false)
+    AnimatedRelicDialog(
+        relicEraIcon = relic.era.icon,
+        onDismiss = onDismiss
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth(0.9f)
-                .wrapContentHeight()
-                .padding(top = 24.dp)
+        RelicDetailsContent(
+            relic = relic,
+            onDismiss = onDismiss
+        )
+    }
+}
+
+@Composable
+private fun RelicDetailsContent(
+    relic: RelicDomain,
+    onDismiss: () -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+            .padding(top = 16.dp)
+    ) {
+        // Header
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Surface(
+            Text(
+                text = "${relic.era.displayName} ${relic.name}",
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold
+            )
+
+            val availabilityText = when (relic.source) {
+                RelicSource.MISSION -> stringResource(R.string.relic_origin_current)
+                RelicSource.RESURGENCE -> stringResource(R.string.relic_origin_resurgence)
+                RelicSource.BARO -> stringResource(R.string.relic_origin_baro)
+                RelicSource.VAULT -> stringResource(R.string.relic_origin_vaulted)
+            }
+
+            val availabilityColor = when (relic.source) {
+                RelicSource.MISSION -> MaterialTheme.colorScheme.onSurfaceVariant
+                RelicSource.RESURGENCE, RelicSource.BARO -> MaterialTheme.colorScheme.primary
+                RelicSource.VAULT -> Complete
+            }
+
+            Text(
+                text = availabilityText,
+                style = MaterialTheme.typography.labelMedium,
+                color = availabilityColor
+            )
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+        
+        // Summary
+        PrimePanel {
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .animateContentSize(animationSpec = tween(400))
-                    .border(
-                        1.dp,
-                        MaterialTheme.colorScheme.outlineVariant,
-                        RoundedCornerShape(24.dp)
-                    ),
-                shape = RoundedCornerShape(24.dp),
-                color = MaterialTheme.colorScheme.surface
+                    .padding(vertical = 8.dp, horizontal = 16.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp)
-                ) {
-                    // Header Section (Always visible)
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 16.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text(
-                            text = "${relic.era.displayName} ${relic.name}",
-                            style = MaterialTheme.typography.titleLarge,
-                            fontWeight = FontWeight.Bold
-                        )
-
-                        val availabilityText = when (relic.source) {
-                            RelicSource.MISSION -> stringResource(R.string.relic_origin_current)
-                            RelicSource.RESURGENCE -> stringResource(R.string.relic_origin_resurgence)
-                            RelicSource.BARO -> stringResource(R.string.relic_origin_baro)
-                            RelicSource.VAULT -> stringResource(R.string.relic_origin_vaulted)
-                        }
-
-                        val availabilityColor = when (relic.source) {
-                            RelicSource.MISSION -> MaterialTheme.colorScheme.onSurfaceVariant
-                            RelicSource.RESURGENCE, RelicSource.BARO -> MaterialTheme.colorScheme.primary
-                            RelicSource.VAULT -> Complete
-                        }
-
-                        Text(
-                            text = availabilityText,
-                            style = MaterialTheme.typography.labelMedium,
-                            color = availabilityColor
-                        )
-                    }
-
-                    AnimatedVisibility(
-                        visible = animationStage >= 2,
-                        enter = fadeIn(tween(300)) + expandVertically(tween(300))
-                    ) {
-                        Column {
-                            // Summary Section
-                            PrimePanel {
-                                Row(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(vertical = 8.dp, horizontal = 16.dp),
-                                    horizontalArrangement = Arrangement.SpaceBetween
-                                ) {
-                                    Text(
-                                        text = stringResource(
-                                            R.string.relic_missing_indicator,
-                                            relic.missingCount
-                                        ),
-                                        style = MaterialTheme.typography.bodyMedium,
-                                        fontWeight = FontWeight.Medium
-                                    )
-                                    Text(
-                                        text = stringResource(
-                                            R.string.relic_tracked_indicator,
-                                            relic.trackedCount
-                                        ),
-                                        style = MaterialTheme.typography.bodyMedium,
-                                        fontWeight = FontWeight.Medium
-                                    )
-                                }
-                            }
-                        }
-                    }
-
-                    // Drop List Section
-                    AnimatedVisibility(
-                        visible = animationStage >= 3,
-                        enter = fadeIn(tween(400)) + slideInVertically(tween(400)) { it / 4 }
-                    ) {
-                        val sortedRewards = remember(relic.rewards) {
-                            relic.rewards.sortedWith(
-                                compareByDescending<RelicComponentDomain> { it.rarity.ordinal }
-                                    .thenBy { it.name }
-                            )
-                        }
-                        LazyColumn(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .heightIn(max = 400.dp),
-                            verticalArrangement = Arrangement.spacedBy(12.dp)
-                        ) {
-                            items(sortedRewards) { reward ->
-                                RelicRewardItem(reward)
-                            }
-                        }
-                    }
-
-                    AnimatedVisibility(
-                        visible = animationStage >= 4,
-                        enter = fadeIn(tween(300))
-                    ) {
-                        Column {
-                            HorizontalDivider(
-                                modifier = Modifier.padding(vertical = 16.dp),
-                                thickness = 0.5.dp,
-                                color = MaterialTheme.colorScheme.outlineVariant
-                            )
-
-                            // Actions Section
-                            TextButton(
-                                onClick = onDismiss,
-                                modifier = Modifier.align(Alignment.End)
-                            ) {
-                                Text(
-                                    text = stringResource(R.string.close),
-                                    fontWeight = FontWeight.Bold
-                                )
-                            }
-                        }
-                    }
-                }
-            }
-
-            // Era Icon (Overlapping)
-            Box(
-                modifier = Modifier
-                    .align(Alignment.TopCenter)
-                    .offset(y = (-24).dp)
-            ) {
-                Image(
-                    painter = painterResource(relic.era.icon),
-                    contentDescription = null,
-                    modifier = Modifier.size(48.dp)
+                Text(
+                    text = stringResource(R.string.relic_missing_indicator, relic.missingCount),
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontWeight = FontWeight.Medium
+                )
+                Text(
+                    text = stringResource(R.string.relic_tracked_indicator, relic.trackedCount),
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontWeight = FontWeight.Medium
                 )
             }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Drops
+        val sortedRewards = remember(relic.rewards) {
+            relic.rewards.sortedWith(
+                compareByDescending<RelicComponentDomain> { it.rarity.ordinal }
+                    .thenBy { it.name }
+            )
+        }
+        
+        Box(modifier = Modifier.weight(1f, fill = false)) {
+            LazyColumn(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+                contentPadding = PaddingValues(bottom = 8.dp)
+            ) {
+                items(sortedRewards) { reward ->
+                    RelicRewardItem(reward)
+                }
+            }
+        }
+
+        HorizontalDivider(
+            modifier = Modifier.padding(vertical = 8.dp),
+            thickness = 0.5.dp,
+            color = MaterialTheme.colorScheme.outlineVariant
+        )
+
+        // Close button
+        TextButton(
+            onClick = onDismiss,
+            modifier = Modifier.align(Alignment.End)
+        ) {
+            Text(
+                text = stringResource(R.string.close),
+                fontWeight = FontWeight.Bold
+            )
         }
     }
 }
@@ -217,7 +152,6 @@ private fun RelicRewardItem(reward: RelicComponentDomain) {
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Rarity Dot and Label
             Box(
                 modifier = Modifier
                     .size(8.dp)
@@ -259,10 +193,7 @@ private fun RelicRewardItem(reward: RelicComponentDomain) {
                     )
                 } else if (!reward.isForma) {
                     Text(
-                        text = stringResource(
-                            R.string.relic_needed_indicator,
-                            reward.neededQuantity
-                        ),
+                        text = stringResource(R.string.relic_needed_indicator, reward.neededQuantity),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
