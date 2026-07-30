@@ -14,7 +14,7 @@ interface GoalTagDao {
         """
         SELECT *
         FROM goal_tag
-        ORDER BY sortOrder, name
+        ORDER BY name
     """
     )
     fun observeAll(): Flow<List<GoalTagEntity>>

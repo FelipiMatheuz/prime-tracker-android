@@ -15,6 +15,18 @@ data class GoalTagDomain(
     val color: Color
 )
 
+data class GoalDomain(
+    val id: Long,
+    val targetId: String,
+    val targetName: String,
+    val targetType: com.felipimatheuz.primehunt.data.local.enums.GoalTargetType,
+    val currentQuantity: Int,
+    val desiredQuantity: Int,
+    val status: com.felipimatheuz.primehunt.data.local.enums.GoalStatus,
+    val note: String?,
+    val tag: GoalTagDomain
+)
+
 data class PrimeCollection(
     val id: String,
     val name: String,

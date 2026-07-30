@@ -116,7 +116,7 @@ fun RelicCard(
                 if (relic.goalCount > 0) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Image(
-                            painter = painterResource(R.drawable.ic_waypoint),
+                            painter = painterResource(R.drawable.ic_target),
                             contentDescription = null,
                             modifier = Modifier.size(14.dp),
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary)
