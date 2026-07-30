@@ -2,6 +2,8 @@ package com.felipimatheuz.primehunt.core
 
 import android.content.Context
 import androidx.room.Room
+import com.felipimatheuz.primehunt.data.local.dao.GoalDao
+import com.felipimatheuz.primehunt.data.local.dao.GoalTagDao
 import com.felipimatheuz.primehunt.data.local.dao.InventoryDao
 import com.felipimatheuz.primehunt.data.remote.AppDatabase
 import com.felipimatheuz.primehunt.data.remote.dao.*
@@ -49,4 +51,10 @@ object DatabaseModule {
 
     @Provides
     fun provideInventoryDao(db: AppDatabase): InventoryDao = db.inventoryDao()
+
+    @Provides
+    fun provideGoalDao(db: AppDatabase): GoalDao = db.goalDao()
+
+    @Provides
+    fun provideGoalTagDao(db: AppDatabase): GoalTagDao = db.goalTagDao()
 }

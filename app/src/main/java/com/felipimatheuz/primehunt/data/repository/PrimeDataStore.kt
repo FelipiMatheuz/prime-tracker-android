@@ -1,7 +1,10 @@
 package com.felipimatheuz.primehunt.data.repository
 
 import com.felipimatheuz.primehunt.R
+import com.felipimatheuz.primehunt.data.local.dao.GoalDao
 import com.felipimatheuz.primehunt.data.local.dao.InventoryDao
+import com.felipimatheuz.primehunt.data.local.entity.GoalWithTag
+import com.felipimatheuz.primehunt.data.local.entity.InventoryPartEntity
 import com.felipimatheuz.primehunt.data.remote.dao.PrimeComponentDao
 import com.felipimatheuz.primehunt.data.remote.dao.PrimePartDao
 import com.felipimatheuz.primehunt.data.remote.dao.PrimeSetDao
@@ -12,6 +15,7 @@ import com.felipimatheuz.primehunt.data.remote.entity.PrimeSetEntity
 import com.felipimatheuz.primehunt.data.remote.entity.RelicEntity
 import com.felipimatheuz.primehunt.data.remote.enums.PrimePartType
 import com.felipimatheuz.primehunt.data.remote.enums.RelicSource
+import com.felipimatheuz.primehunt.domain.model.GoalTagDomain
 import com.felipimatheuz.primehunt.domain.model.PrimePartDomain
 import com.felipimatheuz.primehunt.domain.model.PrimeSetDomain
 import com.felipimatheuz.primehunt.domain.model.RelicComponentDomain
@@ -34,7 +38,8 @@ class PrimeDataStore @Inject constructor(
     partDao: PrimePartDao,
     componentDao: PrimeComponentDao,
     relicDao: RelicDao,
-    inventoryDao: InventoryDao
+    inventoryDao: InventoryDao,
+    goalDao: GoalDao
 ) {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
@@ -45,6 +50,8 @@ class PrimeDataStore @Inject constructor(
         relicDao.getAll().distinctUntilChanged(),
         inventoryDao.observeInventory().distinctUntilChanged()
     ) { sets, parts, components, relics, inventory ->
+
+
         val invMap = inventory.associate { it.primePartId to it.quantity }
         mapToDomain(sets, parts, components, relics, invMap)
     }
@@ -59,10 +66,19 @@ class PrimeDataStore @Inject constructor(
         partDao.getAll().distinctUntilChanged(),
         componentDao.getAll().distinctUntilChanged(),
         relicDao.getAll().distinctUntilChanged(),
-        inventoryDao.observeInventory().distinctUntilChanged()
-    ) { sets, parts, components, relics, inventory ->
+        inventoryDao.observeInventory().distinctUntilChanged(),
+        goalDao.observeAllWithTags().distinctUntilChanged()
+    ) { array ->
+        val sets = array[0] as List<PrimeSetEntity>
+        val parts = array[1] as List<PrimePartEntity>
+        val components = array[2] as List<PrimeComponentEntity>
+        val relics = array[3] as List<RelicEntity>
+        val inventory = array[4] as List<InventoryPartEntity>
+        val goals = array[5] as List<GoalWithTag>
+
         val invMap = inventory.associate { it.primePartId to it.quantity }
-        mapToRelicDomain(relics, components, parts, sets, invMap)
+        val goalMap = goals.groupBy { it.goal.targetId }
+        mapToRelicDomain(relics, components, parts, sets, invMap, goalMap)
     }
         .stateIn(
             scope = scope,
@@ -75,7 +91,8 @@ class PrimeDataStore @Inject constructor(
         components: List<PrimeComponentEntity>,
         parts: List<PrimePartEntity>,
         sets: List<PrimeSetEntity>,
-        inventory: Map<String, Int>
+        inventory: Map<String, Int>,
+        goalMap: Map<String, List<GoalWithTag>>
     ): List<RelicDomain> {
         val partMap = parts.associateBy { it.id }
         val setMap = sets.associateBy { it.id }
@@ -113,21 +130,22 @@ class PrimeDataStore @Inject constructor(
                 val isObtained = owned >= needed
 
                 val compositeInfo = part?.let { p ->
-                    partsBySetMap[p.primeSetId]?.find { it.part == PrimePartType.PRIME_SET }?.let { dep ->
-                        setMap[dep.id]?.let { depSet ->
-                            "${depSet.name} ×${dep.quantity}"
+                    partsBySetMap[p.primeSetId]?.find { it.part == PrimePartType.PRIME_SET }
+                        ?.let { dep ->
+                            setMap[dep.id]?.let { depSet ->
+                                "${depSet.name} ×${dep.quantity}"
+                            }
                         }
-                    }
                 }
 
-                // Mocked goal tags for "plugged in" UI demonstration
-                val mockGoal = if (!isObtained && !isForma) {
-                    when (relic.id.hashCode() % 3) {
-                        0 -> listOf(R.string.tab_collections)
-                        1 -> listOf(R.string.tab_collections, R.string.menu_relics)
-                        else -> emptyList()
-                    }
-                } else emptyList()
+                val goalTags = goalMap[comp.primePartId]?.map {
+                    GoalTagDomain(
+                        id = it.tag.id,
+                        name = it.tag.name,
+                        icon = it.tag.icon,
+                        color = it.tag.color
+                    )
+                } ?: emptyList()
 
                 RelicComponentDomain(
                     name = name,
@@ -138,7 +156,16 @@ class PrimeDataStore @Inject constructor(
                     compositeInfo = compositeInfo,
                     isForma = isForma,
                     nameSuffixRes = suffixRes,
-                    goalTags = mockGoal
+                    goalTags = goalTags
+                )
+            } ?: emptyList()
+
+            val relicTags = goalMap[relic.id]?.map {
+                GoalTagDomain(
+                    id = it.tag.id,
+                    name = it.tag.name,
+                    icon = it.tag.icon,
+                    color = it.tag.color
                 )
             } ?: emptyList()
 
@@ -147,7 +174,8 @@ class PrimeDataStore @Inject constructor(
                 name = relic.name,
                 era = relic.era,
                 source = relic.source,
-                rewards = relicComponents
+                rewards = relicComponents,
+                goalTags = relicTags
             )
         }
     }
@@ -166,14 +194,21 @@ class PrimeDataStore @Inject constructor(
         val componentMap = components.groupBy { it.primePartId }
         val partsBySetMap = parts.groupBy { it.primeSetId }
 
-        fun resolveParts(setId: String, multiplier: Int, mapper: (PrimePartEntity, Int) -> PrimePartDomain): List<PrimePartDomain> {
+        fun resolveParts(
+            setId: String,
+            multiplier: Int,
+            mapper: (PrimePartEntity, Int) -> PrimePartDomain
+        ): List<PrimePartDomain> {
             val setParts = partsBySetMap[setId] ?: emptyList()
             val hasBlueprint = setParts.any { it.id == setId }
 
             return if (!hasBlueprint) {
                 val comps = componentMap[setId] ?: emptyList()
                 if (comps.isNotEmpty()) {
-                    val blueprint = mapper(PrimePartEntity(setId, setId, PrimePartType.BLUEPRINT, 1), multiplier)
+                    val blueprint = mapper(
+                        PrimePartEntity(setId, setId, PrimePartType.BLUEPRINT, 1),
+                        multiplier
+                    )
                     val others = setParts.map { mapper(it, multiplier) }
                     listOf(blueprint) + others
                 } else {
@@ -188,7 +223,9 @@ class PrimeDataStore @Inject constructor(
             val comps = componentMap[part.id] ?: emptyList()
             val relicRewards = comps.map { c ->
                 val relic = relicMap[c.relicId]
-                val formattedName = if (relic != null) "${relic.era.name.lowercase().replaceFirstChar { it.uppercase() }} ${relic.name}" else ""
+                val formattedName = if (relic != null) "${
+                    relic.era.name.lowercase().replaceFirstChar { it.uppercase() }
+                } ${relic.name}" else ""
                 RelicRewardDomain(formattedName, c.rarity, relic?.source ?: RelicSource.VAULT)
             }
             val sources = comps.mapNotNull { relicMap[it.relicId]?.source }
