@@ -1,8 +1,14 @@
 package com.felipimatheuz.primehunt.ui.screen
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
@@ -16,12 +22,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.ui.NavDisplay
+import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.ui.navigation.AppNavKey
 import com.felipimatheuz.primehunt.ui.navigation.Navigator
 import com.felipimatheuz.primehunt.ui.navigation.NavTransitions.calculatePopTransition
@@ -64,6 +72,23 @@ fun MainContent() {
         drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    modifier = Modifier.padding(16.dp)
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.cephalon_body),
+                        contentDescription = null,
+                        modifier = Modifier.size(32.dp)
+                    )
+                    Text(
+                        text = stringResource(R.string.app_name),
+                        style = MaterialTheme.typography.titleLarge
+                    )
+                }
+
+                HorizontalDivider(Modifier.padding(horizontal = 16.dp))
                 DrawerContent(
                     currentKey = navState.topLevelRoute as AppNavKey,
                     onKeySelected = { key ->
@@ -89,14 +114,17 @@ fun MainContent() {
                             is PrimeSetsKey -> PrimeSetScreen(padding) { set ->
                                 navigator.navigate(PrimeDetailKey(set.id))
                             }
+
                             is PrimeDetailKey -> {
                                 PrimeDetailScreen(padding, appNavKey.setId) {
                                     navigator.goBack()
                                 }
                             }
+
                             is RelicsKey -> {
                                 RelicsScreen(padding)
                             }
+
                             else -> {}
                         }
                     }
