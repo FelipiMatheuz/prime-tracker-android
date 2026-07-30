@@ -4,7 +4,6 @@ import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.data.local.dao.GoalDao
 import com.felipimatheuz.primehunt.data.local.dao.InventoryDao
 import com.felipimatheuz.primehunt.data.local.entity.GoalWithTag
-import com.felipimatheuz.primehunt.data.local.entity.InventoryPartEntity
 import com.felipimatheuz.primehunt.data.remote.dao.PrimeComponentDao
 import com.felipimatheuz.primehunt.data.remote.dao.PrimePartDao
 import com.felipimatheuz.primehunt.data.remote.dao.PrimeSetDao
@@ -43,17 +42,28 @@ class PrimeDataStore @Inject constructor(
 ) {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
-    val allSets: Flow<List<PrimeSetDomain>> = combine(
+    private data class BaseDataSnapshot(
+        val sets: List<PrimeSetEntity>,
+        val parts: List<PrimePartEntity>,
+        val components: List<PrimeComponentEntity>,
+        val relics: List<RelicEntity>
+    )
+
+    private val baseData: Flow<BaseDataSnapshot> = combine(
         setDao.getAll().distinctUntilChanged(),
         partDao.getAll().distinctUntilChanged(),
         componentDao.getAll().distinctUntilChanged(),
-        relicDao.getAll().distinctUntilChanged(),
+        relicDao.getAll().distinctUntilChanged()
+    ) { sets, parts, components, relics ->
+        BaseDataSnapshot(sets, parts, components, relics)
+    }
+
+    val allSets: Flow<List<PrimeSetDomain>> = combine(
+        baseData,
         inventoryDao.observeInventory().distinctUntilChanged()
-    ) { sets, parts, components, relics, inventory ->
-
-
+    ) { data, inventory ->
         val invMap = inventory.associate { it.primePartId to it.quantity }
-        mapToDomain(sets, parts, components, relics, invMap)
+        mapToDomain(data.sets, data.parts, data.components, data.relics, invMap)
     }
         .stateIn(
             scope = scope,
@@ -62,23 +72,13 @@ class PrimeDataStore @Inject constructor(
         )
 
     val allRelics: Flow<List<RelicDomain>> = combine(
-        setDao.getAll().distinctUntilChanged(),
-        partDao.getAll().distinctUntilChanged(),
-        componentDao.getAll().distinctUntilChanged(),
-        relicDao.getAll().distinctUntilChanged(),
+        baseData,
         inventoryDao.observeInventory().distinctUntilChanged(),
         goalDao.observeAllWithTags().distinctUntilChanged()
-    ) { array ->
-        val sets = array[0] as List<PrimeSetEntity>
-        val parts = array[1] as List<PrimePartEntity>
-        val components = array[2] as List<PrimeComponentEntity>
-        val relics = array[3] as List<RelicEntity>
-        val inventory = array[4] as List<InventoryPartEntity>
-        val goals = array[5] as List<GoalWithTag>
-
+    ) { data, inventory, goals ->
         val invMap = inventory.associate { it.primePartId to it.quantity }
         val goalMap = goals.groupBy { it.goal.targetId }
-        mapToRelicDomain(relics, components, parts, sets, invMap, goalMap)
+        mapToRelicDomain(data.relics, data.components, data.parts, data.sets, invMap, goalMap)
     }
         .stateIn(
             scope = scope,
