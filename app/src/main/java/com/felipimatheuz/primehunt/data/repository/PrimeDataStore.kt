@@ -120,11 +120,11 @@ class PrimeDataStore @Inject constructor(
                     }
                 }
 
-                // Mocked tracking tags for "plugged in" UI demonstration
-                val mockTracking = if (!isObtained && !isForma) {
+                // Mocked goal tags for "plugged in" UI demonstration
+                val mockGoal = if (!isObtained && !isForma) {
                     when (relic.id.hashCode() % 3) {
-                        0 -> listOf(R.string.tracking_tag_collection)
-                        1 -> listOf(R.string.tracking_tag_collection, R.string.tracking_tag_trade)
+                        0 -> listOf(R.string.tab_collections)
+                        1 -> listOf(R.string.tab_collections, R.string.menu_relics)
                         else -> emptyList()
                     }
                 } else emptyList()
@@ -138,7 +138,7 @@ class PrimeDataStore @Inject constructor(
                     compositeInfo = compositeInfo,
                     isForma = isForma,
                     nameSuffixRes = suffixRes,
-                    trackingTags = mockTracking
+                    goalTags = mockGoal
                 )
             } ?: emptyList()
 

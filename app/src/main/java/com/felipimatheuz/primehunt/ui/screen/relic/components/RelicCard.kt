@@ -110,7 +110,7 @@ fun RelicCard(
 
                 Spacer(modifier = Modifier.height(4.dp))
 
-                if (relic.trackedCount > 0) {
+                if (relic.goalCount > 0) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Image(
                             painter = painterResource(R.drawable.ic_waypoint),
@@ -120,7 +120,7 @@ fun RelicCard(
                         )
                         Spacer(modifier = Modifier.width(4.dp))
                         Text(
-                            text = relic.trackedCount.toString(),
+                            text = relic.goalCount.toString(),
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.primary,
                             fontSize = 10.sp
@@ -185,7 +185,7 @@ fun RelicCardPreview() {
         RelicCard(
             relic = RelicDomain(
                 "meso_Z99", "Z99", RelicEra.MESO, RelicSource.MISSION, listOf(
-                    RelicComponentDomain("teste", DropRarity.COMMON, false, trackingTags = listOf(R.string.tracking_tag_collection)),
+                    RelicComponentDomain("teste", DropRarity.COMMON, false, goalTags = listOf(R.string.tab_collections)),
                     RelicComponentDomain("teste", DropRarity.COMMON, false),
                     RelicComponentDomain("", DropRarity.COMMON, false, isForma = true),
                     RelicComponentDomain("teste", DropRarity.COMMON, false)
@@ -202,7 +202,7 @@ fun RelicCardDarkPreview() {
         RelicCard(
             relic = RelicDomain(
                 "meso_Z99", "Z99", RelicEra.MESO, RelicSource.MISSION, listOf(
-                    RelicComponentDomain("teste", DropRarity.COMMON, false, trackingTags = listOf(R.string.tracking_tag_collection)),
+                    RelicComponentDomain("teste", DropRarity.COMMON, false, goalTags = listOf(R.string.tab_collections)),
                     RelicComponentDomain("teste", DropRarity.COMMON, false),
                     RelicComponentDomain("", DropRarity.COMMON, false, isForma = true),
                     RelicComponentDomain("teste", DropRarity.COMMON, false)

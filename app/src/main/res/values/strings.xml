@@ -83,7 +83,7 @@
     <string name="complete">Complete</string>
     <string name="menu_overview">Overview</string>
     <string name="menu_prime_sets">Prime Sets</string>
-    <string name="menu_trackings">Trackings</string>
+    <string name="menu_goals">Goals</string>
     <string name="menu_relics">Relics</string>
     <string name="menu_help">Help</string>
     <string name="menu_about">About</string>
@@ -114,8 +114,6 @@
     <string name="relic_origin_baro">Baro Ki\'Teer</string>
     <string name="relic_origin_vaulted">Vaulted</string>
     <string name="relic_group_available">Available</string>
-    <string name="tracking_tag_collection">Collection</string>
-    <string name="tracking_tag_trade">Trade</string>
     <string name="relic_group_events">Events (Resurgence / Baro)</string>
     <string name="relic_group_missing_4_plus">Missing 4+</string>
     <string name="relic_group_missing_1_3">Missing 1–3</string>

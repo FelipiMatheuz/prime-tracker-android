@@ -62,7 +62,7 @@ data class RelicDomain(
     val missingCount: Int get() = rewards.count { !it.isObtained && !it.isForma }
     val hasForma: Boolean get() = rewards.any { it.isForma }
     val isCompleted: Boolean get() = missingCount == 0
-    val trackedCount: Int get() = rewards.count { it.trackingTags.isNotEmpty() }
+    val goalCount: Int get() = rewards.count { it.goalTags.isNotEmpty() }
 }
 
 data class RelicComponentDomain(
@@ -72,7 +72,7 @@ data class RelicComponentDomain(
     val neededQuantity: Int = 0,
     val ownedQuantity: Int = 0,
     val compositeInfo: String? = null,
-    val trackingTags: List<Int> = emptyList(),
+    val goalTags: List<Int> = emptyList(),
     val isForma: Boolean = false,
     val nameSuffixRes: Int? = null
 )

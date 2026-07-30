@@ -4,41 +4,36 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.felipimatheuz.primehunt.data.local.enums.TrackingTargetType
+import com.felipimatheuz.primehunt.data.local.enums.GoalStatus
+import com.felipimatheuz.primehunt.data.local.enums.GoalTargetType
 
 @Entity(
-    tableName = "tracking",
+    tableName = "goal",
     foreignKeys = [
 
         ForeignKey(
-            entity = TrackingCategoryEntity::class,
+            entity = GoalTagEntity::class,
             parentColumns = ["id"],
-            childColumns = ["categoryId"],
+            childColumns = ["tagId"],
             onDelete = ForeignKey.RESTRICT
         )
 
     ],
     indices = [
-        Index("categoryId"),
+        Index("tagId"),
         Index("targetId")
     ]
 )
-data class TrackingEntity(
+data class GoalEntity(
 
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
-
-    val targetType: TrackingTargetType,
-
+    val targetType: GoalTargetType,
     val targetId: String,
-
     val desiredQuantity: Int = 1,
-
     val categoryId: Long,
-
+    val status: GoalStatus = GoalStatus.ACTIVE,
     val note: String? = null,
-
-    val priority: Int = 0,
-
-    val createdAt: Long
+    val createdAt: Long,
+    val completedAt: Long? = null
 )
