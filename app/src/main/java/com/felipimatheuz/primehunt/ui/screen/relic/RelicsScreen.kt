@@ -65,51 +65,59 @@ fun RelicsContent(
         }
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(paddingValues)
-    ) {
-        RelicsSearchBar(
-            query = localSearchQuery,
-            onQueryChange = {
-                localSearchQuery = it
-                onIntent(RelicIntent.Search(it))
-            },
-            activeFiltersCount = state.activeFilters.activeCount,
-            onFilterClick = { showFilterSheet = true },
-            onClearClick = { onIntent(RelicIntent.ClearSearch) }
-        )
-
-        RelicsViewSelector(
-            selectedView = state.selectedView,
-            onViewChange = { onIntent(RelicIntent.ChangeView(it)) }
-        )
-
-        Box(
+    if (state.isLoading) {
+        RelicSkeleton(paddingValues = paddingValues)
+    } else {
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f)
+                .fillMaxSize()
+                .padding(paddingValues)
         ) {
-            AnimatedContent(
-                targetState = state.selectedView,
-                label = "view_transition",
-                transitionSpec = {
-                    fadeIn(animationSpec = tween(300)) togetherWith fadeOut(animationSpec = tween(300))
-                }
-            ) { targetView ->
-                val grouped = remember(targetView, state.groupedRelics) { state.groupedRelics }
-                LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
-                    contentPadding = PaddingValues(bottom = 16.dp)
-                ) {
-                    grouped.forEach { (group, relics) ->
-                        item(key = group.toString()) {
-                            RelicSection(
-                                title = stringResource(group.titleRes),
-                                relics = relics,
-                                onRelicClick = { selectedRelic = it }
+            RelicsSearchBar(
+                query = localSearchQuery,
+                onQueryChange = {
+                    localSearchQuery = it
+                    onIntent(RelicIntent.Search(it))
+                },
+                activeFiltersCount = state.activeFilters.activeCount,
+                onFilterClick = { showFilterSheet = true },
+                onClearClick = { onIntent(RelicIntent.ClearSearch) }
+            )
+
+            RelicsViewSelector(
+                selectedView = state.selectedView,
+                onViewChange = { onIntent(RelicIntent.ChangeView(it)) }
+            )
+
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+            ) {
+                AnimatedContent(
+                    targetState = state.selectedView,
+                    label = "view_transition",
+                    transitionSpec = {
+                        fadeIn(animationSpec = tween(300)) togetherWith fadeOut(
+                            animationSpec = tween(
+                                300
                             )
+                        )
+                    }
+                ) { targetView ->
+                    val grouped = remember(targetView, state.groupedRelics) { state.groupedRelics }
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize(),
+                        contentPadding = PaddingValues(bottom = 16.dp)
+                    ) {
+                        grouped.forEach { (group, relics) ->
+                            item(key = group.toString()) {
+                                RelicSection(
+                                    title = stringResource(group.titleRes),
+                                    relics = relics,
+                                    onRelicClick = { selectedRelic = it }
+                                )
+                            }
                         }
                     }
                 }
