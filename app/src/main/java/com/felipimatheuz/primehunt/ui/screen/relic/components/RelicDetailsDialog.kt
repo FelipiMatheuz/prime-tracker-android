@@ -96,7 +96,7 @@ private fun RelicDetailsContent(
                     fontWeight = FontWeight.Medium
                 )
                 Text(
-                    text = stringResource(R.string.relic_tracked_indicator, relic.trackedCount),
+                    text = stringResource(R.string.relic_tracked_indicator, relic.goalCount),
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.Medium
                 )
@@ -209,13 +209,13 @@ private fun RelicRewardItem(reward: RelicComponentDomain) {
                 }
             }
 
-            if (reward.trackingTags.isNotEmpty()) {
+            if (reward.goalTags.isNotEmpty()) {
                 FlowRow(
                     horizontalArrangement = Arrangement.spacedBy(4.dp),
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    reward.trackingTags.forEach { tagRes ->
-                        TrackingTag(stringResource(tagRes))
+                    reward.goalTags.forEach { tagRes ->
+                        GoalTag(stringResource(tagRes))
                     }
                 }
             }
@@ -224,7 +224,7 @@ private fun RelicRewardItem(reward: RelicComponentDomain) {
 }
 
 @Composable
-private fun TrackingTag(text: String) {
+private fun GoalTag(text: String) {
     Surface(
         color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f),
         shape = RoundedCornerShape(4.dp)

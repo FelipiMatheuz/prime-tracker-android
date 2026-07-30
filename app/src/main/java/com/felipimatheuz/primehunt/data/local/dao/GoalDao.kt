@@ -4,55 +4,55 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Query
 import androidx.room.Upsert
-import com.felipimatheuz.primehunt.data.local.entity.TrackingEntity
-import com.felipimatheuz.primehunt.data.local.enums.TrackingTargetType
+import com.felipimatheuz.primehunt.data.local.entity.GoalEntity
+import com.felipimatheuz.primehunt.data.local.enums.GoalTargetType
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface TrackingDao {
+interface GoalDao {
 
     @Query("""
         SELECT *
-        FROM tracking
-        ORDER BY priority ASC, createdAt ASC
+        FROM goal
+        ORDER BY desiredQuantity ASC, createdAt ASC
     """)
-    fun observeAll(): Flow<List<TrackingEntity>>
+    fun observeAll(): Flow<List<GoalEntity>>
 
     @Query("""
         SELECT *
-        FROM tracking
+        FROM goal
         WHERE categoryId = :categoryId
-        ORDER BY priority ASC, createdAt ASC
+        ORDER BY desiredQuantity ASC, createdAt ASC
     """)
     fun observeByCategory(
         categoryId: Long
-    ): Flow<List<TrackingEntity>>
+    ): Flow<List<GoalEntity>>
 
     @Query("""
         SELECT *
-        FROM tracking
+        FROM goal
         WHERE targetType = :targetType
     """)
     fun observeByTargetType(
-        targetType: TrackingTargetType
-    ): Flow<List<TrackingEntity>>
+        targetType: GoalTargetType
+    ): Flow<List<GoalEntity>>
 
     @Query("""
         SELECT *
-        FROM tracking
+        FROM goal
         WHERE targetId = :targetId
     """)
     suspend fun getByTarget(
         targetId: String
-    ): TrackingEntity?
+    ): GoalEntity?
 
     @Upsert
     suspend fun upsert(
-        tracking: TrackingEntity
+        goal: GoalEntity
     )
 
     @Delete
     suspend fun delete(
-        tracking: TrackingEntity
+        goal: GoalEntity
     )
 }
