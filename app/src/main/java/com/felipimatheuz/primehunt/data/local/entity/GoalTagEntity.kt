@@ -18,6 +18,5 @@ data class GoalTagEntity(
     val id: Long = 0,
     val name: String,
     val icon: GoalIcons,
-    val color: Color,
-    val sortOrder: Int = 0
+    val color: Color
 )

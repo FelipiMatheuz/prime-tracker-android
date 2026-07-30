@@ -35,6 +35,7 @@ import com.felipimatheuz.primehunt.ui.navigation.Navigator
 import com.felipimatheuz.primehunt.ui.navigation.NavTransitions.calculatePopTransition
 import com.felipimatheuz.primehunt.ui.navigation.NavTransitions.calculateTransition
 import com.felipimatheuz.primehunt.ui.navigation.OverviewKey
+import com.felipimatheuz.primehunt.ui.navigation.GoalsKey
 import com.felipimatheuz.primehunt.ui.navigation.PrimeDetailKey
 import com.felipimatheuz.primehunt.ui.navigation.PrimeSetsKey
 import com.felipimatheuz.primehunt.ui.navigation.RelicsKey
@@ -113,6 +114,10 @@ fun MainContent() {
                         when (val appNavKey = key as AppNavKey) {
                             is PrimeSetsKey -> PrimeSetScreen(padding) { set ->
                                 navigator.navigate(PrimeDetailKey(set.id))
+                            }
+
+                            is GoalsKey -> {
+                                com.felipimatheuz.primehunt.ui.screen.goals.GoalsScreen(padding)
                             }
 
                             is PrimeDetailKey -> {

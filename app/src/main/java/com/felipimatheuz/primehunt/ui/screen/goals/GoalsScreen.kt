@@ -1,0 +1,191 @@
+package com.felipimatheuz.primehunt.ui.screen.goals
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.AndroidUiModes.UI_MODE_NIGHT_YES
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.felipimatheuz.primehunt.R
+import com.felipimatheuz.primehunt.data.local.enums.GoalIcons
+import com.felipimatheuz.primehunt.data.local.enums.GoalStatus
+import com.felipimatheuz.primehunt.data.local.enums.GoalTargetType
+import com.felipimatheuz.primehunt.domain.model.GoalDomain
+import com.felipimatheuz.primehunt.domain.model.GoalTagDomain
+import com.felipimatheuz.primehunt.ui.screen.goals.components.GoalCard
+import com.felipimatheuz.primehunt.ui.screen.goals.components.GoalEmptyState
+import com.felipimatheuz.primehunt.ui.screen.goals.components.GoalsFilterBottomSheet
+import com.felipimatheuz.primehunt.ui.screen.goals.components.GoalsSearchBar
+import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
+import com.felipimatheuz.primehunt.ui.viewmodel.goals.GoalsIntent
+import com.felipimatheuz.primehunt.ui.viewmodel.goals.GoalsState
+import com.felipimatheuz.primehunt.ui.viewmodel.goals.GoalsViewModel
+
+@Composable
+fun GoalsScreen(
+    paddingValues: PaddingValues,
+    viewModel: GoalsViewModel = hiltViewModel()
+) {
+    val state by viewModel.state.collectAsStateWithLifecycle()
+
+    GoalsContent(
+        paddingValues = paddingValues,
+        state = state,
+        onIntent = viewModel::onIntent
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun GoalsContent(
+    paddingValues: PaddingValues,
+    state: GoalsState,
+    onIntent: (GoalsIntent) -> Unit
+) {
+    val sheetState = rememberModalBottomSheetState()
+    var showFilterSheet by remember { mutableStateOf(false) }
+
+    var localSearchQuery by rememberSaveable { mutableStateOf(state.queryFilter) }
+
+    LaunchedEffect(state.queryFilter) {
+        if (localSearchQuery != state.queryFilter) {
+            localSearchQuery = state.queryFilter
+        }
+    }
+
+    Scaffold(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(paddingValues),
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = { /* TODO: Goal Creation */ },
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_plus),
+                    contentDescription = null,
+                    modifier = Modifier.size(24.dp)
+                )
+            }
+        }
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+        ) {
+            GoalsSearchBar(
+                query = localSearchQuery,
+                onQueryChange = {
+                    localSearchQuery = it
+                    onIntent(GoalsIntent.Search(it))
+                },
+                activeFiltersCount = state.activeFilters.activeCount,
+                onFilterClick = { showFilterSheet = true },
+                onClearClick = { onIntent(GoalsIntent.ClearSearch) }
+            )
+
+            if (state.goals.isEmpty() && !state.isLoading) {
+                val isCompletedFiltered = state.activeFilters.status == setOf(GoalStatus.COMPLETED)
+                GoalEmptyState(
+                    title = stringResource(
+                        if (isCompletedFiltered) R.string.empty_goals_completed_title
+                        else R.string.empty_goals_active_title
+                    ),
+                    description = stringResource(
+                        if (isCompletedFiltered) R.string.empty_goals_completed_desc
+                        else R.string.empty_goals_active_desc
+                    )
+                )
+            } else {
+                LazyVerticalGrid(
+                    columns = GridCells.Adaptive(minSize = 120.dp),
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding = PaddingValues(16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    items(state.goals, key = { it.id }) { goal ->
+                        GoalCard(
+                            goal = goal,
+                            onClick = { /* onClick = {} per requirement */ }
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    if (showFilterSheet) {
+        GoalsFilterBottomSheet(
+            filters = state.activeFilters,
+            availableTags = state.availableTags,
+            onFiltersChanged = { onIntent(GoalsIntent.UpdateFilters(it)) },
+            onDismiss = { showFilterSheet = false },
+            sheetState = sheetState
+        )
+    }
+}
+
+@Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
+@Composable
+fun GoalsScreenPreview() {
+    PrimeTrackerTheme {
+        val mockGoals = listOf(
+            GoalDomain(
+                id = 1,
+                targetId = "excalibur_prime",
+                targetName = "Excalibur Prime",
+                targetType = GoalTargetType.PRIME_SET,
+                currentQuantity = 0,
+                desiredQuantity = 1,
+                status = GoalStatus.ACTIVE,
+                note = "Main priority",
+                tag = GoalTagDomain(1, "Warframe", GoalIcons.WARFRAME, Color(0xFF673AB7))
+            ),
+            GoalDomain(
+                id = 2,
+                targetId = "braton_prime_receiver",
+                targetName = "Braton Prime Receiver",
+                targetType = GoalTargetType.PRIME_PART,
+                currentQuantity = 1,
+                desiredQuantity = 2,
+                status = GoalStatus.ACTIVE,
+                note = null,
+                tag = GoalTagDomain(2, "Primary", GoalIcons.PRIMARY, Color(0xFF2196F3))
+            )
+        )
+        GoalsContent(
+            paddingValues = PaddingValues(),
+            state = GoalsState(goals = mockGoals, isLoading = false),
+            onIntent = {}
+        )
+    }
+}
