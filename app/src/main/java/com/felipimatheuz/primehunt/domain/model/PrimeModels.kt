@@ -1,10 +1,19 @@
 package com.felipimatheuz.primehunt.domain.model
 
+import androidx.compose.ui.graphics.Color
+import com.felipimatheuz.primehunt.data.local.enums.GoalIcons
 import com.felipimatheuz.primehunt.data.remote.enums.DropRarity
 import com.felipimatheuz.primehunt.data.remote.enums.PrimePartType
 import com.felipimatheuz.primehunt.data.remote.enums.PrimeType
 import com.felipimatheuz.primehunt.data.remote.enums.RelicEra
 import com.felipimatheuz.primehunt.data.remote.enums.RelicSource
+
+data class GoalTagDomain(
+    val id: Long,
+    val name: String,
+    val icon: GoalIcons,
+    val color: Color
+)
 
 data class PrimeCollection(
     val id: String,
@@ -57,12 +66,13 @@ data class RelicDomain(
     val name: String,
     val era: RelicEra,
     val source: RelicSource,
-    val rewards: List<RelicComponentDomain>
+    val rewards: List<RelicComponentDomain>,
+    val goalTags: List<GoalTagDomain> = emptyList()
 ) {
     val missingCount: Int get() = rewards.count { !it.isObtained && !it.isForma }
     val hasForma: Boolean get() = rewards.any { it.isForma }
     val isCompleted: Boolean get() = missingCount == 0
-    val goalCount: Int get() = rewards.count { it.goalTags.isNotEmpty() }
+    val goalCount: Int get() = (goalTags + rewards.flatMap { it.goalTags }).distinctBy { it.id }.size
 }
 
 data class RelicComponentDomain(
@@ -72,7 +82,7 @@ data class RelicComponentDomain(
     val neededQuantity: Int = 0,
     val ownedQuantity: Int = 0,
     val compositeInfo: String? = null,
-    val goalTags: List<Int> = emptyList(),
+    val goalTags: List<GoalTagDomain> = emptyList(),
     val isForma: Boolean = false,
     val nameSuffixRes: Int? = null
 )

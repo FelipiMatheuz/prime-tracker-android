@@ -1,11 +1,15 @@
 package com.felipimatheuz.primehunt.data.remote
 
+import androidx.compose.ui.graphics.Color
 import androidx.room.TypeConverter
 import com.felipimatheuz.primehunt.data.remote.enums.RelicEra
 import com.felipimatheuz.primehunt.data.remote.enums.RelicSource
 import com.felipimatheuz.primehunt.data.remote.enums.DropRarity
 import com.felipimatheuz.primehunt.data.remote.enums.PrimePartType
 import com.felipimatheuz.primehunt.data.remote.enums.PrimeType
+import com.felipimatheuz.primehunt.data.local.enums.GoalStatus
+import com.felipimatheuz.primehunt.data.local.enums.GoalTargetType
+import com.felipimatheuz.primehunt.data.local.enums.GoalIcons
 
 class Converters {
     @TypeConverter
@@ -37,4 +41,28 @@ class Converters {
 
     @TypeConverter
     fun toDropRarity(value: String): DropRarity = DropRarity.fromString(value)
+
+    @TypeConverter
+    fun fromGoalStatus(value: GoalStatus): String = value.name
+
+    @TypeConverter
+    fun toGoalStatus(value: String): GoalStatus = GoalStatus.valueOf(value)
+
+    @TypeConverter
+    fun fromGoalTargetType(value: GoalTargetType): String = value.name
+
+    @TypeConverter
+    fun toGoalTargetType(value: String): GoalTargetType = GoalTargetType.valueOf(value)
+
+    @TypeConverter
+    fun fromGoalIcons(value: GoalIcons): String = value.name
+
+    @TypeConverter
+    fun toGoalIcons(value: String): GoalIcons = GoalIcons.valueOf(value)
+
+    @TypeConverter
+    fun fromColor(color: Color): Long = color.value.toLong()
+
+    @TypeConverter
+    fun toColor(value: Long): Color = Color(value.toULong())
 }

@@ -29,14 +29,17 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.felipimatheuz.primehunt.R
+import com.felipimatheuz.primehunt.data.local.enums.GoalIcons
 import com.felipimatheuz.primehunt.data.remote.enums.DropRarity
 import com.felipimatheuz.primehunt.data.remote.enums.RelicEra
 import com.felipimatheuz.primehunt.data.remote.enums.RelicSource
+import com.felipimatheuz.primehunt.domain.model.GoalTagDomain
 import com.felipimatheuz.primehunt.domain.model.RelicComponentDomain
 import com.felipimatheuz.primehunt.domain.model.RelicDomain
 import com.felipimatheuz.primehunt.ui.theme.Complete
 import com.felipimatheuz.primehunt.ui.theme.High
 import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
+import com.felipimatheuz.primehunt.ui.theme.White
 
 @Composable
 fun RelicCard(
@@ -185,7 +188,13 @@ fun RelicCardPreview() {
         RelicCard(
             relic = RelicDomain(
                 "meso_Z99", "Z99", RelicEra.MESO, RelicSource.MISSION, listOf(
-                    RelicComponentDomain("teste", DropRarity.COMMON, false, goalTags = listOf(R.string.tab_collections)),
+                    RelicComponentDomain(
+                        "teste", DropRarity.COMMON, false,
+                        goalTags = listOf(
+                            GoalTagDomain(0, "teste", GoalIcons.PRIMARY, White),
+                            GoalTagDomain(1, "teste", GoalIcons.SECONDARY, White)
+                        )
+                    ),
                     RelicComponentDomain("teste", DropRarity.COMMON, false),
                     RelicComponentDomain("", DropRarity.COMMON, false, isForma = true),
                     RelicComponentDomain("teste", DropRarity.COMMON, false)
@@ -202,7 +211,14 @@ fun RelicCardDarkPreview() {
         RelicCard(
             relic = RelicDomain(
                 "meso_Z99", "Z99", RelicEra.MESO, RelicSource.MISSION, listOf(
-                    RelicComponentDomain("teste", DropRarity.COMMON, false, goalTags = listOf(R.string.tab_collections)),
+                    RelicComponentDomain(
+                        "teste", DropRarity.COMMON, false,
+                        goalTags = listOf(
+                            GoalTagDomain(
+                                0, "teste", GoalIcons.WARFRAME, White
+                            )
+                        )
+                    ),
                     RelicComponentDomain("teste", DropRarity.COMMON, false),
                     RelicComponentDomain("", DropRarity.COMMON, false, isForma = true),
                     RelicComponentDomain("teste", DropRarity.COMMON, false)

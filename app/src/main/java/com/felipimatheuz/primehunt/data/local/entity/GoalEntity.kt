@@ -31,7 +31,7 @@ data class GoalEntity(
     val targetType: GoalTargetType,
     val targetId: String,
     val desiredQuantity: Int = 1,
-    val categoryId: Long,
+    val tagId: Long,
     val status: GoalStatus = GoalStatus.ACTIVE,
     val note: String? = null,
     val createdAt: Long,

@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Query
 import androidx.room.Upsert
 import com.felipimatheuz.primehunt.data.local.entity.GoalEntity
+import com.felipimatheuz.primehunt.data.local.entity.GoalWithTag
 import com.felipimatheuz.primehunt.data.local.enums.GoalTargetType
 import kotlinx.coroutines.flow.Flow
 
@@ -18,14 +19,18 @@ interface GoalDao {
     """)
     fun observeAll(): Flow<List<GoalEntity>>
 
+    @androidx.room.Transaction
+    @Query("SELECT * FROM goal")
+    fun observeAllWithTags(): Flow<List<GoalWithTag>>
+
     @Query("""
         SELECT *
         FROM goal
-        WHERE categoryId = :categoryId
+        WHERE tagId = :tagId
         ORDER BY desiredQuantity ASC, createdAt ASC
     """)
-    fun observeByCategory(
-        categoryId: Long
+    fun observeByTag(
+        tagId: Long
     ): Flow<List<GoalEntity>>
 
     @Query("""

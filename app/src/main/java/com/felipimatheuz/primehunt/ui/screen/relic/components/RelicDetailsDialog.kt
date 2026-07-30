@@ -11,16 +11,24 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.felipimatheuz.primehunt.R
+import com.felipimatheuz.primehunt.data.local.enums.GoalIcons
 import com.felipimatheuz.primehunt.data.remote.enums.RelicSource
+import com.felipimatheuz.primehunt.domain.model.GoalTagDomain
 import com.felipimatheuz.primehunt.domain.model.RelicComponentDomain
 import com.felipimatheuz.primehunt.domain.model.RelicDomain
 import com.felipimatheuz.primehunt.ui.screen.components.PrimePanel
+import com.felipimatheuz.primehunt.ui.theme.Black
 import com.felipimatheuz.primehunt.ui.theme.Complete
 import com.felipimatheuz.primehunt.ui.theme.High
+import com.felipimatheuz.primehunt.ui.theme.White
 
 @Composable
 fun RelicDetailsDialog(
@@ -80,7 +88,38 @@ private fun RelicDetailsContent(
             )
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 4.dp)
+                .height(20.dp),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            relic.goalTags.take(5).forEach { tag ->
+                Box(
+                    modifier = Modifier
+                        .padding(horizontal = 2.dp)
+                        .size(20.dp)
+                        .clip(CircleShape)
+                        .background(tag.color),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        painter = painterResource(tag.icon.icon),
+                        contentDescription = null,
+                        modifier = Modifier.size(12.dp),
+                        tint = if (tag.color.luminance() > 0.5f) {
+                            Black
+                        } else {
+                            White
+                        }
+                    )
+                }
+            }
+        }
+
+        //Spacer(modifier = Modifier.height(16.dp))
         
         // Summary
         PrimePanel {
@@ -214,8 +253,23 @@ private fun RelicRewardItem(reward: RelicComponentDomain) {
                     horizontalArrangement = Arrangement.spacedBy(4.dp),
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    reward.goalTags.forEach { tagRes ->
-                        GoalTag(stringResource(tagRes))
+                    val displayTags = reward.goalTags.take(2)
+                    val remaining = reward.goalTags.size - 2
+
+                    displayTags.forEach { tag ->
+                        GoalTag(
+                            text = tag.name,
+                            color = tag.color,
+                            icon = tag.icon
+                        )
+                    }
+
+                    if (remaining > 0) {
+                        GoalTag(
+                            text = "+$remaining",
+                            color = MaterialTheme.colorScheme.surfaceVariant,
+                            isNeutral = true
+                        )
                     }
                 }
             }
@@ -224,17 +278,79 @@ private fun RelicRewardItem(reward: RelicComponentDomain) {
 }
 
 @Composable
-private fun GoalTag(text: String) {
+private fun GoalTag(
+    text: String,
+    color: Color = MaterialTheme.colorScheme.primaryContainer,
+    icon: GoalIcons? = null,
+    isNeutral: Boolean = false
+) {
+    val contentColor = if (isNeutral) {
+        MaterialTheme.colorScheme.onSurfaceVariant
+    } else {
+        if (color.luminance() > 0.5f) Color.Black else Color.White
+    }
+
     Surface(
-        color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f),
+        color = color.copy(alpha = if (isNeutral) 1f else 0.8f),
         shape = RoundedCornerShape(4.dp)
     ) {
-        Text(
-            text = text,
-            style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onPrimaryContainer,
+        Row(
             modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
-            fontWeight = FontWeight.Bold
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            if (icon != null) {
+                Icon(
+                    painter = painterResource(icon.icon),
+                    contentDescription = null,
+                    modifier = Modifier.size(12.dp),
+                    tint = contentColor
+                )
+            }
+
+            Text(
+                text = text,
+                style = MaterialTheme.typography.labelSmall,
+                color = contentColor,
+                fontWeight = FontWeight.Bold
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun RelicDetailsDialogPreview() {
+    val mockRelic = RelicDomain(
+        id = "lith_v1",
+        name = "V1",
+        era = com.felipimatheuz.primehunt.data.remote.enums.RelicEra.LITH,
+        source = RelicSource.MISSION,
+        goalTags = listOf(
+            GoalTagDomain(10, "Vaulted", GoalIcons.WARFRAME, Color(0xFFE91E63)),
+            GoalTagDomain(11, "Tracked", GoalIcons.PRIMARY, Color(0xFFFF9800))
+        ),
+        rewards = listOf(
+            RelicComponentDomain(
+                name = "Valkyr Prime Chassis",
+                rarity = com.felipimatheuz.primehunt.data.remote.enums.DropRarity.RARE,
+                isObtained = false,
+                neededQuantity = 1,
+                goalTags = listOf(
+                    GoalTagDomain(1, "Warframe", GoalIcons.WARFRAME, Color(0xFF673AB7)),
+                    GoalTagDomain(2, "Set", GoalIcons.PRIMARY, Color(0xFF2196F3)),
+                    GoalTagDomain(3, "Extra", GoalIcons.SECONDARY, Color(0xFF4CAF50))
+                )
+            )
         )
+    )
+
+    MaterialTheme {
+        Surface {
+            RelicDetailsContent(
+                relic = mockRelic,
+                onDismiss = {}
+            )
+        }
     }
 }
