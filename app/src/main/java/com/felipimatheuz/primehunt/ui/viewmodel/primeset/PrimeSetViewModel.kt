@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.felipimatheuz.primehunt.domain.model.PrimeSetDomain
 import com.felipimatheuz.primehunt.domain.usecase.primeset.GetPrimeSetsUseCase
+import com.felipimatheuz.primehunt.domain.usecase.util.ProgressFilterUseCase
 import com.felipimatheuz.primehunt.ui.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -21,7 +22,8 @@ import kotlin.time.Duration.Companion.milliseconds
 
 @HiltViewModel
 class PrimeSetViewModel @Inject constructor(
-    getPrimeSetsUseCase: GetPrimeSetsUseCase
+    getPrimeSetsUseCase: GetPrimeSetsUseCase,
+    private val progressFilterUseCase: ProgressFilterUseCase
 ) : ViewModel(), MviViewModel<PrimeSetState, PrimeSetIntent> {
 
     private val _searchText = MutableStateFlow("")
@@ -71,13 +73,7 @@ class PrimeSetViewModel @Inject constructor(
         return sets.filter { set ->
             val matchesQuery = set.name.contains(query, ignoreCase = true)
 
-            val matchesProgress = when (filters.progress) {
-                ProgressFilter.ALL -> true
-                ProgressFilter.COMPLETE -> set.ownedPieces == set.totalPieces && set.totalPieces > 0
-                ProgressFilter.INCOMPLETE -> set.ownedPieces < set.totalPieces && set.ownedPieces > 0
-                ProgressFilter.IN_PROGRESS -> set.ownedPieces < set.totalPieces && set.ownedPieces > 0
-                ProgressFilter.NOT_STARTED -> set.ownedPieces == 0
-            }
+            val matchesProgress = progressFilterUseCase.matches(set, filters.progress)
 
             val matchesCategory =
                 filters.categories.isEmpty() || filters.categories.contains(set.type)

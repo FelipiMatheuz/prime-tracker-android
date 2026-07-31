@@ -6,8 +6,8 @@ import com.felipimatheuz.primehunt.data.remote.enums.RelicEra
 import com.felipimatheuz.primehunt.data.remote.enums.RelicSource
 import com.felipimatheuz.primehunt.domain.model.RelicDomain
 import com.felipimatheuz.primehunt.domain.usecase.relic.GetRelicsUseCase
+import com.felipimatheuz.primehunt.domain.usecase.util.ProgressFilterUseCase
 import com.felipimatheuz.primehunt.ui.mvi.MviViewModel
-import com.felipimatheuz.primehunt.ui.viewmodel.primeset.ProgressFilter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
@@ -24,7 +24,8 @@ import kotlin.time.Duration.Companion.milliseconds
 
 @HiltViewModel
 class RelicViewModel @Inject constructor(
-    getRelicsUseCase: GetRelicsUseCase
+    getRelicsUseCase: GetRelicsUseCase,
+    private val progressFilterUseCase: ProgressFilterUseCase
 ) : ViewModel(), MviViewModel<RelicState, RelicIntent> {
 
     private val _searchText = MutableStateFlow("")
@@ -71,13 +72,7 @@ class RelicViewModel @Inject constructor(
             val matchesAvailability = filters.availabilities.isEmpty() ||
                     filters.availabilities.contains(relic.source)
 
-            val matchesProgress = when (filters.progress) {
-                ProgressFilter.ALL -> true
-                ProgressFilter.COMPLETE -> relic.isCompleted
-                ProgressFilter.INCOMPLETE -> !relic.isCompleted
-                ProgressFilter.IN_PROGRESS -> !relic.isCompleted && relic.missingCount < relic.rewards.size
-                ProgressFilter.NOT_STARTED -> relic.missingCount == relic.rewards.count { !it.isForma }
-            }
+            val matchesProgress = progressFilterUseCase.matches(relic, filters.progress)
 
             matchesQuery && matchesEra && matchesAvailability && matchesProgress
         }
