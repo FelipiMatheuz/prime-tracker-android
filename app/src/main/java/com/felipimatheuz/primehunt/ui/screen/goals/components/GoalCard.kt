@@ -150,7 +150,7 @@ fun GoalCard(
                     tint = progressColor
                 )
                 Text(
-                    text = "${goal.currentQuantity} / ${goal.desiredQuantity}",
+                    text = if(isCompleted) stringResource(R.string.relic_completed) else "${goal.currentQuantity} / ${goal.desiredQuantity}",
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.SemiBold,
                     color = if (completionRatio > 0f || isCompleted) progressColor else Color.Unspecified
