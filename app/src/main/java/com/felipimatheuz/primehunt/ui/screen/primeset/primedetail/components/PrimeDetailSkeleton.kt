@@ -1,5 +1,6 @@
-package com.felipimatheuz.primehunt.ui.screen.primedetail.components
+package com.felipimatheuz.primehunt.ui.screen.primeset.primedetail.components
 
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -210,7 +211,7 @@ fun PrimeDetailSkeletonPreview() {
     }
 }
 
-@Preview(showBackground = true, uiMode = android.content.res.Configuration.UI_MODE_NIGHT_YES)
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun PrimeDetailSkeletonDarkPreview() {
     PrimeTrackerTheme {

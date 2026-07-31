@@ -1,4 +1,4 @@
-package com.felipimatheuz.primehunt.ui.screen.primedetail.components
+package com.felipimatheuz.primehunt.ui.screen.primeset.primedetail.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState

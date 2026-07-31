@@ -88,7 +88,7 @@ fun GoalCard(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            CategoryChip(tag = goal.tag)
+            TagChip(tag = goal.tag)
 
             if (!goal.note.isNullOrBlank()) {
                 Spacer(modifier = Modifier.height(8.dp))
@@ -106,7 +106,7 @@ fun GoalCard(
 }
 
 @Composable
-fun CategoryChip(
+fun TagChip(
     tag: GoalTagDomain,
     modifier: Modifier = Modifier
 ) {

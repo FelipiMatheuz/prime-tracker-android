@@ -77,8 +77,7 @@ class PrimeDataStore @Inject constructor(
         goalDao.observeAllWithTags().distinctUntilChanged()
     ) { data, inventory, goals ->
         val invMap = inventory.associate { it.primePartId to it.quantity }
-        val goalMap = goals.groupBy { it.goal.targetId }
-        mapToRelicDomain(data.relics, data.components, data.parts, data.sets, invMap, goalMap)
+        mapToRelicDomain(data.relics, data.components, data.parts, data.sets, invMap, goals)
     }
         .stateIn(
             scope = scope,
@@ -92,12 +91,15 @@ class PrimeDataStore @Inject constructor(
         parts: List<PrimePartEntity>,
         sets: List<PrimeSetEntity>,
         inventory: Map<String, Int>,
-        goalMap: Map<String, List<GoalWithTag>>
+        goalList: List<GoalWithTag>
     ): List<RelicDomain> {
         val partMap = parts.associateBy { it.id }
         val setMap = sets.associateBy { it.id }
         val componentMap = components.groupBy { it.relicId }
         val partsBySetMap = parts.groupBy { it.primeSetId }
+
+        // Group goals by targetId for efficient lookup, but keep type context
+        val goalsByTarget = goalList.groupBy { it.goal.targetId }
 
         return relics.map { relic ->
             val relicComponents = componentMap[relic.id]?.map { comp ->
@@ -138,14 +140,33 @@ class PrimeDataStore @Inject constructor(
                         }
                 }
 
-                val goalTags = goalMap[comp.primePartId]?.map {
+                // Match rules for components:
+                // 1. Direct PRIME_PART goal
+                // 2. Parent PRIME_SET goal
+                // 3. Synthesized PRIME_PART goal (where comp.primePartId is the setId)
+                val relevantGoals = mutableListOf<GoalWithTag>()
+                
+                // Rule 1: Direct part goal
+                goalsByTarget[comp.primePartId]?.filter { 
+                    it.goal.targetType == com.felipimatheuz.primehunt.data.local.enums.GoalTargetType.PRIME_PART 
+                }?.let { relevantGoals.addAll(it) }
+
+                // Rule 2 & 3: From Parent Set (if exists)
+                set?.let { s ->
+                    goalsByTarget[s.id]?.filter { 
+                        it.goal.targetType == com.felipimatheuz.primehunt.data.local.enums.GoalTargetType.PRIME_SET ||
+                        (it.goal.targetType == com.felipimatheuz.primehunt.data.local.enums.GoalTargetType.PRIME_PART && part == null)
+                    }?.let { relevantGoals.addAll(it) }
+                }
+
+                val goalTags = relevantGoals.distinctBy { it.tag.id }.map {
                     GoalTagDomain(
                         id = it.tag.id,
                         name = it.tag.name,
                         icon = it.tag.icon,
                         color = it.tag.color
                     )
-                } ?: emptyList()
+                }
 
                 RelicComponentDomain(
                     name = name,
@@ -160,14 +181,17 @@ class PrimeDataStore @Inject constructor(
                 )
             } ?: emptyList()
 
-            val relicTags = goalMap[relic.id]?.map {
+            // Match rules for relics: Only RELIC target type
+            val relicTags = goalsByTarget[relic.id]?.filter { 
+                it.goal.targetType == com.felipimatheuz.primehunt.data.local.enums.GoalTargetType.RELIC 
+            }?.map {
                 GoalTagDomain(
                     id = it.tag.id,
                     name = it.tag.name,
                     icon = it.tag.icon,
                     color = it.tag.color
                 )
-            } ?: emptyList()
+            }?.distinctBy { it.id } ?: emptyList()
 
             RelicDomain(
                 id = relic.id,

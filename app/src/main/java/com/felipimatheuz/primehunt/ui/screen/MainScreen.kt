@@ -42,7 +42,7 @@ import com.felipimatheuz.primehunt.ui.navigation.RelicsKey
 import com.felipimatheuz.primehunt.ui.navigation.TopToolbar
 import com.felipimatheuz.primehunt.ui.navigation.rememberNavigationState
 import com.felipimatheuz.primehunt.ui.navigation.toEntries
-import com.felipimatheuz.primehunt.ui.screen.primedetail.PrimeDetailScreen
+import com.felipimatheuz.primehunt.ui.screen.primeset.primedetail.PrimeDetailScreen
 import com.felipimatheuz.primehunt.ui.screen.primeset.PrimeSetScreen
 import com.felipimatheuz.primehunt.ui.screen.relic.RelicsScreen
 import com.felipimatheuz.primehunt.ui.screen.splash.SplashScreen
@@ -117,7 +117,33 @@ fun MainContent() {
                             }
 
                             is GoalsKey -> {
-                                com.felipimatheuz.primehunt.ui.screen.goals.GoalsScreen(padding)
+                                com.felipimatheuz.primehunt.ui.screen.goals.GoalsScreen(
+                                    padding,
+                                    onAddGoal = {
+                                        navigator.navigate(com.felipimatheuz.primehunt.ui.navigation.NewGoalKey())
+                                    },
+                                    onGoalClick = { goal ->
+                                        navigator.navigate(com.felipimatheuz.primehunt.ui.navigation.GoalDetailKey(goal.id))
+                                    }
+                                )
+                            }
+
+                            is com.felipimatheuz.primehunt.ui.navigation.NewGoalKey -> {
+                                com.felipimatheuz.primehunt.ui.screen.goals.manage.ManageGoalScreen(
+                                    goalId = null,
+                                    navigationId = appNavKey.id,
+                                    paddingValues = padding,
+                                    onBack = { navigator.goBack() }
+                                )
+                            }
+
+                            is com.felipimatheuz.primehunt.ui.navigation.GoalDetailKey -> {
+                                com.felipimatheuz.primehunt.ui.screen.goals.manage.ManageGoalScreen(
+                                    goalId = appNavKey.goalId,
+                                    navigationId = appNavKey.goalId.toString(),
+                                    paddingValues = padding,
+                                    onBack = { navigator.goBack() }
+                                )
                             }
 
                             is PrimeDetailKey -> {

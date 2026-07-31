@@ -27,6 +27,12 @@ data class GoalDomain(
     val tag: GoalTagDomain
 )
 
+data class TargetDomain(
+    val id: String,
+    val name: String,
+    val type: com.felipimatheuz.primehunt.data.local.enums.GoalTargetType
+)
+
 data class PrimeCollection(
     val id: String,
     val name: String,

@@ -69,3 +69,15 @@ data class PrimeDetailKey(val setId: String) : AppNavKey {
     override val icon = R.drawable.ic_prime
     override val label = R.string.menu_prime_sets
 }
+
+@Serializable
+data class NewGoalKey(val id: String = java.util.UUID.randomUUID().toString()) : AppNavKey {
+    override val icon = R.drawable.ic_waypoint
+    override val label = R.string.menu_goals
+}
+
+@Serializable
+data class GoalDetailKey(val goalId: Long) : AppNavKey {
+    override val icon = R.drawable.ic_waypoint
+    override val label = R.string.menu_goals
+}
