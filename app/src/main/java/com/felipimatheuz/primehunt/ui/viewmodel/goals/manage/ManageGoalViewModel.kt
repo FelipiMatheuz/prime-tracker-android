@@ -74,7 +74,7 @@ class ManageGoalViewModel @Inject constructor(
                 validateAndCheckChanges()
             }
             is ManageGoalIntent.UpdateManualQuantity -> {
-                _state.update { it.copy(manualCurrentQuantity = maxOf(0, intent.quantity)) }
+                _state.update { it.copy(manualCurrentQuantity = intent.quantity.coerceIn(0, it.quantity)) }
                 validateAndCheckChanges()
             }
             is ManageGoalIntent.SearchTarget -> {

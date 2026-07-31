@@ -113,7 +113,6 @@ private fun RelicDetailsContent(
                 GoalTagChip(
                     iconRes = tag.icon.icon,
                     color = tag.color,
-                    isFaded = false,
                     modifier = Modifier.padding(horizontal = 2.dp)
                 )
             }
@@ -258,16 +257,14 @@ private fun RelicRewardItem(reward: RelicComponentDomain) {
                         GoalTagChip(
                             text = tag.name,
                             color = tag.color,
-                            iconRes = tag.icon.icon,
-                            isFaded = false
+                            iconRes = tag.icon.icon
                         )
                     }
 
                     if (remaining > 0) {
                         GoalTagChip(
                             text = "+$remaining",
-                            color = MaterialTheme.colorScheme.surfaceVariant,
-                            isNeutral = true
+                            color = MaterialTheme.colorScheme.surfaceVariant
                         )
                     }
                 }
