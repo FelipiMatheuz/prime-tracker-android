@@ -91,26 +91,13 @@ fun ManageGoalSkeleton(
         )
 
         // Tag Selector + Preview
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Box(
-                modifier = Modifier
-                    .weight(1f)
-                    .height(56.dp)
-                    .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(4.dp))
-                    .shimmer(RoundedCornerShape(4.dp))
-            )
-            Box(
-                modifier = Modifier
-                    .width(100.dp)
-                    .height(32.dp)
-                    .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(16.dp))
-                    .shimmer(RoundedCornerShape(16.dp))
-            )
-        }
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(56.dp)
+                .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(4.dp))
+                .shimmer(RoundedCornerShape(4.dp))
+        )
 
         // Notes
         Box(
