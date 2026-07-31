@@ -4,9 +4,9 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.service.google.Firestore
-import com.felipimatheuz.primehunt.business.state.SyncState
 import com.felipimatheuz.primehunt.model.SignInResult
 import com.felipimatheuz.primehunt.service.google.GoogleCredential
+import com.felipimatheuz.primehunt.ui.viewmodel.splash.SyncState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope

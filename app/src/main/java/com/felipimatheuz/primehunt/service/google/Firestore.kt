@@ -2,10 +2,10 @@ package com.felipimatheuz.primehunt.service.google
 
 import com.felipimatheuz.primehunt.business.resources.OtherPrimeData
 import com.felipimatheuz.primehunt.business.resources.PrimeSetData
-import com.felipimatheuz.primehunt.business.state.SyncState
 import com.felipimatheuz.primehunt.business.util.getFieldName
 import com.felipimatheuz.primehunt.business.util.otherPrimeList
 import com.felipimatheuz.primehunt.business.util.primeSetList
+import com.felipimatheuz.primehunt.ui.viewmodel.splash.SyncState
 import com.google.firebase.firestore.firestore
 import com.google.firebase.Firebase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -84,7 +84,7 @@ class Firestore @Inject constructor(
         val otherData = otherPrimeData.getLocalData()
 
         Firebase.firestore.collection("checklist").document(userId)
-            .set(mapOf("SET" to setData?.all, "OTHER" to otherData.all))
+            .set(mapOf("SET" to setData?.all, "OTHER" to otherData?.all))
             .addOnCompleteListener { task ->
                 state.update {
                     if (task.exception != null) {
