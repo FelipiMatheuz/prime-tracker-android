@@ -32,6 +32,8 @@ import com.felipimatheuz.primehunt.ui.viewmodel.goals.GoalsIntent
 import com.felipimatheuz.primehunt.ui.viewmodel.goals.GoalsState
 import com.felipimatheuz.primehunt.ui.viewmodel.goals.GoalsViewModel
 import androidx.compose.ui.graphics.Color
+import kotlinx.coroutines.delay
+import kotlin.time.Duration.Companion.seconds
 
 @Composable
 fun GoalsScreen(
@@ -66,16 +68,24 @@ fun GoalsContent(
     var localSearchQuery by rememberSaveable { mutableStateOf(state.queryFilter) }
 
     val gridState = rememberLazyGridState()
-    var previousGoals by remember { mutableStateOf(state.goals) }
-    var newGoalId by remember { mutableStateOf<Long?>(null) }
-    var recentlyCompletedId by remember { mutableStateOf<Long?>(null) }
+    var isInitialized by rememberSaveable { mutableStateOf(false) }
+    var previousGoalIds by rememberSaveable { mutableStateOf(state.goals.map { it.id }) }
+    var newGoalId by rememberSaveable { mutableStateOf<Long?>(null) }
+    var recentlyCompletedId by rememberSaveable { mutableStateOf<Long?>(null) }
 
     LaunchedEffect(state.goals) {
-        val currentIds = state.goals.map { it.id }.toSet()
-        val previousIds = previousGoals.map { it.id }.toSet()
+        val currentIds = state.goals.map { it.id }
         
+        if (!isInitialized) {
+            if (state.goals.isNotEmpty() || !state.isLoading) {
+                previousGoalIds = currentIds
+                isInitialized = true
+            }
+            return@LaunchedEffect
+        }
+
         // Detect new additions
-        val addedIds = currentIds - previousIds
+        val addedIds = currentIds.toSet() - previousGoalIds.toSet()
         if (addedIds.isNotEmpty()) {
             val newlyAddedId = addedIds.first()
             newGoalId = newlyAddedId
@@ -85,15 +95,14 @@ fun GoalsContent(
             }
         }
 
-        // Detect completion (status changed from ACTIVE to COMPLETED)
-        state.goals.forEach { goal ->
-            val prev = previousGoals.find { it.id == goal.id }
-            if (prev != null && prev.status == GoalStatus.ACTIVE && goal.status == GoalStatus.COMPLETED) {
-                recentlyCompletedId = goal.id
-            }
-        }
+        previousGoalIds = currentIds
+    }
 
-        previousGoals = state.goals
+    LaunchedEffect(newGoalId) {
+        if (newGoalId != null) {
+            delay(2.seconds)
+            newGoalId = null
+        }
     }
 
     LaunchedEffect(state.queryFilter) {
