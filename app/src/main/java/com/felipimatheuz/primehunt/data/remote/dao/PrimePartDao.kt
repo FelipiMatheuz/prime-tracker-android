@@ -12,6 +12,9 @@ interface PrimePartDao {
     @Query("SELECT * FROM prime_part")
     fun getAll(): Flow<List<PrimePartEntity>>
 
+    @Query("SELECT * FROM prime_part")
+    suspend fun getAllSync(): List<PrimePartEntity>
+
     @Query("""
         SELECT *
         FROM prime_part

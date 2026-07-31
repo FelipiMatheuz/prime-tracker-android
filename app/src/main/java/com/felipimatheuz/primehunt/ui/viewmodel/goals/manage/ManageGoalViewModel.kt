@@ -9,7 +9,9 @@ import com.felipimatheuz.primehunt.data.local.entity.GoalTagEntity
 import com.felipimatheuz.primehunt.data.local.enums.GoalStatus
 import com.felipimatheuz.primehunt.data.local.enums.GoalTargetType
 import com.felipimatheuz.primehunt.data.repository.GoalRepository
+import com.felipimatheuz.primehunt.domain.model.GoalDomain
 import com.felipimatheuz.primehunt.domain.model.TargetDomain
+import com.felipimatheuz.primehunt.domain.usecase.goal.GetGoalsUseCase
 import com.felipimatheuz.primehunt.ui.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
@@ -22,6 +24,7 @@ import kotlin.time.Duration.Companion.milliseconds
 @HiltViewModel
 class ManageGoalViewModel @Inject constructor(
     private val repository: GoalRepository,
+    private val getGoalsUseCase: GetGoalsUseCase,
     private val goalDao: GoalDao,
     private val tagDao: GoalTagDao
 ) : ViewModel(), MviViewModel<ManageGoalState, ManageGoalIntent> {
@@ -31,7 +34,7 @@ class ManageGoalViewModel @Inject constructor(
 
     private val _searchQuery = MutableStateFlow("")
     private var allTargets: List<TargetDomain> = emptyList()
-    private var originalGoal: com.felipimatheuz.primehunt.domain.model.GoalDomain? = null
+    private var originalGoal: GoalDomain? = null
 
     init {
         tagDao.observeAll()
@@ -40,7 +43,7 @@ class ManageGoalViewModel @Inject constructor(
             }
             .launchIn(viewModelScope)
 
-        repository.observeAllTargets()
+        getGoalsUseCase.observeAllTargets()
             .onEach { targets ->
                 allTargets = targets
                 if (!_state.value.isEditMode && _state.value.selectedTarget == null && _state.value.targetQuery.isEmpty()) {
@@ -122,7 +125,7 @@ class ManageGoalViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
-            repository.observeGoal(goalId).collect { goal ->
+            getGoalsUseCase.observeGoal(goalId).collect { goal ->
                 if (goal != null && originalGoal == null) {
                     originalGoal = goal
                     _state.update {

@@ -3,8 +3,8 @@ package com.felipimatheuz.primehunt.ui.viewmodel.goals
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.felipimatheuz.primehunt.data.local.dao.GoalTagDao
-import com.felipimatheuz.primehunt.data.repository.GoalRepository
 import com.felipimatheuz.primehunt.domain.model.GoalDomain
+import com.felipimatheuz.primehunt.domain.usecase.goal.GetGoalsUseCase
 import com.felipimatheuz.primehunt.ui.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -23,7 +23,7 @@ import kotlin.time.Duration.Companion.milliseconds
 
 @HiltViewModel
 class GoalsViewModel @Inject constructor(
-    repository: GoalRepository,
+    getGoalsUseCase: GetGoalsUseCase,
     tagDao: GoalTagDao
 ) : ViewModel(), MviViewModel<GoalsState, GoalsIntent> {
 
@@ -46,7 +46,7 @@ class GoalsViewModel @Inject constructor(
 
     @OptIn(FlowPreview::class)
     override val state: StateFlow<GoalsState> = combine(
-        repository.observeGoals().distinctUntilChanged(),
+        getGoalsUseCase().distinctUntilChanged(),
         tagDao.observeAll().distinctUntilChanged(),
         _searchText.debounce(300.milliseconds).distinctUntilChanged(),
         _filters

@@ -2,8 +2,8 @@ package com.felipimatheuz.primehunt.ui.viewmodel.primeset
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.felipimatheuz.primehunt.data.repository.PrimeSetRepository
 import com.felipimatheuz.primehunt.domain.model.PrimeSetDomain
+import com.felipimatheuz.primehunt.domain.usecase.primeset.GetPrimeSetsUseCase
 import com.felipimatheuz.primehunt.ui.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -21,7 +21,7 @@ import kotlin.time.Duration.Companion.milliseconds
 
 @HiltViewModel
 class PrimeSetViewModel @Inject constructor(
-    repository: PrimeSetRepository
+    getPrimeSetsUseCase: GetPrimeSetsUseCase
 ) : ViewModel(), MviViewModel<PrimeSetState, PrimeSetIntent> {
 
     private val _searchText = MutableStateFlow("")
@@ -30,8 +30,8 @@ class PrimeSetViewModel @Inject constructor(
 
     @OptIn(FlowPreview::class)
     override val state: StateFlow<PrimeSetState> = combine(
-        repository.observeCollections().distinctUntilChanged(),
-        repository.observeWithoutCollection().distinctUntilChanged(),
+        getPrimeSetsUseCase.observeCollections().distinctUntilChanged(),
+        getPrimeSetsUseCase.observeWithoutCollection().distinctUntilChanged(),
         _searchText.debounce(300.milliseconds).distinctUntilChanged(),
         _filters,
         _selectedView

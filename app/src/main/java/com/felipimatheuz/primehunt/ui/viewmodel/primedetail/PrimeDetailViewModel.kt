@@ -3,6 +3,7 @@ package com.felipimatheuz.primehunt.ui.viewmodel.primedetail
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.felipimatheuz.primehunt.data.repository.PrimeDetailRepository
+import com.felipimatheuz.primehunt.domain.usecase.primeset.GetPrimeSetsUseCase
 import com.felipimatheuz.primehunt.ui.mvi.MviViewModel
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -19,6 +20,7 @@ import kotlinx.coroutines.launch
 @HiltViewModel(assistedFactory = PrimeDetailViewModel.Factory::class)
 class PrimeDetailViewModel @AssistedInject constructor(
     private val repository: PrimeDetailRepository,
+    getPrimeSetsUseCase: GetPrimeSetsUseCase,
     @Assisted private val setId: String
 ) : ViewModel(), MviViewModel<PrimeDetailState, PrimeDetailIntent> {
 
@@ -27,7 +29,8 @@ class PrimeDetailViewModel @AssistedInject constructor(
         fun create(setId: String): PrimeDetailViewModel
     }
 
-    override val state: StateFlow<PrimeDetailState> = repository.observeSetDetails(setId)
+    override val state: StateFlow<PrimeDetailState> = getPrimeSetsUseCase.observeAllSets()
+        .map { allSets -> allSets.find { it.id == setId } }
         .map { PrimeDetailState(primeSet = it, isLoading = false) }
         .flowOn(Dispatchers.Default)
         .stateIn(
