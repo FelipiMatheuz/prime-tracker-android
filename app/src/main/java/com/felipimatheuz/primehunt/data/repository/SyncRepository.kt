@@ -1,7 +1,5 @@
 package com.felipimatheuz.primehunt.data.repository
 
-import com.felipimatheuz.primehunt.business.state.EtlFile
-import com.felipimatheuz.primehunt.business.state.SyncEvent
 import com.felipimatheuz.primehunt.data.remote.dao.*
 import com.felipimatheuz.primehunt.data.remote.dto.*
 import com.felipimatheuz.primehunt.data.remote.entity.*
@@ -11,6 +9,8 @@ import com.felipimatheuz.primehunt.data.remote.enums.PrimeType
 import com.felipimatheuz.primehunt.data.remote.enums.RelicEra
 import com.felipimatheuz.primehunt.data.remote.enums.RelicSource
 import com.felipimatheuz.primehunt.service.api.PrimeTrackerService
+import com.felipimatheuz.primehunt.ui.viewmodel.splash.EtlFile
+import com.felipimatheuz.primehunt.ui.viewmodel.splash.SyncEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
