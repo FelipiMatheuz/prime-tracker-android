@@ -1,4 +1,4 @@
-package com.felipimatheuz.primehunt.ui.screen.primedetail
+package com.felipimatheuz.primehunt.ui.screen.primeset.primedetail
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,11 +22,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.ui.screen.primedetail.components.DetailComponentItem
-import com.felipimatheuz.primehunt.ui.screen.primedetail.components.DetailError
-import com.felipimatheuz.primehunt.ui.screen.primedetail.components.DetailHeader
-import com.felipimatheuz.primehunt.ui.screen.primedetail.components.DetailQuickActions
-import com.felipimatheuz.primehunt.ui.screen.primedetail.components.PrimeDetailSkeleton
+import com.felipimatheuz.primehunt.ui.screen.primeset.primedetail.components.DetailComponentItem
+import com.felipimatheuz.primehunt.ui.screen.primeset.primedetail.components.DetailError
+import com.felipimatheuz.primehunt.ui.screen.primeset.primedetail.components.DetailHeader
+import com.felipimatheuz.primehunt.ui.screen.primeset.primedetail.components.DetailQuickActions
+import com.felipimatheuz.primehunt.ui.screen.primeset.primedetail.components.PrimeDetailSkeleton
 import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
 import com.felipimatheuz.primehunt.ui.viewmodel.primedetail.PrimeDetailIntent
 import com.felipimatheuz.primehunt.ui.viewmodel.primedetail.PrimeDetailState

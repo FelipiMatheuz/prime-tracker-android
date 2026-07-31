@@ -23,6 +23,10 @@ interface GoalDao {
     @Query("SELECT * FROM goal")
     fun observeAllWithTags(): Flow<List<GoalWithTag>>
 
+    @androidx.room.Transaction
+    @Query("SELECT * FROM goal WHERE id = :id")
+    fun observeByIdWithTag(id: Long): Flow<GoalWithTag?>
+
     @Query("""
         SELECT *
         FROM goal
@@ -50,6 +54,12 @@ interface GoalDao {
     suspend fun getByTarget(
         targetId: String
     ): GoalEntity?
+
+    @Query("SELECT * FROM goal WHERE id = :id")
+    suspend fun getById(id: Long): GoalEntity?
+
+    @Query("UPDATE goal SET status = :status, completedAt = :completedAt WHERE id = :id")
+    suspend fun updateStatus(id: Long, status: com.felipimatheuz.primehunt.data.local.enums.GoalStatus, completedAt: Long?)
 
     @Upsert
     suspend fun upsert(

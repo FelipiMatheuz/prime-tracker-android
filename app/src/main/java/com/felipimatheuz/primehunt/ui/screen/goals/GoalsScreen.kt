@@ -39,6 +39,7 @@ import com.felipimatheuz.primehunt.domain.model.GoalDomain
 import com.felipimatheuz.primehunt.domain.model.GoalTagDomain
 import com.felipimatheuz.primehunt.ui.screen.goals.components.GoalCard
 import com.felipimatheuz.primehunt.ui.screen.goals.components.GoalEmptyState
+import com.felipimatheuz.primehunt.ui.screen.goals.components.GoalSkeleton
 import com.felipimatheuz.primehunt.ui.screen.goals.components.GoalsFilterBottomSheet
 import com.felipimatheuz.primehunt.ui.screen.goals.components.GoalsSearchBar
 import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
@@ -49,14 +50,18 @@ import com.felipimatheuz.primehunt.ui.viewmodel.goals.GoalsViewModel
 @Composable
 fun GoalsScreen(
     paddingValues: PaddingValues,
-    viewModel: GoalsViewModel = hiltViewModel()
+    viewModel: GoalsViewModel = hiltViewModel(),
+    onAddGoal: () -> Unit,
+    onGoalClick: (GoalDomain) -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     GoalsContent(
         paddingValues = paddingValues,
         state = state,
-        onIntent = viewModel::onIntent
+        onIntent = viewModel::onIntent,
+        onAddGoal = onAddGoal,
+        onGoalClick = onGoalClick
     )
 }
 
@@ -65,7 +70,9 @@ fun GoalsScreen(
 fun GoalsContent(
     paddingValues: PaddingValues,
     state: GoalsState,
-    onIntent: (GoalsIntent) -> Unit
+    onIntent: (GoalsIntent) -> Unit,
+    onAddGoal: () -> Unit,
+    onGoalClick: (GoalDomain) -> Unit
 ) {
     val sheetState = rememberModalBottomSheetState()
     var showFilterSheet by remember { mutableStateOf(false) }
@@ -78,65 +85,69 @@ fun GoalsContent(
         }
     }
 
-    Scaffold(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(paddingValues),
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = { /* TODO: Goal Creation */ },
-                containerColor = MaterialTheme.colorScheme.primary,
-                contentColor = MaterialTheme.colorScheme.onPrimary
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_plus),
-                    contentDescription = null,
-                    modifier = Modifier.size(24.dp)
-                )
-            }
-        }
-    ) { innerPadding ->
-        Column(
+    if (state.isLoading) {
+        GoalSkeleton(paddingValues = paddingValues)
+    } else {
+        Scaffold(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding)
-        ) {
-            GoalsSearchBar(
-                query = localSearchQuery,
-                onQueryChange = {
-                    localSearchQuery = it
-                    onIntent(GoalsIntent.Search(it))
-                },
-                activeFiltersCount = state.activeFilters.activeCount,
-                onFilterClick = { showFilterSheet = true },
-                onClearClick = { onIntent(GoalsIntent.ClearSearch) }
-            )
-
-            if (state.goals.isEmpty() && !state.isLoading) {
-                val isCompletedFiltered = state.activeFilters.status == setOf(GoalStatus.COMPLETED)
-                GoalEmptyState(
-                    title = stringResource(
-                        if (isCompletedFiltered) R.string.empty_goals_completed_title
-                        else R.string.empty_goals_active_title
-                    ),
-                    description = stringResource(
-                        if (isCompletedFiltered) R.string.empty_goals_completed_desc
-                        else R.string.empty_goals_active_desc
-                    )
-                )
-            } else {
-                LazyVerticalGrid(
-                    columns = GridCells.Adaptive(minSize = 120.dp),
-                    modifier = Modifier.fillMaxSize(),
-                    contentPadding = PaddingValues(16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                .padding(paddingValues),
+            floatingActionButton = {
+                FloatingActionButton(
+                    onClick = onAddGoal,
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary
                 ) {
-                    items(state.goals, key = { it.id }) { goal ->
-                        GoalCard(
-                            goal = goal,
-                            onClick = { /* onClick = {} per requirement */ }
+                    Icon(
+                        painter = painterResource(R.drawable.ic_plus),
+                        contentDescription = null,
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
+            }
+        ) { innerPadding ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+            ) {
+                GoalsSearchBar(
+                    query = localSearchQuery,
+                    onQueryChange = {
+                        localSearchQuery = it
+                        onIntent(GoalsIntent.Search(it))
+                    },
+                    activeFiltersCount = state.activeFilters.activeCount,
+                    onFilterClick = { showFilterSheet = true },
+                    onClearClick = { onIntent(GoalsIntent.ClearSearch) }
+                )
+
+                if (state.goals.isEmpty()) {
+                    val isCompletedFiltered = state.activeFilters.status == setOf(GoalStatus.COMPLETED)
+                    GoalEmptyState(
+                        title = stringResource(
+                            if (isCompletedFiltered) R.string.empty_goals_completed_title
+                            else R.string.empty_goals_active_title
+                        ),
+                        description = stringResource(
+                            if (isCompletedFiltered) R.string.empty_goals_completed_desc
+                            else R.string.empty_goals_active_desc
                         )
+                    )
+                } else {
+                    LazyVerticalGrid(
+                        columns = GridCells.Adaptive(minSize = 120.dp),
+                        modifier = Modifier.fillMaxSize(),
+                        contentPadding = PaddingValues(16.dp),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp),
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        items(state.goals, key = { it.id }) { goal ->
+                            GoalCard(
+                                goal = goal,
+                                onClick = { onGoalClick(goal) }
+                            )
+                        }
                     }
                 }
             }
@@ -185,7 +196,9 @@ fun GoalsScreenPreview() {
         GoalsContent(
             paddingValues = PaddingValues(),
             state = GoalsState(goals = mockGoals, isLoading = false),
-            onIntent = {}
+            onIntent = {},
+            onAddGoal = {},
+            onGoalClick = {}
         )
     }
 }

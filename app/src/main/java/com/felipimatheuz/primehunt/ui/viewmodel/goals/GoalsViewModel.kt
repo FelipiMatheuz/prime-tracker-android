@@ -37,7 +37,7 @@ class GoalsViewModel @Inject constructor(
                 val tagIds = tags.map { it.id }.toSet()
                 _filters.value = _filters.value.copy(
                     allCategoryIds = tagIds,
-                    categoryIds = if (_filters.value.categoryIds.isEmpty()) tagIds else _filters.value.categoryIds
+                    categoryIds = _filters.value.categoryIds.ifEmpty { tagIds }
                 )
             }
             .flowOn(Dispatchers.Default)
