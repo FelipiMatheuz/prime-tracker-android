@@ -1,4 +1,4 @@
-package com.felipimatheuz.primehunt.ui.screen.relic.components
+package com.felipimatheuz.primehunt.ui.screen.components
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,9 +23,10 @@ import com.felipimatheuz.primehunt.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RelicsSearchBar(
+fun PrimeSearchBar(
     query: String,
     onQueryChange: (String) -> Unit,
+    placeholderRes: Int,
     activeFiltersCount: Int,
     onFilterClick: () -> Unit,
     onClearClick: () -> Unit,
@@ -39,7 +40,7 @@ fun RelicsSearchBar(
                 onSearch = { },
                 expanded = false,
                 onExpandedChange = { },
-                placeholder = { Text(stringResource(R.string.relic_search_label)) },
+                placeholder = { Text(stringResource(placeholderRes)) },
                 leadingIcon = {
                     Icon(
                         painter = painterResource(R.drawable.ic_search),

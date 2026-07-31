@@ -11,11 +11,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.data.local.enums.GoalIcons
-import com.felipimatheuz.primehunt.domain.model.GoalTagDomain
+import com.felipimatheuz.primehunt.ui.screen.components.GoalTagChip
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -47,7 +49,7 @@ fun TagCreationBottomSheet(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Text(
-                text = "Create New Tag",
+                text = stringResource(R.string.tag_create_title),
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold
             )
@@ -55,7 +57,7 @@ fun TagCreationBottomSheet(
             OutlinedTextField(
                 value = name,
                 onValueChange = onNameChange,
-                label = { Text("Tag Name") },
+                label = { Text(stringResource(R.string.tag_create_name)) },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true
             )
@@ -65,7 +67,7 @@ fun TagCreationBottomSheet(
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 SelectionCard(
-                    label = "Icon",
+                    label = stringResource(R.string.tag_create_icon),
                     modifier = Modifier.weight(1f),
                     onClick = { showIconPicker = true }
                 ) {
@@ -77,7 +79,7 @@ fun TagCreationBottomSheet(
                 }
 
                 SelectionCard(
-                    label = "Color",
+                    label = stringResource(R.string.tag_create_color),
                     modifier = Modifier.weight(1f),
                     onClick = { showColorPicker = true }
                 ) {
@@ -91,7 +93,7 @@ fun TagCreationBottomSheet(
             }
 
             Text(
-                text = "Preview",
+                text = stringResource(R.string.tag_create_preview),
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -102,13 +104,10 @@ fun TagCreationBottomSheet(
                     .padding(vertical = 8.dp),
                 contentAlignment = Alignment.Center
             ) {
-                TagChip(
-                    tag = GoalTagDomain(
-                        id = 0,
-                        name = name.ifBlank { "Tag Name" },
-                        icon = selectedIcon,
-                        color = selectedColor
-                    )
+                GoalTagChip(
+                    text = name.ifBlank { stringResource(R.string.tag_create_name) },
+                    iconRes = selectedIcon.icon,
+                    color = selectedColor
                 )
             }
 
@@ -117,7 +116,7 @@ fun TagCreationBottomSheet(
                 modifier = Modifier.fillMaxWidth(),
                 enabled = isValid
             ) {
-                Text("Create Tag")
+                Text(stringResource(R.string.tag_create_action))
             }
         }
     }
@@ -178,7 +177,7 @@ private fun SelectionCard(
                 content()
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = "Tap to change",
+                    text = stringResource(R.string.tag_create_change_hint),
                     fontSize = 10.sp,
                     color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
                 )

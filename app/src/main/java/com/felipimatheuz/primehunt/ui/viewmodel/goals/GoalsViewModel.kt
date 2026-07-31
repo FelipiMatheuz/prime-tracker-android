@@ -80,7 +80,7 @@ class GoalsViewModel @Inject constructor(
                     (goal.note?.contains(query, ignoreCase = true) == true) ||
                     goal.tag.name.contains(query, ignoreCase = true)
 
-            val matchesStatus = filters.status.contains(goal.status)
+            val matchesStatus = goal.status == filters.status
             val matchesType = filters.targetTypes.contains(goal.targetType)
             val matchesCategory = filters.categoryIds.isEmpty() || filters.categoryIds.contains(goal.tag.id)
 

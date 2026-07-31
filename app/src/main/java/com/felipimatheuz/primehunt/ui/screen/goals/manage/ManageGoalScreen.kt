@@ -35,12 +35,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.felipimatheuz.primehunt.R
+import com.felipimatheuz.primehunt.data.local.enums.GoalStatus
 import com.felipimatheuz.primehunt.data.local.enums.GoalTargetType
 import com.felipimatheuz.primehunt.ui.screen.goals.components.GoalForm
 import com.felipimatheuz.primehunt.ui.screen.goals.components.ManageGoalSkeleton
@@ -91,6 +93,9 @@ fun ManageGoalContent(
     var showDeleteConfirmation by remember { mutableStateOf(false) }
     val focusRequester = remember { FocusRequester() }
 
+    val isCompleted = state.status == GoalStatus.COMPLETED
+    val isFormEnabled = !isCompleted
+
     LaunchedEffect(state.isEditMode) {
         if (!state.isEditMode) {
             focusRequester.requestFocus()
@@ -122,14 +127,14 @@ fun ManageGoalContent(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = if (state.isEditMode) "Goal Details" else "New Goal",
+                text = if (state.isEditMode) stringResource(R.string.manage_goal_details) else stringResource(R.string.manage_goal_new),
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold
             )
             IconButton(onClick = onBack) {
                 Icon(
                     painter = painterResource(R.drawable.ic_close),
-                    contentDescription = null
+                    contentDescription = stringResource(R.string.close)
                 )
             }
         }
@@ -153,7 +158,8 @@ fun ManageGoalContent(
             focusRequester = if (!state.isEditMode) focusRequester else null,
             showManualQuantity = state.isEditMode && (state.targetType == GoalTargetType.RELIC || state.targetType == GoalTargetType.FORMA),
             manualCurrentQuantity = state.manualCurrentQuantity,
-            onManualQuantityChange = { onIntent(ManageGoalIntent.UpdateManualQuantity(it)) }
+            onManualQuantityChange = { onIntent(ManageGoalIntent.UpdateManualQuantity(it)) },
+            enabled = isFormEnabled
         )
 
         Spacer(modifier = Modifier.weight(1f))
@@ -170,6 +176,7 @@ fun ManageGoalContent(
                     Button(
                         onClick = { onIntent(ManageGoalIntent.CompleteGoal) },
                         modifier = Modifier.weight(1f),
+                        enabled = !isCompleted && !state.isSaving,
                         colors = ButtonDefaults.buttonColors(
                             containerColor = com.felipimatheuz.primehunt.ui.theme.High
                         ),
@@ -177,21 +184,22 @@ fun ManageGoalContent(
                     ) {
                         Icon(painterResource(R.drawable.ic_check), contentDescription = null, modifier = Modifier.size(18.dp))
                         Spacer(Modifier.width(8.dp))
-                        Text("Complete goal", fontWeight = FontWeight.Bold, maxLines = 1)
+                        Text(stringResource(R.string.manage_goal_action_complete), fontWeight = FontWeight.Bold, maxLines = 1)
                     }
 
                     OutlinedButton(
                         onClick = { showDeleteConfirmation = true },
                         modifier = Modifier.weight(1f),
+                        enabled = !isCompleted && !state.isSaving,
                         colors = ButtonDefaults.outlinedButtonColors(
                             contentColor = MaterialTheme.colorScheme.error
                         ),
-                        border = BorderStroke(1.dp, MaterialTheme.colorScheme.error.copy(alpha = 0.5f)),
+                        border = BorderStroke(1.dp, if (isCompleted) MaterialTheme.colorScheme.outline.copy(alpha = 0.12f) else MaterialTheme.colorScheme.error.copy(alpha = 0.5f)),
                         shape = MaterialTheme.shapes.medium
                     ) {
                         Icon(painterResource(R.drawable.ic_delete), contentDescription = null, modifier = Modifier.size(18.dp))
                         Spacer(Modifier.width(8.dp))
-                        Text("Delete", fontWeight = FontWeight.Bold)
+                        Text(stringResource(R.string.manage_goal_action_delete), fontWeight = FontWeight.Bold)
                     }
                 }
             }
@@ -199,7 +207,7 @@ fun ManageGoalContent(
             Button(
                 onClick = { onIntent(ManageGoalIntent.SaveGoal) },
                 modifier = Modifier.fillMaxWidth(),
-                enabled = state.isFormValid && (!state.isEditMode || state.hasChanges) && !state.isSaving,
+                enabled = isFormEnabled && state.isFormValid && (!state.isEditMode || state.hasChanges) && !state.isSaving,
                 shape = MaterialTheme.shapes.medium
             ) {
                 if (state.isSaving) {
@@ -209,7 +217,7 @@ fun ManageGoalContent(
                     )
                 } else {
                     Text(
-                        text = if (state.isEditMode) "Save Changes" else "Create Goal",
+                        text = if (state.isEditMode) stringResource(R.string.manage_goal_action_save) else stringResource(R.string.manage_goal_action_create),
                         fontWeight = FontWeight.Bold
                     )
                 }
@@ -235,8 +243,8 @@ fun ManageGoalContent(
     if (showDeleteConfirmation) {
         AlertDialog(
             onDismissRequest = { showDeleteConfirmation = false },
-            title = { Text("Delete Goal") },
-            text = { Text("Are you sure you want to delete this farming goal?") },
+            title = { Text(stringResource(R.string.manage_goal_delete_title)) },
+            text = { Text(stringResource(R.string.manage_goal_delete_message)) },
             confirmButton = {
                 TextButton(
                     onClick = {
@@ -245,12 +253,12 @@ fun ManageGoalContent(
                     },
                     colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.error)
                 ) {
-                    Text("Delete")
+                    Text(stringResource(R.string.manage_goal_action_delete))
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showDeleteConfirmation = false }) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.manage_goal_cancel))
                 }
             }
         )

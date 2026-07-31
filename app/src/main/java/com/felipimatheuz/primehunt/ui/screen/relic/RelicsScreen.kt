@@ -26,7 +26,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.domain.model.RelicDomain
+import com.felipimatheuz.primehunt.ui.screen.components.PrimeSearchBar
 import com.felipimatheuz.primehunt.ui.screen.relic.components.*
 import com.felipimatheuz.primehunt.ui.viewmodel.relic.RelicIntent
 import com.felipimatheuz.primehunt.ui.viewmodel.relic.RelicState
@@ -73,12 +75,13 @@ fun RelicsContent(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            RelicsSearchBar(
+            PrimeSearchBar(
                 query = localSearchQuery,
                 onQueryChange = {
                     localSearchQuery = it
                     onIntent(RelicIntent.Search(it))
                 },
+                placeholderRes = R.string.relic_search_label,
                 activeFiltersCount = state.activeFilters.activeCount,
                 onFilterClick = { showFilterSheet = true },
                 onClearClick = { onIntent(RelicIntent.ClearSearch) }
