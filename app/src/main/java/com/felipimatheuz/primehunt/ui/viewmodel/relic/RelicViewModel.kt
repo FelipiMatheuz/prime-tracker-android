@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.felipimatheuz.primehunt.data.remote.enums.RelicEra
 import com.felipimatheuz.primehunt.data.remote.enums.RelicSource
-import com.felipimatheuz.primehunt.data.repository.RelicRepository
 import com.felipimatheuz.primehunt.domain.model.RelicDomain
+import com.felipimatheuz.primehunt.domain.usecase.relic.GetRelicsUseCase
 import com.felipimatheuz.primehunt.ui.mvi.MviViewModel
 import com.felipimatheuz.primehunt.ui.viewmodel.primeset.ProgressFilter
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,7 +24,7 @@ import kotlin.time.Duration.Companion.milliseconds
 
 @HiltViewModel
 class RelicViewModel @Inject constructor(
-    repository: RelicRepository
+    getRelicsUseCase: GetRelicsUseCase
 ) : ViewModel(), MviViewModel<RelicState, RelicIntent> {
 
     private val _searchText = MutableStateFlow("")
@@ -33,7 +33,7 @@ class RelicViewModel @Inject constructor(
 
     @OptIn(FlowPreview::class)
     override val state: StateFlow<RelicState> = combine(
-        repository.observeRelics().distinctUntilChanged(),
+        getRelicsUseCase().distinctUntilChanged(),
         _searchText.debounce(300.milliseconds).distinctUntilChanged(),
         _filters,
         _selectedView
