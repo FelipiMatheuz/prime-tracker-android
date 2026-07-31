@@ -1,19 +1,33 @@
 package com.felipimatheuz.primehunt.ui.screen.relic.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.luminance
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,11 +38,10 @@ import com.felipimatheuz.primehunt.data.remote.enums.RelicSource
 import com.felipimatheuz.primehunt.domain.model.GoalTagDomain
 import com.felipimatheuz.primehunt.domain.model.RelicComponentDomain
 import com.felipimatheuz.primehunt.domain.model.RelicDomain
+import com.felipimatheuz.primehunt.ui.screen.components.GoalTagChip
 import com.felipimatheuz.primehunt.ui.screen.components.PrimePanel
-import com.felipimatheuz.primehunt.ui.theme.Black
 import com.felipimatheuz.primehunt.ui.theme.Complete
 import com.felipimatheuz.primehunt.ui.theme.High
-import com.felipimatheuz.primehunt.ui.theme.White
 
 @Composable
 fun RelicDetailsDialog(
@@ -97,29 +110,14 @@ private fun RelicDetailsContent(
             verticalAlignment = Alignment.CenterVertically
         ) {
             relic.goalTags.take(5).forEach { tag ->
-                Box(
-                    modifier = Modifier
-                        .padding(horizontal = 2.dp)
-                        .size(20.dp)
-                        .clip(CircleShape)
-                        .background(tag.color),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        painter = painterResource(tag.icon.icon),
-                        contentDescription = null,
-                        modifier = Modifier.size(12.dp),
-                        tint = if (tag.color.luminance() > 0.5f) {
-                            Black
-                        } else {
-                            White
-                        }
-                    )
-                }
+                GoalTagChip(
+                    iconRes = tag.icon.icon,
+                    color = tag.color,
+                    isFaded = false,
+                    modifier = Modifier.padding(horizontal = 2.dp)
+                )
             }
         }
-
-        //Spacer(modifier = Modifier.height(16.dp))
         
         // Summary
         PrimePanel {
@@ -257,15 +255,16 @@ private fun RelicRewardItem(reward: RelicComponentDomain) {
                     val remaining = reward.goalTags.size - 2
 
                     displayTags.forEach { tag ->
-                        GoalTag(
+                        GoalTagChip(
                             text = tag.name,
                             color = tag.color,
-                            icon = tag.icon
+                            iconRes = tag.icon.icon,
+                            isFaded = false
                         )
                     }
 
                     if (remaining > 0) {
-                        GoalTag(
+                        GoalTagChip(
                             text = "+$remaining",
                             color = MaterialTheme.colorScheme.surfaceVariant,
                             isNeutral = true
@@ -273,47 +272,6 @@ private fun RelicRewardItem(reward: RelicComponentDomain) {
                     }
                 }
             }
-        }
-    }
-}
-
-@Composable
-private fun GoalTag(
-    text: String,
-    color: Color = MaterialTheme.colorScheme.primaryContainer,
-    icon: GoalIcons? = null,
-    isNeutral: Boolean = false
-) {
-    val contentColor = if (isNeutral) {
-        MaterialTheme.colorScheme.onSurfaceVariant
-    } else {
-        if (color.luminance() > 0.5f) Color.Black else Color.White
-    }
-
-    Surface(
-        color = color.copy(alpha = if (isNeutral) 1f else 0.8f),
-        shape = RoundedCornerShape(4.dp)
-    ) {
-        Row(
-            modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(4.dp)
-        ) {
-            if (icon != null) {
-                Icon(
-                    painter = painterResource(icon.icon),
-                    contentDescription = null,
-                    modifier = Modifier.size(12.dp),
-                    tint = contentColor
-                )
-            }
-
-            Text(
-                text = text,
-                style = MaterialTheme.typography.labelSmall,
-                color = contentColor,
-                fontWeight = FontWeight.Bold
-            )
         }
     }
 }

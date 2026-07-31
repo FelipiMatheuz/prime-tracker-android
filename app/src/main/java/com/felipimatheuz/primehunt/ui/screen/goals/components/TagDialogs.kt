@@ -14,7 +14,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.data.local.enums.GoalIcons
 
 @Composable
@@ -24,7 +26,7 @@ fun IconPickerDialog(
 ) {
     AlertDialog(
         onDismissRequest = onDismissRequest,
-        title = { Text("Select Icon") },
+        title = { Text(stringResource(R.string.tag_select_icon)) },
         text = {
             LazyVerticalGrid(
                 columns = GridCells.Fixed(3),
@@ -53,7 +55,7 @@ fun IconPickerDialog(
         },
         confirmButton = {
             TextButton(onClick = onDismissRequest) {
-                Text("Cancel")
+                Text(stringResource(R.string.manage_goal_cancel))
             }
         }
     )
@@ -79,7 +81,7 @@ fun ColorPickerDialog(
 ) {
     AlertDialog(
         onDismissRequest = onDismissRequest,
-        title = { Text("Select Color") },
+        title = { Text(stringResource(R.string.tag_select_color)) },
         text = {
             LazyVerticalGrid(
                 columns = GridCells.Fixed(5),
@@ -101,7 +103,7 @@ fun ColorPickerDialog(
         },
         confirmButton = {
             TextButton(onClick = onDismissRequest) {
-                Text("Cancel")
+                Text(stringResource(R.string.manage_goal_cancel))
             }
         }
     )

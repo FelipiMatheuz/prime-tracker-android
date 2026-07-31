@@ -27,7 +27,6 @@ import androidx.compose.ui.tooling.preview.AndroidUiModes.UI_MODE_NIGHT_YES
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.data.local.enums.GoalIcons
 import com.felipimatheuz.primehunt.data.remote.enums.DropRarity
@@ -36,6 +35,7 @@ import com.felipimatheuz.primehunt.data.remote.enums.RelicSource
 import com.felipimatheuz.primehunt.domain.model.GoalTagDomain
 import com.felipimatheuz.primehunt.domain.model.RelicComponentDomain
 import com.felipimatheuz.primehunt.domain.model.RelicDomain
+import com.felipimatheuz.primehunt.ui.screen.components.GoalTagChip
 import com.felipimatheuz.primehunt.ui.theme.Complete
 import com.felipimatheuz.primehunt.ui.theme.High
 import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
@@ -114,21 +114,12 @@ fun RelicCard(
                 Spacer(modifier = Modifier.height(4.dp))
 
                 if (relic.goalCount > 0) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Image(
-                            painter = painterResource(R.drawable.ic_target),
-                            contentDescription = null,
-                            modifier = Modifier.size(14.dp),
-                            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary)
-                        )
-                        Spacer(modifier = Modifier.width(4.dp))
-                        Text(
-                            text = relic.goalCount.toString(),
-                            style = MaterialTheme.typography.labelSmall,
-                            color = MaterialTheme.colorScheme.primary,
-                            fontSize = 10.sp
-                        )
-                    }
+                    GoalTagChip(
+                        text = relic.goalCount.toString(),
+                        iconRes = R.drawable.ic_target,
+                        color = MaterialTheme.colorScheme.primary,
+                        isFaded = true
+                    )
                 }
             }
         }

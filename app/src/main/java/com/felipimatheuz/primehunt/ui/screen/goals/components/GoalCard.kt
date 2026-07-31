@@ -1,11 +1,19 @@
 package com.felipimatheuz.primehunt.ui.screen.goals.components
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -20,21 +28,71 @@ import com.felipimatheuz.primehunt.data.local.enums.GoalStatus
 import com.felipimatheuz.primehunt.data.local.enums.GoalTargetType
 import com.felipimatheuz.primehunt.domain.model.GoalDomain
 import com.felipimatheuz.primehunt.domain.model.GoalTagDomain
+import com.felipimatheuz.primehunt.ui.screen.components.GoalTagChip
+import com.felipimatheuz.primehunt.ui.theme.High
 import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
+import kotlinx.coroutines.delay
+import kotlin.time.Duration.Companion.seconds
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GoalCard(
     goal: GoalDomain,
     modifier: Modifier = Modifier,
+    isNew: Boolean = false,
+    isSuccess: Boolean = false,
     onClick: () -> Unit
 ) {
+    val isCompleted = goal.status == GoalStatus.COMPLETED
+    val completionRatio = if (goal.desiredQuantity > 0) {
+        goal.currentQuantity.toFloat() / goal.desiredQuantity
+    } else 0f
+
+    val progressColor = when {
+        isCompleted || completionRatio >= 1f -> High
+        completionRatio >= 0.5f -> MaterialTheme.colorScheme.secondary
+        completionRatio > 0f -> MaterialTheme.colorScheme.primary
+        else -> MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)
+    }
+
+    var isHighlighted by remember { mutableStateOf(false) }
+    var showSuccessHighlight by remember { mutableStateOf(false) }
+
+    LaunchedEffect(isNew) {
+        if (isNew) {
+            isHighlighted = true
+            delay(1.seconds)
+            isHighlighted = false
+        }
+    }
+
+    LaunchedEffect(isSuccess) {
+        if (isSuccess) {
+            showSuccessHighlight = true
+            delay(0.5.seconds)
+            showSuccessHighlight = false
+        }
+    }
+
+    val backgroundColor by animateColorAsState(
+        targetValue = when {
+            showSuccessHighlight -> High.copy(alpha = 0.3f)
+            isHighlighted -> MaterialTheme.colorScheme.primary.copy(alpha = 0.2f)
+            else -> MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f)
+        },
+        animationSpec = tween(durationMillis = if (showSuccessHighlight) 200 else 500),
+        label = "highlightAnimation"
+    )
+
     Card(
         onClick = onClick,
-        modifier = modifier.fillMaxWidth().heightIn(min = 170.dp),
+        modifier = modifier
+            .fillMaxWidth()
+            .heightIn(min = 170.dp)
+            .alpha(if (isCompleted) 0.5f else 1f),
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f)
+            containerColor = backgroundColor
         )
     ) {
         Column(
@@ -42,6 +100,15 @@ fun GoalCard(
                 .padding(12.dp)
                 .fillMaxWidth()
         ) {
+            // 1. Tag (The Card Identity)
+            GoalTagChip(
+                text = goal.tag.name,
+                iconRes = goal.tag.icon.icon,
+                color = goal.tag.color,
+                modifier = Modifier.padding(bottom = 12.dp, top = 8.dp)
+            )
+
+            // 2. Target Name
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -50,7 +117,7 @@ fun GoalCard(
                     painter = painterResource(goal.targetType.icon),
                     contentDescription = null,
                     modifier = Modifier.size(18.dp),
-                    tint = MaterialTheme.colorScheme.primary
+                    tint = if (isCompleted) High else MaterialTheme.colorScheme.primary
                 )
                 Text(
                     text = goal.targetName,
@@ -62,6 +129,7 @@ fun GoalCard(
                 )
             }
 
+            // 3. Target Type
             Text(
                 text = stringResource(goal.targetType.label),
                 style = MaterialTheme.typography.labelSmall,
@@ -70,32 +138,32 @@ fun GoalCard(
 
             Spacer(modifier = Modifier.height(8.dp))
 
+            // 4. Progress
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 Icon(
-                    painter = painterResource(R.drawable.ic_target),
+                    painter = painterResource(if (isCompleted) R.drawable.ic_check else R.drawable.ic_target),
                     contentDescription = null,
-                    modifier = Modifier.size(24.dp)
+                    modifier = Modifier.size(24.dp),
+                    tint = progressColor
                 )
                 Text(
                     text = "${goal.currentQuantity} / ${goal.desiredQuantity}",
                     style = MaterialTheme.typography.bodyMedium,
-                    fontWeight = FontWeight.SemiBold
+                    fontWeight = FontWeight.SemiBold,
+                    color = if (completionRatio > 0f || isCompleted) progressColor else Color.Unspecified
                 )
             }
 
-            Spacer(modifier = Modifier.height(8.dp))
-
-            TagChip(tag = goal.tag)
-
+            // 5. Note
             if (!goal.note.isNullOrBlank()) {
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(12.dp))
                 Text(
                     text = goal.note,
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
                     maxLines = 3,
                     overflow = TextOverflow.Ellipsis,
                     lineHeight = 16.sp
@@ -105,59 +173,50 @@ fun GoalCard(
     }
 }
 
-@Composable
-fun TagChip(
-    tag: GoalTagDomain,
-    modifier: Modifier = Modifier
-) {
-    Surface(
-        color = tag.color.copy(alpha = 0.2f),
-        shape = RoundedCornerShape(16.dp),
-        modifier = modifier
-    ) {
-        Row(
-            modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(4.dp)
-        ) {
-            Icon(
-                painter = painterResource(tag.icon.icon),
-                contentDescription = null,
-                modifier = Modifier.size(12.dp),
-                tint = tag.color
-            )
-            Text(
-                text = tag.name,
-                style = MaterialTheme.typography.labelSmall,
-                color = tag.color,
-                fontWeight = FontWeight.Medium
-            )
-        }
-    }
-}
-
 @Preview(showBackground = true)
 @Composable
 fun GoalCardPreview() {
     PrimeTrackerTheme {
-        GoalCard(
-            goal = GoalDomain(
-                id = 1,
-                targetId = "excalibur_prime",
-                targetName = "Excalibur Prime",
-                targetType = GoalTargetType.PRIME_SET,
-                currentQuantity = 0,
-                desiredQuantity = 1,
-                status = GoalStatus.ACTIVE,
-                note = "Need to farm the blueprint and all components.",
-                tag = GoalTagDomain(
+        Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
+            GoalCard(
+                goal = GoalDomain(
                     id = 1,
-                    name = "Warframe",
-                    icon = GoalIcons.WARFRAME,
-                    color = Color(0xFF673AB7)
-                )
-            ),
-            onClick = {}
-        )
+                    targetId = "excalibur_prime",
+                    targetName = "Excalibur Prime",
+                    targetType = GoalTargetType.PRIME_SET,
+                    currentQuantity = 0,
+                    desiredQuantity = 1,
+                    status = GoalStatus.ACTIVE,
+                    note = "Need to farm the blueprint and all components.",
+                    tag = GoalTagDomain(
+                        id = 1,
+                        name = "Warframe",
+                        icon = GoalIcons.WARFRAME,
+                        color = Color(0xFF673AB7)
+                    )
+                ),
+                onClick = {}
+            )
+            
+            GoalCard(
+                goal = GoalDomain(
+                    id = 2,
+                    targetId = "braton_prime",
+                    targetName = "Braton Prime",
+                    targetType = GoalTargetType.PRIME_SET,
+                    currentQuantity = 1,
+                    desiredQuantity = 1,
+                    status = GoalStatus.COMPLETED,
+                    note = "Completed goal sample",
+                    tag = GoalTagDomain(
+                        id = 2,
+                        name = "Primary",
+                        icon = GoalIcons.PRIMARY,
+                        color = Color(0xFF2196F3)
+                    )
+                ),
+                onClick = {}
+            )
+        }
     }
 }

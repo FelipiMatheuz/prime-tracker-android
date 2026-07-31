@@ -45,21 +45,19 @@ fun GoalsFilterBottomSheet(
 
             // Status Filter
             FilterSectionTitle(stringResource(R.string.filter_section_status))
-            FlowRow(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            SingleChoiceSegmentedButtonRow(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp)
             ) {
-                GoalStatus.entries.forEach { status ->
-                    FilterChip(
-                        selected = filters.status.contains(status),
-                        onClick = {
-                            val newStatus = if (filters.status.contains(status)) {
-                                if (filters.status.size > 1) filters.status - status else filters.status
-                            } else {
-                                filters.status + status
-                            }
-                            onFiltersChanged(filters.copy(status = newStatus))
-                        },
+                GoalStatus.entries.forEachIndexed { index, status ->
+                    SegmentedButton(
+                        shape = SegmentedButtonDefaults.itemShape(
+                            index = index,
+                            count = GoalStatus.entries.size
+                        ),
+                        onClick = { onFiltersChanged(filters.copy(status = status)) },
+                        selected = filters.status == status,
                         label = {
                             Text(
                                 stringResource(
@@ -144,7 +142,7 @@ fun GoalsFilterBottomSheet(
                 onClick = {
                     onFiltersChanged(
                         GoalsFilters(
-                            status = setOf(GoalStatus.ACTIVE),
+                            status = GoalStatus.ACTIVE,
                             targetTypes = GoalTargetType.entries.toSet(),
                             categoryIds = filters.allCategoryIds,
                             allCategoryIds = filters.allCategoryIds

@@ -28,24 +28,26 @@ fun AutocompleteTextField(
     onSuggestionSelected: (TargetDomain) -> Unit,
     label: String,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default
 ) {
     var expanded by remember { mutableStateOf(false) }
 
     LaunchedEffect(suggestions) {
-        expanded = suggestions.isNotEmpty()
+        expanded = suggestions.isNotEmpty() && enabled
     }
 
     Column(modifier = modifier) {
         ExposedDropdownMenuBox(
             expanded = expanded,
-            onExpandedChange = { expanded = it && suggestions.isNotEmpty() }
+            onExpandedChange = { expanded = it && suggestions.isNotEmpty() && enabled }
         ) {
             OutlinedTextField(
                 value = value,
                 onValueChange = onValueChange,
                 label = { Text(label) },
+                enabled = enabled,
                 modifier = Modifier
                     .fillMaxWidth()
                     .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryEditable),

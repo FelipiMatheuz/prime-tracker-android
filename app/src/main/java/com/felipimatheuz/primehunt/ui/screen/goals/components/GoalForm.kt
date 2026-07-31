@@ -2,6 +2,7 @@ package com.felipimatheuz.primehunt.ui.screen.goals.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -43,8 +44,8 @@ import androidx.compose.ui.unit.dp
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.data.local.entity.GoalTagEntity
 import com.felipimatheuz.primehunt.data.local.enums.GoalTargetType
-import com.felipimatheuz.primehunt.domain.model.GoalTagDomain
 import com.felipimatheuz.primehunt.domain.model.TargetDomain
+import com.felipimatheuz.primehunt.ui.screen.components.GoalTagChip
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -68,11 +69,14 @@ fun GoalForm(
     focusRequester: FocusRequester? = null,
     showManualQuantity: Boolean = false,
     manualCurrentQuantity: Int = 0,
-    onManualQuantityChange: (Int) -> Unit = {}
+    onManualQuantityChange: (Int) -> Unit = {},
+    enabled: Boolean = true
 ) {
     val focusManager = LocalFocusManager.current
     var typeDropdownExpanded by remember { mutableStateOf(false) }
     var tagDropdownExpanded by remember { mutableStateOf(false) }
+
+    val isFormEnabled = enabled
 
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -85,20 +89,20 @@ fun GoalForm(
             // Target Type
             ExposedDropdownMenuBox(
                 expanded = typeDropdownExpanded,
-                onExpandedChange = { if (!readOnlyTarget) typeDropdownExpanded = it },
+                onExpandedChange = { if (!readOnlyTarget && isFormEnabled) typeDropdownExpanded = it },
                 modifier = Modifier.weight(1f)
             ) {
                 OutlinedTextField(
                     value = stringResource(targetType.label),
                     onValueChange = {},
                     readOnly = true,
-                    enabled = !readOnlyTarget,
-                    label = { Text("Target Type") },
-                    trailingIcon = { if (!readOnlyTarget) ExposedDropdownMenuDefaults.TrailingIcon(expanded = typeDropdownExpanded) },
+                    enabled = isFormEnabled && !readOnlyTarget,
+                    label = { Text(stringResource(R.string.manage_goal_target_type)) },
+                    trailingIcon = { if (!readOnlyTarget && isFormEnabled) ExposedDropdownMenuDefaults.TrailingIcon(expanded = typeDropdownExpanded) },
                     modifier = Modifier.menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable),
                     colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors()
                 )
-                if (!readOnlyTarget) {
+                if (!readOnlyTarget && isFormEnabled) {
                     ExposedDropdownMenu(
                         expanded = typeDropdownExpanded,
                         onDismissRequest = { typeDropdownExpanded = false }
@@ -132,7 +136,8 @@ fun GoalForm(
                 onValueChange = {
                     it.toIntOrNull()?.let { qty -> onQuantityChange(qty) }
                 },
-                label = { Text("Quantity") },
+                enabled = isFormEnabled,
+                label = { Text(stringResource(R.string.manage_goal_quantity)) },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Number,
                     imeAction = ImeAction.Next
@@ -153,7 +158,7 @@ fun GoalForm(
                 onValueChange = {},
                 readOnly = true,
                 enabled = false,
-                label = { Text("Target") },
+                label = { Text(stringResource(R.string.manage_goal_target)) },
                 modifier = Modifier.fillMaxWidth()
             )
         } else {
@@ -164,6 +169,7 @@ fun GoalForm(
                 onSuggestionSelected = onTargetSelected,
                 label = "Target",
                 modifier = Modifier.fillMaxWidth(),
+                enabled = isFormEnabled,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                 keyboardActions = KeyboardActions(
                     onNext = { focusManager.moveFocus(FocusDirection.Down) }
@@ -174,52 +180,81 @@ fun GoalForm(
         // Tag Selector
         ExposedDropdownMenuBox(
             expanded = tagDropdownExpanded,
-            onExpandedChange = { tagDropdownExpanded = it },
+            onExpandedChange = { if (isFormEnabled) tagDropdownExpanded = it },
             modifier = Modifier.fillMaxWidth()
         ) {
             OutlinedTextField(
                 value = selectedTag?.name ?: "",
                 onValueChange = {},
                 readOnly = true,
-                label = { Text("Tag") },
-                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = tagDropdownExpanded) },
+                enabled = isFormEnabled,
+                label = { Text(stringResource(R.string.manage_goal_tag)) },
+                trailingIcon = { if (isFormEnabled) ExposedDropdownMenuDefaults.TrailingIcon(expanded = tagDropdownExpanded) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable),
                 colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors()
             )
 
-            ExposedDropdownMenu(
-                expanded = tagDropdownExpanded,
-                onDismissRequest = { tagDropdownExpanded = false }
-            ) {
-                availableTags.forEach { tag ->
+            if (isFormEnabled) {
+                ExposedDropdownMenu(
+                    expanded = tagDropdownExpanded,
+                    onDismissRequest = { tagDropdownExpanded = false }
+                ) {
+                    availableTags.forEach { tag ->
+                        DropdownMenuItem(
+                            text = {
+                                GoalTagChip(
+                                    text = tag.name,
+                                    iconRes = tag.icon.icon,
+                                    color = tag.color
+                                )
+                            },
+                            onClick = {
+                                onTagSelected(tag)
+                                tagDropdownExpanded = false
+                            }
+                        )
+                    }
                     DropdownMenuItem(
                         text = {
-                            TagChip(GoalTagDomain(tag.id, tag.name, tag.icon, tag.color))
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Icon(
+                                    painter = painterResource(R.drawable.ic_plus),
+                                    contentDescription = null,
+                                    modifier = Modifier.size(18.dp)
+                                )
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Text(stringResource(R.string.tag_create_option), color = MaterialTheme.colorScheme.primary)
+                            }
                         },
                         onClick = {
-                            onTagSelected(tag)
+                            onCreateTagClick()
                             tagDropdownExpanded = false
                         }
                     )
                 }
-                DropdownMenuItem(
-                    text = {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Icon(
-                                painter = painterResource(R.drawable.ic_plus),
-                                contentDescription = null,
-                                modifier = Modifier.size(18.dp)
-                            )
-                            Spacer(modifier = Modifier.width(8.dp))
-                            Text("Create Tag...", color = MaterialTheme.colorScheme.primary)
-                        }
-                    },
-                    onClick = {
-                        onCreateTagClick()
-                        tagDropdownExpanded = false
-                    }
+            }
+        }
+
+        // Tag Preview
+        if (selectedTag != null) {
+            Text(
+                text = "Tag Preview",
+                style = MaterialTheme.typography.labelMedium,
+                color = if (isFormEnabled) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f)
+            )
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 4.dp),
+                contentAlignment = Alignment.CenterStart
+            ) {
+                GoalTagChip(
+                    text = selectedTag.name,
+                    iconRes = selectedTag.icon.icon,
+                    color = selectedTag.color,
+                    isFaded = !isFormEnabled
                 )
             }
         }
@@ -230,22 +265,23 @@ fun GoalForm(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    text = "Current Progress:",
+                    text = stringResource(R.string.manage_goal_current_progress),
                     style = MaterialTheme.typography.labelLarge,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    color = if (isFormEnabled) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f)
                 )
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
                         .background(
-                            MaterialTheme.colorScheme.surfaceContainerHighest,
+                            if (isFormEnabled) MaterialTheme.colorScheme.surfaceContainerHighest else MaterialTheme.colorScheme.surfaceContainerHighest.copy(alpha = 0.38f),
                             RoundedCornerShape(20.dp)
                         )
                         .padding(4.dp)
                 ) {
                     IconButton(
                         onClick = { onManualQuantityChange(manualCurrentQuantity - 1) },
-                        modifier = Modifier.size(32.dp)
+                        modifier = Modifier.size(32.dp),
+                        enabled = isFormEnabled
                     ) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_down_arrow),
@@ -258,12 +294,14 @@ fun GoalForm(
                         text = manualCurrentQuantity.toString(),
                         style = MaterialTheme.typography.bodyMedium,
                         fontWeight = FontWeight.Bold,
+                        color = if (isFormEnabled) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f),
                         modifier = Modifier.padding(horizontal = 8.dp)
                     )
 
                     IconButton(
                         onClick = { onManualQuantityChange(manualCurrentQuantity + 1) },
-                        modifier = Modifier.size(32.dp)
+                        modifier = Modifier.size(32.dp),
+                        enabled = isFormEnabled
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.ic_up_arrow),
@@ -279,7 +317,8 @@ fun GoalForm(
         OutlinedTextField(
             value = notes,
             onValueChange = onNotesChange,
-            label = { Text("Notes (Optional)") },
+            enabled = isFormEnabled,
+            label = { Text(stringResource(R.string.manage_goal_notes)) },
             modifier = Modifier
                 .fillMaxWidth()
                 .heightIn(min = 120.dp),

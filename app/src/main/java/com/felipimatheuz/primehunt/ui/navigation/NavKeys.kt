@@ -12,9 +12,9 @@ sealed interface AppNavKey : NavKey {
     companion object {
         val topLevelRoutes = setOf(
             OverviewKey,
-            GoalsKey,
             PrimeSetsKey,
             RelicsKey,
+            GoalsKey,
             SyncKey,
             HelpKey,
             AboutKey

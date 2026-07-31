@@ -173,4 +173,33 @@
     <string name="sync_sign_error">Something went wrong. Please try again.</string>
     <string name="sync_sign_cancel">Connection cancelled.</string>
     <string name="sync_sign_invalid">Invalid credentials</string>
+
+    <!--Manage Goal-->
+    <string name="manage_goal_details">Goal Details</string>
+    <string name="manage_goal_new">New Goal</string>
+    <string name="manage_goal_target_type">Target Type</string>
+    <string name="manage_goal_quantity">Quantity</string>
+    <string name="manage_goal_target">Target</string>
+    <string name="manage_goal_tag">Tag</string>
+    <string name="manage_goal_notes">Notes (Optional)</string>
+    <string name="manage_goal_current_progress">Current Progress:</string>
+    <string name="manage_goal_action_complete">Complete goal</string>
+    <string name="manage_goal_action_delete">Delete</string>
+    <string name="manage_goal_action_save">Save Changes</string>
+    <string name="manage_goal_action_create">Create Goal</string>
+    <string name="manage_goal_delete_title">Delete Goal</string>
+    <string name="manage_goal_delete_message">Are you sure you want to delete this farming goal?</string>
+    <string name="manage_goal_cancel">Cancel</string>
+
+    <!--Tag Creation-->
+    <string name="tag_create_title">Create New Tag</string>
+    <string name="tag_create_name">Tag Name</string>
+    <string name="tag_create_icon">Icon</string>
+    <string name="tag_create_color">Color</string>
+    <string name="tag_create_preview">Preview</string>
+    <string name="tag_create_action">Create Tag</string>
+    <string name="tag_create_change_hint">Tap to change</string>
+    <string name="tag_create_option">Create Tag…</string>
+    <string name="tag_select_icon">Select Icon</string>
+    <string name="tag_select_color">Select Color</string>
 </resources>

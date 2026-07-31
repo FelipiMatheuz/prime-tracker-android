@@ -133,6 +133,7 @@ class ManageGoalViewModel @Inject constructor(
                             manualCurrentQuantity = goal.currentQuantity,
                             selectedTag = it.availableTags.find { t -> t.id == goal.tag.id } ?: GoalTagEntity(goal.tag.id, goal.tag.name, goal.tag.icon, goal.tag.color),
                             notes = goal.note ?: "",
+                            status = goal.status,
                             isLoading = false
                         )
                     }

@@ -1,29 +1,14 @@
 package com.felipimatheuz.primehunt.ui.screen.goals
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.rememberModalBottomSheetState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.AndroidUiModes.UI_MODE_NIGHT_YES
@@ -37,15 +22,16 @@ import com.felipimatheuz.primehunt.data.local.enums.GoalStatus
 import com.felipimatheuz.primehunt.data.local.enums.GoalTargetType
 import com.felipimatheuz.primehunt.domain.model.GoalDomain
 import com.felipimatheuz.primehunt.domain.model.GoalTagDomain
+import com.felipimatheuz.primehunt.ui.screen.components.PrimeSearchBar
 import com.felipimatheuz.primehunt.ui.screen.goals.components.GoalCard
 import com.felipimatheuz.primehunt.ui.screen.goals.components.GoalEmptyState
 import com.felipimatheuz.primehunt.ui.screen.goals.components.GoalSkeleton
 import com.felipimatheuz.primehunt.ui.screen.goals.components.GoalsFilterBottomSheet
-import com.felipimatheuz.primehunt.ui.screen.goals.components.GoalsSearchBar
 import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
 import com.felipimatheuz.primehunt.ui.viewmodel.goals.GoalsIntent
 import com.felipimatheuz.primehunt.ui.viewmodel.goals.GoalsState
 import com.felipimatheuz.primehunt.ui.viewmodel.goals.GoalsViewModel
+import androidx.compose.ui.graphics.Color
 
 @Composable
 fun GoalsScreen(
@@ -79,6 +65,37 @@ fun GoalsContent(
 
     var localSearchQuery by rememberSaveable { mutableStateOf(state.queryFilter) }
 
+    val gridState = rememberLazyGridState()
+    var previousGoals by remember { mutableStateOf(state.goals) }
+    var newGoalId by remember { mutableStateOf<Long?>(null) }
+    var recentlyCompletedId by remember { mutableStateOf<Long?>(null) }
+
+    LaunchedEffect(state.goals) {
+        val currentIds = state.goals.map { it.id }.toSet()
+        val previousIds = previousGoals.map { it.id }.toSet()
+        
+        // Detect new additions
+        val addedIds = currentIds - previousIds
+        if (addedIds.isNotEmpty()) {
+            val newlyAddedId = addedIds.first()
+            newGoalId = newlyAddedId
+            val index = state.goals.indexOfFirst { it.id == newlyAddedId }
+            if (index != -1) {
+                gridState.animateScrollToItem(index)
+            }
+        }
+
+        // Detect completion (status changed from ACTIVE to COMPLETED)
+        state.goals.forEach { goal ->
+            val prev = previousGoals.find { it.id == goal.id }
+            if (prev != null && prev.status == GoalStatus.ACTIVE && goal.status == GoalStatus.COMPLETED) {
+                recentlyCompletedId = goal.id
+            }
+        }
+
+        previousGoals = state.goals
+    }
+
     LaunchedEffect(state.queryFilter) {
         if (localSearchQuery != state.queryFilter) {
             localSearchQuery = state.queryFilter
@@ -111,19 +128,20 @@ fun GoalsContent(
                     .fillMaxSize()
                     .padding(innerPadding)
             ) {
-                GoalsSearchBar(
+                PrimeSearchBar(
                     query = localSearchQuery,
                     onQueryChange = {
                         localSearchQuery = it
                         onIntent(GoalsIntent.Search(it))
                     },
+                    placeholderRes = R.string.goals_search_label,
                     activeFiltersCount = state.activeFilters.activeCount,
                     onFilterClick = { showFilterSheet = true },
                     onClearClick = { onIntent(GoalsIntent.ClearSearch) }
                 )
 
                 if (state.goals.isEmpty()) {
-                    val isCompletedFiltered = state.activeFilters.status == setOf(GoalStatus.COMPLETED)
+                    val isCompletedFiltered = state.activeFilters.status == GoalStatus.COMPLETED
                     GoalEmptyState(
                         title = stringResource(
                             if (isCompletedFiltered) R.string.empty_goals_completed_title
@@ -136,6 +154,7 @@ fun GoalsContent(
                     )
                 } else {
                     LazyVerticalGrid(
+                        state = gridState,
                         columns = GridCells.Adaptive(minSize = 120.dp),
                         modifier = Modifier.fillMaxSize(),
                         contentPadding = PaddingValues(16.dp),
@@ -144,7 +163,10 @@ fun GoalsContent(
                     ) {
                         items(state.goals, key = { it.id }) { goal ->
                             GoalCard(
+                                modifier = Modifier.animateItem(),
                                 goal = goal,
+                                isNew = goal.id == newGoalId,
+                                isSuccess = goal.id == recentlyCompletedId,
                                 onClick = { onGoalClick(goal) }
                             )
                         }

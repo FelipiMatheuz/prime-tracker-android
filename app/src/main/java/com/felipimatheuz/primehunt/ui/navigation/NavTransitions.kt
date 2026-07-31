@@ -22,7 +22,10 @@ object NavTransitions {
         val fromKey = initialState.metadata["route"]
         val toKey = targetState.metadata["route"]
 
-        return if (fromKey is PrimeSetsKey && toKey is PrimeDetailKey) {
+        val isForwardTransition = (fromKey is PrimeSetsKey && toKey is PrimeDetailKey) ||
+                (fromKey is GoalsKey && (toKey is NewGoalKey || toKey is GoalDetailKey))
+
+        return if (isForwardTransition) {
             (fadeIn(animationSpec = tween(ENTER_DURATION, easing = FastOutSlowInEasing)) +
                     scaleIn(
                         initialScale = SCALE_SUBTLE,
@@ -39,7 +42,10 @@ object NavTransitions {
         val fromKey = initialState.metadata["route"]
         val toKey = targetState.metadata["route"]
 
-        return if (fromKey is PrimeDetailKey && toKey is PrimeSetsKey) {
+        val isPopTransition = (fromKey is PrimeDetailKey && toKey is PrimeSetsKey) ||
+                ((fromKey is NewGoalKey || fromKey is GoalDetailKey) && toKey is GoalsKey)
+
+        return if (isPopTransition) {
             fadeIn(animationSpec = tween(ENTER_DURATION, easing = EaseOutSine)) togetherWith
                     (fadeOut(animationSpec = tween(EXIT_DURATION, easing = EaseOutSine)) +
                             scaleOut(
