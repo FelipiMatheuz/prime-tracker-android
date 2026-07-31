@@ -46,9 +46,13 @@ data class PrimeSetDomain(
     val type: PrimeType,
     val imageUrl: String,
     val parts: List<PrimePartDomain> = emptyList()
-) {
+) : ProgressState {
     val totalPieces: Int get() = parts.sumOf { it.totalNeeded }
     val ownedPieces: Int get() = parts.sumOf { it.totalOwned }
+
+    override val progressTotal: Int get() = totalPieces
+    override val progressOwned: Int get() = ownedPieces
+
     val availability: RelicSource get() = parts
         .filter { it.name != PrimePartType.PRIME_SET }
         .map { it.bestSource }
@@ -86,10 +90,14 @@ data class RelicDomain(
     val source: RelicSource,
     val rewards: List<RelicComponentDomain>,
     val goalTags: List<GoalTagDomain> = emptyList()
-) {
+) : ProgressState {
     val missingCount: Int get() = rewards.count { !it.isObtained && !it.isForma }
     val hasForma: Boolean get() = rewards.any { it.isForma }
     val isCompleted: Boolean get() = missingCount == 0
+
+    override val progressTotal: Int get() = rewards.count { !it.isForma }
+    override val progressOwned: Int get() = progressTotal - missingCount
+
     val goalCount: Int get() = (goalTags + rewards.flatMap { it.goalTags }).distinctBy { it.id }.size
 }
 
