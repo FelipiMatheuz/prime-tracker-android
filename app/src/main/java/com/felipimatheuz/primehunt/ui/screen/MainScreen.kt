@@ -31,17 +31,21 @@ import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.ui.NavDisplay
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.ui.navigation.AppNavKey
+import com.felipimatheuz.primehunt.ui.navigation.GoalDetailKey
 import com.felipimatheuz.primehunt.ui.navigation.Navigator
 import com.felipimatheuz.primehunt.ui.navigation.NavTransitions.calculatePopTransition
 import com.felipimatheuz.primehunt.ui.navigation.NavTransitions.calculateTransition
 import com.felipimatheuz.primehunt.ui.navigation.OverviewKey
 import com.felipimatheuz.primehunt.ui.navigation.GoalsKey
+import com.felipimatheuz.primehunt.ui.navigation.NewGoalKey
 import com.felipimatheuz.primehunt.ui.navigation.PrimeDetailKey
 import com.felipimatheuz.primehunt.ui.navigation.PrimeSetsKey
 import com.felipimatheuz.primehunt.ui.navigation.RelicsKey
 import com.felipimatheuz.primehunt.ui.navigation.TopToolbar
 import com.felipimatheuz.primehunt.ui.navigation.rememberNavigationState
 import com.felipimatheuz.primehunt.ui.navigation.toEntries
+import com.felipimatheuz.primehunt.ui.screen.goals.GoalsScreen
+import com.felipimatheuz.primehunt.ui.screen.goals.manage.ManageGoalScreen
 import com.felipimatheuz.primehunt.ui.screen.primeset.primedetail.PrimeDetailScreen
 import com.felipimatheuz.primehunt.ui.screen.primeset.PrimeSetScreen
 import com.felipimatheuz.primehunt.ui.screen.relic.RelicsScreen
@@ -112,24 +116,29 @@ fun MainContent() {
                 entries = navState.toEntries { key ->
                     NavEntry(key, metadata = mapOf("route" to key)) {
                         when (val appNavKey = key as AppNavKey) {
+                            is OverviewKey -> {
+                                OverviewScreen(padding)
+                            }
+
+
                             is PrimeSetsKey -> PrimeSetScreen(padding) { set ->
                                 navigator.navigate(PrimeDetailKey(set.id))
                             }
 
                             is GoalsKey -> {
-                                com.felipimatheuz.primehunt.ui.screen.goals.GoalsScreen(
+                                GoalsScreen(
                                     padding,
                                     onAddGoal = {
-                                        navigator.navigate(com.felipimatheuz.primehunt.ui.navigation.NewGoalKey())
+                                        navigator.navigate(NewGoalKey())
                                     },
                                     onGoalClick = { goal ->
-                                        navigator.navigate(com.felipimatheuz.primehunt.ui.navigation.GoalDetailKey(goal.id))
+                                        navigator.navigate(GoalDetailKey(goal.id))
                                     }
                                 )
                             }
 
-                            is com.felipimatheuz.primehunt.ui.navigation.NewGoalKey -> {
-                                com.felipimatheuz.primehunt.ui.screen.goals.manage.ManageGoalScreen(
+                            is NewGoalKey -> {
+                                ManageGoalScreen(
                                     goalId = null,
                                     navigationId = appNavKey.id,
                                     paddingValues = padding,
@@ -137,8 +146,8 @@ fun MainContent() {
                                 )
                             }
 
-                            is com.felipimatheuz.primehunt.ui.navigation.GoalDetailKey -> {
-                                com.felipimatheuz.primehunt.ui.screen.goals.manage.ManageGoalScreen(
+                            is GoalDetailKey -> {
+                                ManageGoalScreen(
                                     goalId = appNavKey.goalId,
                                     navigationId = appNavKey.goalId.toString(),
                                     paddingValues = padding,
