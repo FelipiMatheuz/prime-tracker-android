@@ -1,4 +1,4 @@
-package com.felipimatheuz.primehunt.ui.screen
+package com.felipimatheuz.primehunt.ui.screen.overview
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.layout.PaddingValues
