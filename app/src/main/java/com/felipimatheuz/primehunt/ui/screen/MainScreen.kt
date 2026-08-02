@@ -46,6 +46,7 @@ import com.felipimatheuz.primehunt.ui.navigation.rememberNavigationState
 import com.felipimatheuz.primehunt.ui.navigation.toEntries
 import com.felipimatheuz.primehunt.ui.screen.goals.GoalsScreen
 import com.felipimatheuz.primehunt.ui.screen.goals.manage.ManageGoalScreen
+import com.felipimatheuz.primehunt.ui.screen.overview.OverviewScreen
 import com.felipimatheuz.primehunt.ui.screen.primeset.primedetail.PrimeDetailScreen
 import com.felipimatheuz.primehunt.ui.screen.primeset.PrimeSetScreen
 import com.felipimatheuz.primehunt.ui.screen.relic.RelicsScreen
