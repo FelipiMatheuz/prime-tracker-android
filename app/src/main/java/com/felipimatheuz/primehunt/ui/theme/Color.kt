@@ -30,3 +30,19 @@ val Uncommon = Color(0xFF9A9A9A)
 val UncommonDark = Color(0xFFC0C0C0)
 val Rare =Color(0xFFB89E14)
 val RareDark = Color(0xFFFFD700)
+
+// Dark BG Palette
+val VoidBaseDark = Color(0xFF0A1412)
+val VoidGradientCenterDark = Color(0xFF1A2A2F)
+val VoidEnergyDark1 = Color(0x38264653)
+val VoidEnergyDark2 = Color(0x252A9D8F)
+val VoidGlowDark = Color(0x66E0F7FA)
+val VoidParticleDark = Color(0x88B2EBF2)
+
+// Light BG Palette
+val VoidBaseLight = Color(0xFFF2E4C0)
+val VoidGradientCenterLight = Color(0xFFFFFFFA)
+val VoidEnergyLight1 = Color(0x73C9932E)
+val VoidEnergyLight2 = Color(0x59A9762B)
+val VoidGlowLight = Color(0xB3F2C463)
+val VoidParticleLight = Color(0xCCE8B84D)

@@ -1,6 +1,7 @@
 package com.felipimatheuz.primehunt.ui.screen.overview
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -8,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.felipimatheuz.primehunt.ui.screen.overview.orbital.OrbitalCarousel
+import com.felipimatheuz.primehunt.ui.screen.overview.orbital.OverviewBackground
 import com.felipimatheuz.primehunt.ui.screen.overview.orbital.rememberOrbitalState
 import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
 
@@ -17,12 +19,16 @@ fun OverviewScreen(
 ) {
     val state = rememberOrbitalState()
 
-    OrbitalCarousel(
-        state = state,
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(padding)
-    )
+    Box(modifier = Modifier.fillMaxSize()) {
+        OverviewBackground(state = state)
+
+        OrbitalCarousel(
+            state = state,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+        )
+    }
 }
 
 @Preview(showBackground = true)

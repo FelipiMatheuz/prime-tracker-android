@@ -31,6 +31,13 @@ class OrbitalState(
     // Interaction flags
     var isDragging by mutableStateOf(false)
     private var isFlinging by mutableStateOf(false)
+
+    /**
+     * Normalized rotation speed (0f to 1f).
+     * Used for reactive UI effects like background glows.
+     */
+    val normalizedRotationSpeed: Float
+        get() = (abs(currentVelocity) / 200f).coerceIn(0f, 1f)
     
     // Focused card index
     var focusedIndex by mutableStateOf<Int?>(null)
