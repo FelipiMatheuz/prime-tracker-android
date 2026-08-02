@@ -33,8 +33,7 @@ fun OrbitalCard(
                 this.scaleY = scale
                 this.alpha = alpha
             }
-            .clickable(onClick = onClick),
-        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
+            .clickable(onClick = onClick)
     ) {
         Column(
             modifier = Modifier
