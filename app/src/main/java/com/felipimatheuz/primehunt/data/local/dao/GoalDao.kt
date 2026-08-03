@@ -61,6 +61,9 @@ interface GoalDao {
     @Query("UPDATE goal SET status = :status, completedAt = :completedAt WHERE id = :id")
     suspend fun updateStatus(id: Long, status: com.felipimatheuz.primehunt.data.local.enums.GoalStatus, completedAt: Long?)
 
+    @Query("SELECT COUNT(*) FROM goal WHERE status = :status")
+    fun countByStatus(status: com.felipimatheuz.primehunt.data.local.enums.GoalStatus): Flow<Int>
+
     @Upsert
     suspend fun upsert(
         goal: GoalEntity

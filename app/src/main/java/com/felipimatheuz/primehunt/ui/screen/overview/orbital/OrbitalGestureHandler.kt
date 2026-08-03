@@ -26,7 +26,7 @@ fun Modifier.orbitalGestureHandler(
         },
         onDragEnd = {
             val velocity = velocityTracker.calculateVelocity()
-            state.onFling(velocity.x)
+            state.onFling(-velocity.x)
         },
         onDragCancel = {
             state.onDragCancel()

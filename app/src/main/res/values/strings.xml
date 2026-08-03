@@ -147,6 +147,8 @@
     <string name="overview_arch_gun">Arch Gun</string>
     <string name="overview_companion">Companion</string>
     <string name="overview_archwing">Archwing</string>
+    <string name="overview_others">Others</string>
+
 
     <!-- Dialog Info -->
     <string name="help_content">%1$s:\n-Long press and slide left/right one of the items to check/uncheck (respectively) all items within the set

@@ -44,12 +44,12 @@ fun OrbitalCard(
         Card(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
+                .padding(24.dp)
                 .clickable(onClick = onClick)
         ) {
             Box(
                 modifier = Modifier
-                    .padding(16.dp, 24.dp)
+                    .padding(24.dp)
                     .fillMaxSize(),
                 content = page
             )

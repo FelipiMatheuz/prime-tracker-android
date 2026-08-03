@@ -15,6 +15,9 @@ interface PrimeCollectionDao {
     @Query("SELECT * FROM prime_collection WHERE id = :id")
     suspend fun getById(id: String): PrimeCollectionEntity?
 
+    @Query("SELECT COUNT(*) FROM prime_collection")
+    fun count(): Flow<Int>
+
     @Upsert
     suspend fun upsertAll(collections: List<PrimeCollectionEntity>)
 }
