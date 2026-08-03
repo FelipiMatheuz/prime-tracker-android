@@ -7,5 +7,5 @@ import androidx.compose.ui.unit.dp
  * Single source of truth for orbital carousel dimensions.
  */
 object OrbitalDimens {
-    val CardSize = DpSize(240.dp, 140.dp)
+    val CardSize = DpSize(170.dp, 272.dp)
 }
