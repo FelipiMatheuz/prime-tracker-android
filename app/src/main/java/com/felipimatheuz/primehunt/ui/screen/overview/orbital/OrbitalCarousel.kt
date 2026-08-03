@@ -19,24 +19,13 @@ import kotlin.time.Duration.Companion.milliseconds
 @Composable
 fun OrbitalCarousel(
     state: OrbitalState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    pages: List<@Composable BoxScope.() -> Unit>
 ) {
     val density = LocalDensity.current
     val cardFadeInDurationMs = 600L
 
-    // Mock data for the 5 cards
-    val cards = remember {
-        listOf(
-            OrbitalCardData("Collection Progress", "78%", "132 / 170"),
-            OrbitalCardData("Goals", "3 Active", "18 Completed"),
-            OrbitalCardData("Collection Status", "Level 24", "Exalted"),
-            OrbitalCardData("Inventory", "1,240 Items", "45 Rare"),
-            OrbitalCardData("Availability", "12 Vaulted", "5 Available")
-        )
-    }
-
-    // Um Animatable de alpha por card, para o efeito de construção sequencial.
-    val cardFadeInAlphas = remember { List(cards.size) { Animatable(0f) } }
+    val cardFadeInAlphas = remember { List(pages.size) { Animatable(0f) } }
 
     LaunchedEffect(Unit) {
         cardFadeInAlphas.forEachIndexed { index, animatable ->
@@ -71,7 +60,7 @@ fun OrbitalCarousel(
             radiusX = radiusY * 2f
         }
 
-        val cardItems = cards.mapIndexed { i, data ->
+        val cardItems = pages.mapIndexed { i, page ->
             val isFocused = state.focusedIndex == i
             val focusProgress by animateFloatAsState(
                 targetValue = if (isFocused) 1f else 0f,
@@ -102,7 +91,7 @@ fun OrbitalCarousel(
             val finalZIndex = if (isFocused) focusZIndex else depthFactor
 
             CardPositionInfo(
-                data = data,
+                page = page,
                 index = i,
                 x = finalX,
                 y = finalY,
@@ -120,7 +109,6 @@ fun OrbitalCarousel(
         Box(Modifier.fillMaxSize()) {
             sortedCards.forEach { item ->
                 OrbitalCard(
-                    data = item.data,
                     scale = item.scale,
                     alpha = item.alpha,
                     zIndex = item.zIndex,
@@ -129,7 +117,8 @@ fun OrbitalCarousel(
                         .graphicsLayer {
                             translationX = item.x - cardWidthPx / 2f
                             translationY = item.y - cardHeightPx / 2f
-                        }
+                        },
+                    page = item.page
                 )
             }
         }
@@ -137,7 +126,7 @@ fun OrbitalCarousel(
 }
 
 private data class CardPositionInfo(
-    val data: OrbitalCardData,
+    val page: @Composable BoxScope.() -> Unit,
     val index: Int,
     val x: Float,
     val y: Float,

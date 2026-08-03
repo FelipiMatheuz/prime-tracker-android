@@ -26,7 +26,10 @@ fun OverviewScreen(
             state = state,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding)
+                .padding(padding),
+            pages = listOf(
+                //TODO inserir os composables dos cards aqui
+            )
         )
     }
 }
