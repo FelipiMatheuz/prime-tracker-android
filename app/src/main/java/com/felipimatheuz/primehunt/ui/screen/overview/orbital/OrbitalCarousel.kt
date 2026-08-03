@@ -64,11 +64,11 @@ fun OrbitalCarousel(
 
         val cardHeightHalfPx = with(density) { (OrbitalDimens.CardSize.height / 2f).toPx() }
         if (widthPx > heightPx) {
-            radiusY = heightPx / 2f - cardHeightHalfPx
+            radiusY = heightPx / 1.5f - cardHeightHalfPx
             radiusX = radiusY * (5f / 3f)
         } else {
-            radiusY = (heightPx / 3.2f) - cardHeightHalfPx
-            radiusX = radiusY * (5f / 3f)
+            radiusY = (heightPx / 3f) - cardHeightHalfPx
+            radiusX = radiusY * 2f
         }
 
         val cardItems = cards.mapIndexed { i, data ->
@@ -90,7 +90,7 @@ fun OrbitalCarousel(
             val orbitX = centerX + radiusX * cos(rad)
             val orbitY = centerY + radiusY * sin(rad)
 
-            val focusScale = 1.15f
+            val focusScale = 1.3f
             val focusAlpha = 1.0f
             val focusZIndex = 10f
 
