@@ -9,6 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -45,19 +46,23 @@ fun OrbitalCarousel(
         val widthPx = with(density) { maxWidth.toPx() }
         val heightPx = with(density) { maxHeight.toPx() }
 
+        val isLandScape = widthPx > heightPx
+
+        val toolbarHeightPx = if(isLandScape) with(density) { 56.dp.toPx() } else 0f
+
         val centerX = widthPx / 2f
-        val centerY = heightPx / 2f
+        val centerY = heightPx / 2f + toolbarHeightPx
 
         val radiusY: Float
         val radiusX: Float
 
         val cardHeightHalfPx = with(density) { (OrbitalDimens.CardSize.height / 2f).toPx() }
-        if (widthPx > heightPx) {
-            radiusY = heightPx / 1.5f - cardHeightHalfPx
-            radiusX = radiusY * (5f / 3f)
+        if (isLandScape) {
+            radiusY = heightPx - cardHeightHalfPx
+            radiusX = radiusY * (9f / 5f)
         } else {
-            radiusY = (heightPx / 3f) - cardHeightHalfPx
-            radiusX = radiusY * 2f
+            radiusY = heightPx/2f - cardHeightHalfPx
+            radiusX = radiusY * 1.8f
         }
 
         val cardItems = pages.mapIndexed { i, page ->
@@ -73,13 +78,13 @@ fun OrbitalCarousel(
 
             val depthFactor = cos(rad - Math.toRadians(90.0).toFloat())
 
-            val orbitScale = lerp(0.6f, 1.0f, (depthFactor + 1f) / 2f)
+            val orbitScale = lerp(0.25f, 0.75f, (depthFactor + 1f) / 2f)
             val orbitAlpha = lerp(0.2f, 1.0f, (depthFactor + 1f) / 2f) * cardFadeInAlphas[i].value
 
             val orbitX = centerX + radiusX * cos(rad)
             val orbitY = centerY + radiusY * sin(rad)
 
-            val focusScale = 1.3f
+            val focusScale = 1.2f
             val focusAlpha = 1.0f
             val focusZIndex = 10f
 

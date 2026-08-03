@@ -49,6 +49,12 @@ interface RelicDao {
     """)
     fun search(query: String): Flow<List<RelicEntity>>
 
+    @Query("SELECT COUNT(*) FROM relic")
+    fun count(): Flow<Int>
+
+    @Query("SELECT COUNT(*) FROM relic WHERE source = :source")
+    fun countBySource(source: RelicSource): Flow<Int>
+
     @Upsert
     suspend fun upsertAll(items: List<RelicEntity>)
 }

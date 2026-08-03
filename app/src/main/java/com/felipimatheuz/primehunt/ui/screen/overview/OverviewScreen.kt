@@ -6,29 +6,55 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import com.felipimatheuz.primehunt.ui.screen.overview.cards.*
+import com.felipimatheuz.primehunt.ui.viewmodel.overview.OverviewState
 import com.felipimatheuz.primehunt.ui.screen.overview.orbital.OrbitalCarousel
+import com.felipimatheuz.primehunt.ui.screen.overview.orbital.OrbitalState
 import com.felipimatheuz.primehunt.ui.screen.overview.orbital.OverviewBackground
 import com.felipimatheuz.primehunt.ui.screen.overview.orbital.rememberOrbitalState
 import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
+import com.felipimatheuz.primehunt.ui.viewmodel.overview.OverviewViewModel
 
 @Composable
 fun OverviewScreen(
-    padding: PaddingValues = PaddingValues()
+    padding: PaddingValues = PaddingValues(),
+    viewModel: OverviewViewModel = hiltViewModel()
 ) {
     val state = rememberOrbitalState()
+    val uiState by viewModel.uiState.collectAsState()
 
+    OverviewContent(
+        padding = padding,
+        orbitalState = state,
+        uiState = uiState
+    )
+}
+
+@Composable
+fun OverviewContent(
+    padding: PaddingValues,
+    orbitalState: OrbitalState,
+    uiState: OverviewState
+) {
     Box(modifier = Modifier.fillMaxSize()) {
-        OverviewBackground(state = state)
+        OverviewBackground(state = orbitalState)
 
         OrbitalCarousel(
-            state = state,
+            state = orbitalState,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding),
             pages = listOf(
-                //TODO inserir os composables dos cards aqui
+                { PrimeSetsOverviewCard(uiState.primeSets) },
+                { DatabaseOverviewCard(uiState.database) },
+                { RelicsOverviewCard(uiState.relics) },
+                { GoalsOverviewCard(uiState.goals) },
+                { TradeOverviewCard(uiState.trade) }
             )
         )
     }
@@ -38,7 +64,11 @@ fun OverviewScreen(
 @Composable
 fun OverviewScreenPreview() {
     PrimeTrackerTheme {
-        OverviewScreen()
+        OverviewContent(
+            padding = PaddingValues(),
+            orbitalState = rememberOrbitalState(),
+            uiState = OverviewState()
+        )
     }
 }
 
@@ -46,6 +76,10 @@ fun OverviewScreenPreview() {
 @Composable
 fun OverviewScreenDarkPreview() {
     PrimeTrackerTheme {
-        OverviewScreen()
+        OverviewContent(
+            padding = PaddingValues(),
+            orbitalState = rememberOrbitalState(),
+            uiState = OverviewState()
+        )
     }
 }
