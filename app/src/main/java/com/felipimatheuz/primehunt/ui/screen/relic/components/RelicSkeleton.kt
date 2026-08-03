@@ -187,7 +187,7 @@ private fun RelicCardSkeleton() {
                     Box(
                         modifier = Modifier
                             .weight(1f)
-                            .height(18.dp)
+                            .height(24.dp)
                             .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(4.dp))
                             .shimmer(RoundedCornerShape(4.dp))
                     )
