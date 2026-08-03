@@ -32,7 +32,7 @@ fun OverviewBackground(
     darkTheme: Boolean = isSystemInDarkTheme()
 ) {
     val focusAlpha by animateFloatAsState(
-        targetValue = if (state.focusedIndex != null) 0.3f else 1f, // valor assumido, ajustar
+        targetValue = if (state.focusedIndex != null) 0.3f else 1f,
         animationSpec = tween(400),
         label = "FocusFade"
     )
@@ -54,7 +54,7 @@ fun OverviewBackground(
                     val brush = Brush.radialGradient(
                         colors = listOf(gradientCenter, baseColor),
                         center = Offset.Unspecified,
-                        radius = size.minDimension * 0.75f // proporcional à tela, ajustável
+                        radius = size.minDimension * 0.75f
                     )
                     onDrawBehind { drawRect(brush) }
                 }

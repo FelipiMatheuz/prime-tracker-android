@@ -68,7 +68,7 @@ fun RelicCard(
     ) {
         Card(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth().height(100.dp)
                 .clickable { onClick() }
                 .border(3.dp, availabilityColor, RoundedCornerShape(12.dp)),
             shape = RoundedCornerShape(12.dp),
@@ -220,11 +220,7 @@ fun RelicCardDarkPreview() {
                 "meso_Z99", "Z99", RelicEra.MESO, RelicSource.MISSION, listOf(
                     RelicComponentDomain(
                         "teste", DropRarity.COMMON, false,
-                        goalTags = listOf(
-                            GoalTagDomain(
-                                0, "teste", GoalIcons.WARFRAME, White
-                            )
-                        )
+                        goalTags = listOf()
                     ),
                     RelicComponentDomain("teste", DropRarity.COMMON, false),
                     RelicComponentDomain("", DropRarity.COMMON, false, isForma = true),
