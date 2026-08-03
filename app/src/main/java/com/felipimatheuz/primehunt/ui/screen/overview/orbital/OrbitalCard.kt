@@ -63,7 +63,7 @@ fun OrbitalCard(
         ) {
             Column(
                 modifier = Modifier
-                    .padding(20.dp)
+                    .padding(16.dp, 24.dp)
                     .fillMaxSize(),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
