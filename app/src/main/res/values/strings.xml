@@ -209,4 +209,22 @@
     <string name="goals_most_used_tag">Main Tag</string>
     <string name="overview_database">Database</string>
     <string name="no_data_dash">-</string>
+
+    <!--Overview-->
+    <string name="overview_trade_title">Trading</string>
+    <string name="overview_trade_sets">Duplicate Sets</string>
+    <string name="overview_trade_parts">Duplicate Parts</string>
+    <string name="overview_trade_ducats">Average Ducat Price: %1$d</string>
+    <string name="overview_trade_unit_sets">SETS</string>
+    <string name="overview_trade_unit_parts">PARTS</string>
+    <string name="overview_db_collections">Prime Collections</string>
+    <string name="overview_db_sets">Prime Sets</string>
+    <string name="overview_db_parts">Prime Parts</string>
+    <string name="overview_db_relics">Relics</string>
+    <string name="overview_db_last_sync">Last Sync</string>
+    <string name="overview_sets_finished">Finished</string>
+    <string name="overview_sets_in_progress">In Progress</string>
+    <string name="overview_sets_missing">Missing</string>
+    <string name="overview_sets_categories_title">CATEGORIES</string>
+    <string name="overview_sets_completed_label">COMPLETED</string>
 </resources>

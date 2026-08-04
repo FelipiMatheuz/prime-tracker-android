@@ -46,5 +46,6 @@ data class GoalsOverviewUi(
 
 data class TradeOverviewUi(
     val duplicateSets: Int = 0,
-    val duplicateParts: Int = 0
+    val duplicateParts: Int = 0,
+    val averageDucatPrice: Int = 0
 )

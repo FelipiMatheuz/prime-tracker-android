@@ -41,15 +41,15 @@ fun DatabaseOverviewCard(state: DatabaseOverviewUi) {
         )
 
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            DatabaseItem("Prime Collections", state.collectionsCount.toString())
-            DatabaseItem("Prime Sets", state.setsCount.toString())
-            DatabaseItem("Prime Parts", state.partsCount.toString())
-            DatabaseItem("Relics", state.relicsCount.toString())
+            DatabaseItem(stringResource(R.string.overview_db_collections), state.collectionsCount.toString())
+            DatabaseItem(stringResource(R.string.overview_db_sets), state.setsCount.toString())
+            DatabaseItem(stringResource(R.string.overview_db_parts), state.partsCount.toString())
+            DatabaseItem(stringResource(R.string.overview_db_relics), state.relicsCount.toString())
         }
 
         Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.End) {
             Text(
-                text = "Last Sync",
+                text = stringResource(R.string.overview_db_last_sync),
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )

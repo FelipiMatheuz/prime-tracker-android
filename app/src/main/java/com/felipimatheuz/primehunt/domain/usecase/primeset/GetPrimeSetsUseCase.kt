@@ -11,9 +11,11 @@ import com.felipimatheuz.primehunt.domain.model.PrimeCollection
 import com.felipimatheuz.primehunt.domain.model.PrimePartDomain
 import com.felipimatheuz.primehunt.domain.model.PrimeSetDomain
 import com.felipimatheuz.primehunt.domain.model.RelicRewardDomain
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class GetPrimeSetsUseCase @Inject constructor(
@@ -100,7 +102,7 @@ class GetPrimeSetsUseCase @Inject constructor(
                 parts = resolveParts(set.id, 1, ::mapPart).sortedBy { it.name }
             )
         }
-    }
+    }.flowOn(Dispatchers.Default)
 
     fun observeCollections(): Flow<List<PrimeCollection>> = combine(
         collectionDao.getAll().distinctUntilChanged(),
