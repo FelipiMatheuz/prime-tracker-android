@@ -4,10 +4,13 @@ import androidx.annotation.DrawableRes
 import com.felipimatheuz.primehunt.R
 
 enum class BgIcons(@param:DrawableRes val icon: Int) {
-    EXCALIBUR(R.drawable.bg_excalibur),
+    WARFRAME(R.drawable.bg_warframe),
+    OPERATOR(R.drawable.bg_operator),
     MADURAI(R.drawable.bg_madurai),
     NARAMON(R.drawable.bg_naramon),
     UNAIRU(R.drawable.bg_unairu),
     VAZARIN(R.drawable.bg_vazarin),
-    ZENURIK(R.drawable.bg_zenurik)
+    ZENURIK(R.drawable.bg_zenurik);
+
+    val displayName: String get() = name.lowercase().replaceFirstChar { it.uppercase() }
 }
