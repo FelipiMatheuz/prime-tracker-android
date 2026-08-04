@@ -282,8 +282,8 @@ fun RelicDetailsDialogPreview() {
         era = com.felipimatheuz.primehunt.data.remote.enums.RelicEra.LITH,
         source = RelicSource.MISSION,
         goalTags = listOf(
-            GoalTagDomain(10, "Vaulted", GoalIcons.WARFRAME, Color(0xFFE91E63)),
-            GoalTagDomain(11, "Tracked", GoalIcons.PRIMARY, Color(0xFFFF9800))
+            GoalTagDomain(10, "Vaulted", GoalIcons.SLASH, Color(0xFFE91E63)),
+            GoalTagDomain(11, "Tracked", GoalIcons.VIRAL, Color(0xFFFF9800))
         ),
         rewards = listOf(
             RelicComponentDomain(
@@ -292,9 +292,9 @@ fun RelicDetailsDialogPreview() {
                 isObtained = false,
                 neededQuantity = 1,
                 goalTags = listOf(
-                    GoalTagDomain(1, "Warframe", GoalIcons.WARFRAME, Color(0xFF673AB7)),
-                    GoalTagDomain(2, "Set", GoalIcons.PRIMARY, Color(0xFF2196F3)),
-                    GoalTagDomain(3, "Extra", GoalIcons.SECONDARY, Color(0xFF4CAF50))
+                    GoalTagDomain(1, "Warframe", GoalIcons.SLASH, Color(0xFF673AB7)),
+                    GoalTagDomain(2, "Set", GoalIcons.VIRAL, Color(0xFF2196F3)),
+                    GoalTagDomain(3, "Extra", GoalIcons.VOID, Color(0xFF4CAF50))
                 )
             )
         )

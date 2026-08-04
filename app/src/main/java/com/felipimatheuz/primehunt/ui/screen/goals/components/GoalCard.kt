@@ -191,7 +191,7 @@ fun GoalCardPreview() {
                     tag = GoalTagDomain(
                         id = 1,
                         name = "Warframe",
-                        icon = GoalIcons.WARFRAME,
+                        icon = GoalIcons.SLASH,
                         color = Color(0xFF673AB7)
                     )
                 ),
@@ -211,7 +211,7 @@ fun GoalCardPreview() {
                     tag = GoalTagDomain(
                         id = 2,
                         name = "Primary",
-                        icon = GoalIcons.PRIMARY,
+                        icon = GoalIcons.VIRAL,
                         color = Color(0xFF2196F3)
                     )
                 ),

@@ -36,7 +36,7 @@ data class ManageGoalState(
     // Tag Creation Modal
     val isTagSheetVisible: Boolean = false,
     val newTagName: String = "",
-    val newTagIcon: GoalIcons = GoalIcons.WARFRAME,
+    val newTagIcon: GoalIcons = GoalIcons.SLASH,
     val newTagColor: Color = Color(0xFF673AB7),
     val isTagCreationValid: Boolean = false
 ) : MviState

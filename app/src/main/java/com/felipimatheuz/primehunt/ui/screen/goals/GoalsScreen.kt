@@ -208,7 +208,7 @@ fun GoalsScreenPreview() {
                 desiredQuantity = 1,
                 status = GoalStatus.ACTIVE,
                 note = "Main priority",
-                tag = GoalTagDomain(1, "Warframe", GoalIcons.WARFRAME, Color(0xFF673AB7))
+                tag = GoalTagDomain(1, "Warframe", GoalIcons.SLASH, Color(0xFF673AB7))
             ),
             GoalDomain(
                 id = 2,
@@ -219,7 +219,7 @@ fun GoalsScreenPreview() {
                 desiredQuantity = 2,
                 status = GoalStatus.ACTIVE,
                 note = null,
-                tag = GoalTagDomain(2, "Primary", GoalIcons.PRIMARY, Color(0xFF2196F3))
+                tag = GoalTagDomain(2, "Primary", GoalIcons.VIRAL, Color(0xFF2196F3))
             )
         )
         GoalsContent(

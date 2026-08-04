@@ -69,8 +69,8 @@ enum class ItemPart(@param:StringRes val text: Int, @param:DrawableRes val icon:
     CHAIN(R.string.comp_chain, R.drawable.prime_stock),
 
     //special parts:
-    BRONCO(R.string.bronco_prime, R.drawable.ic_primary),
-    LEX(R.string.lex_prime, R.drawable.ic_primary),
-    MAGNUS(R.string.magnus_prime, R.drawable.ic_primary),
-    VASTO(R.string.vasto_prime, R.drawable.ic_primary)
+    BRONCO(R.string.bronco_prime, R.drawable.ic_prime),
+    LEX(R.string.lex_prime, R.drawable.ic_prime),
+    MAGNUS(R.string.magnus_prime, R.drawable.ic_prime),
+    VASTO(R.string.vasto_prime, R.drawable.ic_prime)
 }
