@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -114,29 +115,14 @@ fun GoalsContent(
     if (state.isLoading) {
         GoalSkeleton(paddingValues = paddingValues)
     } else {
-        Scaffold(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues),
-            floatingActionButton = {
-                FloatingActionButton(
-                    onClick = onAddGoal,
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_plus),
-                        contentDescription = null,
-                        modifier = Modifier.size(24.dp)
-                    )
-                }
-            }
-        ) { innerPadding ->
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .padding(paddingValues)) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(innerPadding)
-            ) {
+            )
+            {
                 PrimeSearchBar(
                     query = localSearchQuery,
                     onQueryChange = {
@@ -182,6 +168,18 @@ fun GoalsContent(
                     }
                 }
             }
+                FloatingActionButton(
+                    onClick = onAddGoal,
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary,
+                    modifier = Modifier.align(Alignment.BottomEnd).padding(16.dp)
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_plus),
+                        contentDescription = null,
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
         }
     }
 

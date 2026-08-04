@@ -4,7 +4,7 @@ import androidx.annotation.DrawableRes
 import com.felipimatheuz.primehunt.R
 
 enum class GoalIcons (@param:DrawableRes val icon: Int) {
-    WARFRAME(R.drawable.bg_excalibur),
+    WARFRAME(R.drawable.bg_warframe),
     PRIMARY(R.drawable.ic_primary),
     SECONDARY(R.drawable.ic_lato_prime)
 }

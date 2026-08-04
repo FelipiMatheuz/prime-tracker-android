@@ -227,4 +227,9 @@
     <string name="overview_sets_missing">Missing</string>
     <string name="overview_sets_categories_title">CATEGORIES</string>
     <string name="overview_sets_completed_label">COMPLETED</string>
+
+    <!--Wallpaper Settings-->
+    <string name="settings_wallpaper_title">Wallpaper</string>
+    <string name="settings_wallpaper_description">Wallpaper Settings</string>
+    <string name="settings_wallpaper_selected">Selected</string>
 </resources>

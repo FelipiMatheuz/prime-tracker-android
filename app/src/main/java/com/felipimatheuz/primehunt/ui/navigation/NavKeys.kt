@@ -8,17 +8,19 @@ import kotlinx.serialization.Serializable
 sealed interface AppNavKey : NavKey {
     val icon: Int
     val label: Int
+    val supportsWallpaper: Boolean get() = true
 
     companion object {
-        val topLevelRoutes = setOf(
-            OverviewKey,
-            PrimeSetsKey,
-            RelicsKey,
-            GoalsKey,
-            SyncKey,
-            HelpKey,
-            AboutKey
-        )
+        val topLevelRoutes: Set<AppNavKey>
+            get() = setOf(
+                OverviewKey,
+                PrimeSetsKey,
+                RelicsKey,
+                GoalsKey,
+                SyncKey,
+                HelpKey,
+                AboutKey
+            )
     }
 }
 
@@ -26,6 +28,7 @@ sealed interface AppNavKey : NavKey {
 data object OverviewKey : AppNavKey {
     override val icon = R.drawable.ic_focus
     override val label = R.string.menu_overview
+    override val supportsWallpaper = false
 }
 
 @Serializable
