@@ -26,7 +26,6 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.business.state.MenuDialogState
 import com.felipimatheuz.primehunt.ui.theme.InProgress
 import com.felipimatheuz.primehunt.ui.viewmodel.SyncViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -38,7 +37,6 @@ fun SyncAccountScreen(
     padding: PaddingValues,
     viewModel: SyncViewModel = hiltViewModel()
 ) {
-    val info = MenuDialogState.Sync
     val googleCredential = viewModel.getCredentials()
     var error by remember { mutableStateOf(false) }
     val state by viewModel.state.collectAsState()
@@ -54,14 +52,14 @@ fun SyncAccountScreen(
     ) {
         val (imgHeader, txtHeader, txtContent, txtState) = createRefs()
         Image(
-            painter = painterResource(info.icon),
+            painter = painterResource(R.drawable.ic_google),
             contentDescription = null,
             modifier = Modifier.constrainAs(imgHeader) {
                 top.linkTo(parent.top)
                 start.linkTo(parent.start)
             })
         Text(
-            stringResource(info.title),
+            stringResource(R.string.menu_sync),
             style = MaterialTheme.typography.titleLarge,
             modifier = Modifier.constrainAs(txtHeader) {
                 top.linkTo(imgHeader.top)
@@ -69,7 +67,7 @@ fun SyncAccountScreen(
                 start.linkTo(imgHeader.end, 8.dp)
             })
         Text(
-            text = stringResource(info.content),
+            text = stringResource( R.string.sync_content),
             modifier = Modifier.constrainAs(txtContent) {
                 top.linkTo(imgHeader.bottom, 8.dp)
                 start.linkTo(parent.start)

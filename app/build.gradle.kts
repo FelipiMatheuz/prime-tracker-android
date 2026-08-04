@@ -65,15 +65,11 @@ kotlin {
 
 
 dependencies {
+
     // hilt
     implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.navigation.compose)
     ksp(libs.hilt.compiler)
-
-    //tooling
-    implementation(libs.material)
-    implementation(libs.compose)
-    implementation(libs.unity.ads)
 
     //retrofit
     implementation(libs.retrofit)
@@ -89,6 +85,8 @@ dependencies {
     implementation(libs.androidx.concurrent.futures)
 
     //compose
+    implementation(libs.compose)
+    implementation(libs.material)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.constraintlayout.compose)
     implementation(libs.androidx.navigation.compose)
