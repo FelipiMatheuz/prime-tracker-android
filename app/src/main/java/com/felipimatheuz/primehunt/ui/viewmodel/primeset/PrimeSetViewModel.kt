@@ -2,6 +2,8 @@ package com.felipimatheuz.primehunt.ui.viewmodel.primeset
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.felipimatheuz.primehunt.data.local.preferences.PrimeSetUiPrefs
+import com.felipimatheuz.primehunt.data.repository.UiPreferencesRepository
 import com.felipimatheuz.primehunt.domain.model.PrimeSetDomain
 import com.felipimatheuz.primehunt.domain.usecase.primeset.GetPrimeSetsUseCase
 import com.felipimatheuz.primehunt.domain.usecase.util.ProgressFilterUseCase
@@ -17,18 +19,34 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.take
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.milliseconds
 
 @HiltViewModel
 class PrimeSetViewModel @Inject constructor(
     getPrimeSetsUseCase: GetPrimeSetsUseCase,
-    private val progressFilterUseCase: ProgressFilterUseCase
+    private val progressFilterUseCase: ProgressFilterUseCase,
+    private val uiPreferencesRepository: UiPreferencesRepository
 ) : ViewModel(), MviViewModel<PrimeSetState, PrimeSetIntent> {
 
     private val _searchText = MutableStateFlow("")
     private val _filters = MutableStateFlow(PrimeSetFilters())
     private val _selectedView = MutableStateFlow(0)
+
+    init {
+        viewModelScope.launch {
+            uiPreferencesRepository.primeSetPrefs.take(1).collect { prefs ->
+                _filters.value = PrimeSetFilters(
+                    progress = prefs.progress,
+                    categories = prefs.categories,
+                    availabilities = prefs.availabilities
+                )
+                _selectedView.value = prefs.selectedView
+            }
+        }
+    }
 
     @OptIn(FlowPreview::class)
     override val state: StateFlow<PrimeSetState> = combine(
@@ -89,8 +107,28 @@ class PrimeSetViewModel @Inject constructor(
         when (intent) {
             is PrimeSetIntent.Search -> _searchText.value = intent.query
             is PrimeSetIntent.ClearSearch -> _searchText.value = ""
-            is PrimeSetIntent.UpdateFilters -> _filters.value = intent.filters
-            is PrimeSetIntent.ChangeView -> _selectedView.value = intent.index
+            is PrimeSetIntent.UpdateFilters -> {
+                _filters.value = intent.filters
+                savePrefs()
+            }
+
+            is PrimeSetIntent.ChangeView -> {
+                _selectedView.value = intent.index
+                savePrefs()
+            }
+        }
+    }
+
+    private fun savePrefs() {
+        viewModelScope.launch {
+            uiPreferencesRepository.updatePrimeSetPrefs(
+                PrimeSetUiPrefs(
+                    selectedView = _selectedView.value,
+                    progress = _filters.value.progress,
+                    categories = _filters.value.categories,
+                    availabilities = _filters.value.availabilities
+                )
+            )
         }
     }
 }

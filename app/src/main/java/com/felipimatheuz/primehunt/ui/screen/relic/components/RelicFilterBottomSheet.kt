@@ -26,9 +26,9 @@ import androidx.compose.ui.unit.dp
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.data.remote.enums.RelicEra
 import com.felipimatheuz.primehunt.data.remote.enums.RelicSource
-import com.felipimatheuz.primehunt.ui.viewmodel.primeset.ProgressFilter
+import com.felipimatheuz.primehunt.data.local.enums.ProgressFilter
 import com.felipimatheuz.primehunt.ui.viewmodel.relic.RelicFilters
-import com.felipimatheuz.primehunt.ui.viewmodel.relic.RelicsView
+import com.felipimatheuz.primehunt.data.local.enums.RelicsView
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable

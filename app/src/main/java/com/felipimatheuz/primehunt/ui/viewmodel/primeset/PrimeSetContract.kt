@@ -1,20 +1,12 @@
 package com.felipimatheuz.primehunt.ui.viewmodel.primeset
 
-import com.felipimatheuz.primehunt.R
+import com.felipimatheuz.primehunt.data.local.enums.ProgressFilter
 import com.felipimatheuz.primehunt.data.remote.enums.PrimeType
 import com.felipimatheuz.primehunt.data.remote.enums.RelicSource
 import com.felipimatheuz.primehunt.domain.model.PrimeCollection
 import com.felipimatheuz.primehunt.domain.model.PrimeSetDomain
 import com.felipimatheuz.primehunt.ui.mvi.MviIntent
 import com.felipimatheuz.primehunt.ui.mvi.MviState
-
-enum class ProgressFilter(val displayNameRes: Int) {
-    ALL(R.string.filter_progress_all),
-    COMPLETE(R.string.filter_progress_complete),
-    INCOMPLETE(R.string.filter_progress_incomplete),
-    IN_PROGRESS(R.string.filter_progress_in_progress),
-    NOT_STARTED(R.string.filter_progress_not_started)
-}
 
 data class PrimeSetFilters(
     val progress: ProgressFilter = ProgressFilter.ALL,
