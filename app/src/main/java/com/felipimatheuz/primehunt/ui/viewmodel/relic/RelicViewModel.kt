@@ -2,8 +2,11 @@ package com.felipimatheuz.primehunt.ui.viewmodel.relic
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.felipimatheuz.primehunt.data.local.enums.RelicsView
+import com.felipimatheuz.primehunt.data.local.preferences.RelicUiPrefs
 import com.felipimatheuz.primehunt.data.remote.enums.RelicEra
 import com.felipimatheuz.primehunt.data.remote.enums.RelicSource
+import com.felipimatheuz.primehunt.data.repository.UiPreferencesRepository
 import com.felipimatheuz.primehunt.domain.model.RelicDomain
 import com.felipimatheuz.primehunt.domain.usecase.relic.GetRelicsUseCase
 import com.felipimatheuz.primehunt.domain.usecase.util.ProgressFilterUseCase
@@ -19,18 +22,34 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.take
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.milliseconds
 
 @HiltViewModel
 class RelicViewModel @Inject constructor(
     getRelicsUseCase: GetRelicsUseCase,
-    private val progressFilterUseCase: ProgressFilterUseCase
+    private val progressFilterUseCase: ProgressFilterUseCase,
+    private val uiPreferencesRepository: UiPreferencesRepository
 ) : ViewModel(), MviViewModel<RelicState, RelicIntent> {
 
     private val _searchText = MutableStateFlow("")
     private val _filters = MutableStateFlow(RelicFilters())
     private val _selectedView = MutableStateFlow(RelicsView.ERA)
+
+    init {
+        viewModelScope.launch {
+            uiPreferencesRepository.relicPrefs.take(1).collect { prefs ->
+                _filters.value = RelicFilters(
+                    eras = prefs.eras,
+                    availabilities = prefs.availabilities,
+                    progress = prefs.progress
+                )
+                _selectedView.value = prefs.selectedView
+            }
+        }
+    }
 
     @OptIn(FlowPreview::class)
     override val state: StateFlow<RelicState> = combine(
@@ -140,8 +159,28 @@ class RelicViewModel @Inject constructor(
         when (intent) {
             is RelicIntent.Search -> _searchText.value = intent.query
             is RelicIntent.ClearSearch -> _searchText.value = ""
-            is RelicIntent.UpdateFilters -> _filters.value = intent.filters
-            is RelicIntent.ChangeView -> _selectedView.value = intent.view
+            is RelicIntent.UpdateFilters -> {
+                _filters.value = intent.filters
+                savePrefs()
+            }
+
+            is RelicIntent.ChangeView -> {
+                _selectedView.value = intent.view
+                savePrefs()
+            }
+        }
+    }
+
+    private fun savePrefs() {
+        viewModelScope.launch {
+            uiPreferencesRepository.updateRelicPrefs(
+                RelicUiPrefs(
+                    selectedView = _selectedView.value,
+                    eras = _filters.value.eras,
+                    availabilities = _filters.value.availabilities,
+                    progress = _filters.value.progress
+                )
+            )
         }
     }
 }

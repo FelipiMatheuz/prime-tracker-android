@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.felipimatheuz.primehunt.ui.viewmodel.relic.RelicsView
+import com.felipimatheuz.primehunt.data.local.enums.RelicsView
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

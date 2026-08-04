@@ -1,7 +1,7 @@
 package com.felipimatheuz.primehunt.domain.usecase.util
 
 import com.felipimatheuz.primehunt.domain.model.ProgressState
-import com.felipimatheuz.primehunt.ui.viewmodel.primeset.ProgressFilter
+import com.felipimatheuz.primehunt.data.local.enums.ProgressFilter
 import javax.inject.Inject
 
 class ProgressFilterUseCase @Inject constructor() {

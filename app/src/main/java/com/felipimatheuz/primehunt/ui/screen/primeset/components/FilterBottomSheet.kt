@@ -27,7 +27,7 @@ import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.data.remote.enums.PrimeType
 import com.felipimatheuz.primehunt.data.remote.enums.RelicSource
 import com.felipimatheuz.primehunt.ui.viewmodel.primeset.PrimeSetFilters
-import com.felipimatheuz.primehunt.ui.viewmodel.primeset.ProgressFilter
+import com.felipimatheuz.primehunt.data.local.enums.ProgressFilter
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
