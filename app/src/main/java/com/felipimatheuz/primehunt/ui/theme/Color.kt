@@ -16,10 +16,10 @@ val Black = Color(0xFF000000)
 val White = Color(0xFFFFFFFF)
 
 //Stats
-val Zero = Color(0xBB625D5D)
-val Low = Color(0xFFCCCC00)
-val High = Color(0xFF339900)
-val Complete = Color(0xBB0F52BA)
+val NotStarted = Color(0xBB625D5D)
+val InProgress = Color(0xFFCCCC00)
+val Completed = Color(0xFF339900)
+val Vault = Color(0xBB0F52BA)
 
 val Error = Color(0xFFB00020)
 

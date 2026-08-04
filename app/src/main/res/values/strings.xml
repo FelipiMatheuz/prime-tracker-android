@@ -204,4 +204,9 @@
     <string name="tag_create_option">Create Tag…</string>
     <string name="tag_select_icon">Select Icon</string>
     <string name="tag_select_color">Select Color</string>
+    <string name="status_active">Active</string>
+    <string name="status_completed">Completed</string>
+    <string name="goals_most_used_tag">Main Tag</string>
+    <string name="overview_database">Database</string>
+    <string name="no_data_dash">-</string>
 </resources>

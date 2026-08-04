@@ -27,7 +27,7 @@ import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.business.state.MenuDialogState
-import com.felipimatheuz.primehunt.ui.theme.Low
+import com.felipimatheuz.primehunt.ui.theme.InProgress
 import com.felipimatheuz.primehunt.ui.viewmodel.SyncViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -95,7 +95,7 @@ fun SyncAccountScreen(
                     state,
                     { error = false },
                     { error = true }),
-                color = if (error) Low else MaterialTheme.colorScheme.primary,
+                color = if (error) InProgress else MaterialTheme.colorScheme.primary,
                 fontFamily = FontFamily.Monospace,
                 modifier = Modifier.padding(8.dp)
             )

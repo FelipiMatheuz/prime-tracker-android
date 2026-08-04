@@ -47,9 +47,9 @@ import com.bumptech.glide.integration.compose.GlideImage
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.domain.model.PrimeCollection
 import com.felipimatheuz.primehunt.domain.model.PrimeSetDomain
-import com.felipimatheuz.primehunt.ui.theme.High
-import com.felipimatheuz.primehunt.ui.theme.Low
-import com.felipimatheuz.primehunt.ui.theme.Zero
+import com.felipimatheuz.primehunt.ui.theme.Completed
+import com.felipimatheuz.primehunt.ui.theme.InProgress
+import com.felipimatheuz.primehunt.ui.theme.NotStarted
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
@@ -66,7 +66,7 @@ fun CollectionCard(
             .fillMaxWidth()
             .padding(vertical = 4.dp),
         shape = RoundedCornerShape(16.dp),
-        border = BorderStroke(4.dp, Zero),
+        border = BorderStroke(4.dp, NotStarted),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Column {
@@ -89,8 +89,8 @@ fun CollectionCard(
                 )
 
                 val targetProgressColor = when {
-                    completedSets == collection.sets.size && collection.sets.isNotEmpty() -> High
-                    completedSets > 0 -> Low
+                    completedSets == collection.sets.size && collection.sets.isNotEmpty() -> Completed
+                    completedSets > 0 -> InProgress
                     else -> MaterialTheme.colorScheme.primary
                 }
 
@@ -101,8 +101,8 @@ fun CollectionCard(
                 )
 
                 val targetTextColor = when {
-                    completedSets == collection.sets.size && collection.sets.isNotEmpty() -> High
-                    completedSets > 0 -> Low
+                    completedSets == collection.sets.size && collection.sets.isNotEmpty() -> Completed
+                    completedSets > 0 -> InProgress
                     else -> MaterialTheme.colorScheme.onSurfaceVariant
                 }
 

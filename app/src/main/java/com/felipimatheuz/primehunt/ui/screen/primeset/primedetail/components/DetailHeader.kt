@@ -33,9 +33,9 @@ import com.bumptech.glide.integration.compose.GlideImage
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.domain.model.PrimeSetDomain
 import com.felipimatheuz.primehunt.ui.screen.components.PrimePanel
-import com.felipimatheuz.primehunt.ui.theme.High
-import com.felipimatheuz.primehunt.ui.theme.Low
-import com.felipimatheuz.primehunt.ui.theme.Zero
+import com.felipimatheuz.primehunt.ui.theme.Completed
+import com.felipimatheuz.primehunt.ui.theme.InProgress
+import com.felipimatheuz.primehunt.ui.theme.NotStarted
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
@@ -79,7 +79,7 @@ fun DetailHeader(primeSet: PrimeSetDomain) {
             label = "progressAnimation"
         )
 
-        val targetColor = if (progress == 1f) High else if (progress > 0) Low else Zero
+        val targetColor = if (progress == 1f) Completed else if (progress > 0) InProgress else NotStarted
         val animatedColor by animateColorAsState(
             targetValue = targetColor,
             animationSpec = tween(300),
@@ -105,7 +105,7 @@ fun DetailHeader(primeSet: PrimeSetDomain) {
                 style = MaterialTheme.typography.labelMedium,
                 modifier = Modifier.padding(top = 4.dp)
             )
-            AnimatedVisibility(targetColor == High) {
+            AnimatedVisibility(targetColor == Completed) {
                 Image(
                     painter = painterResource(id = R.drawable.mastery_rank),
                     contentDescription = null,
