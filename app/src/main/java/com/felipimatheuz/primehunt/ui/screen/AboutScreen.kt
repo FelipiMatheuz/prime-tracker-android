@@ -14,7 +14,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.felipimatheuz.primehunt.BuildConfig
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.business.state.MenuDialogState
 import com.felipimatheuz.primehunt.ui.viewmodel.PrimeInfoViewModel
 
 @Composable
@@ -22,7 +21,6 @@ fun AboutScreen(
     paddingValues: PaddingValues,
     viewModel: PrimeInfoViewModel = hiltViewModel()
 ) {
-    val state = MenuDialogState.Info
     val update by viewModel.updateState.collectAsState()
     Column(
         modifier = Modifier
@@ -30,13 +28,8 @@ fun AboutScreen(
             .padding(16.dp)
     ) {
         Text(
-            text = stringResource(state.title),
-            style = MaterialTheme.typography.headlineMedium,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
-        Text(
             text = stringResource(
-                state.content,
+                R.string.about_content,
                 BuildConfig.VERSION_NAME.plus(if (update) "*" else ""),
                 stringResource(R.string.menu_goals),
                 stringResource(R.string.menu_relics)

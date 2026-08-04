@@ -1,4 +1,4 @@
-package com.felipimatheuz.primehunt.service.api
+package com.felipimatheuz.primehunt.data.remote
 
 import com.felipimatheuz.primehunt.data.remote.dto.PrimeCollectionDto
 import com.felipimatheuz.primehunt.data.remote.dto.PrimeSetDto

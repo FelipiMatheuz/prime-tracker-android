@@ -10,24 +10,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.business.state.MenuDialogState
 
 @Composable
 fun HelpScreen(paddingValues: PaddingValues) {
-    val state = MenuDialogState.Help
     Column(
         modifier = Modifier
             .padding(paddingValues)
             .padding(16.dp)
     ) {
         Text(
-            text = stringResource(state.title),
-            style = MaterialTheme.typography.headlineMedium,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
-        Text(
-            text = stringResource(
-                state.content,
+            text = stringResource(R.string.help_content,
                 stringResource(R.string.menu_prime_sets),
                 stringResource(R.string.menu_goals),
                 stringResource(R.string.menu_relics)

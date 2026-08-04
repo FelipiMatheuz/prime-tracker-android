@@ -2,7 +2,7 @@ package com.felipimatheuz.primehunt.core
 
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.felipimatheuz.primehunt.service.api.PrimeTrackerService
+import com.felipimatheuz.primehunt.data.remote.PrimeTrackerService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
