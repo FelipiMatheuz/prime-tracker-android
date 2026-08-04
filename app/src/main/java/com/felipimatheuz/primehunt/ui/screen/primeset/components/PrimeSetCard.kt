@@ -35,10 +35,10 @@ import com.bumptech.glide.integration.compose.GlideImage
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.data.remote.enums.RelicSource
 import com.felipimatheuz.primehunt.domain.model.PrimeSetDomain
-import com.felipimatheuz.primehunt.ui.theme.Complete
-import com.felipimatheuz.primehunt.ui.theme.High
-import com.felipimatheuz.primehunt.ui.theme.Low
-import com.felipimatheuz.primehunt.ui.theme.Zero
+import com.felipimatheuz.primehunt.ui.theme.Vault
+import com.felipimatheuz.primehunt.ui.theme.Completed
+import com.felipimatheuz.primehunt.ui.theme.InProgress
+import com.felipimatheuz.primehunt.ui.theme.NotStarted
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
@@ -67,7 +67,7 @@ fun PrimeSetCard(
                     .size(64.dp)
                     .clip(RoundedCornerShape(8.dp, 0.dp, 0.dp, 8.dp))
                     .background(MaterialTheme.colorScheme.surface)
-                    .border(2.dp, Zero, RoundedCornerShape(8.dp, 0.dp, 0.dp, 8.dp))
+                    .border(2.dp, NotStarted, RoundedCornerShape(8.dp, 0.dp, 0.dp, 8.dp))
             ) {
                 GlideImage(
                     model = primeSet.imageUrl,
@@ -111,7 +111,7 @@ fun PrimeSetCard(
                     val availabilityColor = when (primeSet.availability) {
                         RelicSource.MISSION -> MaterialTheme.colorScheme.onSurfaceVariant
                         RelicSource.RESURGENCE, RelicSource.BARO -> MaterialTheme.colorScheme.primary
-                        RelicSource.VAULT -> Complete
+                        RelicSource.VAULT -> Vault
                     }
 
                     Text(
@@ -128,11 +128,11 @@ fun PrimeSetCard(
             Column(horizontalAlignment = Alignment.End,
                 verticalArrangement = Arrangement.Center) {
                 val textColor = when {
-                    primeSet.ownedPieces == primeSet.totalPieces && primeSet.totalPieces > 0 -> High
-                    primeSet.ownedPieces > 0 -> Low
+                    primeSet.ownedPieces == primeSet.totalPieces && primeSet.totalPieces > 0 -> Completed
+                    primeSet.ownedPieces > 0 -> InProgress
                     else -> MaterialTheme.colorScheme.onSurfaceVariant
                 }
-                AnimatedVisibility(textColor == High) {
+                AnimatedVisibility(textColor == Completed) {
                     Image(
                         painter = painterResource(id = R.drawable.mastery_rank),
                         contentDescription = null,

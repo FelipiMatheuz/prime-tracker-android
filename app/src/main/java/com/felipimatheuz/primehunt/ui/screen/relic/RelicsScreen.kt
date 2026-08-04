@@ -55,7 +55,7 @@ fun RelicsContent(
     state: RelicState,
     onIntent: (RelicIntent) -> Unit
 ) {
-    val sheetState = rememberModalBottomSheetState()
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     var showFilterSheet by remember { mutableStateOf(false) }
     var selectedRelic by remember { mutableStateOf<RelicDomain?>(null) }
 

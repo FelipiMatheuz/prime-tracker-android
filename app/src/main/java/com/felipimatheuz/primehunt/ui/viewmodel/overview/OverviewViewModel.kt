@@ -3,6 +3,7 @@ package com.felipimatheuz.primehunt.ui.viewmodel.overview
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.felipimatheuz.primehunt.R
+import com.felipimatheuz.primehunt.data.local.entity.GoalWithTag
 import com.felipimatheuz.primehunt.data.local.enums.GoalStatus
 import com.felipimatheuz.primehunt.data.remote.enums.PrimeType
 import com.felipimatheuz.primehunt.data.repository.DatabaseSummary
@@ -10,7 +11,12 @@ import com.felipimatheuz.primehunt.data.repository.OverviewRepository
 import com.felipimatheuz.primehunt.domain.model.PrimeSetDomain
 import com.felipimatheuz.primehunt.domain.usecase.primeset.GetPrimeSetsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -129,14 +135,13 @@ class OverviewViewModel @Inject constructor(
 
     private fun calculateGoalsUi(
         goal: com.felipimatheuz.primehunt.data.repository.GoalSummary,
-        goalsWithTags: List<com.felipimatheuz.primehunt.data.local.entity.GoalWithTag>
+        goalsWithTags: List<GoalWithTag>
     ): GoalsOverviewUi {
         val activeGoals = goalsWithTags.filter { it.goal.status == GoalStatus.ACTIVE }
         val mainTag = activeGoals
-            .map { it.tag.name }
-            .groupBy { it }
+            .groupBy { it.tag }
             .maxByOrNull { it.value.size }
-            ?.key ?: "—"
+            ?.key
 
         return GoalsOverviewUi(
             activeGoals = goal.active,

@@ -44,8 +44,8 @@ import com.felipimatheuz.primehunt.data.remote.enums.RelicSource
 import com.felipimatheuz.primehunt.domain.model.GoalTagDomain
 import com.felipimatheuz.primehunt.domain.model.RelicComponentDomain
 import com.felipimatheuz.primehunt.domain.model.RelicDomain
-import com.felipimatheuz.primehunt.ui.theme.Complete
-import com.felipimatheuz.primehunt.ui.theme.High
+import com.felipimatheuz.primehunt.ui.theme.Vault
+import com.felipimatheuz.primehunt.ui.theme.Completed
 import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
 import com.felipimatheuz.primehunt.ui.theme.White
 
@@ -58,7 +58,7 @@ fun RelicCard(
     val availabilityColor = when (relic.source) {
         RelicSource.MISSION -> MaterialTheme.colorScheme.outline.copy(alpha = 0.5f)
         RelicSource.RESURGENCE, RelicSource.BARO -> MaterialTheme.colorScheme.primary
-        RelicSource.VAULT -> Complete
+        RelicSource.VAULT -> Vault
     }
 
     Box(
@@ -108,7 +108,7 @@ fun RelicCard(
                     Text(
                         text = stringResource(R.string.relic_completed),
                         style = MaterialTheme.typography.bodySmall,
-                        color = High,
+                        color = Completed,
                         fontWeight = FontWeight.Medium
                     )
                 } else {

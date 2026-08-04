@@ -77,7 +77,7 @@ fun PrimeSetContent(
         )
     }
 
-    val sheetState = rememberModalBottomSheetState()
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     var showFilterSheet by remember { mutableStateOf(false) }
 
     var localSearchQuery by rememberSaveable { mutableStateOf(state.queryFilter) }

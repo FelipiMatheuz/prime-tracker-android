@@ -201,7 +201,7 @@ fun PrimeSetsOverviewCardPreview() {
     PrimeTrackerTheme {
         Box(modifier = Modifier
             .size(OrbitalDimens.CardSize)
-            .padding(40.dp, 48.dp)) {
+            .padding(48.dp, 48.dp)) {
 
             val categories = PrimeType.entries.map {
                 CategoryOverviewUi(it.displayNameRes, 100 - it.ordinal * 10)

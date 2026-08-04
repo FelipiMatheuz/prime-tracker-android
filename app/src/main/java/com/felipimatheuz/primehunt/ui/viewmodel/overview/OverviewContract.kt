@@ -1,5 +1,7 @@
 package com.felipimatheuz.primehunt.ui.viewmodel.overview
 
+import com.felipimatheuz.primehunt.data.local.entity.GoalTagEntity
+
 data class OverviewState(
     val primeSets: PrimeSetsOverviewUi = PrimeSetsOverviewUi(),
     val database: DatabaseOverviewUi = DatabaseOverviewUi(),
@@ -39,7 +41,7 @@ data class RelicsOverviewUi(
 data class GoalsOverviewUi(
     val activeGoals: Int = 0,
     val completedGoals: Int = 0,
-    val mainTag: String = "—"
+    val mainTag: GoalTagEntity? = null
 )
 
 data class TradeOverviewUi(

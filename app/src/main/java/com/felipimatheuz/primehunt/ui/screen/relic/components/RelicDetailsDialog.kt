@@ -40,8 +40,8 @@ import com.felipimatheuz.primehunt.domain.model.RelicComponentDomain
 import com.felipimatheuz.primehunt.domain.model.RelicDomain
 import com.felipimatheuz.primehunt.ui.screen.components.GoalTagChip
 import com.felipimatheuz.primehunt.ui.screen.components.PrimePanel
-import com.felipimatheuz.primehunt.ui.theme.Complete
-import com.felipimatheuz.primehunt.ui.theme.High
+import com.felipimatheuz.primehunt.ui.theme.Vault
+import com.felipimatheuz.primehunt.ui.theme.Completed
 
 @Composable
 fun RelicDetailsDialog(
@@ -91,7 +91,7 @@ private fun RelicDetailsContent(
             val availabilityColor = when (relic.source) {
                 RelicSource.MISSION -> MaterialTheme.colorScheme.onSurfaceVariant
                 RelicSource.RESURGENCE, RelicSource.BARO -> MaterialTheme.colorScheme.primary
-                RelicSource.VAULT -> Complete
+                RelicSource.VAULT -> Vault
             }
 
             Text(
@@ -224,7 +224,7 @@ private fun RelicRewardItem(reward: RelicComponentDomain) {
                     Text(
                         text = stringResource(R.string.complete),
                         style = MaterialTheme.typography.bodySmall,
-                        color = High,
+                        color = Completed,
                         fontWeight = FontWeight.Bold
                     )
                 } else if (!reward.isForma) {

@@ -89,7 +89,7 @@ fun ManageGoalContent(
     onIntent: (ManageGoalIntent) -> Unit,
     onBack: () -> Unit
 ) {
-    val tagSheetState = rememberModalBottomSheetState()
+    val tagSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     var showDeleteConfirmation by remember { mutableStateOf(false) }
     val focusRequester = remember { FocusRequester() }
 
@@ -178,7 +178,7 @@ fun ManageGoalContent(
                         modifier = Modifier.weight(1f),
                         enabled = !isCompleted && !state.isSaving,
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = com.felipimatheuz.primehunt.ui.theme.High
+                            containerColor = com.felipimatheuz.primehunt.ui.theme.Completed
                         ),
                         shape = MaterialTheme.shapes.medium
                     ) {

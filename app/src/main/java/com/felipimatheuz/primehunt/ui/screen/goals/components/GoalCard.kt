@@ -29,7 +29,7 @@ import com.felipimatheuz.primehunt.data.local.enums.GoalTargetType
 import com.felipimatheuz.primehunt.domain.model.GoalDomain
 import com.felipimatheuz.primehunt.domain.model.GoalTagDomain
 import com.felipimatheuz.primehunt.ui.screen.components.GoalTagChip
-import com.felipimatheuz.primehunt.ui.theme.High
+import com.felipimatheuz.primehunt.ui.theme.Completed
 import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
 import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.seconds
@@ -49,7 +49,7 @@ fun GoalCard(
     } else 0f
 
     val progressColor = when {
-        isCompleted || completionRatio >= 1f -> High
+        isCompleted || completionRatio >= 1f -> Completed
         completionRatio >= 0.5f -> MaterialTheme.colorScheme.secondary
         completionRatio > 0f -> MaterialTheme.colorScheme.primary
         else -> MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)
@@ -76,7 +76,7 @@ fun GoalCard(
 
     val backgroundColor by animateColorAsState(
         targetValue = when {
-            showSuccessHighlight -> High.copy(alpha = 0.3f)
+            showSuccessHighlight -> Completed.copy(alpha = 0.3f)
             isHighlighted -> MaterialTheme.colorScheme.primary.copy(alpha = 0.2f)
             else -> MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f)
         },
@@ -117,7 +117,7 @@ fun GoalCard(
                     painter = painterResource(goal.targetType.icon),
                     contentDescription = null,
                     modifier = Modifier.size(18.dp),
-                    tint = if (isCompleted) High else MaterialTheme.colorScheme.primary
+                    tint = if (isCompleted) Completed else MaterialTheme.colorScheme.primary
                 )
                 Text(
                     text = goal.targetName,
