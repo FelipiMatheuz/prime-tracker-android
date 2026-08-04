@@ -198,8 +198,8 @@ fun RelicCardPreview() {
                     RelicComponentDomain(
                         "teste", DropRarity.COMMON, false,
                         goalTags = listOf(
-                            GoalTagDomain(0, "teste", GoalIcons.PRIMARY, White),
-                            GoalTagDomain(1, "teste", GoalIcons.SECONDARY, White)
+                            GoalTagDomain(0, "teste", GoalIcons.VIRAL, White),
+                            GoalTagDomain(1, "teste", GoalIcons.VOID, White)
                         )
                     ),
                     RelicComponentDomain("teste", DropRarity.COMMON, false),

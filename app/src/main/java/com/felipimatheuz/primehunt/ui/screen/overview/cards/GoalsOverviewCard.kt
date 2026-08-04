@@ -115,7 +115,7 @@ fun GoalsOverviewCardPreview() {
                     mainTag = GoalTagEntity(
                         id = 1,
                         name = "Main Tag",
-                        icon = GoalIcons.WARFRAME,
+                        icon = GoalIcons.SLASH,
                         color = MaterialTheme.colorScheme.primary
                     )
                 )
