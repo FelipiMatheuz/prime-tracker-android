@@ -21,7 +21,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -35,23 +34,14 @@ import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
 fun GoalSkeleton(
     paddingValues: PaddingValues = PaddingValues()
 ) {
-    Scaffold(
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(paddingValues),
-        floatingActionButton = {
-            Box(
-                modifier = Modifier
-                    .size(56.dp)
-                    .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.5f), CircleShape)
-                    .shimmer(CircleShape)
-            )
-        }
-    ) { innerPadding ->
+            .padding(paddingValues)
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding)
         ) {
             Spacer(modifier = Modifier.height(8.dp))
             // Search Bar Skeleton
@@ -83,7 +73,10 @@ fun GoalSkeleton(
                         modifier = Modifier
                             .height(16.dp)
                             .weight(1f)
-                            .background(MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(8.dp))
+                            .background(
+                                MaterialTheme.colorScheme.outlineVariant,
+                                RoundedCornerShape(8.dp)
+                            )
                             .shimmer(RoundedCornerShape(8.dp))
                     )
                     Spacer(modifier = Modifier.width(16.dp))
@@ -109,6 +102,18 @@ fun GoalSkeleton(
                 }
             }
         }
+
+        Box(
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(16.dp)
+                .size(56.dp)
+                .background(
+                    MaterialTheme.colorScheme.primary.copy(alpha = 0.5f),
+                    RoundedCornerShape(16.dp)
+                )
+                .shimmer(RoundedCornerShape(16.dp))
+        )
     }
 }
 
@@ -136,14 +141,20 @@ fun GoalCardSkeleton() {
                 Box(
                     modifier = Modifier
                         .size(18.dp)
-                        .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.3f), CircleShape)
+                        .background(
+                            MaterialTheme.colorScheme.primary.copy(alpha = 0.3f),
+                            CircleShape
+                        )
                         .shimmer(CircleShape)
                 )
                 Box(
                     modifier = Modifier
                         .weight(1f)
                         .height(18.dp)
-                        .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(4.dp))
+                        .background(
+                            MaterialTheme.colorScheme.surfaceVariant,
+                            RoundedCornerShape(4.dp)
+                        )
                         .shimmer(RoundedCornerShape(4.dp))
                 )
             }
@@ -176,7 +187,10 @@ fun GoalCardSkeleton() {
                     modifier = Modifier
                         .width(40.dp)
                         .height(18.dp)
-                        .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(4.dp))
+                        .background(
+                            MaterialTheme.colorScheme.surfaceVariant,
+                            RoundedCornerShape(4.dp)
+                        )
                         .shimmer(RoundedCornerShape(4.dp))
                 )
             }
