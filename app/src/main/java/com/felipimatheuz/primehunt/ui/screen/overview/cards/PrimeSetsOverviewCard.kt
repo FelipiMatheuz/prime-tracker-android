@@ -36,6 +36,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.data.remote.enums.PrimeType
 import com.felipimatheuz.primehunt.ui.screen.overview.orbital.OrbitalDimens
 import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
@@ -60,14 +61,14 @@ fun PrimeSetsOverviewCard(state: PrimeSetsOverviewUi) {
         }
 
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-            StatItem("Finished", state.completedSets.toString())
-            StatItem("In Progress", state.inProgressSets.toString())
-            StatItem("Missing", state.missingSets.toString())
+            StatItem(stringResource(R.string.overview_sets_finished), state.completedSets.toString())
+            StatItem(stringResource(R.string.overview_sets_in_progress), state.inProgressSets.toString())
+            StatItem(stringResource(R.string.overview_sets_missing), state.missingSets.toString())
         }
 
         Column(modifier = Modifier.fillMaxWidth()) {
             Text(
-                text = "CATEGORIES",
+                text = stringResource(R.string.overview_sets_categories_title),
                 style = MaterialTheme.typography.labelMedium,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = 4.dp)
@@ -137,7 +138,7 @@ private fun ProgressRing(
                 color = MaterialTheme.colorScheme.onSurface
             )
             Text(
-                text = "COMPLETED",
+                text = stringResource(R.string.overview_sets_completed_label),
                 style = MaterialTheme.typography.labelSmall.copy(fontSize = 7.sp),
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )

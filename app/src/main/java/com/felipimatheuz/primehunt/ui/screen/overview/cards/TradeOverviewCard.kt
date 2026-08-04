@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -35,7 +36,7 @@ fun TradeOverviewCard(state: TradeOverviewUi) {
             )
             Spacer(modifier = Modifier.width(4.dp))
             Text(
-                text = "Trading",
+                text = stringResource(R.string.overview_trade_title),
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold
             )
@@ -43,14 +44,20 @@ fun TradeOverviewCard(state: TradeOverviewUi) {
 
 
         Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-            TradeItem("Duplicate Sets", state.duplicateSets.toString(), "SETS")
-            TradeItem("Duplicate Parts", state.duplicateParts.toString(), "PARTS")
+            TradeItem(
+                stringResource(R.string.overview_trade_sets),
+                state.duplicateSets.toString(),
+                stringResource(R.string.overview_trade_unit_sets)
+            )
+            TradeItem(
+                stringResource(R.string.overview_trade_parts),
+                state.duplicateParts.toString(),
+                stringResource(R.string.overview_trade_unit_parts)
+            )
         }
 
-        val averageDucatPrice = (state.duplicateSets + state.duplicateParts) * 32
-
         Text(
-            text = "Average Ducat Price: $averageDucatPrice",
+            text = stringResource(R.string.overview_trade_ducats, state.averageDucatPrice),
             style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )

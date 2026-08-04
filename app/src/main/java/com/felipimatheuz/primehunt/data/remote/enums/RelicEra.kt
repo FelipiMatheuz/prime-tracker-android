@@ -4,10 +4,10 @@ import androidx.annotation.DrawableRes
 import com.felipimatheuz.primehunt.R
 
 enum class RelicEra(@param:DrawableRes val icon: Int) {
-    LITH(R.drawable.ic_lith_relic),
-    MESO(R.drawable.ic_meso_relic),
-    NEO(R.drawable.ic_neo_relic),
-    AXI(R.drawable.ic_axi_relic);
+    LITH(R.drawable.relic_lith),
+    MESO(R.drawable.relic_meso),
+    NEO(R.drawable.relic_neo),
+    AXI(R.drawable.relic_axi);
 
     val displayName: String get() = name.lowercase().replaceFirstChar { it.uppercase() }
 
