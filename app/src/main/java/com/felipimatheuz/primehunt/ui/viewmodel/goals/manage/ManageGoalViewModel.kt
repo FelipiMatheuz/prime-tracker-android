@@ -1,5 +1,6 @@
 package com.felipimatheuz.primehunt.ui.viewmodel.goals.manage
 
+import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.felipimatheuz.primehunt.data.local.dao.GoalDao
@@ -8,9 +9,9 @@ import com.felipimatheuz.primehunt.data.local.entity.GoalEntity
 import com.felipimatheuz.primehunt.data.local.entity.GoalTagEntity
 import com.felipimatheuz.primehunt.data.local.enums.GoalStatus
 import com.felipimatheuz.primehunt.data.local.enums.GoalTargetType
-import com.felipimatheuz.primehunt.data.repository.GoalRepository
 import com.felipimatheuz.primehunt.domain.model.GoalDomain
 import com.felipimatheuz.primehunt.domain.model.TargetDomain
+import com.felipimatheuz.primehunt.domain.repository.GoalRepository
 import com.felipimatheuz.primehunt.domain.usecase.goal.GetGoalsUseCase
 import com.felipimatheuz.primehunt.ui.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -248,7 +249,7 @@ class ManageGoalViewModel @Inject constructor(
             val tag = GoalTagEntity(
                 name = s.newTagName,
                 icon = s.newTagIcon,
-                color = s.newTagColor
+                color = s.newTagColor.toArgb()
             )
             repository.saveTag(tag)
             tagDao.observeAll().firstOrNull()?.find { it.name == s.newTagName }?.let { newTag ->

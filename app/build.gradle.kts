@@ -121,6 +121,7 @@ dependencies {
     implementation(libs.androidx.credentials)
     implementation(libs.androidx.credentials.play.services.auth)
     implementation(libs.googleid)
+    implementation(libs.kotlinx.coroutines.play.services)
 
     //test/debug
     testImplementation(libs.junit)

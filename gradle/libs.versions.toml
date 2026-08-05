@@ -34,6 +34,7 @@ room = "2.8.4"
 datastore = "1.2.1"
 turbine = "1.2.1"
 kotlinx-coroutines = "1.11.0"
+kotlinx-coroutines-play = "1.11.0"
 
 agp = "9.3.1"
 kotlin = "2.4.10"
@@ -89,6 +90,7 @@ retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = 
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-play-services = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-play-services", version.ref = "kotlinx-coroutines-play" }
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }

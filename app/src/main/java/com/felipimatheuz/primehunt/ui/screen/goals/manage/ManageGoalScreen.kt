@@ -45,6 +45,8 @@ import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.data.local.enums.GoalStatus
 import com.felipimatheuz.primehunt.data.local.enums.GoalTargetType
 import com.felipimatheuz.primehunt.ui.screen.goals.components.GoalForm
+import com.felipimatheuz.primehunt.ui.screen.goals.components.GoalFormActions
+import com.felipimatheuz.primehunt.ui.screen.goals.components.GoalFormState
 import com.felipimatheuz.primehunt.ui.screen.goals.components.ManageGoalSkeleton
 import com.felipimatheuz.primehunt.ui.screen.goals.components.TagCreationBottomSheet
 import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
@@ -140,26 +142,30 @@ fun ManageGoalContent(
         }
 
         GoalForm(
-            targetType = state.targetType,
-            onTargetTypeChange = { onIntent(ManageGoalIntent.UpdateTargetType(it)) },
-            quantity = state.quantity,
-            onQuantityChange = { onIntent(ManageGoalIntent.UpdateQuantity(it)) },
-            targetQuery = state.targetQuery,
-            onTargetQueryChange = { onIntent(ManageGoalIntent.SearchTarget(it)) },
-            suggestions = state.suggestions,
-            onTargetSelected = { onIntent(ManageGoalIntent.SelectTarget(it)) },
-            selectedTag = state.selectedTag,
-            onTagSelected = { onIntent(ManageGoalIntent.SelectTag(it)) },
-            availableTags = state.availableTags,
-            onCreateTagClick = { onIntent(ManageGoalIntent.ShowTagSheet) },
-            notes = state.notes,
-            onNotesChange = { onIntent(ManageGoalIntent.UpdateNotes(it)) },
-            readOnlyTarget = state.isEditMode,
-            focusRequester = if (!state.isEditMode) focusRequester else null,
-            showManualQuantity = state.isEditMode && (state.targetType == GoalTargetType.RELIC || state.targetType == GoalTargetType.FORMA),
-            manualCurrentQuantity = state.manualCurrentQuantity,
-            onManualQuantityChange = { onIntent(ManageGoalIntent.UpdateManualQuantity(it)) },
-            enabled = isFormEnabled
+            state = GoalFormState(
+                targetType = state.targetType,
+                targetQuery = state.targetQuery,
+                suggestions = state.suggestions,
+                quantity = state.quantity,
+                selectedTag = state.selectedTag,
+                availableTags = state.availableTags,
+                notes = state.notes,
+                manualCurrentQuantity = state.manualCurrentQuantity,
+                readOnlyTarget = state.isEditMode,
+                showManualQuantity = state.isEditMode && (state.targetType == GoalTargetType.RELIC || state.targetType == GoalTargetType.FORMA),
+                enabled = isFormEnabled,
+                focusRequester = if (!state.isEditMode) focusRequester else null
+            ),
+            actions = GoalFormActions(
+                onTargetTypeChange = { onIntent(ManageGoalIntent.UpdateTargetType(it)) },
+                onTargetQueryChange = { onIntent(ManageGoalIntent.SearchTarget(it)) },
+                onTargetSelected = { onIntent(ManageGoalIntent.SelectTarget(it)) },
+                onQuantityChange = { onIntent(ManageGoalIntent.UpdateQuantity(it)) },
+                onTagSelected = { onIntent(ManageGoalIntent.SelectTag(it)) },
+                onCreateTagClick = { onIntent(ManageGoalIntent.ShowTagSheet) },
+                onNotesChange = { onIntent(ManageGoalIntent.UpdateNotes(it)) },
+                onManualQuantityChange = { onIntent(ManageGoalIntent.UpdateManualQuantity(it)) }
+            )
         )
 
         Spacer(modifier = Modifier.weight(1f))

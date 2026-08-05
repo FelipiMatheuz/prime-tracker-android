@@ -12,6 +12,7 @@ class UiPreferencesRepository @Inject constructor(
     val primeSetPrefs: Flow<PrimeSetUiPrefs> = dataSource.primeSetPrefs
     val relicPrefs: Flow<RelicUiPrefs> = dataSource.relicPrefs
     val goalPrefs: Flow<GoalUiPrefs> = dataSource.goalPrefs
+    val cloudPrefs: Flow<CloudUiPrefs> = dataSource.cloudPrefs
 
     suspend fun updatePrimeSetPrefs(prefs: PrimeSetUiPrefs) {
         dataSource.updatePrimeSetPrefs(prefs)
@@ -23,5 +24,9 @@ class UiPreferencesRepository @Inject constructor(
 
     suspend fun updateGoalPrefs(prefs: GoalUiPrefs) {
         dataSource.updateGoalPrefs(prefs)
+    }
+
+    suspend fun updateCloudPrefs(prefs: CloudUiPrefs) {
+        dataSource.updateCloudPrefs(prefs)
     }
 }

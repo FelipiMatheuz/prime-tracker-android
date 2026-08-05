@@ -1,6 +1,9 @@
 package com.felipimatheuz.primehunt.ui.theme
 
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import com.felipimatheuz.primehunt.data.remote.enums.DropRarity
 
 //Primary
 val Gold200 = Color(0xFFFFE55C)
@@ -46,3 +49,13 @@ val VoidEnergyLight1 = Color(0x73C9932E)
 val VoidEnergyLight2 = Color(0x59A9762B)
 val VoidGlowLight = Color(0xB3F2C463)
 val VoidParticleLight = Color(0xCCE8B84D)
+
+@Composable
+fun DropRarity.getColor(): Color {
+    val isDark = isSystemInDarkTheme()
+    return when (this) {
+        DropRarity.COMMON -> if (isDark) CommonDark else Common
+        DropRarity.UNCOMMON -> if (isDark) UncommonDark else Uncommon
+        DropRarity.RARE -> if (isDark) RareDark else Rare
+    }
+}

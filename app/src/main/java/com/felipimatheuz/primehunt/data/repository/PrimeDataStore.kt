@@ -28,11 +28,16 @@ class PrimeDataStore @Inject constructor(
 ) {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
+    val sets = setDao.getAll().distinctUntilChanged()
+    val parts = partDao.getAll().distinctUntilChanged()
+    val components = componentDao.getAll().distinctUntilChanged()
+    val relics = relicDao.getAll().distinctUntilChanged()
+
     val baseData: Flow<PrimeBaseData> = combine(
-        setDao.getAll().distinctUntilChanged(),
-        partDao.getAll().distinctUntilChanged(),
-        componentDao.getAll().distinctUntilChanged(),
-        relicDao.getAll().distinctUntilChanged()
+        sets,
+        parts,
+        components,
+        relics
     ) { sets, parts, components, relics ->
         PrimeBaseData(sets, parts, components, relics)
     }

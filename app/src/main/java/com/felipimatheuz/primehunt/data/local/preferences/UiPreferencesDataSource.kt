@@ -44,6 +44,11 @@ data class GoalUiPrefs(
     val categoryIds: Set<Long> = emptySet()
 )
 
+@Serializable
+data class CloudUiPrefs(
+    val isMigrationSuccess: Boolean = false
+)
+
 @Singleton
 class UiPreferencesDataSource @Inject constructor(
     private val dataStore: DataStore<Preferences>
@@ -52,6 +57,7 @@ class UiPreferencesDataSource @Inject constructor(
         val PRIME_SET_PREFS = stringPreferencesKey("prime_set_prefs")
         val RELIC_PREFS = stringPreferencesKey("relic_prefs")
         val GOAL_PREFS = stringPreferencesKey("goal_prefs")
+        val CLOUD_PREFS = stringPreferencesKey("cloud_prefs")
     }
 
     private val json = Json { ignoreUnknownKeys = true }
@@ -86,6 +92,16 @@ class UiPreferencesDataSource @Inject constructor(
             } ?: GoalUiPrefs()
         }
 
+    val cloudPrefs: Flow<CloudUiPrefs> = dataStore.data
+        .catch { exception ->
+            if (exception is IOException) emit(emptyPreferences()) else throw exception
+        }
+        .map { preferences ->
+            preferences[PreferencesKeys.CLOUD_PREFS]?.let {
+                try { json.decodeFromString<CloudUiPrefs>(it) } catch (_: Exception) { CloudUiPrefs() }
+            } ?: CloudUiPrefs()
+        }
+
     suspend fun updatePrimeSetPrefs(prefs: PrimeSetUiPrefs) {
         dataStore.edit { it[PreferencesKeys.PRIME_SET_PREFS] = json.encodeToString(prefs) }
     }
@@ -96,5 +112,9 @@ class UiPreferencesDataSource @Inject constructor(
 
     suspend fun updateGoalPrefs(prefs: GoalUiPrefs) {
         dataStore.edit { it[PreferencesKeys.GOAL_PREFS] = json.encodeToString(prefs) }
+    }
+
+    suspend fun updateCloudPrefs(prefs: CloudUiPrefs) {
+        dataStore.edit { it[PreferencesKeys.CLOUD_PREFS] = json.encodeToString(prefs) }
     }
 }

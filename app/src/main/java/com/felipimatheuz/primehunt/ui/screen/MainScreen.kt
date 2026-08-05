@@ -3,6 +3,7 @@ package com.felipimatheuz.primehunt.ui.screen
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -36,6 +37,7 @@ import androidx.navigation3.ui.NavDisplay
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.ui.navigation.AboutKey
 import com.felipimatheuz.primehunt.ui.navigation.AppNavKey
+import com.felipimatheuz.primehunt.ui.navigation.CloudKey
 import com.felipimatheuz.primehunt.ui.navigation.GoalDetailKey
 import com.felipimatheuz.primehunt.ui.navigation.GoalsKey
 import com.felipimatheuz.primehunt.ui.navigation.HelpKey
@@ -47,11 +49,11 @@ import com.felipimatheuz.primehunt.ui.navigation.OverviewKey
 import com.felipimatheuz.primehunt.ui.navigation.PrimeDetailKey
 import com.felipimatheuz.primehunt.ui.navigation.PrimeSetsKey
 import com.felipimatheuz.primehunt.ui.navigation.RelicsKey
-import com.felipimatheuz.primehunt.ui.navigation.SyncKey
 import com.felipimatheuz.primehunt.ui.navigation.TopToolbar
 import com.felipimatheuz.primehunt.ui.navigation.rememberNavigationState
 import com.felipimatheuz.primehunt.ui.navigation.toEntries
 import com.felipimatheuz.primehunt.ui.screen.components.PrimeBackgroundPattern
+import com.felipimatheuz.primehunt.ui.screen.cloud.CloudScreen
 import com.felipimatheuz.primehunt.ui.screen.goals.GoalsScreen
 import com.felipimatheuz.primehunt.ui.screen.goals.manage.ManageGoalScreen
 import com.felipimatheuz.primehunt.ui.screen.overview.OverviewScreen
@@ -138,69 +140,11 @@ fun MainContent(
                 NavDisplay(
                     entries = navState.toEntries { key ->
                         NavEntry(key, metadata = mapOf("route" to key)) {
-                            when (val appNavKey = key as AppNavKey) {
-                                is OverviewKey -> {
-                                    OverviewScreen(padding)
-                                }
-
-
-                                is PrimeSetsKey -> PrimeSetScreen(padding) { set ->
-                                    navigator.navigate(PrimeDetailKey(set.id))
-                                }
-
-                                is GoalsKey -> {
-                                    GoalsScreen(
-                                        padding,
-                                        onAddGoal = {
-                                            navigator.navigate(NewGoalKey())
-                                        },
-                                        onGoalClick = { goal ->
-                                            navigator.navigate(GoalDetailKey(goal.id))
-                                        }
-                                    )
-                                }
-
-                                is NewGoalKey -> {
-                                    ManageGoalScreen(
-                                        goalId = null,
-                                        navigationId = appNavKey.id,
-                                        paddingValues = padding,
-                                        onBack = { navigator.goBack() }
-                                    )
-                                }
-
-                                is GoalDetailKey -> {
-                                    ManageGoalScreen(
-                                        goalId = appNavKey.goalId,
-                                        navigationId = appNavKey.goalId.toString(),
-                                        paddingValues = padding,
-                                        onBack = { navigator.goBack() }
-                                    )
-                                }
-
-                                is PrimeDetailKey -> {
-                                    PrimeDetailScreen(padding, appNavKey.setId) {
-                                        navigator.goBack()
-                                    }
-                                }
-
-                                is RelicsKey -> {
-                                    RelicsScreen(padding)
-                                }
-
-                                is SyncKey -> {
-                                    SyncAccountScreen(padding)
-                                }
-
-                                is HelpKey -> {
-                                    HelpScreen(padding)
-                                }
-
-                                is AboutKey -> {
-                                    AboutScreen(padding)
-                                }
-
-                            }
+                            AppNavGraph(
+                                key = key as AppNavKey,
+                                navigator = navigator,
+                                padding = padding
+                            )
                         }
                     },
                     transitionSpec = { calculateTransition() },
@@ -209,6 +153,65 @@ fun MainContent(
                 )
             }
         }
+    }
+}
+
+@Composable
+fun AppNavGraph(
+    key: AppNavKey,
+    navigator: Navigator,
+    padding: PaddingValues
+) {
+    when (key) {
+        is OverviewKey -> OverviewScreen(padding)
+
+        is PrimeSetsKey -> PrimeSetScreen(padding) { set ->
+            navigator.navigate(PrimeDetailKey(set.id))
+        }
+
+        is GoalsKey -> {
+            GoalsScreen(
+                padding,
+                onAddGoal = {
+                    navigator.navigate(NewGoalKey())
+                },
+                onGoalClick = { goal ->
+                    navigator.navigate(GoalDetailKey(goal.id))
+                }
+            )
+        }
+
+        is NewGoalKey -> {
+            ManageGoalScreen(
+                goalId = null,
+                navigationId = key.id,
+                paddingValues = padding,
+                onBack = { navigator.goBack() }
+            )
+        }
+
+        is GoalDetailKey -> {
+            ManageGoalScreen(
+                goalId = key.goalId,
+                navigationId = key.goalId.toString(),
+                paddingValues = padding,
+                onBack = { navigator.goBack() }
+            )
+        }
+
+        is PrimeDetailKey -> {
+            PrimeDetailScreen(padding, key.setId) {
+                navigator.goBack()
+            }
+        }
+
+        is RelicsKey -> RelicsScreen(padding)
+
+        is CloudKey -> CloudScreen(padding)
+
+        is HelpKey -> HelpScreen(padding)
+
+        is AboutKey -> AboutScreen(padding)
     }
 }
 
