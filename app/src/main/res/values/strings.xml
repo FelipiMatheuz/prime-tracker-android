@@ -246,4 +246,46 @@
     <string name="settings_wallpaper_title">Wallpaper</string>
     <string name="settings_wallpaper_description">Wallpaper Settings</string>
     <string name="settings_wallpaper_selected">Selected</string>
+    <string name="help_tip">Tip</string>
+
+    <!-- Help Content -->
+    <string name="help_gs_title">Getting Started</string>
+    <string name="help_gs_desc">Prime Tracker helps you organize your Prime collection, track your inventory and plan your farming goals.\n\nEverything is stored locally by default.\nCloud Backup is optional.</string>
+    <string name="help_gs_tip">Inventory stores what you own.\nGoals help you plan what you want.</string>
+
+    <string name="help_ps_title">Prime Sets</string>
+    <string name="help_ps_desc">Prime Sets are the heart of Prime Tracker.\n\nEach Prime Set is automatically completed according to the Prime Parts available in your Inventory.</string>
+    <string name="help_ps_inv_title">Inventory</string>
+    <string name="help_ps_inv_desc">Inventory stores every Prime Part you own.\n\nUpdating your Inventory immediately updates collection progress across the application.</string>
+    <string name="help_ps_inv_tip">Use Inventory to register owned parts.\nCompletion is calculated automatically.</string>
+
+    <string name="help_relics_title">Relics</string>
+    <string name="help_relics_desc">Browse every Relic available in the game.\n\nEach Relic displays its drop table, availability and acquisition source.</string>
+    <string name="help_relics_av_title">Availability</string>
+    <string name="help_relics_av_desc">Relics can be available through:\n\nActive - Vaulted - Prime Resurgence - Baro Ki\'Teer</string>
+    <string name="help_relics_av_tip">Use filters to quickly locate specific Relics or Prime Parts.</string>
+
+    <string name="help_goals_title">Goals</string>
+    <string name="help_goals_desc">Goals help organize your farming plans, reminders and trading objectives.\n\nGoals never consume Inventory automatically.</string>
+    <string name="help_goals_tags_title">Tags</string>
+    <string name="help_goals_tags_desc">Organize Goals using custom Tags such as:\n\nFarm - Trade - Ducats</string>
+    <string name="help_goals_tags_tip">Use Goals for planning.\nUse Inventory to represent items you already own.</string>
+
+    <string name="help_cloud_title">Cloud Backup</string>
+    <string name="help_cloud_desc">Cloud Backup stores only your personal progress.\n\nYou can upload or download your Inventory and Goals at any time.</string>
+    <string name="help_cloud_legacy_title">Legacy Migration</string>
+    <string name="help_cloud_legacy_desc">Legacy Migration imports your previous checklist into the new Inventory system.\n\nAfter a successful migration, the legacy data is permanently removed from Cloud Backup.</string>
+    <string name="help_cloud_legacy_tip">Game data and personal data are synchronized independently.</string>
+
+    <string name="help_faq_title">FAQ</string>
+    <string name="help_faq_q1">Can I use Prime Tracker offline?</string>
+    <string name="help_faq_a1">Yes.\n\nAll application features work offline.\n\nCloud Backup is optional.</string>
+    <string name="help_faq_q2">Why doesn\u0027t completing a Goal consume Inventory?</string>
+    <string name="help_faq_a2">Goals represent personal planning.\n\nInventory represents owned items.\n\nBoth systems are intentionally independent.</string>
+    <string name="help_faq_q3">How is Prime Set completion calculated?</string>
+    <string name="help_faq_a3">Completion is calculated automatically from the Prime Parts registered in your Inventory.</string>
+    <string name="help_faq_q4">What is stored in Cloud Backup?</string>
+    <string name="help_faq_a4">Only personal data:\n\nInventory\n\nGoals\n\nApplication preferences</string>
+    <string name="help_faq_q5">Can I migrate my old checklist?</string>
+    <string name="help_faq_a5">Yes.\n\nUse Legacy Migration inside the Cloud Backup screen.\n\nWARNING: This feature will be removed as the version progress.</string>
 </resources>
