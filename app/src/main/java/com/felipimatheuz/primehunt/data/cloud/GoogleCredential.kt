@@ -1,11 +1,11 @@
-package com.felipimatheuz.primehunt.service.google
+package com.felipimatheuz.primehunt.data.cloud
 
 import android.content.Context
 import androidx.credentials.*
 import androidx.credentials.exceptions.GetCredentialException
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.model.SignInResult
-import com.felipimatheuz.primehunt.model.UserData
+import com.felipimatheuz.primehunt.domain.model.SignInResult
+import com.felipimatheuz.primehunt.domain.model.UserData
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException

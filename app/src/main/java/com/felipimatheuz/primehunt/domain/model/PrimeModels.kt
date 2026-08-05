@@ -1,6 +1,5 @@
 package com.felipimatheuz.primehunt.domain.model
 
-import androidx.compose.ui.graphics.Color
 import com.felipimatheuz.primehunt.data.local.enums.GoalIcons
 import com.felipimatheuz.primehunt.data.remote.enums.DropRarity
 import com.felipimatheuz.primehunt.data.remote.enums.PrimePartType
@@ -12,7 +11,7 @@ data class GoalTagDomain(
     val id: Long,
     val name: String,
     val icon: GoalIcons,
-    val color: Color
+    val color: Int
 )
 
 data class GoalDomain(
@@ -110,5 +109,5 @@ data class RelicComponentDomain(
     val compositeInfo: String? = null,
     val goalTags: List<GoalTagDomain> = emptyList(),
     val isForma: Boolean = false,
-    val nameSuffixRes: Int? = null
+    val isBlueprint: Boolean = false
 )

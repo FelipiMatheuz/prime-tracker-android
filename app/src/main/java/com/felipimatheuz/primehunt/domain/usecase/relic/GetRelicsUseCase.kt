@@ -1,6 +1,5 @@
 package com.felipimatheuz.primehunt.domain.usecase.relic
 
-import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.data.remote.enums.PrimePartType
 import com.felipimatheuz.primehunt.data.repository.PrimeDataStore
 import com.felipimatheuz.primehunt.domain.mapper.PrimeMapper
@@ -34,12 +33,12 @@ class GetRelicsUseCase @Inject constructor(
                 val set = part?.let { setMap[it.primeSetId] } ?: setMap[comp.primePartId]
 
                 var isForma = false
-                var suffixRes: Int? = null
+                var isBlueprint = false
 
                 val name = when {
                     part != null && set != null -> PrimeMapper.formatPartName(set.name, part.part)
                     set != null -> {
-                        suffixRes = R.string.comp_blueprint
+                        isBlueprint = true
                         set.name
                     }
                     else -> {
@@ -84,7 +83,7 @@ class GetRelicsUseCase @Inject constructor(
                     ownedQuantity = owned,
                     compositeInfo = compositeInfo,
                     isForma = isForma,
-                    nameSuffixRes = suffixRes,
+                    isBlueprint = isBlueprint,
                     goalTags = goalTags
                 )
             } ?: emptyList()

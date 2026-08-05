@@ -6,6 +6,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -129,7 +130,7 @@ fun GoalsFilterBottomSheet(
                                     painter = painterResource(tag.icon.icon),
                                     contentDescription = null,
                                     modifier = Modifier.size(16.dp),
-                                    tint = if (filters.categoryIds.contains(tag.id)) LocalContentColor.current else tag.color
+                                    tint = if (filters.categoryIds.contains(tag.id)) LocalContentColor.current else Color(tag.color)
                                 )
                             }
                         )

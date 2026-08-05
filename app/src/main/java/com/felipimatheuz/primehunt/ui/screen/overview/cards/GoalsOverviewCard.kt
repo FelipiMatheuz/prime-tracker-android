@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -65,7 +66,7 @@ fun GoalsOverviewCard(state: GoalsOverviewUi) {
                 GoalTagChip(
                     text = state.mainTag.name,
                     iconRes = state.mainTag.icon.icon,
-                    color = state.mainTag.color
+                    color = Color(state.mainTag.color)
                 )
             } else {
                 Text(stringResource(R.string.no_data_dash))
@@ -116,7 +117,7 @@ fun GoalsOverviewCardPreview() {
                         id = 1,
                         name = "Main Tag",
                         icon = GoalIcons.SLASH,
-                        color = MaterialTheme.colorScheme.primary
+                        color = 0xFF673AB7.toInt()
                     )
                 )
             )

@@ -1,13 +1,29 @@
 package com.felipimatheuz.primehunt.ui.screen.goals
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -32,7 +48,6 @@ import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
 import com.felipimatheuz.primehunt.ui.viewmodel.goals.GoalsIntent
 import com.felipimatheuz.primehunt.ui.viewmodel.goals.GoalsState
 import com.felipimatheuz.primehunt.ui.viewmodel.goals.GoalsViewModel
-import androidx.compose.ui.graphics.Color
 import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.seconds
 
@@ -72,31 +87,37 @@ fun GoalsContent(
     var isInitialized by rememberSaveable { mutableStateOf(false) }
     var previousGoalIds by rememberSaveable { mutableStateOf(state.goals.map { it.id }) }
     var newGoalId by rememberSaveable { mutableStateOf<Long?>(null) }
-    var recentlyCompletedId by rememberSaveable { mutableStateOf<Long?>(null) }
+    val recentlyCompletedId by rememberSaveable { mutableStateOf<Long?>(null) }
+
+    val newlyAddedGoalId by remember(state.goals) {
+        derivedStateOf {
+            val currentIds = state.goals.map { it.id }
+            if (!isInitialized) {
+                null
+            } else {
+                (currentIds.toSet() - previousGoalIds.toSet()).firstOrNull()
+            }
+        }
+    }
 
     LaunchedEffect(state.goals) {
-        val currentIds = state.goals.map { it.id }
-        
         if (!isInitialized) {
             if (state.goals.isNotEmpty() || !state.isLoading) {
-                previousGoalIds = currentIds
+                previousGoalIds = state.goals.map { it.id }
                 isInitialized = true
             }
             return@LaunchedEffect
         }
 
-        // Detect new additions
-        val addedIds = currentIds.toSet() - previousGoalIds.toSet()
-        if (addedIds.isNotEmpty()) {
-            val newlyAddedId = addedIds.first()
-            newGoalId = newlyAddedId
-            val index = state.goals.indexOfFirst { it.id == newlyAddedId }
+        newlyAddedGoalId?.let { id ->
+            newGoalId = id
+            val index = state.goals.indexOfFirst { it.id == id }
             if (index != -1) {
                 gridState.animateScrollToItem(index)
             }
         }
 
-        previousGoalIds = currentIds
+        previousGoalIds = state.goals.map { it.id }
     }
 
     LaunchedEffect(newGoalId) {
@@ -208,7 +229,7 @@ fun GoalsScreenPreview() {
                 desiredQuantity = 1,
                 status = GoalStatus.ACTIVE,
                 note = "Main priority",
-                tag = GoalTagDomain(1, "Warframe", GoalIcons.SLASH, Color(0xFF673AB7))
+                tag = GoalTagDomain(1, "Warframe", GoalIcons.SLASH, 0xFF673AB7.toInt())
             ),
             GoalDomain(
                 id = 2,
@@ -219,7 +240,7 @@ fun GoalsScreenPreview() {
                 desiredQuantity = 2,
                 status = GoalStatus.ACTIVE,
                 note = null,
-                tag = GoalTagDomain(2, "Primary", GoalIcons.VIRAL, Color(0xFF2196F3))
+                tag = GoalTagDomain(2, "Primary", GoalIcons.VIRAL, 0xFF2196F3.toInt())
             )
         )
         GoalsContent(

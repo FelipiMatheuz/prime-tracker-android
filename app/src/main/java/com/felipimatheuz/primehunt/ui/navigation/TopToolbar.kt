@@ -46,11 +46,14 @@ fun TopToolbar(
     val primary = MaterialTheme.colorScheme.primary
     val primaryContainer = MaterialTheme.colorScheme.primaryContainer
 
+    val toolbarPath = remember { Path() }
+
     TopAppBar(
         modifier = Modifier.drawBehind {
             drawRect(color = primary)
 
-            val path = Path().apply {
+            toolbarPath.reset()
+            toolbarPath.apply {
                 moveTo(0f, 0f)
                 lineTo(size.width * 0.4f, 0f)
                 cubicTo(
@@ -61,7 +64,7 @@ fun TopToolbar(
                 lineTo(0f, size.height)
                 close()
             }
-            drawPath(path, primaryContainer)
+            drawPath(toolbarPath, primaryContainer)
         },
         title = {
             AnimatedContent(targetState = currentKey, label = "ToolbarTitle") {

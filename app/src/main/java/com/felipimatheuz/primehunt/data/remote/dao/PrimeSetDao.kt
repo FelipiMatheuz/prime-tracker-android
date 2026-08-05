@@ -63,6 +63,9 @@ interface PrimeSetDao {
     """)
     suspend fun getByIdSync(id: String): PrimeSetEntity?
 
+    @Query("SELECT * FROM prime_set")
+    suspend fun getAllSync(): List<PrimeSetEntity>
+
     @Query("SELECT COUNT(*) FROM prime_set")
     fun count(): Flow<Int>
 

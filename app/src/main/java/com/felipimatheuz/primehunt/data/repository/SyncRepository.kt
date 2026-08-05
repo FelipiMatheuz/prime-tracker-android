@@ -1,5 +1,6 @@
 package com.felipimatheuz.primehunt.data.repository
 
+import com.felipimatheuz.primehunt.core.logging.AppLogger
 import com.felipimatheuz.primehunt.data.remote.PrimeTrackerService
 import com.felipimatheuz.primehunt.data.remote.dao.*
 import com.felipimatheuz.primehunt.data.remote.dto.*
@@ -9,6 +10,7 @@ import com.felipimatheuz.primehunt.data.remote.enums.PrimePartType
 import com.felipimatheuz.primehunt.data.remote.enums.PrimeType
 import com.felipimatheuz.primehunt.data.remote.enums.RelicEra
 import com.felipimatheuz.primehunt.data.remote.enums.RelicSource
+import com.felipimatheuz.primehunt.domain.repository.SyncRepository
 import com.felipimatheuz.primehunt.ui.viewmodel.splash.EtlFile
 import com.felipimatheuz.primehunt.ui.viewmodel.splash.SyncEvent
 import kotlinx.coroutines.Dispatchers
@@ -19,7 +21,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SyncRepository @Inject constructor(
+class SyncRepositoryImpl @Inject constructor(
     private val service: PrimeTrackerService,
     private val manifestDao: ManifestDao,
     private val relicDao: RelicDao,
@@ -27,10 +29,11 @@ class SyncRepository @Inject constructor(
     private val primePartDao: PrimePartDao,
     private val primeComponentDao: PrimeComponentDao,
     private val primeCollectionDao: PrimeCollectionDao,
-    private val primeCollectionSetDao: PrimeCollectionSetDao
-) {
+    private val primeCollectionSetDao: PrimeCollectionSetDao,
+    private val logger: AppLogger
+) : SyncRepository {
 
-    fun performSync(): Flow<SyncEvent> = flow {
+    override fun performSync(): Flow<SyncEvent> = flow {
         emit(SyncEvent.Starting)
         try {
             val remoteManifest = service.readManifest()
@@ -84,7 +87,8 @@ class SyncRepository @Inject constructor(
                 emit(SyncEvent.AlreadyUpToDate)
             }
 
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            logger.log("SyncRepository", "Sync failed: ${e.message}")
             emit(SyncEvent.Error)
         }
     }.flowOn(Dispatchers.IO)

@@ -33,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -46,30 +47,38 @@ import com.felipimatheuz.primehunt.data.local.enums.GoalTargetType
 import com.felipimatheuz.primehunt.domain.model.TargetDomain
 import com.felipimatheuz.primehunt.ui.screen.components.GoalTagChip
 
+data class GoalFormState(
+    val targetType: GoalTargetType,
+    val targetQuery: String,
+    val suggestions: List<TargetDomain>,
+    val quantity: Int,
+    val selectedTag: GoalTagEntity?,
+    val availableTags: List<GoalTagEntity>,
+    val notes: String,
+    val manualCurrentQuantity: Int = 0,
+    val readOnlyTarget: Boolean = false,
+    val showManualQuantity: Boolean = false,
+    val enabled: Boolean = true,
+    val focusRequester: FocusRequester? = null
+)
+
+data class GoalFormActions(
+    val onTargetTypeChange: (GoalTargetType) -> Unit,
+    val onTargetQueryChange: (String) -> Unit,
+    val onTargetSelected: (TargetDomain) -> Unit,
+    val onQuantityChange: (Int) -> Unit,
+    val onTagSelected: (GoalTagEntity) -> Unit,
+    val onCreateTagClick: () -> Unit,
+    val onNotesChange: (String) -> Unit,
+    val onManualQuantityChange: (Int) -> Unit = {}
+)
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GoalForm(
-    targetType: GoalTargetType,
-    onTargetTypeChange: (GoalTargetType) -> Unit,
-    quantity: Int,
-    onQuantityChange: (Int) -> Unit,
-    targetQuery: String,
-    onTargetQueryChange: (String) -> Unit,
-    suggestions: List<TargetDomain>,
-    onTargetSelected: (TargetDomain) -> Unit,
-    selectedTag: GoalTagEntity?,
-    onTagSelected: (GoalTagEntity) -> Unit,
-    availableTags: List<GoalTagEntity>,
-    onCreateTagClick: () -> Unit,
-    notes: String,
-    onNotesChange: (String) -> Unit,
-    modifier: Modifier = Modifier,
-    readOnlyTarget: Boolean = false,
-    focusRequester: FocusRequester? = null,
-    showManualQuantity: Boolean = false,
-    manualCurrentQuantity: Int = 0,
-    onManualQuantityChange: (Int) -> Unit = {},
-    enabled: Boolean = true
+    state: GoalFormState,
+    actions: GoalFormActions,
+    modifier: Modifier = Modifier
 ) {
     val focusManager = LocalFocusManager.current
     var typeDropdownExpanded by remember { mutableStateOf(false) }
@@ -86,20 +95,20 @@ fun GoalForm(
             // Target Type
             ExposedDropdownMenuBox(
                 expanded = typeDropdownExpanded,
-                onExpandedChange = { if (!readOnlyTarget && enabled) typeDropdownExpanded = it },
+                onExpandedChange = { if (!state.readOnlyTarget && state.enabled) typeDropdownExpanded = it },
                 modifier = Modifier.weight(1f)
             ) {
                 OutlinedTextField(
-                    value = stringResource(targetType.label),
+                    value = stringResource(state.targetType.label),
                     onValueChange = {},
                     readOnly = true,
-                    enabled = enabled && !readOnlyTarget,
+                    enabled = state.enabled && !state.readOnlyTarget,
                     label = { Text(stringResource(R.string.manage_goal_target_type)) },
-                    trailingIcon = { if (!readOnlyTarget && enabled) ExposedDropdownMenuDefaults.TrailingIcon(expanded = typeDropdownExpanded) },
+                    trailingIcon = { if (!state.readOnlyTarget && state.enabled) ExposedDropdownMenuDefaults.TrailingIcon(expanded = typeDropdownExpanded) },
                     modifier = Modifier.menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable),
                     colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors()
                 )
-                if (!readOnlyTarget && enabled) {
+                if (!state.readOnlyTarget && state.enabled) {
                     ExposedDropdownMenu(
                         expanded = typeDropdownExpanded,
                         onDismissRequest = { typeDropdownExpanded = false }
@@ -118,7 +127,7 @@ fun GoalForm(
                                     }
                                 },
                                 onClick = {
-                                    onTargetTypeChange(type)
+                                    actions.onTargetTypeChange(type)
                                     typeDropdownExpanded = false
                                 }
                             )
@@ -129,11 +138,11 @@ fun GoalForm(
 
             // Quantity
             OutlinedTextField(
-                value = quantity.toString(),
+                value = state.quantity.toString(),
                 onValueChange = {
-                    it.toIntOrNull()?.let { qty -> onQuantityChange(qty) }
+                    it.toIntOrNull()?.let { qty -> actions.onQuantityChange(qty) }
                 },
-                enabled = enabled,
+                enabled = state.enabled,
                 label = { Text(stringResource(R.string.manage_goal_quantity)) },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Number,
@@ -144,14 +153,14 @@ fun GoalForm(
                 ),
                 modifier = Modifier
                     .width(90.dp)
-                    .then(if (focusRequester != null) Modifier.focusRequester(focusRequester) else Modifier)
+                    .then(if (state.focusRequester != null) Modifier.focusRequester(state.focusRequester) else Modifier)
             )
         }
 
         // Target
-        if (readOnlyTarget) {
+        if (state.readOnlyTarget) {
             OutlinedTextField(
-                value = targetQuery,
+                value = state.targetQuery,
                 onValueChange = {},
                 readOnly = true,
                 enabled = false,
@@ -160,13 +169,13 @@ fun GoalForm(
             )
         } else {
             AutocompleteTextField(
-                value = targetQuery,
-                onValueChange = onTargetQueryChange,
-                suggestions = suggestions,
-                onSuggestionSelected = onTargetSelected,
+                value = state.targetQuery,
+                onValueChange = actions.onTargetQueryChange,
+                suggestions = state.suggestions,
+                onSuggestionSelected = actions.onTargetSelected,
                 label = "Target",
                 modifier = Modifier.fillMaxWidth(),
-                enabled = enabled,
+                enabled = state.enabled,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                 keyboardActions = KeyboardActions(
                     onNext = { focusManager.moveFocus(FocusDirection.Down) }
@@ -177,38 +186,38 @@ fun GoalForm(
         // Tag Selector
         ExposedDropdownMenuBox(
             expanded = tagDropdownExpanded,
-            onExpandedChange = { if (enabled) tagDropdownExpanded = it },
+            onExpandedChange = { if (state.enabled) tagDropdownExpanded = it },
             modifier = Modifier.fillMaxWidth()
         ) {
             OutlinedTextField(
-                value = selectedTag?.name ?: "",
+                value = state.selectedTag?.name ?: "",
                 onValueChange = {},
                 readOnly = true,
-                enabled = enabled,
+                enabled = state.enabled,
                 label = { Text(stringResource(R.string.manage_goal_tag)) },
-                trailingIcon = { if (enabled) ExposedDropdownMenuDefaults.TrailingIcon(expanded = tagDropdownExpanded) },
+                trailingIcon = { if (state.enabled) ExposedDropdownMenuDefaults.TrailingIcon(expanded = tagDropdownExpanded) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable),
                 colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors()
             )
 
-            if (enabled) {
+            if (state.enabled) {
                 ExposedDropdownMenu(
                     expanded = tagDropdownExpanded,
                     onDismissRequest = { tagDropdownExpanded = false }
                 ) {
-                    availableTags.forEach { tag ->
+                    state.availableTags.forEach { tag ->
                         DropdownMenuItem(
                             text = {
                                 GoalTagChip(
                                     text = tag.name,
                                     iconRes = tag.icon.icon,
-                                    color = tag.color
+                                    color = Color(tag.color)
                                 )
                             },
                             onClick = {
-                                onTagSelected(tag)
+                                actions.onTagSelected(tag)
                                 tagDropdownExpanded = false
                             }
                         )
@@ -226,7 +235,7 @@ fun GoalForm(
                             }
                         },
                         onClick = {
-                            onCreateTagClick()
+                            actions.onCreateTagClick()
                             tagDropdownExpanded = false
                         }
                     )
@@ -235,28 +244,28 @@ fun GoalForm(
         }
 
         // Current Quantity (Manual Progress for Relic/Forma in Edit Mode)
-        if (showManualQuantity) {
+        if (state.showManualQuantity) {
             Row(modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     text = stringResource(R.string.manage_goal_current_progress),
                     style = MaterialTheme.typography.labelLarge,
-                    color = if (enabled) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f)
+                    color = if (state.enabled) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f)
                 )
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
                         .background(
-                            if (enabled) MaterialTheme.colorScheme.surfaceContainerHighest else MaterialTheme.colorScheme.surfaceContainerHighest.copy(alpha = 0.38f),
+                            if (state.enabled) MaterialTheme.colorScheme.surfaceContainerHighest else MaterialTheme.colorScheme.surfaceContainerHighest.copy(alpha = 0.38f),
                             RoundedCornerShape(20.dp)
                         )
                         .padding(4.dp)
                 ) {
                     IconButton(
-                        onClick = { onManualQuantityChange(manualCurrentQuantity - 1) },
+                        onClick = { actions.onManualQuantityChange(state.manualCurrentQuantity - 1) },
                         modifier = Modifier.size(32.dp),
-                        enabled = enabled
+                        enabled = state.enabled
                     ) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_down_arrow),
@@ -266,17 +275,17 @@ fun GoalForm(
                     }
 
                     Text(
-                        text = manualCurrentQuantity.toString(),
+                        text = state.manualCurrentQuantity.toString(),
                         style = MaterialTheme.typography.bodyMedium,
                         fontWeight = FontWeight.Bold,
-                        color = if (enabled) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f),
+                        color = if (state.enabled) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f),
                         modifier = Modifier.padding(horizontal = 8.dp)
                     )
 
                     IconButton(
-                        onClick = { onManualQuantityChange(manualCurrentQuantity + 1) },
+                        onClick = { actions.onManualQuantityChange(state.manualCurrentQuantity + 1) },
                         modifier = Modifier.size(32.dp),
-                        enabled = enabled
+                        enabled = state.enabled
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.ic_up_arrow),
@@ -290,9 +299,9 @@ fun GoalForm(
 
         // Notes
         OutlinedTextField(
-            value = notes,
-            onValueChange = onNotesChange,
-            enabled = enabled,
+            value = state.notes,
+            onValueChange = actions.onNotesChange,
+            enabled = state.enabled,
             label = { Text(stringResource(R.string.manage_goal_notes)) },
             modifier = Modifier
                 .fillMaxWidth()

@@ -104,7 +104,7 @@ fun GoalCard(
             GoalTagChip(
                 text = goal.tag.name,
                 iconRes = goal.tag.icon.icon,
-                color = goal.tag.color,
+                color = Color(goal.tag.color),
                 modifier = Modifier.padding(bottom = 12.dp, top = 8.dp)
             )
 
@@ -192,7 +192,7 @@ fun GoalCardPreview() {
                         id = 1,
                         name = "Warframe",
                         icon = GoalIcons.SLASH,
-                        color = Color(0xFF673AB7)
+                        color = 0xFF673AB7.toInt()
                     )
                 ),
                 onClick = {}
@@ -212,7 +212,7 @@ fun GoalCardPreview() {
                         id = 2,
                         name = "Primary",
                         icon = GoalIcons.VIRAL,
-                        color = Color(0xFF2196F3)
+                        color = 0xFF2196F3.toInt()
                     )
                 ),
                 onClick = {}

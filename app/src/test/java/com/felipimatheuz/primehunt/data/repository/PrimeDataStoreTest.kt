@@ -1,7 +1,10 @@
 package com.felipimatheuz.primehunt.data.repository
 
 import app.cash.turbine.test
+import com.felipimatheuz.primehunt.data.local.dao.GoalDao
 import com.felipimatheuz.primehunt.data.local.dao.InventoryDao
+import com.felipimatheuz.primehunt.data.remote.dao.PrimeCollectionDao
+import com.felipimatheuz.primehunt.data.remote.dao.PrimeCollectionSetDao
 import com.felipimatheuz.primehunt.data.remote.dao.PrimeComponentDao
 import com.felipimatheuz.primehunt.data.remote.dao.PrimePartDao
 import com.felipimatheuz.primehunt.data.remote.dao.PrimeSetDao
@@ -15,8 +18,10 @@ import com.felipimatheuz.primehunt.data.remote.enums.PrimePartType
 import com.felipimatheuz.primehunt.data.remote.enums.PrimeType
 import com.felipimatheuz.primehunt.data.remote.enums.RelicEra
 import com.felipimatheuz.primehunt.data.remote.enums.RelicSource
+import com.felipimatheuz.primehunt.domain.usecase.primeset.GetPrimeSetsUseCase
 import io.mockk.every
 import io.mockk.mockk
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
@@ -24,6 +29,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class PrimeDataStoreTest {
 
     private val setDao = mockk<PrimeSetDao>()
@@ -31,12 +37,18 @@ class PrimeDataStoreTest {
     private val componentDao = mockk<PrimeComponentDao>()
     private val relicDao = mockk<RelicDao>()
     private val inventoryDao = mockk<InventoryDao>()
+    private val goalDao = mockk<GoalDao>()
+    
+    private val collectionDao = mockk<PrimeCollectionDao>()
+    private val collectionSetDao = mockk<PrimeCollectionSetDao>()
 
     private lateinit var dataStore: PrimeDataStore
+    private lateinit var useCase: GetPrimeSetsUseCase
 
     @Before
     fun setup() {
-        dataStore = PrimeDataStore(setDao, partDao, componentDao, relicDao, inventoryDao)
+        dataStore = PrimeDataStore(setDao, partDao, componentDao, relicDao, inventoryDao, goalDao)
+        useCase = GetPrimeSetsUseCase(dataStore, collectionDao, collectionSetDao)
     }
 
     @Test
@@ -67,7 +79,7 @@ class PrimeDataStoreTest {
         every { inventoryDao.observeInventory() } returns flowOf(emptyList())
 
         // When
-        dataStore.allSets.test {
+        useCase.observeAllSets().test {
             val result = awaitItem()
             
             // Then
@@ -110,7 +122,7 @@ class PrimeDataStoreTest {
         every { inventoryDao.observeInventory() } returns flowOf(emptyList())
 
         // When
-        dataStore.allSets.test {
+        useCase.observeAllSets().test {
             val result = awaitItem()
             
             // Then

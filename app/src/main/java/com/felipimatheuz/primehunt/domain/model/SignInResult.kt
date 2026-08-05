@@ -1,4 +1,4 @@
-package com.felipimatheuz.primehunt.model
+package com.felipimatheuz.primehunt.domain.model
 
 data class SignInResult(
     val data: UserData?,

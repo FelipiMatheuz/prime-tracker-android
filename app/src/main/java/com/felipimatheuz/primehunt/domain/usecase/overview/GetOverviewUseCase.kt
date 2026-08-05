@@ -1,24 +1,19 @@
 package com.felipimatheuz.primehunt.domain.usecase.overview
 
-import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.data.local.entity.GoalWithTag
 import com.felipimatheuz.primehunt.data.local.enums.GoalStatus
 import com.felipimatheuz.primehunt.data.remote.enums.PrimeType
 import com.felipimatheuz.primehunt.data.repository.DatabaseSummary
 import com.felipimatheuz.primehunt.data.repository.GoalSummary
-import com.felipimatheuz.primehunt.data.repository.OverviewRepository
 import com.felipimatheuz.primehunt.data.repository.RelicSummary
-import com.felipimatheuz.primehunt.domain.model.PrimeSetDomain
+import com.felipimatheuz.primehunt.domain.model.*
+import com.felipimatheuz.primehunt.domain.repository.OverviewRepository
 import com.felipimatheuz.primehunt.domain.usecase.primeset.GetPrimeSetsUseCase
-import com.felipimatheuz.primehunt.ui.viewmodel.overview.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 import javax.inject.Inject
 
 class GetOverviewUseCase @Inject constructor(
@@ -26,48 +21,48 @@ class GetOverviewUseCase @Inject constructor(
     private val overviewRepository: OverviewRepository
 ) {
 
-    operator fun invoke(): Flow<OverviewState> {
+    operator fun invoke(): Flow<OverviewDomainModel> {
         val setsFlow = getPrimeSetsUseCase.observeAllSets().distinctUntilChanged()
 
-        val primeSetsUiFlow = setsFlow
-            .map { calculatePrimeSetsUi(it) }
+        val primeSetsDomainFlow = setsFlow
+            .map { calculatePrimeSetsDomain(it) }
             .distinctUntilChanged()
 
-        val tradeUiFlow = setsFlow
-            .map { calculateTradeUi(it) }
+        val tradeDomainFlow = setsFlow
+            .map { calculateTradeDomain(it) }
             .distinctUntilChanged()
 
-        val databaseUiFlow = combine(
+        val databaseDomainFlow = combine(
             overviewRepository.getDatabaseSummary(),
             overviewRepository.observeManifest()
         ) { summary, manifest ->
-            calculateDatabaseUi(summary, manifest?.lastSync)
+            calculateDatabaseDomain(summary, manifest?.lastSync)
         }.distinctUntilChanged()
 
-        val relicsUiFlow = overviewRepository.getRelicSummary()
-            .map { calculateRelicsUi(it) }
+        val relicsDomainFlow = overviewRepository.getRelicSummary()
+            .map { calculateRelicsDomain(it) }
             .distinctUntilChanged()
 
-        val goalsUiFlow = combine(
+        val goalsDomainFlow = combine(
             overviewRepository.getGoalSummary(),
             overviewRepository.observeGoalsWithTags()
         ) { summary, goalsWithTags ->
-            calculateGoalsUi(summary, goalsWithTags)
+            calculateGoalsDomain(summary, goalsWithTags)
         }.distinctUntilChanged()
 
         return combine(
-            primeSetsUiFlow,
-            databaseUiFlow,
-            relicsUiFlow,
-            goalsUiFlow,
-            tradeUiFlow
+            primeSetsDomainFlow,
+            databaseDomainFlow,
+            relicsDomainFlow,
+            goalsDomainFlow,
+            tradeDomainFlow
         ) { primeSets, database, relics, goals, trade ->
-            OverviewState(primeSets, database, relics, goals, trade)
+            OverviewDomainModel(primeSets, database, relics, goals, trade)
         }.flowOn(kotlinx.coroutines.Dispatchers.Default)
     }
 
-    private fun calculatePrimeSetsUi(sets: List<PrimeSetDomain>): PrimeSetsOverviewUi {
-        if (sets.isEmpty()) return PrimeSetsOverviewUi()
+    private fun calculatePrimeSetsDomain(sets: List<PrimeSetDomain>): PrimeSetsOverviewDomain {
+        if (sets.isEmpty()) return PrimeSetsOverviewDomain()
 
         var completedCount = 0
         var inProgressCount = 0
@@ -90,13 +85,13 @@ class GetOverviewUseCase @Inject constructor(
             }
         }.map { (type, typeSets) ->
             val typeCompleted = typeSets.count { it.isComplete }
-            CategoryOverviewUi(
-                nameRes = if (type == PrimeType.COMPANION) R.string.overview_others else type.displayNameRes,
+            CategoryOverviewDomain(
+                type = type,
                 percentage = (typeCompleted * 100) / typeSets.size
             )
         }.sortedByDescending { it.percentage }
 
-        return PrimeSetsOverviewUi(
+        return PrimeSetsOverviewDomain(
             progress = progress,
             completedSets = completedCount,
             inProgressSets = inProgressCount,
@@ -105,23 +100,21 @@ class GetOverviewUseCase @Inject constructor(
         )
     }
 
-    private fun calculateDatabaseUi(
+    private fun calculateDatabaseDomain(
         db: DatabaseSummary,
         lastSync: Long?
-    ): DatabaseOverviewUi {
-        val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
-        val lastSyncStr = lastSync?.let { dateFormat.format(Date(it)) } ?: "—"
-        return DatabaseOverviewUi(
+    ): DatabaseOverviewDomain {
+        return DatabaseOverviewDomain(
             collectionsCount = db.collections,
             setsCount = db.sets,
             partsCount = db.parts,
             relicsCount = db.relics,
-            lastSync = lastSyncStr
+            lastSyncTimestamp = lastSync
         )
     }
 
-    private fun calculateRelicsUi(relic: RelicSummary): RelicsOverviewUi {
-        return RelicsOverviewUi(
+    private fun calculateRelicsDomain(relic: RelicSummary): RelicsOverviewDomain {
+        return RelicsOverviewDomain(
             available = relic.available,
             vaulted = relic.vaulted,
             resurgence = relic.resurgence,
@@ -129,24 +122,27 @@ class GetOverviewUseCase @Inject constructor(
         )
     }
 
-    private fun calculateGoalsUi(
+    private fun calculateGoalsDomain(
         goal: GoalSummary,
         goalsWithTags: List<GoalWithTag>
-    ): GoalsOverviewUi {
+    ): GoalsOverviewDomain {
         val activeGoals = goalsWithTags.filter { it.goal.status == GoalStatus.ACTIVE }
         val mainTag = activeGoals
             .groupBy { it.tag }
             .maxByOrNull { it.value.size }
             ?.key
+            ?.let { tag ->
+                GoalTagDomain(tag.id, tag.name, tag.icon, tag.color)
+            }
 
-        return GoalsOverviewUi(
+        return GoalsOverviewDomain(
             activeGoals = goal.active,
             completedGoals = goal.completed,
             mainTag = mainTag
         )
     }
 
-    private fun calculateTradeUi(sets: List<PrimeSetDomain>): TradeOverviewUi {
+    private fun calculateTradeDomain(sets: List<PrimeSetDomain>): TradeOverviewDomain {
         var duplicateSets = 0
         var duplicateParts = 0
 
@@ -166,7 +162,7 @@ class GetOverviewUseCase @Inject constructor(
             duplicateSets += maxOf(0, if (possibleExtraSets == Int.MAX_VALUE) 0 else possibleExtraSets)
         }
 
-        return TradeOverviewUi(
+        return TradeOverviewDomain(
             duplicateSets = duplicateSets,
             duplicateParts = duplicateParts,
             averageDucatPrice = (duplicateSets + duplicateParts) * 32

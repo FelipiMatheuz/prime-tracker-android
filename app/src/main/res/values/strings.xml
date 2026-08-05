@@ -100,6 +100,20 @@
     <string name="menu_help">Help</string>
     <string name="menu_about">About</string>
     <string name="menu_sync">Synchronize</string>
+    <string name="menu_cloud">Cloud</string>
+
+    <!--Cloud Screen-->
+    <string name="cloud_account">Cloud Account</string>
+    <string name="cloud_status_not_connected">Not Connected</string>
+    <string name="cloud_status_connected">Connected</string>
+    <string name="cloud_account_desc">Cloud features require a connected account.</string>
+    <string name="cloud_sign_in_google">Sign In with Google</string>
+    <string name="cloud_disconnect">Disconnect</string>
+    <string name="cloud_backup_success">Backup uploaded successfully.</string>
+    <string name="cloud_restore_success">Data restored successfully.</string>
+    <string name="cloud_migration_success">Migration completed. Old checklist removed.</string>
+    <string name="cloud_clear_success">All cloud data has been deleted.</string>
+    <string name="cloud_nothing_to_migrate">No legacy data found to migrate.</string>
 
     <!--Other-->
     <string name="overall_stats">Total:  %1$s\nIn Progress:  %2$s\nCompleted:  %3$s</string>

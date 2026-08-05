@@ -1,4 +1,4 @@
-package com.felipimatheuz.primehunt.service.google
+package com.felipimatheuz.primehunt.data.cloud
 
 import android.content.Context
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory

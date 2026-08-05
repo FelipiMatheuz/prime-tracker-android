@@ -17,7 +17,7 @@ sealed interface AppNavKey : NavKey {
                 PrimeSetsKey,
                 RelicsKey,
                 GoalsKey,
-                SyncKey,
+                CloudKey,
                 HelpKey,
                 AboutKey
             )
@@ -50,9 +50,9 @@ data object RelicsKey : AppNavKey {
 }
 
 @Serializable
-data object SyncKey : AppNavKey {
+data object CloudKey : AppNavKey {
     override val icon = R.drawable.ic_transference
-    override val label = R.string.menu_sync
+    override val label = R.string.menu_cloud
 }
 
 @Serializable

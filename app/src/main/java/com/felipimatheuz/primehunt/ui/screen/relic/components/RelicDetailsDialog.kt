@@ -40,8 +40,9 @@ import com.felipimatheuz.primehunt.domain.model.RelicComponentDomain
 import com.felipimatheuz.primehunt.domain.model.RelicDomain
 import com.felipimatheuz.primehunt.ui.screen.components.GoalTagChip
 import com.felipimatheuz.primehunt.ui.screen.components.PrimePanel
-import com.felipimatheuz.primehunt.ui.theme.Vault
 import com.felipimatheuz.primehunt.ui.theme.Completed
+import com.felipimatheuz.primehunt.ui.theme.Vault
+import com.felipimatheuz.primehunt.ui.theme.getColor
 
 @Composable
 fun RelicDetailsDialog(
@@ -112,7 +113,7 @@ private fun RelicDetailsContent(
             relic.goalTags.take(5).forEach { tag ->
                 GoalTagChip(
                     iconRes = tag.icon.icon,
-                    color = tag.color,
+                    color = Color(tag.color),
                     modifier = Modifier.padding(horizontal = 2.dp)
                 )
             }
@@ -205,10 +206,10 @@ private fun RelicRewardItem(reward: RelicComponentDomain) {
         Text(
             text = if (reward.isForma) {
                 stringResource(R.string.forma_blueprint)
+            } else if (reward.isBlueprint) {
+                "${reward.name} ${stringResource(R.string.comp_blueprint)}"
             } else {
-                reward.nameSuffixRes?.let { suffix ->
-                    "${reward.name} ${stringResource(suffix)}"
-                } ?: reward.name
+                reward.name
             },
             style = MaterialTheme.typography.bodyLarge,
             fontWeight = FontWeight.Bold
@@ -256,7 +257,7 @@ private fun RelicRewardItem(reward: RelicComponentDomain) {
                     displayTags.forEach { tag ->
                         GoalTagChip(
                             text = tag.name,
-                            color = tag.color,
+                            color = Color(tag.color),
                             iconRes = tag.icon.icon
                         )
                     }
@@ -282,8 +283,8 @@ fun RelicDetailsDialogPreview() {
         era = com.felipimatheuz.primehunt.data.remote.enums.RelicEra.LITH,
         source = RelicSource.MISSION,
         goalTags = listOf(
-            GoalTagDomain(10, "Vaulted", GoalIcons.SLASH, Color(0xFFE91E63)),
-            GoalTagDomain(11, "Tracked", GoalIcons.VIRAL, Color(0xFFFF9800))
+            GoalTagDomain(10, "Vaulted", GoalIcons.SLASH, 0xFFE91E63.toInt()),
+            GoalTagDomain(11, "Tracked", GoalIcons.VIRAL, 0xFFFF9800.toInt())
         ),
         rewards = listOf(
             RelicComponentDomain(
@@ -292,9 +293,9 @@ fun RelicDetailsDialogPreview() {
                 isObtained = false,
                 neededQuantity = 1,
                 goalTags = listOf(
-                    GoalTagDomain(1, "Warframe", GoalIcons.SLASH, Color(0xFF673AB7)),
-                    GoalTagDomain(2, "Set", GoalIcons.VIRAL, Color(0xFF2196F3)),
-                    GoalTagDomain(3, "Extra", GoalIcons.VOID, Color(0xFF4CAF50))
+                    GoalTagDomain(1, "Warframe", GoalIcons.SLASH, 0xFF673AB7.toInt()),
+                    GoalTagDomain(2, "Set", GoalIcons.VIRAL, 0xFF2196F3.toInt()),
+                    GoalTagDomain(3, "Extra", GoalIcons.VOID, 0xFF4CAF50.toInt())
                 )
             )
         )

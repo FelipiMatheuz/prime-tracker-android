@@ -44,10 +44,9 @@ import com.felipimatheuz.primehunt.data.remote.enums.RelicSource
 import com.felipimatheuz.primehunt.domain.model.GoalTagDomain
 import com.felipimatheuz.primehunt.domain.model.RelicComponentDomain
 import com.felipimatheuz.primehunt.domain.model.RelicDomain
-import com.felipimatheuz.primehunt.ui.theme.Vault
 import com.felipimatheuz.primehunt.ui.theme.Completed
 import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
-import com.felipimatheuz.primehunt.ui.theme.White
+import com.felipimatheuz.primehunt.ui.theme.Vault
 
 @Composable
 fun RelicCard(
@@ -198,8 +197,8 @@ fun RelicCardPreview() {
                     RelicComponentDomain(
                         "teste", DropRarity.COMMON, false,
                         goalTags = listOf(
-                            GoalTagDomain(0, "teste", GoalIcons.VIRAL, White),
-                            GoalTagDomain(1, "teste", GoalIcons.VOID, White)
+                            GoalTagDomain(0, "teste", GoalIcons.VIRAL, 0xFFFFFFFF.toInt()),
+                            GoalTagDomain(1, "teste", GoalIcons.VOID, 0xFFFFFFFF.toInt())
                         )
                     ),
                     RelicComponentDomain("teste", DropRarity.COMMON, false),
