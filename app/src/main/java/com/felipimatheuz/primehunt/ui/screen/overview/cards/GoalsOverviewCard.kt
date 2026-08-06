@@ -80,7 +80,7 @@ private fun GoalStat(status: GoalStatus, value: String) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         val color = if (status == GoalStatus.COMPLETED) Completed else InProgress
         val icon =
-            if (status == GoalStatus.COMPLETED) R.drawable.ic_check else R.drawable.progress_circle
+            if (status == GoalStatus.COMPLETED) R.drawable.ic_check else R.drawable.ic_progress
 
         Icon(
             painter = painterResource(icon),

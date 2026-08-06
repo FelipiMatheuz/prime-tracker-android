@@ -1,4 +1,4 @@
-package com.felipimatheuz.primehunt.ui.screen
+package com.felipimatheuz.primehunt.ui.screen.help
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
@@ -46,10 +46,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.ui.screen.components.TipItem
-import com.felipimatheuz.primehunt.ui.screen.help.FaqItem
-import com.felipimatheuz.primehunt.ui.screen.help.HelpContentProvider
-import com.felipimatheuz.primehunt.ui.screen.help.HelpSection
-import com.felipimatheuz.primehunt.ui.screen.help.HelpSubSection
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
@@ -131,13 +127,15 @@ private fun HelpIndex(
 private fun HelpSectionItem(section: HelpSection) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(
-                painter = painterResource(id = section.icon),
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.size(24.dp)
-            )
-            Spacer(modifier = Modifier.width(12.dp))
+            section.icon?.let {
+                Icon(
+                    painter = painterResource(id = section.icon),
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(24.dp)
+                )
+                Spacer(modifier = Modifier.width(12.dp))
+            }
             Text(
                 text = stringResource(section.title),
                 style = MaterialTheme.typography.headlineSmall,

@@ -5,7 +5,7 @@ import androidx.annotation.StringRes
 
 data class HelpSection(
     @StringRes val title: Int,
-    @DrawableRes val icon: Int,
+    @DrawableRes val icon: Int? = null,
     @StringRes val description: Int? = null,
     val subSections: List<HelpSubSection> = emptyList(),
     @StringRes val tip: Int? = null,

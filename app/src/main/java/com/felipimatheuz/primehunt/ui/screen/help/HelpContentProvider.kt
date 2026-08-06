@@ -6,7 +6,6 @@ object HelpContentProvider {
     val helpSections = listOf(
         HelpSection(
             title = R.string.help_gs_title,
-            icon = R.drawable.ic_focus,
             description = R.string.help_gs_desc,
             tip = R.string.help_gs_tip
         ),
