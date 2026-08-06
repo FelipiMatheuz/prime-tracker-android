@@ -22,9 +22,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.data.local.entity.GoalTagEntity
 import com.felipimatheuz.primehunt.data.local.enums.GoalIcons
 import com.felipimatheuz.primehunt.data.local.enums.GoalStatus
+import com.felipimatheuz.primehunt.domain.model.GoalTagDomain
 import com.felipimatheuz.primehunt.ui.screen.components.GoalTagChip
 import com.felipimatheuz.primehunt.ui.screen.overview.orbital.OrbitalDimens
 import com.felipimatheuz.primehunt.ui.theme.Completed
@@ -113,7 +113,7 @@ fun GoalsOverviewCardPreview() {
                 state = GoalsOverviewUi(
                     activeGoals = 10,
                     completedGoals = 20,
-                    mainTag = GoalTagEntity(
+                    mainTag = GoalTagDomain(
                         id = 1,
                         name = "Main Tag",
                         icon = GoalIcons.SLASH,

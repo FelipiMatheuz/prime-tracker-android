@@ -1,7 +1,9 @@
 package com.felipimatheuz.primehunt.domain.model
 
+import androidx.compose.runtime.Immutable
 import com.felipimatheuz.primehunt.data.remote.enums.PrimeType
 
+@Immutable
 data class OverviewDomainModel(
     val primeSets: PrimeSetsOverviewDomain = PrimeSetsOverviewDomain(),
     val database: DatabaseOverviewDomain = DatabaseOverviewDomain(),
@@ -10,6 +12,7 @@ data class OverviewDomainModel(
     val trade: TradeOverviewDomain = TradeOverviewDomain()
 )
 
+@Immutable
 data class PrimeSetsOverviewDomain(
     val progress: Float = 0f,
     val completedSets: Int = 0,
@@ -18,11 +21,13 @@ data class PrimeSetsOverviewDomain(
     val categories: List<CategoryOverviewDomain> = emptyList()
 )
 
+@Immutable
 data class CategoryOverviewDomain(
     val type: PrimeType,
     val percentage: Int
 )
 
+@Immutable
 data class DatabaseOverviewDomain(
     val collectionsCount: Int = 0,
     val setsCount: Int = 0,
@@ -31,6 +36,7 @@ data class DatabaseOverviewDomain(
     val lastSyncTimestamp: Long? = null
 )
 
+@Immutable
 data class RelicsOverviewDomain(
     val available: Int = 0,
     val vaulted: Int = 0,
@@ -38,12 +44,14 @@ data class RelicsOverviewDomain(
     val baro: Int = 0
 )
 
+@Immutable
 data class GoalsOverviewDomain(
     val activeGoals: Int = 0,
     val completedGoals: Int = 0,
     val mainTag: GoalTagDomain? = null
 )
 
+@Immutable
 data class TradeOverviewDomain(
     val duplicateSets: Int = 0,
     val duplicateParts: Int = 0,

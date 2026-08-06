@@ -2,8 +2,7 @@ package com.felipimatheuz.primehunt.data.repository
 
 import com.felipimatheuz.primehunt.data.local.dao.InventoryDao
 import com.felipimatheuz.primehunt.data.local.entity.InventoryPartEntity
-import com.felipimatheuz.primehunt.data.local.dao.PrimeComponentDao
-import com.felipimatheuz.primehunt.data.local.dao.PrimePartDao
+import com.felipimatheuz.primehunt.domain.repository.PrimeRepository
 import com.felipimatheuz.primehunt.domain.util.PrimeSetResolver
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -13,8 +12,7 @@ import javax.inject.Singleton
 @Singleton
 class PrimeDetailRepository @Inject constructor(
     private val inventoryDao: InventoryDao,
-    private val partDao: PrimePartDao,
-    private val componentDao: PrimeComponentDao
+    private val primeRepository: PrimeRepository
 ) {
 
     suspend fun updateInventory(partId: String, delta: Int) = withContext(Dispatchers.IO) {
@@ -27,8 +25,8 @@ class PrimeDetailRepository @Inject constructor(
         // Here we still use the DAOs to get the snapshot for the update operation.
         // We could also get it from a UseCase, but for a write operation, 
         // fetching from DB is fine as long as we use the unified Resolver.
-        val parts = partDao.getAllSync()
-        val components = componentDao.getAllSync()
+        val parts = primeRepository.getAllPartsSync()
+        val components = primeRepository.getAllComponentsSync()
         
         val partsBySetMap = parts.groupBy { it.primeSetId }.mapValues { entry ->
             entry.value.map { PrimeSetResolver.ResolvePart(it.id, it.part, it.quantity) }

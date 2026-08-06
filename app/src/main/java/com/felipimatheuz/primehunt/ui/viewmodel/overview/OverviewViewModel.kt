@@ -3,7 +3,6 @@ package com.felipimatheuz.primehunt.ui.viewmodel.overview
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.data.local.entity.GoalTagEntity
 import com.felipimatheuz.primehunt.data.remote.enums.PrimeType
 import com.felipimatheuz.primehunt.domain.model.OverviewDomainModel
 import com.felipimatheuz.primehunt.domain.usecase.overview.GetOverviewUseCase
@@ -31,6 +30,8 @@ class OverviewViewModel @Inject constructor(
         )
 
     private fun OverviewDomainModel.toUiState(): OverviewState {
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
+
         return OverviewState(
             primeSets = PrimeSetsOverviewUi(
                 progress = primeSets.progress,
@@ -60,9 +61,7 @@ class OverviewViewModel @Inject constructor(
             goals = GoalsOverviewUi(
                 activeGoals = goals.activeGoals,
                 completedGoals = goals.completedGoals,
-                mainTag = goals.mainTag?.let {
-                    GoalTagEntity(it.id, it.name, it.icon, it.color)
-                }
+                mainTag = goals.mainTag
             ),
             trade = TradeOverviewUi(
                 duplicateSets = trade.duplicateSets,
@@ -70,9 +69,5 @@ class OverviewViewModel @Inject constructor(
                 averageDucatPrice = trade.averageDucatPrice
             )
         )
-    }
-
-    companion object {
-        private val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
     }
 }

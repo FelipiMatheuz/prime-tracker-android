@@ -2,26 +2,16 @@ package com.felipimatheuz.primehunt.ui.viewmodel.goals
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.felipimatheuz.primehunt.data.local.dao.GoalTagDao
 import com.felipimatheuz.primehunt.data.local.preferences.GoalUiPrefs
 import com.felipimatheuz.primehunt.data.repository.UiPreferencesRepository
 import com.felipimatheuz.primehunt.domain.model.GoalDomain
+import com.felipimatheuz.primehunt.domain.repository.GoalRepository
 import com.felipimatheuz.primehunt.domain.usecase.goal.GetGoalsUseCase
 import com.felipimatheuz.primehunt.ui.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.take
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.milliseconds
@@ -29,7 +19,7 @@ import kotlin.time.Duration.Companion.milliseconds
 @HiltViewModel
 class GoalsViewModel @Inject constructor(
     getGoalsUseCase: GetGoalsUseCase,
-    private val tagDao: GoalTagDao,
+    private val goalRepository: GoalRepository,
     private val uiPreferencesRepository: UiPreferencesRepository
 ) : ViewModel(), MviViewModel<GoalsState, GoalsIntent> {
 
@@ -47,7 +37,7 @@ class GoalsViewModel @Inject constructor(
                 )
             }
 
-            tagDao.observeAll()
+            goalRepository.observeAllTags()
                 .distinctUntilChanged()
                 .collect { tags ->
                     val tagIds = tags.map { it.id }.toSet()
@@ -64,7 +54,7 @@ class GoalsViewModel @Inject constructor(
     @OptIn(FlowPreview::class)
     override val state: StateFlow<GoalsState> = combine(
         getGoalsUseCase().distinctUntilChanged(),
-        tagDao.observeAll().distinctUntilChanged(),
+        goalRepository.observeAllTags().distinctUntilChanged(),
         _searchText.debounce(300.milliseconds).distinctUntilChanged(),
         _filters
     ) { goals, tags, query, filters ->

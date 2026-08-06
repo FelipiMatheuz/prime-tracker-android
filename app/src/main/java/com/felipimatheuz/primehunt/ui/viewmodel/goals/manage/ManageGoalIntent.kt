@@ -1,9 +1,9 @@
 package com.felipimatheuz.primehunt.ui.viewmodel.goals.manage
 
 import androidx.compose.ui.graphics.Color
-import com.felipimatheuz.primehunt.data.local.entity.GoalTagEntity
 import com.felipimatheuz.primehunt.data.local.enums.GoalIcons
 import com.felipimatheuz.primehunt.data.local.enums.GoalTargetType
+import com.felipimatheuz.primehunt.domain.model.GoalTagDomain
 import com.felipimatheuz.primehunt.domain.model.TargetDomain
 import com.felipimatheuz.primehunt.ui.mvi.MviIntent
 
@@ -16,7 +16,7 @@ sealed interface ManageGoalIntent : MviIntent {
     data class UpdateManualQuantity(val quantity: Int) : ManageGoalIntent
     data class SearchTarget(val query: String) : ManageGoalIntent
     data class SelectTarget(val target: TargetDomain) : ManageGoalIntent
-    data class SelectTag(val tag: GoalTagEntity) : ManageGoalIntent
+    data class SelectTag(val tag: GoalTagDomain) : ManageGoalIntent
     data class UpdateNotes(val notes: String) : ManageGoalIntent
     
     // Actions

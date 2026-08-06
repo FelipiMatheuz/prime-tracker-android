@@ -1,76 +1,39 @@
 package com.felipimatheuz.primehunt.data.repository
 
-import com.felipimatheuz.primehunt.data.local.dao.GoalDao
-import com.felipimatheuz.primehunt.data.local.entity.GoalWithTag
+import com.felipimatheuz.primehunt.data.local.entity.LocalManifest
 import com.felipimatheuz.primehunt.data.local.enums.GoalStatus
 import com.felipimatheuz.primehunt.data.local.dao.ManifestDao
-import com.felipimatheuz.primehunt.data.local.dao.PrimeCollectionDao
-import com.felipimatheuz.primehunt.data.local.dao.PrimePartDao
-import com.felipimatheuz.primehunt.data.local.dao.PrimeSetDao
-import com.felipimatheuz.primehunt.data.local.dao.RelicDao
-import com.felipimatheuz.primehunt.data.local.entity.LocalManifest
-import com.felipimatheuz.primehunt.data.remote.enums.RelicSource
-import com.felipimatheuz.primehunt.domain.repository.OverviewRepository
+import com.felipimatheuz.primehunt.domain.model.GoalDomain
+import com.felipimatheuz.primehunt.domain.repository.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class OverviewRepositoryImpl @Inject constructor(
-    private val primeCollectionDao: PrimeCollectionDao,
-    private val primeSetDao: PrimeSetDao,
-    private val primePartDao: PrimePartDao,
-    private val relicDao: RelicDao,
-    private val goalDao: GoalDao,
+    private val primeRepository: PrimeRepository,
+    private val goalRepository: GoalRepository,
     private val manifestDao: ManifestDao
 ) : OverviewRepository {
 
-    override fun getDatabaseSummary(): Flow<DatabaseSummary> = combine(
-        primeCollectionDao.count(),
-        primeSetDao.count(),
-        primePartDao.count(),
-        relicDao.count()
-    ) { collections, sets, parts, relics ->
-        DatabaseSummary(collections, sets, parts, relics)
+    override fun getDatabaseSummary(): Flow<DatabaseSummary> = primeRepository.getDatabaseCounts().map {
+        DatabaseSummary(it.collections, it.sets, it.parts, it.relics)
     }
 
-    override fun getRelicSummary(): Flow<RelicSummary> = combine(
-        relicDao.countBySource(RelicSource.MISSION),
-        relicDao.countBySource(RelicSource.VAULT),
-        relicDao.countBySource(RelicSource.RESURGENCE),
-        relicDao.countBySource(RelicSource.BARO)
-    ) { mission, vault, resurgence, baro ->
-        RelicSummary(mission, vault, resurgence, baro)
+    override fun getRelicSummary(): Flow<RelicSummary> = primeRepository.getRelicCounts().map {
+        RelicSummary(it.available, it.vaulted, it.resurgence, it.baro)
     }
 
     override fun getGoalSummary(): Flow<GoalSummary> = combine(
-        goalDao.countByStatus(GoalStatus.ACTIVE),
-        goalDao.countByStatus(GoalStatus.COMPLETED)
+        goalRepository.countByStatus(GoalStatus.ACTIVE),
+        goalRepository.countByStatus(GoalStatus.COMPLETED)
     ) { active, completed ->
         GoalSummary(active, completed)
     }
 
     override fun observeManifest(): Flow<LocalManifest?> = manifestDao.observeManifest()
 
-    override fun observeGoalsWithTags(): Flow<List<GoalWithTag>> = goalDao.observeAllWithTags()
+    override fun observeGoalsWithTags(): Flow<List<GoalDomain>> = goalRepository.observeAllWithTags()
 }
-
-data class DatabaseSummary(
-    val collections: Int,
-    val sets: Int,
-    val parts: Int,
-    val relics: Int
-)
-
-data class RelicSummary(
-    val available: Int,
-    val vaulted: Int,
-    val resurgence: Int,
-    val baro: Int
-)
-
-data class GoalSummary(
-    val active: Int,
-    val completed: Int
-)

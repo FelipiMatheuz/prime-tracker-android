@@ -56,10 +56,20 @@ fun TextSyncAnimation(syncEvent: SyncEvent){
 @Composable
 private fun SplashSyncStatus(textRes: Int, file: EtlFile? = null) {
 
-    val finalText = if (file == null) {
+    val fileText = file?.let {
+        stringResource(
+            when (it) {
+                EtlFile.RELICS -> R.string.etl_file_relics
+                EtlFile.PRIME_SETS -> R.string.etl_file_prime_sets
+                EtlFile.PRIME_COLLECTIONS -> R.string.etl_file_prime_collections
+            }
+        )
+    }
+
+    val finalText = if (fileText == null) {
         stringResource(textRes)
     } else {
-        stringResource(textRes, file.text)
+        stringResource(textRes, fileText)
     }
     Text(
         text = finalText,

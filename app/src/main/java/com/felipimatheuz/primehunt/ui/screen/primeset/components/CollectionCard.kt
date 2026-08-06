@@ -5,7 +5,6 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -30,6 +29,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.RoundRect
@@ -116,11 +116,8 @@ fun CollectionCard(
 
                 Box(
                     modifier = Modifier
-                        .size(80.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Canvas(modifier = Modifier.fillMaxSize()) {
-                        if (animatedProgress > 0f) {
+                        .size(80.dp)
+                        .drawWithCache {
                             val strokeWidth = borderWidth.toPx()
                             val cornerRadius = 12.dp.toPx()
                             val path = Path().apply {
@@ -134,26 +131,30 @@ fun CollectionCard(
                                     )
                                 )
                             }
-
                             val pathMeasure = PathMeasure()
                             pathMeasure.setPath(path, false)
                             val totalLength = pathMeasure.length
-                            val segmentPath = Path()
-                            pathMeasure.getSegment(
-                                0f,
-                                totalLength * animatedProgress,
-                                segmentPath,
-                                true
-                            )
 
-                            drawPath(
-                                path = segmentPath,
-                                color = animatedProgressColor,
-                                style = Stroke(width = strokeWidth, cap = StrokeCap.Round)
-                            )
-                        }
-                    }
+                            onDrawBehind {
+                                if (animatedProgress > 0f) {
+                                    val segmentPath = Path()
+                                    pathMeasure.getSegment(
+                                        0f,
+                                        totalLength * animatedProgress,
+                                        segmentPath,
+                                        true
+                                    )
 
+                                    drawPath(
+                                        path = segmentPath,
+                                        color = animatedProgressColor,
+                                        style = Stroke(width = strokeWidth, cap = StrokeCap.Round)
+                                    )
+                                }
+                            }
+                        },
+                    contentAlignment = Alignment.Center
+                ) {
                     Box(
                         modifier = Modifier
                             .fillMaxSize()

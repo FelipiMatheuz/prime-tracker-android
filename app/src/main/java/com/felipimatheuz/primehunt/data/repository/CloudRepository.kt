@@ -4,10 +4,9 @@ import androidx.room.withTransaction
 import com.felipimatheuz.primehunt.data.local.dao.InventoryDao
 import com.felipimatheuz.primehunt.data.local.entity.InventoryPartEntity
 import com.felipimatheuz.primehunt.data.local.AppDatabase
-import com.felipimatheuz.primehunt.data.local.dao.PrimePartDao
-import com.felipimatheuz.primehunt.data.local.dao.PrimeSetDao
 import com.felipimatheuz.primehunt.data.remote.enums.PrimePartType
 import com.felipimatheuz.primehunt.domain.mapper.LegacyMigrationParser
+import com.felipimatheuz.primehunt.domain.repository.PrimeRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -17,8 +16,7 @@ import javax.inject.Singleton
 class CloudRepository @Inject constructor(
     private val database: AppDatabase,
     private val inventoryDao: InventoryDao,
-    private val primePartDao: PrimePartDao,
-    private val primeSetDao: PrimeSetDao,
+    private val primeRepository: PrimeRepository,
     private val parser: LegacyMigrationParser
 ) {
 
@@ -40,8 +38,8 @@ class CloudRepository @Inject constructor(
         val matchedLegacyKeys = mutableSetOf<String>()
 
         val totalInserted = database.withTransaction {
-            val allParts = primePartDao.getAllSync()
-            val allSets = primeSetDao.getAllSync()
+            val allParts = primeRepository.getAllPartsSync()
+            val allSets = primeRepository.getAllSetsSync()
             val setMap = allSets.associateBy { it.id }
 
             val inventoryToInsert = mutableListOf<InventoryPartEntity>()
@@ -67,7 +65,7 @@ class CloudRepository @Inject constructor(
                 if (part.part == PrimePartType.PRIME_SET) {
                     val nestedLegacyKey = "${normalizedSetName}_${parser.normalizeNewName(part.id)}"
                     legacyData[nestedLegacyKey]?.let { qty ->
-                        val subParts = primePartDao.getByPrimeSetSync(part.id)
+                        val subParts = primeRepository.getPartsBySetSync(part.id)
                         subParts.forEach { sub ->
                             inventoryToInsert.add(InventoryPartEntity(sub.id, qty))
                         }
