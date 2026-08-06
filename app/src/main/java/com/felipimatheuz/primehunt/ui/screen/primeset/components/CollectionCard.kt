@@ -44,6 +44,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.bumptech.glide.integration.compose.placeholder
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.domain.model.PrimeCollection
 import com.felipimatheuz.primehunt.domain.model.PrimeSetDomain
@@ -166,6 +167,8 @@ fun CollectionCard(
                             model = collection.promoImage,
                             contentDescription = null,
                             contentScale = ContentScale.Crop,
+                            loading = placeholder(R.drawable.ic_orokin),
+                            failure = placeholder(R.drawable.ic_orokin),
                             modifier = Modifier.fillMaxSize()
                         )
                     }

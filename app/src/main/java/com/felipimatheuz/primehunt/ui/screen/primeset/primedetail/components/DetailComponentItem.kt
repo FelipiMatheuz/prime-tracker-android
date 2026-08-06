@@ -31,6 +31,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.bumptech.glide.integration.compose.placeholder
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.data.remote.enums.PrimePartType
 import com.felipimatheuz.primehunt.domain.model.PrimePartDomain
@@ -41,10 +42,13 @@ import com.felipimatheuz.primehunt.ui.theme.getColor
 @Composable
 fun DetailComponentItem(
     part: PrimePartDomain,
+    isArchwing: Boolean = false,
     isNested: Boolean = false,
-    onUpdateQuantity: (Int) -> Unit
-) {
+    onUpdateQuantity: (Int) -> Unit,
+
+    ) {
     val isSet = part.name == PrimePartType.PRIME_SET
+    val isArchwingSystems = part.name == PrimePartType.SYSTEMS && isArchwing
 
     Row(
         modifier = Modifier
@@ -69,11 +73,15 @@ fun DetailComponentItem(
                     model = part.imageUrl,
                     contentDescription = null,
                     contentScale = ContentScale.Fit,
+                    loading = placeholder(R.drawable.ic_orokin),
+                    failure = placeholder(R.drawable.ic_orokin),
                     modifier = Modifier.fillMaxSize()
                 )
             } else {
+                val imgIconRes =
+                    if (isSet) R.drawable.ic_prime else if (isArchwingSystems) R.drawable.prime_circuit else part.name.icon
                 Image(
-                    painter = painterResource(id = if (isSet) R.drawable.ic_prime else part.name.icon),
+                    painter = painterResource(id = imgIconRes),
                     contentDescription = null,
                     modifier = Modifier.size(if (isSet) 40.dp else 32.dp)
                 )

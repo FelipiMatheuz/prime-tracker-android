@@ -32,6 +32,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.bumptech.glide.integration.compose.placeholder
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.data.remote.enums.RelicSource
 import com.felipimatheuz.primehunt.domain.model.PrimeSetDomain
@@ -73,6 +74,8 @@ fun PrimeSetCard(
                     model = primeSet.imageUrl,
                     contentDescription = null,
                     contentScale = ContentScale.Fit,
+                    loading = placeholder(R.drawable.ic_orokin),
+                    failure = placeholder(R.drawable.ic_orokin),
                     modifier = Modifier.fillMaxSize()
                 )
             }
@@ -125,8 +128,10 @@ fun PrimeSetCard(
 
             Spacer(modifier = Modifier.width(12.dp))
 
-            Column(horizontalAlignment = Alignment.End,
-                verticalArrangement = Arrangement.Center) {
+            Column(
+                horizontalAlignment = Alignment.End,
+                verticalArrangement = Arrangement.Center
+            ) {
                 val textColor = when {
                     primeSet.ownedPieces == primeSet.totalPieces && primeSet.totalPieces > 0 -> Completed
                     primeSet.ownedPieces > 0 -> InProgress

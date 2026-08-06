@@ -98,7 +98,7 @@ class GoalRepositoryImpl @Inject constructor(
         primeDataStore.baseData
     ) { goalWithTag, inventory, data ->
         goalWithTag?.let {
-            val inventoryMap = inventory.associate { it.primePartId to it.quantity }
+            val inventoryMap = inventory.associate { item -> item.primePartId to item.quantity }
             mapToDomain(it, inventoryMap, data)
         }
     }
