@@ -16,6 +16,8 @@ import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
@@ -52,6 +54,7 @@ import com.felipimatheuz.primehunt.ui.navigation.RelicsKey
 import com.felipimatheuz.primehunt.ui.navigation.TopToolbar
 import com.felipimatheuz.primehunt.ui.navigation.rememberNavigationState
 import com.felipimatheuz.primehunt.ui.navigation.toEntries
+import com.felipimatheuz.primehunt.ui.screen.about.AboutScreen
 import com.felipimatheuz.primehunt.ui.screen.components.PrimeBackgroundPattern
 import com.felipimatheuz.primehunt.ui.screen.cloud.CloudScreen
 import com.felipimatheuz.primehunt.ui.screen.goals.GoalsScreen
@@ -85,6 +88,7 @@ fun MainContent(
     )
     val navigator = remember(navState) { Navigator(navState) }
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     val selectedWallpaper by settingsViewModel.selectedWallpaper.collectAsStateWithLifecycle()
 
@@ -127,7 +131,8 @@ fun MainContent(
                     selectedWallpaper = selectedWallpaper,
                     onWallpaperSelected = settingsViewModel::updateWallpaper
                 )
-            }
+            },
+            snackbarHost = { SnackbarHost(snackbarHostState) }
         ) { padding ->
             Box(modifier = Modifier.fillMaxSize()) {
                 if (((navState.topLevelRoute as? AppNavKey) ?: OverviewKey).supportsWallpaper) {
@@ -143,7 +148,8 @@ fun MainContent(
                             AppNavGraph(
                                 key = key as AppNavKey,
                                 navigator = navigator,
-                                padding = padding
+                                padding = padding,
+                                snackbarHostState = snackbarHostState
                             )
                         }
                     },
@@ -160,7 +166,8 @@ fun MainContent(
 fun AppNavGraph(
     key: AppNavKey,
     navigator: Navigator,
-    padding: PaddingValues
+    padding: PaddingValues,
+    snackbarHostState: SnackbarHostState
 ) {
     when (key) {
         is OverviewKey -> OverviewScreen(padding)
@@ -211,7 +218,7 @@ fun AppNavGraph(
 
         is HelpKey -> HelpScreen(padding)
 
-        is AboutKey -> AboutScreen(padding)
+        is AboutKey -> AboutScreen(padding, snackbarHostState)
     }
 }
 

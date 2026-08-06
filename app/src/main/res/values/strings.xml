@@ -288,4 +288,44 @@
     <string name="help_faq_a4">Only personal data:\n\nInventory\n\nGoals\n\nApplication preferences</string>
     <string name="help_faq_q5">Can I migrate my old checklist?</string>
     <string name="help_faq_a5">Yes.\n\nUse Legacy Migration inside the Cloud Backup screen.\n\nWARNING: This feature will be removed as the version progress.</string>
+
+    <!-- About Screen -->
+    <string name="about_slogan">Your companion for the Prime Hunt</string>
+    <string name="about_version_label">Version %1$s</string>
+    <string name="about_update_available">New version available!</string>
+    <string name="about_update_button">Update Now</string>
+
+    <string name="about_developer_title">Developer</string>
+    <string name="about_developer_name">Felipi Matheuz</string>
+    <string name="about_developer_desc">Android Developer and Warframe player. Creator of Prime Tracker.</string>
+
+    <string name="about_support_title">Support &amp; Feedback</string>
+    <string name="about_contact">Contact</string>
+    <string name="about_report_bug">Report Bug</string>
+
+    <string name="about_open_source_title">Open Source</string>
+    <string name="about_license">License: GNU GPL v3</string>
+    <string name="about_repository">Official Repository</string>
+
+    <string name="about_support_dev_title">Support Development</string>
+    <string name="about_support_dev_desc">This project is free and open source. If you find it useful, consider supporting its continuous development.</string>
+    <string name="about_support_dev_button">Support Development</string>
+
+    <string name="about_support_dev_dialog_title">Support the Project</string>
+    <string name="about_support_dev_dialog_desc">Your support helps keep the app free, without ads, and always updated with the latest Prime content. You can donate via the link below.</string>
+    <string name="about_support_dev_dialog_action">Donate</string>
+
+    <string name="about_credits_title">Credits</string>
+    <string name="about_credits_desc">Prime Tracker is an independent fan-made project. It is not affiliated with, endorsed by, or associated with Digital Extremes in any way. Warframe and all related assets are property of Digital Extremes.</string>
+
+    <string name="about_footer_thanks">Thank you for using Prime Tracker! Happy hunting, Tenno.</string>
+
+    <string name="about_email_subject">Prime Tracker - Feedback</string>
+    <string name="about_repo_url">https://github.com/FelipiMatheuz/prime-tracker-android</string>
+    <string name="about_donation_url">https://www.buymeacoffee.com/felipimatheuz</string>
+    <string name="about_bug_report_url">https://github.com/FelipiMatheuz/prime-tracker-android/issues</string>
+    <string name="about_contact_email">cyberman.studios@gmail.com</string>
+    <string name="about_play_store_url">https://play.google.com/store/apps/details?id=com.felipimatheuz.primehunt</string>
+    <string name="error_no_browser">No web browser found to open link.</string>
+    <string name="error_no_email_app">No email app found.</string>
 </resources>
