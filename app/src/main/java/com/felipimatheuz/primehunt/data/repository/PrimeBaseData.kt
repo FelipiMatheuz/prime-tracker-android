@@ -1,9 +1,9 @@
 package com.felipimatheuz.primehunt.data.repository
 
-import com.felipimatheuz.primehunt.data.remote.entity.PrimeComponentEntity
-import com.felipimatheuz.primehunt.data.remote.entity.PrimePartEntity
-import com.felipimatheuz.primehunt.data.remote.entity.PrimeSetEntity
-import com.felipimatheuz.primehunt.data.remote.entity.RelicEntity
+import com.felipimatheuz.primehunt.data.local.entity.PrimeComponentEntity
+import com.felipimatheuz.primehunt.data.local.entity.PrimePartEntity
+import com.felipimatheuz.primehunt.data.local.entity.PrimeSetEntity
+import com.felipimatheuz.primehunt.data.local.entity.RelicEntity
 
 data class PrimeBaseData(
     val sets: List<PrimeSetEntity>,

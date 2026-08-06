@@ -5,8 +5,8 @@ import androidx.room.Room
 import com.felipimatheuz.primehunt.data.local.dao.GoalDao
 import com.felipimatheuz.primehunt.data.local.dao.GoalTagDao
 import com.felipimatheuz.primehunt.data.local.dao.InventoryDao
-import com.felipimatheuz.primehunt.data.remote.AppDatabase
-import com.felipimatheuz.primehunt.data.remote.dao.*
+import com.felipimatheuz.primehunt.data.local.AppDatabase
+import com.felipimatheuz.primehunt.data.local.dao.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

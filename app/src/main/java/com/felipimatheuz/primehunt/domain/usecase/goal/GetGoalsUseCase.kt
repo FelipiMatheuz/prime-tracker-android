@@ -23,8 +23,10 @@ class GetGoalsUseCase @Inject constructor(
         primeDataStore.baseData
     ) { goals, inventory, data ->
         val inventoryMap = inventory.associate { it.primePartId to it.quantity }
-        val partsBySetMap = data.parts.groupBy { it.primeSetId }
-        val componentByPartMap = data.components.groupBy { it.primePartId }
+        val partsBySetMap = data.parts.groupBy { it.primeSetId }.mapValues { entry ->
+            entry.value.map { PrimeSetResolver.ResolvePart(it.id, it.part, it.quantity) }
+        }
+        val hasComponentsMap = data.components.associate { it.primePartId to true }
         val setMap = data.sets.associateBy { it.id }
         val partMap = data.parts.associateBy { it.id }
         val relicMap = data.relics.associateBy { it.id }
@@ -35,7 +37,7 @@ class GetGoalsUseCase @Inject constructor(
                 item.tag,
                 inventoryMap,
                 partsBySetMap,
-                componentByPartMap,
+                hasComponentsMap,
                 setMap,
                 partMap,
                 relicMap
@@ -50,8 +52,10 @@ class GetGoalsUseCase @Inject constructor(
     ) { itemWithTag, inventory, data ->
         val item = itemWithTag ?: return@combine null
         val inventoryMap = inventory.associate { it.primePartId to it.quantity }
-        val partsBySetMap = data.parts.groupBy { it.primeSetId }
-        val componentByPartMap = data.components.groupBy { it.primePartId }
+        val partsBySetMap = data.parts.groupBy { it.primeSetId }.mapValues { entry ->
+            entry.value.map { PrimeSetResolver.ResolvePart(it.id, it.part, it.quantity) }
+        }
+        val hasComponentsMap = data.components.associate { it.primePartId to true }
         val setMap = data.sets.associateBy { it.id }
         val partMap = data.parts.associateBy { it.id }
         val relicMap = data.relics.associateBy { it.id }
@@ -61,7 +65,7 @@ class GetGoalsUseCase @Inject constructor(
             item.tag,
             inventoryMap,
             partsBySetMap,
-            componentByPartMap,
+            hasComponentsMap,
             setMap,
             partMap,
             relicMap
@@ -72,11 +76,11 @@ class GetGoalsUseCase @Inject constructor(
         goal: com.felipimatheuz.primehunt.data.local.entity.GoalEntity,
         tag: com.felipimatheuz.primehunt.data.local.entity.GoalTagEntity,
         inventoryMap: Map<String, Int>,
-        partsBySetMap: Map<String, List<com.felipimatheuz.primehunt.data.remote.entity.PrimePartEntity>>,
-        componentByPartMap: Map<String, List<com.felipimatheuz.primehunt.data.remote.entity.PrimeComponentEntity>>,
-        setMap: Map<String, com.felipimatheuz.primehunt.data.remote.entity.PrimeSetEntity>,
-        partMap: Map<String, com.felipimatheuz.primehunt.data.remote.entity.PrimePartEntity>,
-        relicMap: Map<String, com.felipimatheuz.primehunt.data.remote.entity.RelicEntity>
+        partsBySetMap: Map<String, List<PrimeSetResolver.ResolvePart>>,
+        hasComponentsMap: Map<String, Boolean>,
+        setMap: Map<String, com.felipimatheuz.primehunt.data.local.entity.PrimeSetEntity>,
+        partMap: Map<String, com.felipimatheuz.primehunt.data.local.entity.PrimePartEntity>,
+        relicMap: Map<String, com.felipimatheuz.primehunt.data.local.entity.RelicEntity>
     ): GoalDomain {
         val (name, current) = when (goal.targetType) {
             GoalTargetType.PRIME_SET -> {
@@ -84,7 +88,7 @@ class GetGoalsUseCase @Inject constructor(
                     goal.targetId,
                     1,
                     partsBySetMap,
-                    componentByPartMap
+                    hasComponentsMap
                 )
 
                 val completedSets = if (required.isEmpty()) 0 else {

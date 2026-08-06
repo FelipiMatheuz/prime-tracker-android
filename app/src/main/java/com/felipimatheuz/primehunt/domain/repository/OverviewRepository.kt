@@ -1,7 +1,7 @@
 package com.felipimatheuz.primehunt.domain.repository
 
 import com.felipimatheuz.primehunt.data.local.entity.GoalWithTag
-import com.felipimatheuz.primehunt.data.remote.entity.LocalManifest
+import com.felipimatheuz.primehunt.data.local.entity.LocalManifest
 import com.felipimatheuz.primehunt.data.repository.DatabaseSummary
 import com.felipimatheuz.primehunt.data.repository.GoalSummary
 import com.felipimatheuz.primehunt.data.repository.RelicSummary

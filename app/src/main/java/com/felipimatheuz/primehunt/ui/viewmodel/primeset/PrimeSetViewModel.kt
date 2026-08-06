@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.felipimatheuz.primehunt.data.local.preferences.PrimeSetUiPrefs
 import com.felipimatheuz.primehunt.data.repository.UiPreferencesRepository
 import com.felipimatheuz.primehunt.domain.model.PrimeSetDomain
+import com.felipimatheuz.primehunt.domain.model.matches
 import com.felipimatheuz.primehunt.domain.usecase.primeset.GetPrimeSetsUseCase
-import com.felipimatheuz.primehunt.domain.usecase.util.ProgressFilterUseCase
 import com.felipimatheuz.primehunt.ui.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -27,7 +27,6 @@ import kotlin.time.Duration.Companion.milliseconds
 @HiltViewModel
 class PrimeSetViewModel @Inject constructor(
     getPrimeSetsUseCase: GetPrimeSetsUseCase,
-    private val progressFilterUseCase: ProgressFilterUseCase,
     private val uiPreferencesRepository: UiPreferencesRepository
 ) : ViewModel(), MviViewModel<PrimeSetState, PrimeSetIntent> {
 
@@ -91,7 +90,7 @@ class PrimeSetViewModel @Inject constructor(
         return sets.filter { set ->
             val matchesQuery = set.name.contains(query, ignoreCase = true)
 
-            val matchesProgress = progressFilterUseCase.matches(set, filters.progress)
+            val matchesProgress = set.matches(filters.progress)
 
             val matchesCategory =
                 filters.categories.isEmpty() || filters.categories.contains(set.type)

@@ -1,8 +1,8 @@
 package com.felipimatheuz.primehunt.domain.usecase.primeset
 
-import com.felipimatheuz.primehunt.data.remote.dao.PrimeCollectionDao
-import com.felipimatheuz.primehunt.data.remote.dao.PrimeCollectionSetDao
-import com.felipimatheuz.primehunt.data.remote.entity.PrimePartEntity
+import com.felipimatheuz.primehunt.data.local.dao.PrimeCollectionDao
+import com.felipimatheuz.primehunt.data.local.dao.PrimeCollectionSetDao
+import com.felipimatheuz.primehunt.data.local.entity.PrimePartEntity
 import com.felipimatheuz.primehunt.data.remote.enums.PrimePartType
 import com.felipimatheuz.primehunt.data.remote.enums.RelicSource
 import com.felipimatheuz.primehunt.data.repository.PrimeDataStore

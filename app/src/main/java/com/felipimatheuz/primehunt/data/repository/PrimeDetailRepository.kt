@@ -2,8 +2,8 @@ package com.felipimatheuz.primehunt.data.repository
 
 import com.felipimatheuz.primehunt.data.local.dao.InventoryDao
 import com.felipimatheuz.primehunt.data.local.entity.InventoryPartEntity
-import com.felipimatheuz.primehunt.data.remote.dao.PrimeComponentDao
-import com.felipimatheuz.primehunt.data.remote.dao.PrimePartDao
+import com.felipimatheuz.primehunt.data.local.dao.PrimeComponentDao
+import com.felipimatheuz.primehunt.data.local.dao.PrimePartDao
 import com.felipimatheuz.primehunt.domain.util.PrimeSetResolver
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -30,11 +30,13 @@ class PrimeDetailRepository @Inject constructor(
         val parts = partDao.getAllSync()
         val components = componentDao.getAllSync()
         
-        val partsBySetMap = parts.groupBy { it.primeSetId }
-        val componentByPartMap = components.groupBy { it.primePartId }
+        val partsBySetMap = parts.groupBy { it.primeSetId }.mapValues { entry ->
+            entry.value.map { PrimeSetResolver.ResolvePart(it.id, it.part, it.quantity) }
+        }
+        val hasComponentsMap = components.associate { it.primePartId to true }
         
         val partsToUpdate = mutableMapOf<String, Int>()
-        PrimeSetResolver.resolveRequiredParts(setId, 1, partsBySetMap, componentByPartMap, partsToUpdate)
+        PrimeSetResolver.resolveRequiredParts(setId, 1, partsBySetMap, hasComponentsMap, partsToUpdate)
         
         partsToUpdate.forEach { (partId, needed) ->
             updateInventory(partId, needed * delta)

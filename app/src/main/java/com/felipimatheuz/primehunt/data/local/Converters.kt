@@ -1,4 +1,4 @@
-package com.felipimatheuz.primehunt.data.remote
+package com.felipimatheuz.primehunt.data.local
 
 import androidx.room.TypeConverter
 import com.felipimatheuz.primehunt.data.local.enums.GoalIcons

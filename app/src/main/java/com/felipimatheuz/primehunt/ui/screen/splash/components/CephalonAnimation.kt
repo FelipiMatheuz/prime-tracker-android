@@ -15,7 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalDensity
 import com.felipimatheuz.primehunt.ui.theme.Error
 import com.felipimatheuz.primehunt.ui.theme.White
-import com.felipimatheuz.primehunt.ui.viewmodel.splash.SyncEvent
+import com.felipimatheuz.primehunt.domain.model.SyncEvent
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive

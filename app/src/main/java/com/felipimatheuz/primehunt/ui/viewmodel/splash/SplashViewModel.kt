@@ -2,6 +2,7 @@ package com.felipimatheuz.primehunt.ui.viewmodel.splash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.felipimatheuz.primehunt.domain.model.SyncEvent
 import com.felipimatheuz.primehunt.domain.repository.SyncRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
