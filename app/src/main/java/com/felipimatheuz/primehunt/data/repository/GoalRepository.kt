@@ -6,6 +6,7 @@ import com.felipimatheuz.primehunt.data.local.entity.GoalEntity
 import com.felipimatheuz.primehunt.data.local.entity.GoalTagEntity
 import com.felipimatheuz.primehunt.data.local.enums.GoalStatus
 import com.felipimatheuz.primehunt.data.local.enums.GoalTargetType
+import com.felipimatheuz.primehunt.domain.mapper.GoalMapper
 import com.felipimatheuz.primehunt.domain.model.GoalDomain
 import com.felipimatheuz.primehunt.domain.model.GoalTagDomain
 import com.felipimatheuz.primehunt.domain.repository.GoalRepository
@@ -117,7 +118,7 @@ class GoalRepositoryImpl @Inject constructor(
         // Logic moved from GetGoalsUseCase
         // ... (I'll fill this in properly in the next step or here if I have enough context)
         // I need to import PrimeMapper and PrimeSetResolver
-        return com.felipimatheuz.primehunt.domain.mapper.GoalMapper.mapToDomain(
+        return GoalMapper.mapToDomain(
             item.goal,
             item.tag,
             inventoryMap,
