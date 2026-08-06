@@ -31,8 +31,6 @@ class OverviewViewModel @Inject constructor(
         )
 
     private fun OverviewDomainModel.toUiState(): OverviewState {
-        val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
-
         return OverviewState(
             primeSets = PrimeSetsOverviewUi(
                 progress = primeSets.progress,
@@ -72,5 +70,9 @@ class OverviewViewModel @Inject constructor(
                 averageDucatPrice = trade.averageDucatPrice
             )
         )
+    }
+
+    companion object {
+        private val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
     }
 }

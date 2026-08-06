@@ -1,10 +1,17 @@
-package com.felipimatheuz.primehunt.data.remote.entity
+package com.felipimatheuz.primehunt.data.local.entity
 
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.felipimatheuz.primehunt.data.remote.enums.DropRarity
 
-@Entity(tableName = "prime_component")
+@Entity(
+    tableName = "prime_component",
+    indices = [
+        Index(value = ["relicId"]),
+        Index(value = ["primePartId"])
+    ]
+)
 data class PrimeComponentEntity(
 
     @PrimaryKey

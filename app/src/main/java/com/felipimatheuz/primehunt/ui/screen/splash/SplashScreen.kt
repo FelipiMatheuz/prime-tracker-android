@@ -25,7 +25,7 @@ import com.felipimatheuz.primehunt.ui.screen.splash.components.CephalonAnimation
 import com.felipimatheuz.primehunt.ui.screen.splash.components.TextSyncAnimation
 import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
 import com.felipimatheuz.primehunt.ui.viewmodel.splash.SplashViewModel
-import com.felipimatheuz.primehunt.ui.viewmodel.splash.SyncEvent
+import com.felipimatheuz.primehunt.domain.model.SyncEvent
 
 @Composable
 fun SplashScreen(onReady: () -> Unit, viewModel: SplashViewModel = hiltViewModel()) {

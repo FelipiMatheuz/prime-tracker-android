@@ -10,8 +10,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.ui.viewmodel.splash.EtlFile
-import com.felipimatheuz.primehunt.ui.viewmodel.splash.SyncEvent
+import com.felipimatheuz.primehunt.domain.model.EtlFile
+import com.felipimatheuz.primehunt.domain.model.SyncEvent
 
 @Composable
 fun TextSyncAnimation(syncEvent: SyncEvent){

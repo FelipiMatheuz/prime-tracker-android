@@ -3,11 +3,11 @@ package com.felipimatheuz.primehunt.data.repository
 import androidx.room.withTransaction
 import com.felipimatheuz.primehunt.data.local.dao.InventoryDao
 import com.felipimatheuz.primehunt.data.local.entity.InventoryPartEntity
-import com.felipimatheuz.primehunt.data.remote.AppDatabase
-import com.felipimatheuz.primehunt.data.remote.dao.PrimePartDao
-import com.felipimatheuz.primehunt.data.remote.dao.PrimeSetDao
-import com.felipimatheuz.primehunt.data.remote.entity.PrimePartEntity
-import com.felipimatheuz.primehunt.data.remote.entity.PrimeSetEntity
+import com.felipimatheuz.primehunt.data.local.AppDatabase
+import com.felipimatheuz.primehunt.data.local.dao.PrimePartDao
+import com.felipimatheuz.primehunt.data.local.dao.PrimeSetDao
+import com.felipimatheuz.primehunt.data.local.entity.PrimePartEntity
+import com.felipimatheuz.primehunt.data.local.entity.PrimeSetEntity
 import com.felipimatheuz.primehunt.data.remote.enums.PrimePartType
 import com.felipimatheuz.primehunt.data.remote.enums.PrimeType
 import com.felipimatheuz.primehunt.domain.mapper.LegacyMigrationParser

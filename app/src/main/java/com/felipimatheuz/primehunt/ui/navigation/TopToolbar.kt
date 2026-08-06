@@ -23,7 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.res.painterResource
@@ -46,14 +46,9 @@ fun TopToolbar(
     val primary = MaterialTheme.colorScheme.primary
     val primaryContainer = MaterialTheme.colorScheme.primaryContainer
 
-    val toolbarPath = remember { Path() }
-
     TopAppBar(
-        modifier = Modifier.drawBehind {
-            drawRect(color = primary)
-
-            toolbarPath.reset()
-            toolbarPath.apply {
+        modifier = Modifier.drawWithCache {
+            val toolbarPath = Path().apply {
                 moveTo(0f, 0f)
                 lineTo(size.width * 0.4f, 0f)
                 cubicTo(
@@ -64,7 +59,10 @@ fun TopToolbar(
                 lineTo(0f, size.height)
                 close()
             }
-            drawPath(toolbarPath, primaryContainer)
+            onDrawBehind {
+                drawRect(color = primary)
+                drawPath(toolbarPath, primaryContainer)
+            }
         },
         title = {
             AnimatedContent(targetState = currentKey, label = "ToolbarTitle") {

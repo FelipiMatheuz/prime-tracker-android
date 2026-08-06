@@ -8,8 +8,8 @@ import com.felipimatheuz.primehunt.data.remote.enums.RelicEra
 import com.felipimatheuz.primehunt.data.remote.enums.RelicSource
 import com.felipimatheuz.primehunt.data.repository.UiPreferencesRepository
 import com.felipimatheuz.primehunt.domain.model.RelicDomain
+import com.felipimatheuz.primehunt.domain.model.matches
 import com.felipimatheuz.primehunt.domain.usecase.relic.GetRelicsUseCase
-import com.felipimatheuz.primehunt.domain.usecase.util.ProgressFilterUseCase
 import com.felipimatheuz.primehunt.ui.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -30,7 +30,6 @@ import kotlin.time.Duration.Companion.milliseconds
 @HiltViewModel
 class RelicViewModel @Inject constructor(
     getRelicsUseCase: GetRelicsUseCase,
-    private val progressFilterUseCase: ProgressFilterUseCase,
     private val uiPreferencesRepository: UiPreferencesRepository
 ) : ViewModel(), MviViewModel<RelicState, RelicIntent> {
 
@@ -91,7 +90,7 @@ class RelicViewModel @Inject constructor(
             val matchesAvailability = filters.availabilities.isEmpty() ||
                     filters.availabilities.contains(relic.source)
 
-            val matchesProgress = progressFilterUseCase.matches(relic, filters.progress)
+            val matchesProgress = relic.matches(filters.progress)
 
             matchesQuery && matchesEra && matchesAvailability && matchesProgress
         }

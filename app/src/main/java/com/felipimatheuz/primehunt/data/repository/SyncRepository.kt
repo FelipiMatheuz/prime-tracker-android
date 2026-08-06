@@ -2,17 +2,17 @@ package com.felipimatheuz.primehunt.data.repository
 
 import com.felipimatheuz.primehunt.core.logging.AppLogger
 import com.felipimatheuz.primehunt.data.remote.PrimeTrackerService
-import com.felipimatheuz.primehunt.data.remote.dao.*
+import com.felipimatheuz.primehunt.data.local.dao.*
 import com.felipimatheuz.primehunt.data.remote.dto.*
-import com.felipimatheuz.primehunt.data.remote.entity.*
+import com.felipimatheuz.primehunt.data.local.entity.*
 import com.felipimatheuz.primehunt.data.remote.enums.DropRarity
 import com.felipimatheuz.primehunt.data.remote.enums.PrimePartType
 import com.felipimatheuz.primehunt.data.remote.enums.PrimeType
 import com.felipimatheuz.primehunt.data.remote.enums.RelicEra
 import com.felipimatheuz.primehunt.data.remote.enums.RelicSource
+import com.felipimatheuz.primehunt.domain.model.EtlFile
+import com.felipimatheuz.primehunt.domain.model.SyncEvent
 import com.felipimatheuz.primehunt.domain.repository.SyncRepository
-import com.felipimatheuz.primehunt.ui.viewmodel.splash.EtlFile
-import com.felipimatheuz.primehunt.ui.viewmodel.splash.SyncEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

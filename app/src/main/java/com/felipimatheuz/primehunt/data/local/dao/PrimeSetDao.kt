@@ -1,9 +1,9 @@
-package com.felipimatheuz.primehunt.data.remote.dao
+package com.felipimatheuz.primehunt.data.local.dao
 
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
-import com.felipimatheuz.primehunt.data.remote.entity.PrimeSetEntity
+import com.felipimatheuz.primehunt.data.local.entity.PrimeSetEntity
 import com.felipimatheuz.primehunt.data.remote.enums.PrimeType
 import kotlinx.coroutines.flow.Flow
 

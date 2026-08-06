@@ -1,9 +1,9 @@
-package com.felipimatheuz.primehunt.ui.viewmodel.splash
+package com.felipimatheuz.primehunt.domain.model
 
 enum class EtlFile(val text: String) {
-    PRIME_COLLECTIONS("prime collections"),
+    RELICS("relics"),
     PRIME_SETS("prime sets"),
-    RELICS ("relics")
+    PRIME_COLLECTIONS("prime collections")
 }
 
 sealed interface SyncEvent {
