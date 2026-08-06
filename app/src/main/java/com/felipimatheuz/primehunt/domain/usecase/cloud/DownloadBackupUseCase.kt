@@ -10,8 +10,7 @@ class DownloadBackupUseCase @Inject constructor(
     private val cloudRepository: CloudRepository
 ) {
     suspend operator fun invoke(userId: String): CloudActionResult {
-        val result = firestore.downloadBackup(userId)
-        return when (result) {
+        return when (val result = firestore.downloadBackup(userId)) {
             is Firestore.BackupResult.Success -> {
                 try {
                     cloudRepository.restoreInventory(result.inventory)

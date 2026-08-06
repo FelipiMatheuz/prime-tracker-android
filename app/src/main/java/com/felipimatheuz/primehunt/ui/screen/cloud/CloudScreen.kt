@@ -77,7 +77,6 @@ fun CloudScreen(
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.surface)
             .padding(padding)
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)

@@ -75,7 +75,6 @@
     <string name="status_resurgence">Varzia (Resurgence)</string>
 
     <!-- Prime Detail -->
-    <string name="prime_template" translatable="false">%1$s Prime</string>
     <string name="detail_pieces_owned_template">%1$d / %2$d Pieces Owned</string>
     <string name="detail_action_add_set">+1 Set</string>
     <string name="detail_action_remove_set">-1 Set</string>
@@ -113,15 +112,9 @@
     <string name="comp_guard">Guard</string>
     <string name="comp_boot">Boot</string>
     <string name="comp_chain">Chain</string>
-    <string name="bronco_prime" translatable="false">Bronco Prime</string>
-    <string name="lex_prime" translatable="false">Lex Prime</string>
-    <string name="magnus_prime" translatable="false">Magnus Prime</string>
-    <string name="vasto_prime" translatable="false">Vasto Prime</string>
 
     <!-- Relics -->
     <string name="relic_search_label">Search relics, sets or parts…</string>
-    <string name="relic_template">%1$s %2$s Relic</string>
-    <string name="relic_item_template" translatable="false">%1$s Prime %2$s %3$s</string>
     <string name="view_relic_era">Era</string>
     <string name="view_relic_availability">Availability</string>
     <string name="view_relic_progress">Progress</string>
@@ -142,7 +135,6 @@
     <string name="relic_group_events">Events (Resurgence / Baro)</string>
     <string name="relic_group_missing_4_plus">Missing 4+</string>
     <string name="relic_group_missing_1_3">Missing 1–3</string>
-    <string name="tier_relics">%1$s Relics</string>
 
     <!-- Goals -->
     <string name="goals_search_label">Search goals, targets or tags…</string>
@@ -211,11 +203,6 @@
     <string name="cloud_account_desc">Cloud features require a connected account.</string>
     <string name="cloud_sign_in_google">Sign In with Google</string>
     <string name="cloud_disconnect">Disconnect</string>
-    <string name="cloud_backup_success">Backup uploaded successfully.</string>
-    <string name="cloud_restore_success">Data restored successfully.</string>
-    <string name="cloud_migration_success">Migration completed. Old checklist removed.</string>
-    <string name="cloud_clear_success">All cloud data has been deleted.</string>
-    <string name="cloud_nothing_to_migrate">No legacy data found to migrate.</string>
 
     <!-- Settings -->
     <string name="settings_wallpaper_title">Wallpaper</string>

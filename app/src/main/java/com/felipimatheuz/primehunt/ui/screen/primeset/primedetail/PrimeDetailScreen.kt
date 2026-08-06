@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.felipimatheuz.primehunt.R
+import com.felipimatheuz.primehunt.data.remote.enums.PrimeType
 import com.felipimatheuz.primehunt.ui.screen.primeset.primedetail.components.DetailComponentItem
 import com.felipimatheuz.primehunt.ui.screen.primeset.primedetail.components.DetailError
 import com.felipimatheuz.primehunt.ui.screen.primeset.primedetail.components.DetailHeader
@@ -99,7 +100,10 @@ fun PrimeDetailContent(
 
                         set.parts.forEach { part ->
                             item(key = part.id) {
-                                DetailComponentItem(part) { delta ->
+                                DetailComponentItem(
+                                    part,
+                                    isArchwing = set.type == PrimeType.ARCHWING
+                                ) { delta ->
                                     onIntent(
                                         PrimeDetailIntent.UpdateQuantity(
                                             part.id,
@@ -113,7 +117,8 @@ fun PrimeDetailContent(
                                 items(
                                     part.nestedParts,
                                     key = { "nested_${part.id}_${it.id}" }) { nested ->
-                                    DetailComponentItem(nested, isNested = true) { delta ->
+                                    DetailComponentItem(nested, isNested = true, isArchwing = false)
+                                    { delta ->
                                         onIntent(
                                             PrimeDetailIntent.UpdateQuantity(
                                                 nested.id,
