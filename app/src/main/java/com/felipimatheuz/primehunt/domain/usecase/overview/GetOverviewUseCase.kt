@@ -1,13 +1,9 @@
 package com.felipimatheuz.primehunt.domain.usecase.overview
 
-import com.felipimatheuz.primehunt.data.local.entity.GoalWithTag
 import com.felipimatheuz.primehunt.data.local.enums.GoalStatus
 import com.felipimatheuz.primehunt.data.remote.enums.PrimeType
-import com.felipimatheuz.primehunt.data.repository.DatabaseSummary
-import com.felipimatheuz.primehunt.data.repository.GoalSummary
-import com.felipimatheuz.primehunt.data.repository.RelicSummary
 import com.felipimatheuz.primehunt.domain.model.*
-import com.felipimatheuz.primehunt.domain.repository.OverviewRepository
+import com.felipimatheuz.primehunt.domain.repository.*
 import com.felipimatheuz.primehunt.domain.usecase.primeset.GetPrimeSetsUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -124,16 +120,13 @@ class GetOverviewUseCase @Inject constructor(
 
     private fun calculateGoalsDomain(
         goal: GoalSummary,
-        goalsWithTags: List<GoalWithTag>
+        goalsWithTags: List<GoalDomain>
     ): GoalsOverviewDomain {
-        val activeGoals = goalsWithTags.filter { it.goal.status == GoalStatus.ACTIVE }
+        val activeGoals = goalsWithTags.filter { it.status == GoalStatus.ACTIVE }
         val mainTag = activeGoals
             .groupBy { it.tag }
             .maxByOrNull { it.value.size }
             ?.key
-            ?.let { tag ->
-                GoalTagDomain(tag.id, tag.name, tag.icon, tag.color)
-            }
 
         return GoalsOverviewDomain(
             activeGoals = goal.active,
@@ -165,7 +158,11 @@ class GetOverviewUseCase @Inject constructor(
         return TradeOverviewDomain(
             duplicateSets = duplicateSets,
             duplicateParts = duplicateParts,
-            averageDucatPrice = (duplicateSets + duplicateParts) * 32
+            averageDucatPrice = (duplicateSets + duplicateParts) * AVERAGE_DUCAT_VALUE
         )
+    }
+
+    companion object {
+        private const val AVERAGE_DUCAT_VALUE = 32
     }
 }

@@ -1,20 +1,23 @@
 package com.felipimatheuz.primehunt.data.repository
 
 import com.felipimatheuz.primehunt.core.logging.AppLogger
+import com.felipimatheuz.primehunt.data.local.dao.ManifestDao
+import com.felipimatheuz.primehunt.data.local.dao.PrimeCollectionDao
+import com.felipimatheuz.primehunt.data.local.dao.PrimeCollectionSetDao
+import com.felipimatheuz.primehunt.data.local.dao.PrimeComponentDao
+import com.felipimatheuz.primehunt.data.local.dao.PrimePartDao
+import com.felipimatheuz.primehunt.data.local.dao.PrimeSetDao
+import com.felipimatheuz.primehunt.data.local.dao.RelicDao
+import com.felipimatheuz.primehunt.data.local.entity.LocalManifest
+import com.felipimatheuz.primehunt.data.mapper.SyncMapper
 import com.felipimatheuz.primehunt.data.remote.PrimeTrackerService
-import com.felipimatheuz.primehunt.data.local.dao.*
-import com.felipimatheuz.primehunt.data.remote.dto.*
-import com.felipimatheuz.primehunt.data.local.entity.*
-import com.felipimatheuz.primehunt.data.remote.enums.DropRarity
-import com.felipimatheuz.primehunt.data.remote.enums.PrimePartType
-import com.felipimatheuz.primehunt.data.remote.enums.PrimeType
-import com.felipimatheuz.primehunt.data.remote.enums.RelicEra
-import com.felipimatheuz.primehunt.data.remote.enums.RelicSource
+import com.felipimatheuz.primehunt.data.remote.dto.ManifestFile
 import com.felipimatheuz.primehunt.domain.model.EtlFile
 import com.felipimatheuz.primehunt.domain.model.SyncEvent
 import com.felipimatheuz.primehunt.domain.repository.SyncRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
@@ -30,6 +33,7 @@ class SyncRepositoryImpl @Inject constructor(
     private val primeComponentDao: PrimeComponentDao,
     private val primeCollectionDao: PrimeCollectionDao,
     private val primeCollectionSetDao: PrimeCollectionSetDao,
+    private val syncMapper: SyncMapper,
     private val logger: AppLogger
 ) : SyncRepository {
 
@@ -41,45 +45,53 @@ class SyncRepositoryImpl @Inject constructor(
 
             emit(SyncEvent.CheckingManifest(remoteManifest.generatorVersion))
 
-            var updatedFiles = 0
+            val remoteFiles = remoteManifest.files
 
-            // Sync Relics
-            val remoteRelicsHash = remoteManifest.files.find { it.name == "relics.json" }?.sha256
-            if (remoteRelicsHash != localManifest?.relicsHash) {
-                emit(SyncEvent.Downloading(EtlFile.RELICS))
-                val relics = service.getRelics()
-                emit(SyncEvent.Importing(EtlFile.RELICS))
-                importRelics(relics)
-                updatedFiles++
-            }
+            val newRelicsHash = syncIfNeeded(
+                fileName = "relics.json",
+                etlFile = EtlFile.RELICS,
+                localHash = localManifest?.relicsHash,
+                remoteFiles = remoteFiles,
+                fetcher = { service.getRelics() },
+                importer = { relics ->
+                    val (relicsEntities, components) = syncMapper.mapRelics(relics)
+                    relicDao.upsertAll(relicsEntities)
+                    primeComponentDao.upsertAll(components)
+                }
+            )
 
-            // Sync Prime Sets
-            val remoteSetsHash = remoteManifest.files.find { it.name == "prime-sets.json" }?.sha256
-            if (remoteSetsHash != localManifest?.primeSetsHash) {
-                emit(SyncEvent.Downloading(EtlFile.PRIME_SETS))
-                val sets = service.getPrimeSets()
-                emit(SyncEvent.Importing(EtlFile.PRIME_SETS))
-                importPrimeSets(sets)
-                updatedFiles++
-            }
+            val newSetsHash = syncIfNeeded(
+                fileName = "prime-sets.json",
+                etlFile = EtlFile.PRIME_SETS,
+                localHash = localManifest?.primeSetsHash,
+                remoteFiles = remoteFiles,
+                fetcher = { service.getPrimeSets() },
+                importer = { sets ->
+                    val (setsEntities, parts) = syncMapper.mapPrimeSets(sets)
+                    primeSetDao.upsertAll(setsEntities)
+                    primePartDao.upsertAll(parts)
+                }
+            )
 
-            // Sync Collections
-            val remoteCollectionsHash =
-                remoteManifest.files.find { it.name == "prime-collections.json" }?.sha256
-            if (remoteCollectionsHash != localManifest?.collectionsHash) {
-                emit(SyncEvent.Downloading(EtlFile.PRIME_COLLECTIONS))
-                val collections = service.getPrimeCollections()
-                emit(SyncEvent.Importing(EtlFile.PRIME_COLLECTIONS))
-                importCollections(collections)
-                updatedFiles++
-            }
+            val newCollectionsHash = syncIfNeeded(
+                fileName = "prime-collections.json",
+                etlFile = EtlFile.PRIME_COLLECTIONS,
+                localHash = localManifest?.collectionsHash,
+                remoteFiles = remoteFiles,
+                fetcher = { service.getPrimeCollections() },
+                importer = { collections ->
+                    val (collectionEntities, crossRefs) = syncMapper.mapCollections(collections)
+                    primeCollectionDao.upsertAll(collectionEntities)
+                    primeCollectionSetDao.upsertAll(crossRefs)
+                }
+            )
 
-            if (updatedFiles > 0) {
+            if (newRelicsHash != null || newSetsHash != null || newCollectionsHash != null) {
                 val newManifest = LocalManifest(
                     lastSync = System.currentTimeMillis(),
-                    relicsHash = remoteRelicsHash,
-                    primeSetsHash = remoteSetsHash,
-                    collectionsHash = remoteCollectionsHash
+                    relicsHash = newRelicsHash ?: localManifest?.relicsHash,
+                    primeSetsHash = newSetsHash ?: localManifest?.primeSetsHash,
+                    collectionsHash = newCollectionsHash ?: localManifest?.collectionsHash
                 )
                 manifestDao.upsert(newManifest)
                 emit(SyncEvent.Success)
@@ -93,70 +105,22 @@ class SyncRepositoryImpl @Inject constructor(
         }
     }.flowOn(Dispatchers.IO)
 
-    private suspend fun importRelics(relics: List<RelicDto>) {
-        val relicEntities = relics.map { dto ->
-            RelicEntity(
-                id = dto.id,
-                name = dto.name,
-                era = RelicEra.fromString(dto.era),
-                source = RelicSource.fromString(dto.source)
-            )
+    private suspend fun <T> FlowCollector<SyncEvent>.syncIfNeeded(
+        fileName: String,
+        etlFile: EtlFile,
+        localHash: String?,
+        remoteFiles: List<ManifestFile>,
+        fetcher: suspend () -> T,
+        importer: suspend (T) -> Unit
+    ): String? {
+        val remoteHash = remoteFiles.find { it.name == fileName }?.sha256
+        if (remoteHash != localHash && remoteHash != null) {
+            emit(SyncEvent.Downloading(etlFile))
+            val data = fetcher()
+            emit(SyncEvent.Importing(etlFile))
+            importer(data)
+            return remoteHash
         }
-        val componentEntities = relics.flatMap { relicDto ->
-            relicDto.drops.map { dropDto ->
-                PrimeComponentEntity(
-                    id = "${relicDto.id}_${dropDto.id}",
-                    relicId = relicDto.id,
-                    primePartId = dropDto.id,
-                    rarity = DropRarity.fromString(dropDto.rarity)
-                )
-            }
-        }
-        relicDao.upsertAll(relicEntities)
-        primeComponentDao.upsertAll(componentEntities)
-    }
-
-    private suspend fun importPrimeSets(sets: List<PrimeSetDto>) {
-        val setEntities = sets.map { dto ->
-            PrimeSetEntity(
-                id = dto.id,
-                name = dto.name,
-                type = PrimeType.fromString(dto.type),
-                image = dto.image
-            )
-        }
-        val partEntities = sets.flatMap { setDto ->
-            setDto.components.map { compDto ->
-                PrimePartEntity(
-                    id = compDto.id,
-                    primeSetId = setDto.id,
-                    part = PrimePartType.fromString(compDto.part),
-                    quantity = compDto.quantity
-                )
-            }
-        }
-        primeSetDao.upsertAll(setEntities)
-        primePartDao.upsertAll(partEntities)
-    }
-
-    private suspend fun importCollections(collections: List<PrimeCollectionDto>) {
-        val collectionEntities = collections.map { dto ->
-            PrimeCollectionEntity(
-                id = dto.id,
-                name = dto.name,
-                promoImage = dto.promoImage,
-                released = dto.released
-            )
-        }
-        val crossRefs = collections.flatMap { collDto ->
-            collDto.primeSets.map { setId ->
-                PrimeCollectionSetCrossRef(
-                    collectionId = collDto.id,
-                    primeSetId = setId
-                )
-            }
-        }
-        primeCollectionDao.upsertAll(collectionEntities)
-        primeCollectionSetDao.upsertAll(crossRefs)
+        return null
     }
 }

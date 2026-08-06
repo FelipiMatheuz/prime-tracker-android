@@ -42,8 +42,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.data.local.entity.GoalTagEntity
 import com.felipimatheuz.primehunt.data.local.enums.GoalTargetType
+import com.felipimatheuz.primehunt.domain.model.GoalTagDomain
 import com.felipimatheuz.primehunt.domain.model.TargetDomain
 import com.felipimatheuz.primehunt.ui.screen.components.GoalTagChip
 
@@ -52,8 +52,8 @@ data class GoalFormState(
     val targetQuery: String,
     val suggestions: List<TargetDomain>,
     val quantity: Int,
-    val selectedTag: GoalTagEntity?,
-    val availableTags: List<GoalTagEntity>,
+    val selectedTag: GoalTagDomain?,
+    val availableTags: List<GoalTagDomain>,
     val notes: String,
     val manualCurrentQuantity: Int = 0,
     val readOnlyTarget: Boolean = false,
@@ -67,7 +67,7 @@ data class GoalFormActions(
     val onTargetQueryChange: (String) -> Unit,
     val onTargetSelected: (TargetDomain) -> Unit,
     val onQuantityChange: (Int) -> Unit,
-    val onTagSelected: (GoalTagEntity) -> Unit,
+    val onTagSelected: (GoalTagDomain) -> Unit,
     val onCreateTagClick: () -> Unit,
     val onNotesChange: (String) -> Unit,
     val onManualQuantityChange: (Int) -> Unit = {}

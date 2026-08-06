@@ -3,20 +3,24 @@ package com.felipimatheuz.primehunt.ui.viewmodel.goals.manage
 import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.felipimatheuz.primehunt.data.local.dao.GoalDao
-import com.felipimatheuz.primehunt.data.local.dao.GoalTagDao
-import com.felipimatheuz.primehunt.data.local.entity.GoalEntity
-import com.felipimatheuz.primehunt.data.local.entity.GoalTagEntity
-import com.felipimatheuz.primehunt.data.local.enums.GoalStatus
 import com.felipimatheuz.primehunt.data.local.enums.GoalTargetType
 import com.felipimatheuz.primehunt.domain.model.GoalDomain
+import com.felipimatheuz.primehunt.domain.model.GoalTagDomain
 import com.felipimatheuz.primehunt.domain.model.TargetDomain
 import com.felipimatheuz.primehunt.domain.repository.GoalRepository
 import com.felipimatheuz.primehunt.domain.usecase.goal.GetGoalsUseCase
 import com.felipimatheuz.primehunt.ui.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.milliseconds
@@ -25,9 +29,7 @@ import kotlin.time.Duration.Companion.milliseconds
 @HiltViewModel
 class ManageGoalViewModel @Inject constructor(
     private val repository: GoalRepository,
-    private val getGoalsUseCase: GetGoalsUseCase,
-    private val goalDao: GoalDao,
-    private val tagDao: GoalTagDao
+    private val getGoalsUseCase: GetGoalsUseCase
 ) : ViewModel(), MviViewModel<ManageGoalState, ManageGoalIntent> {
 
     private val _state = MutableStateFlow(ManageGoalState())
@@ -38,7 +40,7 @@ class ManageGoalViewModel @Inject constructor(
     private var originalGoal: GoalDomain? = null
 
     init {
-        tagDao.observeAll()
+        repository.observeAllTags()
             .onEach { tags ->
                 _state.update { it.copy(availableTags = tags) }
             }
@@ -135,7 +137,7 @@ class ManageGoalViewModel @Inject constructor(
                             targetQuery = goal.targetName,
                             quantity = goal.desiredQuantity,
                             manualCurrentQuantity = goal.currentQuantity,
-                            selectedTag = it.availableTags.find { t -> t.id == goal.tag.id } ?: GoalTagEntity(goal.tag.id, goal.tag.name, goal.tag.icon, goal.tag.color),
+                            selectedTag = it.availableTags.find { t -> t.id == goal.tag.id } ?: goal.tag,
                             notes = goal.note ?: "",
                             status = goal.status,
                             isLoading = false
@@ -200,27 +202,25 @@ class ManageGoalViewModel @Inject constructor(
 
         viewModelScope.launch {
             _state.update { it.copy(isSaving = true) }
-            val entity = if (s.isEditMode) {
-                goalDao.getById(s.goalId!!)?.copy(
+            if (s.isEditMode) {
+                repository.updateGoal(
+                    id = s.goalId!!,
                     desiredQuantity = s.quantity,
-                    currentQuantity = if (s.targetType == GoalTargetType.RELIC || s.targetType == GoalTargetType.FORMA) s.manualCurrentQuantity else 0,
                     tagId = s.selectedTag!!.id,
-                    note = s.notes.ifBlank { null }
+                    note = s.notes.ifBlank { null },
+                    manualCurrentQuantity = if (s.targetType == GoalTargetType.RELIC || s.targetType == GoalTargetType.FORMA) s.manualCurrentQuantity else null
                 )
             } else {
-                GoalEntity(
+                repository.saveGoal(
                     targetType = s.targetType,
                     targetId = s.selectedTarget!!.id,
                     desiredQuantity = s.quantity,
-                    currentQuantity = 0, // Defaults to 0 for new goals
                     tagId = s.selectedTag!!.id,
-                    status = GoalStatus.ACTIVE,
                     note = s.notes.ifBlank { null },
-                    createdAt = System.currentTimeMillis()
+                    manualCurrentQuantity = if (s.targetType == GoalTargetType.RELIC || s.targetType == GoalTargetType.FORMA) s.manualCurrentQuantity else 0
                 )
             }
 
-            entity?.let { repository.saveGoal(it) }
             _state.update { it.copy(isSaving = false, operationComplete = true) }
         }
     }
@@ -246,13 +246,14 @@ class ManageGoalViewModel @Inject constructor(
         if (!s.isTagCreationValid) return
 
         viewModelScope.launch {
-            val tag = GoalTagEntity(
+            val tag = GoalTagDomain(
+                id = 0, // Generated by DB
                 name = s.newTagName,
                 icon = s.newTagIcon,
                 color = s.newTagColor.toArgb()
             )
             repository.saveTag(tag)
-            tagDao.observeAll().firstOrNull()?.find { it.name == s.newTagName }?.let { newTag ->
+            repository.observeAllTags().firstOrNull()?.find { it.name == s.newTagName }?.let { newTag ->
                 _state.update { 
                     it.copy(
                         selectedTag = newTag,

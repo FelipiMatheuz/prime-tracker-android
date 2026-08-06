@@ -12,16 +12,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.data.local.entity.GoalTagEntity
 import com.felipimatheuz.primehunt.data.local.enums.GoalStatus
 import com.felipimatheuz.primehunt.data.local.enums.GoalTargetType
+import com.felipimatheuz.primehunt.domain.model.GoalTagDomain
 import com.felipimatheuz.primehunt.ui.viewmodel.goals.GoalsFilters
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun GoalsFilterBottomSheet(
     filters: GoalsFilters,
-    availableTags: List<GoalTagEntity>,
+    availableTags: List<GoalTagDomain>,
     onFiltersChanged: (GoalsFilters) -> Unit,
     onDismiss: () -> Unit,
     sheetState: SheetState

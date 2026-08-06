@@ -12,6 +12,10 @@
     <string name="sync_up_to_date">All contents are already up to date.</string>
     <string name="sync_failed">Failed to synchronize\nThe last successful sync will be used.</string>
 
+    <string name="etl_file_relics">relics</string>
+    <string name="etl_file_prime_sets">prime sets</string>
+    <string name="etl_file_prime_collections">prime collections</string>
+
     <!--Templates-->
     <string name="prime_collection_template">%1$s Bundle</string>
     <string name="prime_no_collection">Standalone Primes</string>

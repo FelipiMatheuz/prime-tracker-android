@@ -1,10 +1,10 @@
 package com.felipimatheuz.primehunt.ui.viewmodel.goals.manage
 
 import androidx.compose.ui.graphics.Color
-import com.felipimatheuz.primehunt.data.local.entity.GoalTagEntity
 import com.felipimatheuz.primehunt.data.local.enums.GoalIcons
 import com.felipimatheuz.primehunt.data.local.enums.GoalStatus
 import com.felipimatheuz.primehunt.data.local.enums.GoalTargetType
+import com.felipimatheuz.primehunt.domain.model.GoalTagDomain
 import com.felipimatheuz.primehunt.domain.model.TargetDomain
 import com.felipimatheuz.primehunt.ui.mvi.MviState
 
@@ -14,7 +14,7 @@ data class ManageGoalState(
     val status: GoalStatus = GoalStatus.ACTIVE,
     
     // Loaded Data
-    val availableTags: List<GoalTagEntity> = emptyList(),
+    val availableTags: List<GoalTagDomain> = emptyList(),
     val suggestions: List<TargetDomain> = emptyList(),
     
     // Form Fields
@@ -23,7 +23,7 @@ data class ManageGoalState(
     val selectedTarget: TargetDomain? = null,
     val quantity: Int = 1,
     val manualCurrentQuantity: Int = 0,
-    val selectedTag: GoalTagEntity? = null,
+    val selectedTag: GoalTagDomain? = null,
     val notes: String = "",
     
     // UI State
