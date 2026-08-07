@@ -35,19 +35,21 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.felipimatheuz.primehunt.BuildConfig
 import com.felipimatheuz.primehunt.R
+import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
 import com.felipimatheuz.primehunt.ui.util.IntentUtils
 import com.felipimatheuz.primehunt.ui.viewmodel.about.AboutViewModel
 
 @Composable
 fun AboutScreen(
     paddingValues: PaddingValues,
-    snackbarHostState: SnackbarHostState,
+    snackBarHostState: SnackbarHostState,
     viewModel: AboutViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
@@ -61,10 +63,11 @@ fun AboutScreen(
             .padding(paddingValues),
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(32.dp)
-    ) {
+    )
+    {
         // Header
         item {
-            AboutHeader(isUpdateAvailable, snackbarHostState)
+            AboutHeader(isUpdateAvailable, snackBarHostState)
         }
 
         // Developer
@@ -73,11 +76,20 @@ fun AboutScreen(
                 title = stringResource(R.string.about_developer_title),
                 content = {
                     Column {
-                        Text(
-                            text = stringResource(R.string.about_developer_name),
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.Bold
-                        )
+                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            verticalAlignment = Alignment.CenterVertically) {
+                            Image(
+                                painter = painterResource(id = R.drawable.cs_logo),
+                                contentDescription = null,
+                                modifier = Modifier.size(32.dp)
+                            )
+                            Text(
+                                text = stringResource(R.string.about_developer_name),
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
+
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
                             text = stringResource(R.string.about_developer_desc),
@@ -101,14 +113,20 @@ fun AboutScreen(
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         OutlinedButton(
                             onClick = {
-                                IntentUtils.contactEmail(context, contactEmail, emailSubject, snackbarHostState, scope)
+                                IntentUtils.contactEmail(
+                                    context,
+                                    contactEmail,
+                                    emailSubject,
+                                    snackBarHostState,
+                                    scope
+                                )
                             }
                         ) {
                             Text(stringResource(R.string.about_contact))
                         }
                         OutlinedButton(
                             onClick = {
-                                IntentUtils.openUrl(context, bugReportUrl, snackbarHostState, scope)
+                                IntentUtils.openUrl(context, bugReportUrl, snackBarHostState, scope)
                             }
                         ) {
                             Text(stringResource(R.string.about_report_bug))
@@ -132,7 +150,7 @@ fun AboutScreen(
                         Spacer(modifier = Modifier.height(12.dp))
                         Button(
                             onClick = {
-                                IntentUtils.openUrl(context, repoUrl, snackbarHostState, scope)
+                                IntentUtils.openUrl(context, repoUrl, snackBarHostState, scope)
                             }
                         ) {
                             Text(stringResource(R.string.about_repository))
@@ -200,7 +218,7 @@ fun AboutScreen(
         DonationDialog(
             onDismiss = { showDonationDialog = false },
             onConfirm = {
-                IntentUtils.openUrl(context, donationUrl, snackbarHostState, scope)
+                IntentUtils.openUrl(context, donationUrl, snackBarHostState, scope)
                 showDonationDialog = false
             }
         )
@@ -210,7 +228,7 @@ fun AboutScreen(
 @Composable
 private fun AboutHeader(
     isUpdateAvailable: Boolean,
-    snackbarHostState: SnackbarHostState
+    snackBarHostState: SnackbarHostState
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -247,7 +265,7 @@ private fun AboutHeader(
         if (isUpdateAvailable) {
             Spacer(modifier = Modifier.height(16.dp))
             Button(
-                onClick = { IntentUtils.openUrl(context, playStoreUrl, snackbarHostState, scope) },
+                onClick = { IntentUtils.openUrl(context, playStoreUrl, snackBarHostState, scope) },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.secondary,
                     contentColor = MaterialTheme.colorScheme.onSecondary
@@ -319,4 +337,12 @@ private fun DonationDialog(
             }
         }
     )
+}
+
+@Preview
+@Composable
+fun AboutScreenPreview() {
+    PrimeTrackerTheme {
+        AboutScreen(PaddingValues(0.dp), SnackbarHostState())
+    }
 }

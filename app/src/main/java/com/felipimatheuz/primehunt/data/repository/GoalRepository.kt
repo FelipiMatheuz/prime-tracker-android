@@ -115,9 +115,6 @@ class GoalRepositoryImpl @Inject constructor(
         inventoryMap: Map<String, Int>,
         data: PrimeBaseData
     ): GoalDomain {
-        // Logic moved from GetGoalsUseCase
-        // ... (I'll fill this in properly in the next step or here if I have enough context)
-        // I need to import PrimeMapper and PrimeSetResolver
         return GoalMapper.mapToDomain(
             item.goal,
             item.tag,

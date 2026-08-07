@@ -40,7 +40,7 @@ fun SplashContent(syncEvent: SyncEvent, onStart: () -> Unit, onReady: () -> Unit
         Column(
             modifier = Modifier.align(Alignment.Center),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(32.dp)
         ) {
             CephalonAnimation(syncEvent, onStart, onReady)
             TextSyncAnimation(syncEvent)
