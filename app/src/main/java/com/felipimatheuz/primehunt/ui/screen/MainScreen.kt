@@ -3,6 +3,7 @@ package com.felipimatheuz.primehunt.ui.screen
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -36,6 +37,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.ui.NavDisplay
+import com.felipimatheuz.primehunt.BuildConfig
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.ui.navigation.AboutKey
 import com.felipimatheuz.primehunt.ui.navigation.AppNavKey
@@ -89,7 +91,7 @@ fun MainContent(
     )
     val navigator = remember(navState) { Navigator(navState) }
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-    val snackbarHostState = remember { SnackbarHostState() }
+    val snackBarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     val selectedWallpaper by settingsViewModel.selectedWallpaper.collectAsStateWithLifecycle()
 
@@ -100,27 +102,42 @@ fun MainContent(
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    modifier = Modifier.padding(16.dp)
+                    modifier = Modifier.padding(32.dp, 16.dp)
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.cephalon_ehiza),
                         contentDescription = null,
-                        modifier = Modifier.size(32.dp)
+                        modifier = Modifier.size(40.dp)
                     )
+                    Column {
+                        Text(
+                            text = stringResource(R.string.app_name),
+                            style = MaterialTheme.typography.titleLarge
+                        )
+                        Text(
+                            text = "v${BuildConfig.VERSION_NAME}",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+                        )
+                    }
+
+                }
+                Column(modifier = Modifier.padding(horizontal = 16.dp)) {
                     Text(
-                        text = stringResource(R.string.app_name),
-                        style = MaterialTheme.typography.titleLarge
+                        text = stringResource(R.string.menu_section_features),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.75f),
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    )
+                    HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
+                    DrawerContent(
+                        currentKey = (navState.topLevelRoute as? AppNavKey) ?: OverviewKey,
+                        onKeySelected = { key ->
+                            navigator.navigate(key)
+                            scope.launch { drawerState.close() }
+                        }
                     )
                 }
-
-                HorizontalDivider(Modifier.padding(horizontal = 16.dp))
-                DrawerContent(
-                    currentKey = (navState.topLevelRoute as? AppNavKey) ?: OverviewKey,
-                    onKeySelected = { key ->
-                        navigator.navigate(key)
-                        scope.launch { drawerState.close() }
-                    }
-                )
             }
         }
     ) {
@@ -133,7 +150,7 @@ fun MainContent(
                     onWallpaperSelected = settingsViewModel::updateWallpaper
                 )
             },
-            snackbarHost = { SnackbarHost(snackbarHostState) }
+            snackbarHost = { SnackbarHost(snackBarHostState) }
         ) { padding ->
             Box(modifier = Modifier.fillMaxSize()) {
                 if (((navState.topLevelRoute as? AppNavKey) ?: OverviewKey).supportsWallpaper) {
@@ -150,7 +167,7 @@ fun MainContent(
                                 key = key as AppNavKey,
                                 navigator = navigator,
                                 padding = padding,
-                                snackbarHostState = snackbarHostState
+                                snackBarHostState = snackBarHostState
                             )
                         }
                     },
@@ -168,7 +185,7 @@ fun AppNavGraph(
     key: AppNavKey,
     navigator: Navigator,
     padding: PaddingValues,
-    snackbarHostState: SnackbarHostState
+    snackBarHostState: SnackbarHostState
 ) {
     when (key) {
         is OverviewKey -> OverviewScreen(padding)
@@ -219,7 +236,7 @@ fun AppNavGraph(
 
         is HelpKey -> HelpScreen(padding)
 
-        is AboutKey -> AboutScreen(padding, snackbarHostState)
+        is AboutKey -> AboutScreen(padding, snackBarHostState)
     }
 }
 
@@ -228,18 +245,28 @@ fun DrawerContent(
     currentKey: AppNavKey,
     onKeySelected: (AppNavKey) -> Unit
 ) {
-    AppNavKey.topLevelRoutes.forEach { appNavKey ->
+    AppNavKey.topLevelRoutes.forEachIndexed { index, appNavKey ->
         NavigationDrawerItem(
-            modifier = Modifier.padding(8.dp),
             label = { Text(stringResource(appNavKey.label)) },
             icon = {
                 Icon(
                     painter = painterResource(appNavKey.icon),
-                    contentDescription = null
+                    contentDescription = null,
+                    modifier = Modifier.size(32.dp)
                 )
             },
             selected = currentKey == appNavKey,
-            onClick = { onKeySelected(appNavKey) }
+            onClick = { onKeySelected(appNavKey) },
+            modifier = Modifier.padding(vertical = 8.dp)
         )
+        if (index == 3) {
+            Text(
+                text = stringResource(R.string.menu_section_application),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.75f),
+                modifier = Modifier.padding(horizontal = 16.dp)
+            )
+            HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
+        }
     }
 }

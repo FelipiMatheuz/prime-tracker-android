@@ -17,6 +17,8 @@
     <string name="menu_help">Help</string>
     <string name="menu_about">About</string>
     <string name="menu_cloud">Data Transfer</string>
+    <string name="menu_section_features">FEATURES</string>
+    <string name="menu_section_application">APPLICATION</string>
 
     <!-- Splash & Sync -->
     <string name="by_owner">by Cyberman Studios</string>
@@ -251,9 +253,9 @@
     <string name="about_version_label">Version %1$s</string>
     <string name="about_update_available">New version available!</string>
     <string name="about_update_button">Update Now</string>
-    <string name="about_developer_title">Developer</string>
-    <string name="about_developer_name">Felipi Matheuz</string>
-    <string name="about_developer_desc">Android Developer and Warframe player. Creator of Prime Tracker.</string>
+    <string name="about_developer_title">Created by</string>
+    <string name="about_developer_name">Cyberman Studios</string>
+    <string name="about_developer_desc">Independent Game &amp; Software Studio.\n(One-man builder and Warframe player in free time) </string>
     <string name="about_support_title">Support &amp; Feedback</string>
     <string name="about_contact">Contact</string>
     <string name="about_report_bug">Report Bug</string>
