@@ -273,7 +273,7 @@
     <string name="about_footer_thanks">Thank you for using Prime Tracker! Happy hunting, Tenno.</string>
     <string name="about_email_subject">Prime Tracker - Feedback</string>
     <string name="about_repo_url">https://github.com/FelipiMatheuz/prime-tracker-android</string>
-    <string name="about_donation_url">https://www.buymeacoffee.com/felipimatheuz</string>
+    <string name="about_donation_url">https://github.com/sponsors/FelipiMatheuz</string>
     <string name="about_bug_report_url">https://github.com/FelipiMatheuz/prime-tracker-android/issues</string>
     <string name="about_contact_email">cyberman.studios@gmail.com</string>
     <string name="about_play_store_url">https://play.google.com/store/apps/details?id=com.felipimatheuz.primehunt</string>
