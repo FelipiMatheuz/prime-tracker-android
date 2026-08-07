@@ -33,4 +33,7 @@ interface InventoryDao {
         WHERE primePartId = :partId
     """)
     suspend fun remove(partId: String)
+
+    @Query("DELETE FROM inventory")
+    suspend fun clearAll()
 }

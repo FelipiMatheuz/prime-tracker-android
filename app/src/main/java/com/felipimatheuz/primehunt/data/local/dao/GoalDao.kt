@@ -69,8 +69,16 @@ interface GoalDao {
         goal: GoalEntity
     )
 
+    @Upsert
+    suspend fun upsert(
+        goals: List<GoalEntity>
+    )
+
     @Delete
     suspend fun delete(
         goal: GoalEntity
     )
+
+    @Query("DELETE FROM goal")
+    suspend fun clearAll()
 }
