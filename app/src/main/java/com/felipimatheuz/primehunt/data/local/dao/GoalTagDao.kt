@@ -36,4 +36,7 @@ interface GoalTagDao {
 
     @Delete
     suspend fun delete(category: GoalTagEntity)
+
+    @Query("DELETE FROM goal_tag")
+    suspend fun clearAll()
 }

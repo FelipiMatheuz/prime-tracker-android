@@ -13,7 +13,7 @@ class DownloadBackupUseCase @Inject constructor(
         return when (val result = firestore.downloadBackup(userId)) {
             is Firestore.BackupResult.Success -> {
                 try {
-                    cloudRepository.restoreInventory(result.inventory)
+                    cloudRepository.restoreBackup(result.inventory, result.goals, result.tags)
                     CloudActionResult.SuccessBackupDownload
                 } catch (e: Exception) {
                     CloudActionResult.Error(e.message ?: "Restore failed")

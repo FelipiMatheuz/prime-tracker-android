@@ -13,13 +13,15 @@ class Firestore @Inject constructor() {
     data class CloudBackup(
         val inventory: Map<String, Int> = emptyMap(),
         val goals: List<Map<String, Any?>> = emptyList(),
+        val tags: List<Map<String, Any?>> = emptyList(),
         val updatedAt: Long = 0L
     )
 
-    suspend fun uploadBackup(userId: String, inventory: Map<String, Int>, goals: List<Map<String, Any?>>): CloudActionResult {
+    suspend fun uploadBackup(userId: String, inventory: Map<String, Int>, goals: List<Map<String, Any?>>, tags: List<Map<String, Any?>>): CloudActionResult {
         val data = CloudBackup(
             inventory = inventory,
             goals = goals,
+            tags = tags,
             updatedAt = System.currentTimeMillis()
         )
         return try {
@@ -38,7 +40,7 @@ class Firestore @Inject constructor() {
             if (result.exists()) {
                 val backup = result.toObject(CloudBackup::class.java)
                 if (backup != null) {
-                    BackupResult.Success(backup.inventory, backup.goals)
+                    BackupResult.Success(backup.inventory, backup.goals, backup.tags)
                 } else {
                     BackupResult.Error("Failed to parse backup data")
                 }
@@ -87,7 +89,7 @@ class Firestore @Inject constructor() {
     }
 
     sealed class BackupResult {
-        data class Success(val inventory: Map<String, Int>, val goals: List<Map<String, Any?>>) : BackupResult()
+        data class Success(val inventory: Map<String, Int>, val goals: List<Map<String, Any?>>, val tags: List<Map<String, Any?>>) : BackupResult()
         data class Error(val message: String) : BackupResult()
     }
 }
