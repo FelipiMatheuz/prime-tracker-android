@@ -11,8 +11,10 @@ import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.felipimatheuz.primehunt.R
+import com.felipimatheuz.primehunt.ui.theme.White
 
 @Composable
 fun CephalonScene(
@@ -93,7 +95,8 @@ private fun CephalonPiece(
 ) {
 
     val offset = state.piecesOffset
-    val piecePadding = 4.dp
+    val piecePaddingX = 16.dp
+    val piecePaddingY = 12.dp
 
     Image(
         painter = painterResource(R.drawable.cephalon_piece),
@@ -106,8 +109,8 @@ private fun CephalonPiece(
 
         modifier = modifier
             .offset(
-                x = offset * xDirection + piecePadding * xDirection,
-                y = offset * yDirection + piecePadding * yDirection
+                x = offset * xDirection + piecePaddingX * xDirection,
+                y = offset * yDirection + piecePaddingY * yDirection
             )
             .graphicsLayer {
                 alpha = state.piecesAlpha
@@ -116,5 +119,22 @@ private fun CephalonPiece(
                 scaleY = state.piecesScale
 
             }
+    )
+}
+
+@Preview(widthDp = 300, heightDp = 300)
+@Composable
+fun CephalonScenePreview() {
+    CephalonScene(
+        state = CephalonAnimationState(
+            bodyAlpha = 1f,
+            bodyScale = 1f,
+            bodyTint = White,
+            piecesRotation = 0f,
+            piecesAlpha = 1f,
+            piecesTint = White,
+            piecesOffset = 0.dp,
+            piecesScale = 1f
+        )
     )
 }

@@ -221,7 +221,7 @@ private fun AboutHeader(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
-            painter = painterResource(id = R.drawable.cephalon_body),
+            painter = painterResource(id = R.drawable.cephalon_ehiza),
             contentDescription = null,
             modifier = Modifier.size(80.dp)
         )
