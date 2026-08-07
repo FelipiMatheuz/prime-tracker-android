@@ -103,7 +103,7 @@ fun MainContent(
                     modifier = Modifier.padding(16.dp)
                 ) {
                     Image(
-                        painter = painterResource(id = R.drawable.cephalon_body),
+                        painter = painterResource(id = R.drawable.cephalon_ehiza),
                         contentDescription = null,
                         modifier = Modifier.size(32.dp)
                     )
