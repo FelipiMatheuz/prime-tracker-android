@@ -94,4 +94,8 @@
     <string name="copy_error">复制错误</string>
     <string name="sync_sign_invalid">凭据无效</string>
     <string name="sync_sign_cancel">连接已取消</string>
+
+    <!-- Migration Warning -->
+    <string name="migration_warning_title">重要提示：需要备份</string>
+    <string name="migration_warning_message">Prime Tracker 的新版本即將推出，新增了庫存與目標的資料結構。 更新前，請開啟雲端同步並將目前的清單匯出到雲端。 新版本將包含一個舊有遷移工具，可以恢復你現有的進度。 在完成備份前，請勿卸載目前的應用程式或清除其資料。</string>
 </resources>

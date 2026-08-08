@@ -96,4 +96,8 @@
     <string name="copy_error">Copiar Erro</string>
     <string name="sync_sign_invalid">Credenciais inválidas</string>
     <string name="sync_sign_cancel">Conexão cancelada.</string>
+
+    <!-- Migration Warning -->
+    <string name="migration_warning_title">Importante: Backup Necessário</string>
+    <string name="migration_warning_message">Uma nova versão do Prime Tracker está chegando com uma nova estrutura de dados para Inventory e Goals.\n\nAntes de atualizar, por favor abra o Cloud Sync e exporte seu checklist atual para a nuvem.\n\nA nova versão incluirá uma ferramenta de Legacy Migration para recuperar seu progresso existente.\n\nNão desinstale o aplicativo atual nem limpe seus dados antes de concluir o backup.</string>
 </resources>

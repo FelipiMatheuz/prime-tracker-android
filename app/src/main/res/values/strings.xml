@@ -118,4 +118,8 @@
     <string name="sync_sign_error">Something went wrong. Please try again.</string>
     <string name="sync_sign_cancel">Connection cancelled.</string>
     <string name="sync_sign_invalid">Invalid credentials</string>
+
+    <!-- Migration Warning -->
+    <string name="migration_warning_title">Important: Backup Required</string>
+    <string name="migration_warning_message">A new version of Prime Tracker is coming with a new data structure for Inventory and Goals.  Before updating, please open Cloud Sync and export your current checklist to the cloud.  The new version will include a Legacy Migration tool to recover your existing progress.  Do not uninstall the current app or clear its data before completing the backup.</string>
 </resources>

@@ -94,4 +94,8 @@
     <string name="copy_error">Copiez Erreur</string>
     <string name="sync_sign_invalid">Informations d\'identification non valides</string>
     <string name="sync_sign_cancel">Connexion annulée.</string>
+
+    <!-- Migration Warning -->
+    <string name="migration_warning_title">Importante : sauvegarde requise</string>
+    <string name="migration_warning_message">Une nouvelle version de Prime Tracker arrive avec une nouvelle structure de données pour l\'inventaire et les objectifs. Avant de mettre à jour, veuillez ouvrir Cloud Sync et exporter votre checklist actuelle vers le cloud. La nouvelle version inclura un outil de migration d\'héritage pour récupérer vos progrès existants. Ne désinstallez pas l\'application actuelle ni ne efface ses données avant d\'avoir terminé la sauvegarde.</string>
 </resources>

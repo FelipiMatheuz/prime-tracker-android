@@ -94,4 +94,8 @@
     <string name="copy_error">Kopierfehler</string>
     <string name="sync_sign_invalid">Ungültige Anmeldeinformationen</string>
     <string name="sync_sign_cancel">Verbindung abgebrochen.</string>
+
+    <!-- Migration Warning -->
+    <string name="migration_warning_title">Wichtig: Backup erforderlich</string>
+    <string name="migration_warning_message">Eine neue Version von Prime Tracker kommt mit einer neuen Datenstruktur für Inventar und Ziele. Bevor Sie aktualisieren, öffnen Sie bitte Cloud Sync und exportieren Sie Ihre aktuelle Checkliste in die Cloud. Die neue Version wird ein Legacy-Migrationstool enthalten, um Ihren bestehenden Fortschritt wiederherzustellen. Deinstalliere die aktuelle App nicht und lösche ihre Daten nicht, bevor du das Backup abgeschlossen hast.</string>
 </resources>
