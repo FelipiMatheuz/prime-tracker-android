@@ -32,13 +32,15 @@ object GoalMapper {
                     hasComponentsMap
                 )
 
-                val completedSets = if (required.isEmpty()) 0 else {
+                val totalSets = if (required.isEmpty()) 0 else {
                     required.map { (partId, needed) ->
                         (inventoryMap[partId] ?: 0) / (needed.takeIf { it > 0 } ?: 1)
                     }.minOrNull() ?: 0
                 }
 
-                (setMap[goal.targetId]?.name ?: "Unknown Set") to completedSets
+                val surplusSets = maxOf(0, totalSets - 1)
+
+                (setMap[goal.targetId]?.name ?: "Unknown Set") to surplusSets
             }
 
             GoalTargetType.PRIME_PART -> {
@@ -52,7 +54,11 @@ object GoalMapper {
                     if (set != null) StringFormatter.getBlueprintName(set.name) else "Unknown Part"
                 }
 
-                displayName to (inventoryMap[goal.targetId] ?: 0)
+                val owned = inventoryMap[goal.targetId] ?: 0
+                val neededForCollection = part?.quantity ?: 1
+                val surplus = maxOf(0, owned - neededForCollection)
+
+                displayName to surplus
             }
 
             GoalTargetType.RELIC -> {
