@@ -45,7 +45,7 @@ class LegacyMigrationIntegrationTest {
 
     @Test
     fun `should migrate legacy bundle parts and accumulate quantity`() = runTest {
-        // Massa Legada
+        // Legacy Data
         val mapSet = mapOf(
             "Gauss_Gauss_NEUROPTICS_0" to true, 
         )
@@ -54,7 +54,7 @@ class LegacyMigrationIntegrationTest {
             "Fang_BLADE_1" to true             
         )
 
-        // Mock Novo Banco
+        // Mock New
         coEvery { primeRepository.getAllSetsSync() } returns listOf(
             SyncSet("gauss_prime", "Gauss Prime", PrimeType.WARFRAME, ""),
             SyncSet("fang_prime", "Fang Prime", PrimeType.MELEE, "")

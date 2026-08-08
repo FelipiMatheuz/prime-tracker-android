@@ -49,12 +49,10 @@ class CloudRepositoryImpl @Inject constructor(
 
             val inventoryToInsert = mutableListOf<InventoryPartEntity>()
 
-            // 1. Processamento de Match
             allParts.forEach { part ->
                 val set = setMap[part.primeSetId] ?: return@forEach
                 val normalizedSetName = parser.normalizeNewName(set.name)
-                
-                // Tenta encontrar o item no legado
+
                 val legacyKey = if (part.part == PrimePartType.BLUEPRINT) {
                     "${normalizedSetName}_BLUEPRINT"
                 } else {
@@ -66,7 +64,6 @@ class CloudRepositoryImpl @Inject constructor(
                     matchedLegacyKeys.add(legacyKey)
                 }
 
-                // 2. Casos Especiais: Partes Aninhadas (ex: Aklex_LEX)
                 if (part.part == PrimePartType.PRIME_SET) {
                     val nestedLegacyKey = "${normalizedSetName}_${parser.normalizeNewName(part.id)}"
                     legacyData[nestedLegacyKey]?.let { qty ->

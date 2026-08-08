@@ -44,7 +44,6 @@ fun GoalsFilterBottomSheet(
             )
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Status Filter
             FilterSectionTitle(stringResource(R.string.filter_section_status))
             SingleChoiceSegmentedButtonRow(
                 modifier = Modifier
@@ -73,7 +72,6 @@ fun GoalsFilterBottomSheet(
                 }
             }
 
-            // Target Type Filter
             FilterSectionTitle(stringResource(R.string.filter_section_target_type))
             FlowRow(
                 modifier = Modifier.fillMaxWidth(),
@@ -106,7 +104,6 @@ fun GoalsFilterBottomSheet(
                 }
             }
 
-            // Category Filter
             if (availableTags.isNotEmpty()) {
                 FilterSectionTitle(stringResource(R.string.filter_section_category))
                 FlowRow(

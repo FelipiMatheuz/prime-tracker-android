@@ -92,7 +92,6 @@ fun GoalForm(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            // Target Type
             ExposedDropdownMenuBox(
                 expanded = typeDropdownExpanded,
                 onExpandedChange = { if (!state.readOnlyTarget && state.enabled) typeDropdownExpanded = it },
@@ -136,7 +135,6 @@ fun GoalForm(
                 }
             }
 
-            // Quantity
             OutlinedTextField(
                 value = state.quantity.toString(),
                 onValueChange = {
@@ -157,7 +155,6 @@ fun GoalForm(
             )
         }
 
-        // Target
         if (state.readOnlyTarget) {
             OutlinedTextField(
                 value = state.targetQuery,
@@ -183,7 +180,6 @@ fun GoalForm(
             )
         }
 
-        // Tag Selector
         ExposedDropdownMenuBox(
             expanded = tagDropdownExpanded,
             onExpandedChange = { if (state.enabled) tagDropdownExpanded = it },
@@ -243,7 +239,6 @@ fun GoalForm(
             }
         }
 
-        // Current Quantity (Manual Progress for Relic/Forma in Edit Mode)
         if (state.showManualQuantity) {
             Row(modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -297,7 +292,6 @@ fun GoalForm(
             }
         }
 
-        // Notes
         OutlinedTextField(
             value = state.notes,
             onValueChange = actions.onNotesChange,

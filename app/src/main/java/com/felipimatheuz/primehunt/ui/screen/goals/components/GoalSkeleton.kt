@@ -44,7 +44,6 @@ fun GoalSkeleton(
                 .fillMaxSize()
         ) {
             Spacer(modifier = Modifier.height(8.dp))
-            // Search Bar Skeleton
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -133,7 +132,6 @@ fun GoalCardSkeleton() {
                 .padding(12.dp)
                 .fillMaxWidth()
         ) {
-            // Header: Icon + Title
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -161,7 +159,6 @@ fun GoalCardSkeleton() {
 
             Spacer(modifier = Modifier.height(4.dp))
 
-            // Subtitle
             Box(
                 modifier = Modifier
                     .width(60.dp)
@@ -172,7 +169,6 @@ fun GoalCardSkeleton() {
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Progress: Icon + Text
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(4.dp)
@@ -197,7 +193,6 @@ fun GoalCardSkeleton() {
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Tag silhouette
             Box(
                 modifier = Modifier
                     .width(80.dp)
@@ -208,7 +203,6 @@ fun GoalCardSkeleton() {
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Notes placeholders (truncated)
             Box(
                 modifier = Modifier
                     .fillMaxWidth()

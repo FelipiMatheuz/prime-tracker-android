@@ -65,7 +65,6 @@ fun OrbitalCard(
                 val focusScale = 1.2f
                 val focusAlpha = 1.0f
 
-                // Final interpolated values
                 val finalX = lerp(orbitX, centerX, focusProgress)
                 val finalY = lerp(orbitY, centerY, focusProgress)
                 val finalScale = lerp(orbitScale, focusScale, focusProgress)
@@ -76,14 +75,8 @@ fun OrbitalCard(
                 scaleX = finalScale
                 scaleY = finalScale
                 this.alpha = finalAlpha
-                // Z-index sorting using graphicsLayer's shadow/elevation logic is limited, 
-                // but we can use the zIndex modifier on the Box itself if needed.
-                // However, graphicsLayer also has a 'shadowElevation' but that's for shadows.
             }
             .zIndex(if (isFocused) 10f else {
-                // We still need a way to calculate depthFactor for zIndex without recomposing too much.
-                // Unfortunately, zIndex modifier itself is NOT a lambda-based one.
-                // But we can approximate it or keep it as is if it's the only thing recomposing.
                 val rad = Math.toRadians(((state.angle.value + (360f / totalCards) * index) % 360f).toDouble()).toFloat()
                 kotlin.math.cos(rad - Math.toRadians(90.0).toFloat())
             })

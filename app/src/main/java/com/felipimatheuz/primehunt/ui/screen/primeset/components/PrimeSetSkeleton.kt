@@ -38,7 +38,6 @@ fun PrimeSetSkeleton(
             .padding(paddingValues)
     ) {
         Spacer(modifier = Modifier.height(8.dp))
-        // Search Bar Skeleton
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -80,7 +79,6 @@ fun PrimeSetSkeleton(
             }
         }
 
-        // Segmented Control Skeleton
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -110,7 +108,6 @@ fun PrimeSetSkeleton(
             )
         }
 
-        // Collection List Skeleton
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
@@ -140,7 +137,6 @@ private fun CollectionCardSkeleton() {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            // Artwork Placeholder
             Box(
                 modifier = Modifier
                     .size(80.dp)
@@ -148,7 +144,6 @@ private fun CollectionCardSkeleton() {
                     .shimmer(RoundedCornerShape(12.dp))
             )
 
-            // Text Content
             Column(modifier = Modifier.weight(1f)) {
                 Box(
                     modifier = Modifier
@@ -167,7 +162,6 @@ private fun CollectionCardSkeleton() {
                 )
             }
 
-            // Expand Arrow Placeholder
             Box(
                 modifier = Modifier
                     .size(32.dp)

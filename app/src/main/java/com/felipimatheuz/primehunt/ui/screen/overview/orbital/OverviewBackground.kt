@@ -21,10 +21,6 @@ import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.random.Random
 
-/**
- * Animated background for the Overview Screen (Void Theme).
- * Reacts to focus state and rotation speed from OrbitalState.
- */
 @Composable
 fun OverviewBackground(
     state: OrbitalState,
@@ -46,7 +42,6 @@ fun OverviewBackground(
             .background(baseColor)
             .graphicsLayer { alpha = focusAlpha }
     ) {
-        // Layer 2 — Radial Gradient
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -59,14 +54,11 @@ fun OverviewBackground(
                     onDrawBehind { drawRect(brush) }
                 }
         )
-        
-        // Layer 3: Void Energy
+
         VoidEnergyLayer(darkTheme)
 
-        // Layer 4: Center Glow
         CenterGlowLayer(state, darkTheme)
 
-        // Layer 5: Particles
         ParticleLayer(darkTheme)
     }
 }
@@ -83,7 +75,6 @@ private fun VoidEnergyLayer(darkTheme: Boolean) {
         val widthPx = with(density) { maxWidth.toPx() }
         val heightPx = with(density) { maxHeight.toPx() }
 
-        // Energy Blob 1
         val blob1Offset by infiniteTransition.animateValue(
             initialValue = Offset(widthPx * 0.1f, heightPx * 0.2f),
             targetValue = Offset(widthPx * 0.2f, heightPx * 0.1f),
@@ -101,7 +92,6 @@ private fun VoidEnergyLayer(darkTheme: Boolean) {
             scale = 1.2f
         )
 
-        // Energy Blob 2
         val blob2Offset by infiniteTransition.animateValue(
             initialValue = Offset(widthPx * 0.8f, heightPx * 0.7f),
             targetValue = Offset(widthPx * 0.7f, heightPx * 0.8f),
@@ -130,7 +120,7 @@ private fun EnergyBlob(color: Color, offset: Offset, scale: Float) {
             .drawWithCache {
                 val brush = Brush.radialGradient(
                     0f to color, 1f to Color.Transparent,
-                    radius = size.minDimension * 0.3f // proporcional, ajustável
+                    radius = size.minDimension * 0.3f
                 )
                 onDrawBehind { drawRect(brush) }
             }
@@ -140,8 +130,7 @@ private fun EnergyBlob(color: Color, offset: Offset, scale: Float) {
 @Composable
 private fun CenterGlowLayer(state: OrbitalState, darkTheme: Boolean) {
     val glowColor = if (darkTheme) VoidGlowDark else VoidGlowLight
-    
-    // Smooth reaction to rotation speed
+
     val reactiveIntensity by animateFloatAsState(
         targetValue = 1f + (state.normalizedRotationSpeed * 0.5f),
         animationSpec = spring(stiffness = Spring.StiffnessLow),
@@ -156,7 +145,7 @@ private fun CenterGlowLayer(state: OrbitalState, darkTheme: Boolean) {
                 val brush = Brush.radialGradient(
                     colors = listOf(glowColor, Color.Transparent),
                     center = Offset.Unspecified,
-                    radius = size.minDimension * 0.35f // ajustável
+                    radius = size.minDimension * 0.35f
                 )
                 onDrawBehind { drawRect(brush) }
             }
@@ -167,8 +156,7 @@ private fun CenterGlowLayer(state: OrbitalState, darkTheme: Boolean) {
 private fun ParticleLayer(darkTheme: Boolean) {
     val particleColor = if (darkTheme) VoidParticleDark else VoidParticleLight
     val infiniteTransition = rememberInfiniteTransition(label = "Particles")
-    
-    // Period of 3 minutes (180,000 ms)
+
     val phase by infiniteTransition.animateFloat(
         initialValue = 0f,
         targetValue = 2f * Math.PI.toFloat(),

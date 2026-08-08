@@ -65,12 +65,10 @@ fun AboutScreen(
         verticalArrangement = Arrangement.spacedBy(32.dp)
     )
     {
-        // Header
         item {
             AboutHeader(isUpdateAvailable, snackBarHostState)
         }
 
-        // Developer
         item {
             AboutSection(
                 title = stringResource(R.string.about_developer_title),
@@ -101,7 +99,6 @@ fun AboutScreen(
             )
         }
 
-        // Support
         item {
             val contactEmail = stringResource(R.string.about_contact_email)
             val emailSubject = stringResource(R.string.about_email_subject)
@@ -136,7 +133,6 @@ fun AboutScreen(
             )
         }
 
-        // Open Source
         item {
             val repoUrl = stringResource(R.string.about_repo_url)
             AboutSection(
@@ -160,7 +156,6 @@ fun AboutScreen(
             )
         }
 
-        // Support Development
         item {
             AboutSection(
                 title = stringResource(R.string.about_support_dev_title),
@@ -182,7 +177,6 @@ fun AboutScreen(
             )
         }
 
-        // Credits
         item {
             AboutSection(
                 title = stringResource(R.string.about_credits_title),
@@ -198,7 +192,6 @@ fun AboutScreen(
             )
         }
 
-        // Footer
         item {
             Text(
                 text = stringResource(R.string.about_footer_thanks),
