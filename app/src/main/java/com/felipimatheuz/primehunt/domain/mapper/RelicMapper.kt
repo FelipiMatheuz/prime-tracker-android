@@ -27,6 +27,10 @@ object RelicMapper {
                 var isForma = false
                 var isBlueprint = false
                 val name = when {
+                    part != null && part.part == PrimePartType.PRIME_SET -> {
+                        isBlueprint = true
+                        setMap[part.id]?.name ?: part.id
+                    }
                     part != null && set != null -> PrimeMapper.formatPartName(set.name, part.part)
                     set != null -> {
                         isBlueprint = true
