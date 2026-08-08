@@ -6,6 +6,8 @@ import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.domain.model.enums.PrimeType
 import com.felipimatheuz.primehunt.domain.model.OverviewDomainModel
 import com.felipimatheuz.primehunt.domain.usecase.overview.GetOverviewUseCase
+import com.felipimatheuz.primehunt.ui.theme.Completed
+import com.felipimatheuz.primehunt.ui.theme.InProgress
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -50,7 +52,10 @@ class OverviewViewModel @Inject constructor(
                 setsCount = database.setsCount,
                 partsCount = database.partsCount,
                 relicsCount = database.relicsCount,
-                lastSync = database.lastSyncTimestamp?.let { dateFormat.format(Date(it)) } ?: "—"
+                lastSync = database.lastSyncTimestamp?.let { dateFormat.format(Date(it)) } ?: "—",
+                collectionsStatusColor = if (database.isCollectionsValid) Completed else InProgress,
+                setsStatusColor = if (database.isSetsValid) Completed else InProgress,
+                relicsStatusColor = if (database.isRelicsValid) Completed else InProgress
             ),
             relics = RelicsOverviewUi(
                 available = relics.available,

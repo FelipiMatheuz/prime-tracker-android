@@ -1,13 +1,7 @@
 package com.felipimatheuz.primehunt.data.repository
 
 import com.felipimatheuz.primehunt.core.logging.AppLogger
-import com.felipimatheuz.primehunt.data.local.dao.ManifestDao
-import com.felipimatheuz.primehunt.data.local.dao.PrimeCollectionDao
-import com.felipimatheuz.primehunt.data.local.dao.PrimeCollectionSetDao
-import com.felipimatheuz.primehunt.data.local.dao.PrimeComponentDao
-import com.felipimatheuz.primehunt.data.local.dao.PrimePartDao
-import com.felipimatheuz.primehunt.data.local.dao.PrimeSetDao
-import com.felipimatheuz.primehunt.data.local.dao.RelicDao
+import com.felipimatheuz.primehunt.data.local.dao.*
 import com.felipimatheuz.primehunt.data.local.entity.LocalManifest
 import com.felipimatheuz.primehunt.data.mapper.SyncMapper
 import com.felipimatheuz.primehunt.data.remote.PrimeTrackerService
@@ -39,88 +33,120 @@ class SyncRepositoryImpl @Inject constructor(
 
     override fun performSync(): Flow<SyncEvent> = flow {
         emit(SyncEvent.Starting)
-        try {
-            val remoteManifest = service.readManifest()
-            val localManifest = manifestDao.getManifest()
-
-            emit(SyncEvent.CheckingManifest(remoteManifest.generatorVersion))
-
-            val remoteFiles = remoteManifest.files
-
-            val newRelicsHash = syncIfNeeded(
-                fileName = "relics.json",
-                etlFile = EtlFile.RELICS,
-                localHash = localManifest?.relicsHash,
-                remoteFiles = remoteFiles,
-                fetcher = { service.getRelics() },
-                importer = { relics ->
-                    val (relicsEntities, components) = syncMapper.mapRelics(relics)
-                    relicDao.upsertAll(relicsEntities)
-                    primeComponentDao.upsertAll(components)
-                }
+        
+        val localManifest = manifestDao.getManifest()
+        val remoteManifestResult = runCatching { service.readManifest() }
+        
+        if (remoteManifestResult.isFailure) {
+            logger.log("SyncRepository", "Failed to read remote manifest")
+            val fallbackManifest = LocalManifest(
+                lastSync = System.currentTimeMillis(),
+                relicsHash = localManifest?.relicsHash,
+                primeSetsHash = localManifest?.primeSetsHash,
+                collectionsHash = localManifest?.collectionsHash,
+                isRelicsValid = false,
+                isSetsValid = false,
+                isCollectionsValid = false
             )
+            manifestDao.upsert(fallbackManifest)
+            emit(SyncEvent.Error)
+            return@flow
+        }
 
-            val newSetsHash = syncIfNeeded(
-                fileName = "prime-sets.json",
-                etlFile = EtlFile.PRIME_SETS,
-                localHash = localManifest?.primeSetsHash,
-                remoteFiles = remoteFiles,
-                fetcher = { service.getPrimeSets() },
-                importer = { sets ->
-                    val (setsEntities, parts) = syncMapper.mapPrimeSets(sets)
-                    primeSetDao.upsertAll(setsEntities)
-                    primePartDao.upsertAll(parts)
-                }
-            )
+        val remoteManifest = remoteManifestResult.getOrThrow()
+        emit(SyncEvent.CheckingManifest(remoteManifest.generatorVersion))
 
-            val newCollectionsHash = syncIfNeeded(
-                fileName = "prime-collections.json",
-                etlFile = EtlFile.PRIME_COLLECTIONS,
-                localHash = localManifest?.collectionsHash,
-                remoteFiles = remoteFiles,
-                fetcher = { service.getPrimeCollections() },
-                importer = { collections ->
-                    val (collectionEntities, crossRefs) = syncMapper.mapCollections(collections)
-                    primeCollectionDao.upsertAll(collectionEntities)
-                    primeCollectionSetDao.upsertAll(crossRefs)
-                }
-            )
+        val remoteFiles = remoteManifest.files
 
-            if (newRelicsHash != null || newSetsHash != null || newCollectionsHash != null) {
-                val newManifest = LocalManifest(
-                    lastSync = System.currentTimeMillis(),
-                    relicsHash = newRelicsHash ?: localManifest?.relicsHash,
-                    primeSetsHash = newSetsHash ?: localManifest?.primeSetsHash,
-                    collectionsHash = newCollectionsHash ?: localManifest?.collectionsHash
-                )
-                manifestDao.upsert(newManifest)
-                emit(SyncEvent.Success)
-            } else {
-                emit(SyncEvent.AlreadyUpToDate)
+        val relicsResult = performGranularSync(
+            fileName = "relics.json",
+            etlFile = EtlFile.RELICS,
+            localHash = localManifest?.relicsHash,
+            remoteFiles = remoteFiles,
+            fetcher = { service.getRelics() },
+            importer = { relics ->
+                val (relicsEntities, components) = syncMapper.mapRelics(relics)
+                relicDao.upsertAll(relicsEntities)
+                primeComponentDao.upsertAll(components)
             }
+        )
 
-        } catch (e: Exception) {
-            logger.log("SyncRepository", "Sync failed: ${e.message}")
+        val setsResult = performGranularSync(
+            fileName = "prime-sets.json",
+            etlFile = EtlFile.PRIME_SETS,
+            localHash = localManifest?.primeSetsHash,
+            remoteFiles = remoteFiles,
+            fetcher = { service.getPrimeSets() },
+            importer = { sets ->
+                val (setsEntities, parts) = syncMapper.mapPrimeSets(sets)
+                primeSetDao.upsertAll(setsEntities)
+                primePartDao.upsertAll(parts)
+            }
+        )
+
+        val collectionsResult = performGranularSync(
+            fileName = "prime-collections.json",
+            etlFile = EtlFile.PRIME_COLLECTIONS,
+            localHash = localManifest?.collectionsHash,
+            remoteFiles = remoteFiles,
+            fetcher = { service.getPrimeCollections() },
+            importer = { collections ->
+                val (collectionEntities, crossRefs) = syncMapper.mapCollections(collections)
+                primeCollectionDao.upsertAll(collectionEntities)
+                primeCollectionSetDao.upsertAll(crossRefs)
+            }
+        )
+
+        val finalManifest = LocalManifest(
+            lastSync = System.currentTimeMillis(),
+            relicsHash = relicsResult.hash ?: localManifest?.relicsHash,
+            primeSetsHash = setsResult.hash ?: localManifest?.primeSetsHash,
+            collectionsHash = collectionsResult.hash ?: localManifest?.collectionsHash,
+            isRelicsValid = relicsResult.isValid,
+            isSetsValid = setsResult.isValid,
+            isCollectionsValid = collectionsResult.isValid
+        )
+        
+        manifestDao.upsert(finalManifest)
+
+        if (relicsResult.isValid && setsResult.isValid && collectionsResult.isValid) {
+            val anyChanged = relicsResult.changed || setsResult.changed || collectionsResult.changed
+            if (anyChanged) emit(SyncEvent.Success) else emit(SyncEvent.AlreadyUpToDate)
+        } else {
             emit(SyncEvent.Error)
         }
+        
     }.flowOn(Dispatchers.IO)
 
-    private suspend fun <T> FlowCollector<SyncEvent>.syncIfNeeded(
+    private data class GranularSyncResult(val hash: String?, val changed: Boolean, val isValid: Boolean)
+
+    private suspend fun <T> FlowCollector<SyncEvent>.performGranularSync(
         fileName: String,
         etlFile: EtlFile,
         localHash: String?,
         remoteFiles: List<ManifestFile>,
         fetcher: suspend () -> T,
         importer: suspend (T) -> Unit
-    ): String? {
+    ): GranularSyncResult {
         val remoteHash = remoteFiles.find { it.name == fileName }?.sha256
-        if (remoteHash != localHash && remoteHash != null) {
+        
+        if (remoteHash == null) {
+            return GranularSyncResult(localHash, false, false)
+        }
+
+        if (remoteHash == localHash) {
+            return GranularSyncResult(localHash, false, true)
+        }
+
+        return try {
             emit(SyncEvent.Downloading(etlFile))
             val data = fetcher()
             emit(SyncEvent.Importing(etlFile))
             importer(data)
-            return remoteHash
+            GranularSyncResult(remoteHash, true, true)
+        } catch (e: Exception) {
+            logger.log("SyncRepository", "Failed to sync $fileName: ${e.message}")
+            GranularSyncResult(localHash, false, false)
         }
-        return null
     }
 }

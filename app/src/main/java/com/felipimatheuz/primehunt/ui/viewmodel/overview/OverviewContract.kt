@@ -1,5 +1,6 @@
 package com.felipimatheuz.primehunt.ui.viewmodel.overview
 
+import androidx.compose.ui.graphics.Color
 import com.felipimatheuz.primehunt.domain.model.GoalTagDomain
 
 data class OverviewState(
@@ -28,7 +29,10 @@ data class DatabaseOverviewUi(
     val setsCount: Int = 0,
     val partsCount: Int = 0,
     val relicsCount: Int = 0,
-    val lastSync: String = "—"
+    val lastSync: String = "—",
+    val collectionsStatusColor: Color = Color.Unspecified,
+    val setsStatusColor: Color = Color.Unspecified,
+    val relicsStatusColor: Color = Color.Unspecified
 )
 
 data class RelicsOverviewUi(

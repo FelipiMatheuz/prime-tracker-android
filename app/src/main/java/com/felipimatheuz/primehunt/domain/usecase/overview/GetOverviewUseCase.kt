@@ -32,7 +32,7 @@ class GetOverviewUseCase @Inject constructor(
             overviewRepository.getDatabaseSummary(),
             overviewRepository.observeManifest()
         ) { summary, manifest ->
-            calculateDatabaseDomain(summary, manifest?.lastSync)
+            calculateDatabaseDomain(summary, manifest)
         }.distinctUntilChanged()
 
         val relicsDomainFlow = overviewRepository.getRelicSummary()
@@ -98,14 +98,17 @@ class GetOverviewUseCase @Inject constructor(
 
     private fun calculateDatabaseDomain(
         db: DatabaseSummary,
-        lastSync: Long?
+        manifest: ManifestDomain?
     ): DatabaseOverviewDomain {
         return DatabaseOverviewDomain(
             collectionsCount = db.collections,
             setsCount = db.sets,
             partsCount = db.parts,
             relicsCount = db.relics,
-            lastSyncTimestamp = lastSync
+            lastSyncTimestamp = manifest?.lastSync,
+            isRelicsValid = manifest?.isRelicsValid ?: true,
+            isSetsValid = manifest?.isSetsValid ?: true,
+            isCollectionsValid = manifest?.isCollectionsValid ?: true
         )
     }
 

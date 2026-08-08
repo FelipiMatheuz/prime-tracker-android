@@ -35,7 +35,15 @@ class OverviewRepositoryImpl @Inject constructor(
 
     override fun observeManifest(): Flow<ManifestDomain?> = manifestDao.observeManifest().map { 
         it?.let { 
-            ManifestDomain(it.lastSync, it.collectionsHash, it.primeSetsHash, it.relicsHash)
+            ManifestDomain(
+                lastSync = it.lastSync,
+                collectionsHash = it.collectionsHash,
+                primeSetsHash = it.primeSetsHash,
+                relicsHash = it.relicsHash,
+                isRelicsValid = it.isRelicsValid,
+                isSetsValid = it.isSetsValid,
+                isCollectionsValid = it.isCollectionsValid
+            )
         }
     }
 

@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -41,10 +42,26 @@ fun DatabaseOverviewCard(state: DatabaseOverviewUi) {
         )
 
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            DatabaseItem(stringResource(R.string.overview_db_collections), state.collectionsCount.toString())
-            DatabaseItem(stringResource(R.string.overview_db_sets), state.setsCount.toString())
-            DatabaseItem(stringResource(R.string.overview_db_parts), state.partsCount.toString())
-            DatabaseItem(stringResource(R.string.overview_db_relics), state.relicsCount.toString())
+            DatabaseItem(
+                label = stringResource(R.string.overview_db_collections),
+                value = state.collectionsCount.toString(),
+                statusColor = state.collectionsStatusColor
+            )
+            DatabaseItem(
+                label = stringResource(R.string.overview_db_sets),
+                value = state.setsCount.toString(),
+                statusColor = state.setsStatusColor
+            )
+            DatabaseItem(
+                label = stringResource(R.string.overview_db_parts),
+                value = state.partsCount.toString(),
+                statusColor = state.setsStatusColor // Sets and Parts share same file
+            )
+            DatabaseItem(
+                label = stringResource(R.string.overview_db_relics),
+                value = state.relicsCount.toString(),
+                statusColor = state.relicsStatusColor
+            )
         }
 
         Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.End) {
@@ -63,7 +80,7 @@ fun DatabaseOverviewCard(state: DatabaseOverviewUi) {
 }
 
 @Composable
-private fun DatabaseItem(label: String, value: String) {
+private fun DatabaseItem(label: String, value: String, statusColor: Color) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
@@ -74,7 +91,7 @@ private fun DatabaseItem(label: String, value: String) {
         ) {
             Surface(
                 modifier = Modifier.size(8.dp),
-                color = Completed,
+                color = statusColor,
                 shape = MaterialTheme.shapes.extraSmall
             ) {}
             Text(text = label, style = MaterialTheme.typography.bodyMedium)
@@ -102,7 +119,10 @@ fun DatabaseOverviewCardPreview() {
                     setsCount = 20,
                     partsCount = 30,
                     relicsCount = 40,
-                    lastSync = "10/10/2023 10:10"
+                    lastSync = "10/10/2023 10:10",
+                    collectionsStatusColor = Completed,
+                    setsStatusColor = Completed,
+                    relicsStatusColor = Completed
                 )
             )
         }
