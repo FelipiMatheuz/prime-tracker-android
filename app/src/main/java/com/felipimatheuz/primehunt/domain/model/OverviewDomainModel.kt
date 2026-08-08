@@ -33,7 +33,10 @@ data class DatabaseOverviewDomain(
     val setsCount: Int = 0,
     val partsCount: Int = 0,
     val relicsCount: Int = 0,
-    val lastSyncTimestamp: Long? = null
+    val lastSyncTimestamp: Long? = null,
+    val isRelicsValid: Boolean = true,
+    val isSetsValid: Boolean = true,
+    val isCollectionsValid: Boolean = true
 )
 
 @Immutable
