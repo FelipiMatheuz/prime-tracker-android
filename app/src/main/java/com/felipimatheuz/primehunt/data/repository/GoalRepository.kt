@@ -9,6 +9,7 @@ import com.felipimatheuz.primehunt.domain.model.enums.GoalTargetType
 import com.felipimatheuz.primehunt.domain.mapper.GoalMapper
 import com.felipimatheuz.primehunt.domain.model.GoalDomain
 import com.felipimatheuz.primehunt.domain.model.GoalTagDomain
+import com.felipimatheuz.primehunt.domain.model.PrimeBaseData
 import com.felipimatheuz.primehunt.domain.repository.GoalRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine

@@ -1,11 +1,7 @@
 package com.felipimatheuz.primehunt.data.repository
 
-import com.felipimatheuz.primehunt.data.local.dao.GoalDao
-import com.felipimatheuz.primehunt.data.local.dao.InventoryDao
-import com.felipimatheuz.primehunt.data.local.dao.PrimeComponentDao
-import com.felipimatheuz.primehunt.data.local.dao.PrimePartDao
-import com.felipimatheuz.primehunt.data.local.dao.PrimeSetDao
-import com.felipimatheuz.primehunt.data.local.dao.RelicDao
+import com.felipimatheuz.primehunt.data.local.dao.*
+import com.felipimatheuz.primehunt.domain.model.PrimeBaseData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob

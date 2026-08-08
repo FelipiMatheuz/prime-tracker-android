@@ -1,6 +1,6 @@
 package com.felipimatheuz.primehunt.domain.repository
 
-import com.felipimatheuz.primehunt.data.local.entity.LocalManifest
+import com.felipimatheuz.primehunt.domain.model.ManifestDomain
 import com.felipimatheuz.primehunt.domain.model.GoalDomain
 import kotlinx.coroutines.flow.Flow
 
@@ -8,7 +8,7 @@ interface OverviewRepository {
     fun getDatabaseSummary(): Flow<DatabaseSummary>
     fun getRelicSummary(): Flow<RelicSummary>
     fun getGoalSummary(): Flow<GoalSummary>
-    fun observeManifest(): Flow<LocalManifest?>
+    fun observeManifest(): Flow<ManifestDomain?>
     fun observeGoalsWithTags(): Flow<List<GoalDomain>>
 }
 
