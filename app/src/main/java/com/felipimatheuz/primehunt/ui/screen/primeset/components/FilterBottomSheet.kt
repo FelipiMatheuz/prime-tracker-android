@@ -51,7 +51,6 @@ fun FilterBottomSheet(
             Text(stringResource(R.string.filter_title), style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Progress Filter
             FilterSectionTitle(stringResource(R.string.filter_section_progress))
             FlowRow(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 ProgressFilter.entries.forEach { option ->
@@ -63,7 +62,6 @@ fun FilterBottomSheet(
                 }
             }
 
-            // Category Filter
             FilterSectionTitle(stringResource(R.string.filter_section_category))
             FlowRow(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 PrimeType.entries.forEach { type ->
@@ -82,7 +80,6 @@ fun FilterBottomSheet(
                 }
             }
 
-            // Availability Filter
             FilterSectionTitle(stringResource(R.string.filter_section_availability))
             FlowRow(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 RelicSource.entries.forEach { source ->

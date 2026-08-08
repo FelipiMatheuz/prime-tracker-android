@@ -39,7 +39,6 @@ fun ManageGoalSkeleton(
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        // Title Row
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
@@ -60,7 +59,6 @@ fun ManageGoalSkeleton(
             )
         }
 
-        // Form: Target Type + Quantity
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(16.dp)
@@ -81,7 +79,6 @@ fun ManageGoalSkeleton(
             )
         }
 
-        // Target
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -90,7 +87,6 @@ fun ManageGoalSkeleton(
                 .shimmer(RoundedCornerShape(4.dp))
         )
 
-        // Tag Selector + Preview
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -99,7 +95,6 @@ fun ManageGoalSkeleton(
                 .shimmer(RoundedCornerShape(4.dp))
         )
 
-        // Notes
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -137,7 +132,6 @@ fun ManageGoalSkeleton(
 
         Spacer(modifier = Modifier.weight(1f))
 
-        // Actions
         Column(
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(8.dp)

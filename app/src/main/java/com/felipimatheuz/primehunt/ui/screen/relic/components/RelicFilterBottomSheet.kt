@@ -57,7 +57,6 @@ fun RelicFilterBottomSheet(
             )
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Era Filter (Hide if grouping by ERA)
             if (currentView != RelicsView.ERA) {
                 FilterSectionTitle(stringResource(R.string.filter_section_era))
                 FlowRow(
@@ -81,7 +80,6 @@ fun RelicFilterBottomSheet(
                 }
             }
 
-            // Availability Filter (Hide if grouping by AVAILABILITY)
             if (currentView != RelicsView.AVAILABILITY) {
                 FilterSectionTitle(stringResource(R.string.filter_section_availability))
                 FlowRow(
@@ -105,7 +103,6 @@ fun RelicFilterBottomSheet(
                 }
             }
 
-            // Progress Filter (Hide if grouping by PROGRESS)
             if (currentView != RelicsView.PROGRESS) {
                 FilterSectionTitle(stringResource(R.string.filter_section_progress))
                 FlowRow(

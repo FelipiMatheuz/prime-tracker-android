@@ -40,7 +40,6 @@ fun RelicSkeleton(
             .fillMaxSize()
             .padding(paddingValues)
     ) {
-        // Search Bar Skeleton
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -82,7 +81,6 @@ fun RelicSkeleton(
             }
         }
 
-        // Segmented Control Skeleton (3 buttons)
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -122,7 +120,6 @@ fun RelicSkeleton(
             )
         }
 
-        // Era Sections
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             contentPadding = PaddingValues(bottom = 16.dp)
@@ -137,7 +134,6 @@ fun RelicSkeleton(
 @Composable
 private fun EraSectionSkeleton() {
     Column(modifier = Modifier.fillMaxWidth()) {
-        // Era Title Placeholder
         Box(
             modifier = Modifier
                 .padding(horizontal = 16.dp, vertical = 8.dp)
@@ -150,7 +146,7 @@ private fun EraSectionSkeleton() {
         LazyRow(
             contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
-            userScrollEnabled = false // Prevent scrolling in skeleton
+            userScrollEnabled = false
         ) {
             items(3) {
                 RelicCardSkeleton()
@@ -183,7 +179,6 @@ private fun RelicCardSkeleton() {
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    // Relic Name
                     Box(
                         modifier = Modifier
                             .weight(1f)
@@ -192,7 +187,6 @@ private fun RelicCardSkeleton() {
                             .shimmer(RoundedCornerShape(4.dp))
                     )
                     Spacer(modifier = Modifier.width(4.dp))
-                    // Forma Icon Placeholder
                     Box(
                         modifier = Modifier
                             .size(16.dp)
@@ -203,7 +197,6 @@ private fun RelicCardSkeleton() {
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                // Missing Indicator
                 Box(
                     modifier = Modifier
                         .width(60.dp)
@@ -214,7 +207,6 @@ private fun RelicCardSkeleton() {
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                // Goal Tags Icon + Count
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(4.dp),
                     verticalAlignment = Alignment.CenterVertically
@@ -236,7 +228,6 @@ private fun RelicCardSkeleton() {
             }
         }
 
-        // Era Icon Placeholder (Offset half outside)
         Box(
             modifier = Modifier
                 .align(Alignment.TopCenter)

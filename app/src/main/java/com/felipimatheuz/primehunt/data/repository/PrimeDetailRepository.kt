@@ -22,9 +22,6 @@ class PrimeDetailRepository @Inject constructor(
     }
 
     suspend fun updateSetInventory(setId: String, delta: Int) = withContext(Dispatchers.IO) {
-        // Here we still use the DAOs to get the snapshot for the update operation.
-        // We could also get it from a UseCase, but for a write operation, 
-        // fetching from DB is fine as long as we use the unified Resolver.
         val parts = primeRepository.getAllPartsSync()
         val components = primeRepository.getAllComponentsSync()
         

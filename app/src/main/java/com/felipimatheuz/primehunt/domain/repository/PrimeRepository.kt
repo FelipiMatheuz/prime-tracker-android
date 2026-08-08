@@ -9,18 +9,15 @@ import com.felipimatheuz.primehunt.domain.model.RelicDomain
 import kotlinx.coroutines.flow.Flow
 
 interface PrimeRepository {
-    // Domain Models
     fun observeAllSets(): Flow<List<PrimeSetDomain>>
     fun observeCollections(): Flow<List<PrimeCollection>>
     fun observeWithoutCollection(): Flow<PrimeCollection>
     fun observeAllRelics(): Flow<List<RelicDomain>>
     fun observeSetById(id: String): Flow<PrimeSetDomain?>
-    
-    // Summary Data for Overview
+
     fun getDatabaseCounts(): Flow<DatabaseCounts>
     fun getRelicCounts(): Flow<RelicCounts>
 
-    // Raw/Base Data (For Migration/Infrastructure use)
     suspend fun getAllPartsSync(): List<SyncPart>
     suspend fun getAllSetsSync(): List<SyncSet>
     suspend fun getPartsBySetSync(setId: String): List<SyncPart>

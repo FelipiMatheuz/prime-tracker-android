@@ -62,16 +62,16 @@ fun IconPickerDialog(
 }
 
 val TagColors = listOf(
-    Color(0xFF673AB7), // Deep Purple
-    Color(0xFF2196F3), // Blue
-    Color(0xFF4CAF50), // Green
-    Color(0xFFFF9800), // Orange
-    Color(0xFFE91E63), // Pink
-    Color(0xFFF44336), // Red
-    Color(0xFF9C27B0), // Purple
-    Color(0xFF00BCD4), // Cyan
-    Color(0xFF8BC34A), // Light Green
-    Color(0xFFFFC107)  // Amber
+    Color(0xFF673AB7),
+    Color(0xFF2196F3),
+    Color(0xFF4CAF50),
+    Color(0xFFFF9800),
+    Color(0xFFE91E63),
+    Color(0xFFF44336),
+    Color(0xFF9C27B0),
+    Color(0xFF00BCD4),
+    Color(0xFF8BC34A),
+    Color(0xFFFFC107)
 )
 
 @Composable

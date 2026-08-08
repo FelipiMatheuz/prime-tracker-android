@@ -40,7 +40,6 @@ fun PrimeDetailSkeleton(
             .padding(padding)
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
-            // Header Skeleton
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -59,7 +58,6 @@ fun PrimeDetailSkeleton(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Title
                 Box(
                     modifier = Modifier
                         .fillMaxWidth(0.6f)
@@ -70,7 +68,6 @@ fun PrimeDetailSkeleton(
                 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                // Type
                 Box(
                     modifier = Modifier
                         .fillMaxWidth(0.3f)
@@ -81,7 +78,6 @@ fun PrimeDetailSkeleton(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Progress Bar
                 Box(
                     modifier = Modifier
                         .fillMaxWidth(0.6f)
@@ -92,7 +88,6 @@ fun PrimeDetailSkeleton(
                 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                // Progress Text
                 Box(
                     modifier = Modifier
                         .fillMaxWidth(0.2f)
@@ -107,7 +102,6 @@ fun PrimeDetailSkeleton(
                     .fillMaxWidth()
                     .weight(1f)
             ) {
-                // Quick Actions Skeleton
                 item {
                     Row(
                         modifier = Modifier
@@ -132,7 +126,6 @@ fun PrimeDetailSkeleton(
                     }
                 }
 
-                // Parts List Skeleton
                 items(4) {
                     Row(
                         modifier = Modifier
@@ -140,7 +133,6 @@ fun PrimeDetailSkeleton(
                             .padding(horizontal = 16.dp, vertical = 12.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        // Part Icon
                         Box(
                             modifier = Modifier
                                 .size(48.dp)
@@ -150,7 +142,6 @@ fun PrimeDetailSkeleton(
 
                         Spacer(modifier = Modifier.width(16.dp))
 
-                        // Part Info
                         Column(modifier = Modifier.weight(1f)) {
                             Box(
                                 modifier = Modifier
@@ -171,7 +162,6 @@ fun PrimeDetailSkeleton(
 
                         Spacer(modifier = Modifier.width(16.dp))
 
-                        // Quantity Selector Placeholder
                         Box(
                             modifier = Modifier
                                 .width(100.dp)
@@ -189,7 +179,6 @@ fun PrimeDetailSkeleton(
             }
         }
 
-        // Close Button Placeholder
         Box(
             modifier = Modifier
                 .padding(8.dp)

@@ -55,7 +55,7 @@ fun DatabaseOverviewCard(state: DatabaseOverviewUi) {
             DatabaseItem(
                 label = stringResource(R.string.overview_db_parts),
                 value = state.partsCount.toString(),
-                statusColor = state.setsStatusColor // Sets and Parts share same file
+                statusColor = state.setsStatusColor
             )
             DatabaseItem(
                 label = stringResource(R.string.overview_db_relics),

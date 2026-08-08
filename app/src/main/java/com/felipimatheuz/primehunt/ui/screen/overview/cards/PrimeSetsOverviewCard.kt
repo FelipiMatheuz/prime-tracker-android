@@ -111,7 +111,6 @@ private fun ProgressRing(
             val spaceLength = 4.dp.toPx()
             val pathEffect = PathEffect.dashPathEffect(floatArrayOf(dashLength, spaceLength), 0f)
 
-            // Background Ring
             drawArc(
                 color = backgroundColor,
                 startAngle = -90f,
@@ -120,7 +119,6 @@ private fun ProgressRing(
                 style = Stroke(width = strokeWidth, cap = StrokeCap.Round, pathEffect = pathEffect)
             )
 
-            // Progress Ring
             drawArc(
                 color = primaryColor,
                 startAngle = -90f,

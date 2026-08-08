@@ -73,7 +73,6 @@ private fun RelicDetailsContent(
             .padding(16.dp)
             .padding(top = 16.dp)
     ) {
-        // Header
         Column(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -120,8 +119,7 @@ private fun RelicDetailsContent(
                 )
             }
         }
-        
-        // Summary
+
         PrimePanel {
             Row(
                 modifier = Modifier
@@ -144,7 +142,6 @@ private fun RelicDetailsContent(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Drops
         val sortedRewards = remember(relic.rewards) {
             relic.rewards.sortedWith(
                 compareByDescending<RelicComponentDomain> { it.rarity.ordinal }
@@ -170,7 +167,6 @@ private fun RelicDetailsContent(
             color = MaterialTheme.colorScheme.outlineVariant
         )
 
-        // Close button
         TextButton(
             onClick = onDismiss,
             modifier = Modifier.align(Alignment.End)

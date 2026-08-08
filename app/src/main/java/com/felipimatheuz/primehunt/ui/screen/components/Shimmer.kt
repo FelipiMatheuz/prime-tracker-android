@@ -33,7 +33,7 @@ fun Modifier.shimmer(
 
     val shimmerColors = listOf(
         Color.Transparent,
-        MaterialTheme.colorScheme.primary.copy(alpha = 0.15f), // Orokin gold tint
+        MaterialTheme.colorScheme.primary.copy(alpha = 0.15f),
         Color.Transparent,
     )
 

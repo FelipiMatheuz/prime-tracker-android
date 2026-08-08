@@ -6,10 +6,6 @@ import androidx.compose.ui.input.pointer.PointerInputChange
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.util.VelocityTracker
 
-/**
- * Custom modifier to handle orbital drag gestures and momentum.
- * Hooks into the velocity-based engine in OrbitalState.
- */
 fun Modifier.orbitalGestureHandler(
     state: OrbitalState
 ): Modifier = this.pointerInput(Unit) {

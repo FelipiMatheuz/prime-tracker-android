@@ -100,7 +100,6 @@ fun GoalCard(
                 .padding(12.dp)
                 .fillMaxWidth()
         ) {
-            // 1. Tag (The Card Identity)
             GoalTagChip(
                 text = goal.tag.name,
                 iconRes = goal.tag.icon.icon,
@@ -108,7 +107,6 @@ fun GoalCard(
                 modifier = Modifier.padding(bottom = 12.dp, top = 8.dp)
             )
 
-            // 2. Target Name
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -129,7 +127,6 @@ fun GoalCard(
                 )
             }
 
-            // 3. Target Type
             Text(
                 text = stringResource(goal.targetType.label),
                 style = MaterialTheme.typography.labelSmall,
@@ -138,7 +135,6 @@ fun GoalCard(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // 4. Progress
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(4.dp)
@@ -157,7 +153,6 @@ fun GoalCard(
                 )
             }
 
-            // 5. Note
             if (!goal.note.isNullOrBlank()) {
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(

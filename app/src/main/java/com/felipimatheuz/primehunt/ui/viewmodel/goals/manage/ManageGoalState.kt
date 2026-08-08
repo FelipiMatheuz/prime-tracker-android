@@ -12,12 +12,10 @@ data class ManageGoalState(
     val goalId: Long? = null,
     val isEditMode: Boolean = false,
     val status: GoalStatus = GoalStatus.ACTIVE,
-    
-    // Loaded Data
+
     val availableTags: List<GoalTagDomain> = emptyList(),
     val suggestions: List<TargetDomain> = emptyList(),
-    
-    // Form Fields
+
     val targetType: GoalTargetType = GoalTargetType.PRIME_SET,
     val targetQuery: String = "",
     val selectedTarget: TargetDomain? = null,
@@ -25,15 +23,13 @@ data class ManageGoalState(
     val manualCurrentQuantity: Int = 0,
     val selectedTag: GoalTagDomain? = null,
     val notes: String = "",
-    
-    // UI State
+
     val isLoading: Boolean = true,
     val isSaving: Boolean = false,
     val hasChanges: Boolean = false,
     val isFormValid: Boolean = false,
     val operationComplete: Boolean = false,
-    
-    // Tag Creation Modal
+
     val isTagSheetVisible: Boolean = false,
     val newTagName: String = "",
     val newTagIcon: GoalIcons = GoalIcons.SLASH,

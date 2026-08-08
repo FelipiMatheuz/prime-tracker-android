@@ -10,10 +10,6 @@ object PrimeSetResolver {
         val quantity: Int
     )
 
-    /**
-     * Resolves all required parts for a given set, handling nested sets recursively.
-     * Returns a map of partId to the total quantity needed.
-     */
     fun resolveRequiredParts(
         setId: String,
         multiplier: Int,
@@ -24,8 +20,6 @@ object PrimeSetResolver {
         val parts = partsBySetMap[setId] ?: emptyList()
         val hasExplicitBlueprint = parts.any { it.id == setId }
 
-        // If there's no explicit blueprint part, but there are components for this setId,
-        // it means the set itself acts as a blueprint (synthesized).
         if (!hasExplicitBlueprint) {
             if (hasComponentsMap[setId] == true) {
                 result[setId] = (result[setId] ?: 0) + multiplier
@@ -34,7 +28,6 @@ object PrimeSetResolver {
 
         parts.forEach { part ->
             if (part.part == PrimePartType.PRIME_SET) {
-                // Recursively resolve nested sets
                 resolveRequiredParts(
                     part.id,
                     multiplier * part.quantity,
