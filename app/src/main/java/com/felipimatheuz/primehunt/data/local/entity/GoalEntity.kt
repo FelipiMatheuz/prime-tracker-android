@@ -4,8 +4,8 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.felipimatheuz.primehunt.data.local.enums.GoalStatus
-import com.felipimatheuz.primehunt.data.local.enums.GoalTargetType
+import com.felipimatheuz.primehunt.domain.model.enums.GoalStatus
+import com.felipimatheuz.primehunt.domain.model.enums.GoalTargetType
 
 @Entity(
     tableName = "goal",

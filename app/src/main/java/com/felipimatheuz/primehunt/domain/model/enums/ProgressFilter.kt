@@ -1,9 +1,7 @@
-package com.felipimatheuz.primehunt.data.local.enums
+package com.felipimatheuz.primehunt.domain.model.enums
 
 import com.felipimatheuz.primehunt.R
-import kotlinx.serialization.Serializable
 
-@Serializable
 enum class ProgressFilter(val displayNameRes: Int) {
     ALL(R.string.filter_progress_all),
     COMPLETE(R.string.filter_progress_complete),

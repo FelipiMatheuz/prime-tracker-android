@@ -2,11 +2,11 @@ package com.felipimatheuz.primehunt.ui.viewmodel.relic
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.felipimatheuz.primehunt.data.local.enums.RelicsView
-import com.felipimatheuz.primehunt.data.local.preferences.RelicUiPrefs
-import com.felipimatheuz.primehunt.data.remote.enums.RelicEra
-import com.felipimatheuz.primehunt.data.remote.enums.RelicSource
-import com.felipimatheuz.primehunt.data.repository.UiPreferencesRepository
+import com.felipimatheuz.primehunt.domain.model.enums.RelicsView
+import com.felipimatheuz.primehunt.domain.model.enums.RelicEra
+import com.felipimatheuz.primehunt.domain.model.prefs.RelicUiPrefs
+import com.felipimatheuz.primehunt.domain.model.enums.RelicSource
+import com.felipimatheuz.primehunt.domain.repository.UiPreferencesRepository
 import com.felipimatheuz.primehunt.domain.model.RelicDomain
 import com.felipimatheuz.primehunt.domain.model.matches
 import com.felipimatheuz.primehunt.domain.usecase.relic.GetRelicsUseCase

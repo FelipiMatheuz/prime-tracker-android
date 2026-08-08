@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.data.remote.enums.PrimeType
+import com.felipimatheuz.primehunt.domain.model.enums.PrimeType
 import com.felipimatheuz.primehunt.ui.screen.primeset.primedetail.components.DetailComponentItem
 import com.felipimatheuz.primehunt.ui.screen.primeset.primedetail.components.DetailError
 import com.felipimatheuz.primehunt.ui.screen.primeset.primedetail.components.DetailHeader

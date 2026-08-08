@@ -1,7 +1,7 @@
 package com.felipimatheuz.primehunt.domain.usecase.overview
 
-import com.felipimatheuz.primehunt.data.local.enums.GoalStatus
-import com.felipimatheuz.primehunt.data.remote.enums.PrimeType
+import com.felipimatheuz.primehunt.domain.model.enums.GoalStatus
+import com.felipimatheuz.primehunt.domain.model.enums.PrimeType
 import com.felipimatheuz.primehunt.domain.model.*
 import com.felipimatheuz.primehunt.domain.repository.*
 import com.felipimatheuz.primehunt.domain.usecase.primeset.GetPrimeSetsUseCase

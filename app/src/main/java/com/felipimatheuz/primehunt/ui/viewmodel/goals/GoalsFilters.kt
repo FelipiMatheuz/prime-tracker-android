@@ -1,7 +1,7 @@
 package com.felipimatheuz.primehunt.ui.viewmodel.goals
 
-import com.felipimatheuz.primehunt.data.local.enums.GoalStatus
-import com.felipimatheuz.primehunt.data.local.enums.GoalTargetType
+import com.felipimatheuz.primehunt.domain.model.enums.GoalStatus
+import com.felipimatheuz.primehunt.domain.model.enums.GoalTargetType
 
 data class GoalsFilters(
     val status: GoalStatus = GoalStatus.ACTIVE,

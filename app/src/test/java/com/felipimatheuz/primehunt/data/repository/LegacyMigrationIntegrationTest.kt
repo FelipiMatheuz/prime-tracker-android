@@ -4,13 +4,15 @@ import androidx.room.withTransaction
 import com.felipimatheuz.primehunt.data.local.dao.InventoryDao
 import com.felipimatheuz.primehunt.data.local.entity.InventoryPartEntity
 import com.felipimatheuz.primehunt.data.local.AppDatabase
-import com.felipimatheuz.primehunt.data.local.dao.PrimePartDao
-import com.felipimatheuz.primehunt.data.local.dao.PrimeSetDao
-import com.felipimatheuz.primehunt.data.local.entity.PrimePartEntity
-import com.felipimatheuz.primehunt.data.local.entity.PrimeSetEntity
-import com.felipimatheuz.primehunt.data.remote.enums.PrimePartType
-import com.felipimatheuz.primehunt.data.remote.enums.PrimeType
+import com.felipimatheuz.primehunt.domain.model.enums.PrimePartType
+import com.felipimatheuz.primehunt.domain.model.enums.PrimeType
 import com.felipimatheuz.primehunt.domain.mapper.LegacyMigrationParser
+import com.felipimatheuz.primehunt.domain.repository.CloudRepository
+import com.felipimatheuz.primehunt.domain.repository.PrimeRepository
+import com.felipimatheuz.primehunt.data.local.dao.GoalDao
+import com.felipimatheuz.primehunt.data.local.dao.GoalTagDao
+import com.felipimatheuz.primehunt.domain.repository.SyncPart
+import com.felipimatheuz.primehunt.domain.repository.SyncSet
 import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -24,8 +26,9 @@ class LegacyMigrationIntegrationTest {
 
     private val database = mockk<AppDatabase>(relaxed = true)
     private val inventoryDao = mockk<InventoryDao>(relaxed = true)
-    private val primePartDao = mockk<PrimePartDao>(relaxed = true)
-    private val primeSetDao = mockk<PrimeSetDao>(relaxed = true)
+    private val goalDao = mockk<GoalDao>(relaxed = true)
+    private val tagDao = mockk<GoalTagDao>(relaxed = true)
+    private val primeRepository = mockk<PrimeRepository>(relaxed = true)
     private val parser = LegacyMigrationParser()
 
     private lateinit var repository: CloudRepository
@@ -37,7 +40,7 @@ class LegacyMigrationIntegrationTest {
             val block = invocation.args[1] as suspend () -> Any?
             block()
         }
-        repository = CloudRepository(database, inventoryDao, primePartDao, primeSetDao, parser)
+        repository = CloudRepositoryImpl(database, inventoryDao, goalDao, tagDao, primeRepository, parser)
     }
 
     @Test
@@ -52,13 +55,13 @@ class LegacyMigrationIntegrationTest {
         )
 
         // Mock Novo Banco
-        coEvery { primeSetDao.getAllSync() } returns listOf(
-            PrimeSetEntity("gauss_prime", "Gauss Prime", PrimeType.WARFRAME, ""),
-            PrimeSetEntity("fang_prime", "Fang Prime", PrimeType.MELEE, "")
+        coEvery { primeRepository.getAllSetsSync() } returns listOf(
+            SyncSet("gauss_prime", "Gauss Prime", PrimeType.WARFRAME, ""),
+            SyncSet("fang_prime", "Fang Prime", PrimeType.MELEE, "")
         )
-        coEvery { primePartDao.getAllSync() } returns listOf(
-            PrimePartEntity("gauss_neuro", "gauss_prime", PrimePartType.NEUROPTICS, 1),
-            PrimePartEntity("fang_blade", "fang_prime", PrimePartType.BLADE, 1)
+        coEvery { primeRepository.getAllPartsSync() } returns listOf(
+            SyncPart("gauss_neuro", "gauss_prime", PrimePartType.NEUROPTICS, 1),
+            SyncPart("fang_blade", "fang_prime", PrimePartType.BLADE, 1)
         )
 
         val result = repository.performMigration(mapSet, mapOther)
@@ -81,8 +84,8 @@ class LegacyMigrationIntegrationTest {
             "Unknown_Item_PART_0" to true
         )
         
-        coEvery { primeSetDao.getAllSync() } returns emptyList()
-        coEvery { primePartDao.getAllSync() } returns emptyList()
+        coEvery { primeRepository.getAllSetsSync() } returns emptyList()
+        coEvery { primeRepository.getAllPartsSync() } returns emptyList()
 
         val result = repository.performMigration(mapSet, emptyMap())
 
@@ -97,18 +100,18 @@ class LegacyMigrationIntegrationTest {
             "Aklex_LEX_0" to true 
         )
 
-        coEvery { primeSetDao.getAllSync() } returns listOf(
-            PrimeSetEntity("aklex_prime", "Aklex Prime", PrimeType.SECONDARY, ""),
-            PrimeSetEntity("lex_prime", "Lex Prime", PrimeType.SECONDARY, "")
+        coEvery { primeRepository.getAllSetsSync() } returns listOf(
+            SyncSet("aklex_prime", "Aklex Prime", PrimeType.SECONDARY, ""),
+            SyncSet("lex_prime", "Lex Prime", PrimeType.SECONDARY, "")
         )
 
-        coEvery { primePartDao.getAllSync() } returns listOf(
-            PrimePartEntity("lex_as_part", "aklex_prime", PrimePartType.PRIME_SET, 2)
+        coEvery { primeRepository.getAllPartsSync() } returns listOf(
+            SyncPart("lex_as_part", "aklex_prime", PrimePartType.PRIME_SET, 2)
         )
 
-        coEvery { primePartDao.getByPrimeSetSync("lex_as_part") } returns listOf(
-            PrimePartEntity("lex_bp", "lex_prime", PrimePartType.BLUEPRINT, 1),
-            PrimePartEntity("lex_barrel", "lex_prime", PrimePartType.BARREL, 1)
+        coEvery { primeRepository.getPartsBySetSync("lex_as_part") } returns listOf(
+            SyncPart("lex_bp", "lex_prime", PrimePartType.BLUEPRINT, 1),
+            SyncPart("lex_barrel", "lex_prime", PrimePartType.BARREL, 1)
         )
 
         val result = repository.performMigration(mapSet, emptyMap())

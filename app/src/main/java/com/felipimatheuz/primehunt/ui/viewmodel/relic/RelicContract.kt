@@ -2,10 +2,10 @@ package com.felipimatheuz.primehunt.ui.viewmodel.relic
 
 import androidx.annotation.StringRes
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.data.local.enums.ProgressFilter
-import com.felipimatheuz.primehunt.data.local.enums.RelicsView
-import com.felipimatheuz.primehunt.data.remote.enums.RelicEra
-import com.felipimatheuz.primehunt.data.remote.enums.RelicSource
+import com.felipimatheuz.primehunt.domain.model.enums.ProgressFilter
+import com.felipimatheuz.primehunt.domain.model.enums.RelicsView
+import com.felipimatheuz.primehunt.domain.model.enums.RelicEra
+import com.felipimatheuz.primehunt.domain.model.enums.RelicSource
 import com.felipimatheuz.primehunt.domain.model.RelicDomain
 import com.felipimatheuz.primehunt.ui.mvi.MviIntent
 import com.felipimatheuz.primehunt.ui.mvi.MviState

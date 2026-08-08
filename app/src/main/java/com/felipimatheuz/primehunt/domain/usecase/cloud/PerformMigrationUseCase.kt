@@ -1,7 +1,7 @@
 package com.felipimatheuz.primehunt.domain.usecase.cloud
 
-import com.felipimatheuz.primehunt.data.repository.CloudRepository
-import com.felipimatheuz.primehunt.data.repository.UiPreferencesRepository
+import com.felipimatheuz.primehunt.domain.repository.CloudRepository
+import com.felipimatheuz.primehunt.domain.repository.UiPreferencesRepository
 import com.felipimatheuz.primehunt.data.cloud.Firestore
 import com.felipimatheuz.primehunt.ui.viewmodel.cloud.CloudActionResult
 import kotlinx.coroutines.flow.first

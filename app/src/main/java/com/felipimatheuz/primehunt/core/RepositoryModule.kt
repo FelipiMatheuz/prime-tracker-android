@@ -1,13 +1,7 @@
 package com.felipimatheuz.primehunt.core
 
-import com.felipimatheuz.primehunt.data.repository.GoalRepositoryImpl
-import com.felipimatheuz.primehunt.data.repository.OverviewRepositoryImpl
-import com.felipimatheuz.primehunt.data.repository.PrimeRepositoryImpl
-import com.felipimatheuz.primehunt.data.repository.SyncRepositoryImpl
-import com.felipimatheuz.primehunt.domain.repository.GoalRepository
-import com.felipimatheuz.primehunt.domain.repository.OverviewRepository
-import com.felipimatheuz.primehunt.domain.repository.PrimeRepository
-import com.felipimatheuz.primehunt.domain.repository.SyncRepository
+import com.felipimatheuz.primehunt.data.repository.*
+import com.felipimatheuz.primehunt.domain.repository.*
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -41,4 +35,16 @@ abstract class RepositoryModule {
     abstract fun bindSyncRepository(
         syncRepositoryImpl: SyncRepositoryImpl
     ): SyncRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindCloudRepository(
+        cloudRepositoryImpl: CloudRepositoryImpl
+    ): CloudRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindUiPreferencesRepository(
+        uiPreferencesRepositoryImpl: UiPreferencesRepositoryImpl
+    ): UiPreferencesRepository
 }

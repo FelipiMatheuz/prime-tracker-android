@@ -17,7 +17,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.data.local.enums.GoalIcons
+import com.felipimatheuz.primehunt.domain.model.enums.GoalIcons
 
 @Composable
 fun IconPickerDialog(

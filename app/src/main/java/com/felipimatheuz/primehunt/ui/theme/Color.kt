@@ -3,7 +3,7 @@ package com.felipimatheuz.primehunt.ui.theme
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import com.felipimatheuz.primehunt.data.remote.enums.DropRarity
+import com.felipimatheuz.primehunt.domain.model.enums.DropRarity
 
 //Primary
 val Gold200 = Color(0xFFFFE55C)

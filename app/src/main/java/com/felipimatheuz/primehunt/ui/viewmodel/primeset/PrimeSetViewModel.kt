@@ -2,10 +2,10 @@ package com.felipimatheuz.primehunt.ui.viewmodel.primeset
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.felipimatheuz.primehunt.data.local.preferences.PrimeSetUiPrefs
-import com.felipimatheuz.primehunt.data.repository.UiPreferencesRepository
-import com.felipimatheuz.primehunt.domain.model.PrimeSetDomain
+import com.felipimatheuz.primehunt.domain.model.enums.PrimeType
 import com.felipimatheuz.primehunt.domain.model.matches
+import com.felipimatheuz.primehunt.domain.model.prefs.PrimeSetUiPrefs
+import com.felipimatheuz.primehunt.domain.repository.UiPreferencesRepository
 import com.felipimatheuz.primehunt.domain.usecase.primeset.GetPrimeSetsUseCase
 import com.felipimatheuz.primehunt.ui.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -49,30 +49,37 @@ class PrimeSetViewModel @Inject constructor(
 
     @OptIn(FlowPreview::class)
     override val state: StateFlow<PrimeSetState> = combine(
-        getPrimeSetsUseCase.observeCollections().distinctUntilChanged(),
-        getPrimeSetsUseCase.observeWithoutCollection().distinctUntilChanged(),
+        getPrimeSetsUseCase.observeAllSets(),
+        getPrimeSetsUseCase.observeCollections(),
         _searchText.debounce(300.milliseconds).distinctUntilChanged(),
         _filters,
         _selectedView
-    ) { collections, withoutCollection, query, filters, selectedView ->
-        val allCollections = collections + withoutCollection
+    ) { sets, collections, query, filters, selectedView ->
+        val filtered = sets.filter { set ->
+            val matchesQuery = set.name.contains(query, ignoreCase = true) ||
+                    set.parts.any { it.name.name.contains(query, ignoreCase = true) }
 
-        val filteredCollections = allCollections.map { coll ->
-            coll.copy(sets = applyFilters(coll.sets, query, filters))
-        }.filter { it.sets.isNotEmpty() || (query.isEmpty() && filters == PrimeSetFilters()) }
+            val matchesCategory = filters.categories.isEmpty() || filters.categories.contains(set.type)
+            val matchesAvailability = filters.availabilities.isEmpty() || filters.availabilities.contains(set.availability)
+            val matchesProgress = set.matches(filters.progress)
 
-        val allSets = allCollections.flatMap { it.sets }
-        val filteredGrouped = applyFilters(allSets, query, filters)
-            .groupBy { it.type }
-            .filterValues { it.isNotEmpty() }
+            matchesQuery && matchesCategory && matchesAvailability && matchesProgress
+        }
+
+        val grouped = filtered.groupBy { 
+            when (it.type) {
+                PrimeType.ARCH_GUN, PrimeType.ARCHWING -> PrimeType.COMPANION
+                else -> it.type
+            }
+        }
 
         PrimeSetState(
-            collections = filteredCollections,
-            groupedSets = filteredGrouped,
+            collections = collections,
+            groupedSets = grouped,
+            isLoading = false,
             queryFilter = query,
             activeFilters = filters,
-            selectedView = selectedView,
-            isLoading = false
+            selectedView = selectedView
         )
     }
         .flowOn(Dispatchers.Default)
@@ -82,35 +89,14 @@ class PrimeSetViewModel @Inject constructor(
             initialValue = PrimeSetState()
         )
 
-    private fun applyFilters(
-        sets: List<PrimeSetDomain>,
-        query: String,
-        filters: PrimeSetFilters
-    ): List<PrimeSetDomain> {
-        return sets.filter { set ->
-            val matchesQuery = set.name.contains(query, ignoreCase = true)
-
-            val matchesProgress = set.matches(filters.progress)
-
-            val matchesCategory =
-                filters.categories.isEmpty() || filters.categories.contains(set.type)
-
-            val matchesAvailability =
-                filters.availabilities.isEmpty() || filters.availabilities.contains(set.availability)
-
-            matchesQuery && matchesProgress && matchesCategory && matchesAvailability
-        }
-    }
-
     override fun onIntent(intent: PrimeSetIntent) {
         when (intent) {
             is PrimeSetIntent.Search -> _searchText.value = intent.query
-            is PrimeSetIntent.ClearSearch -> _searchText.value = ""
             is PrimeSetIntent.UpdateFilters -> {
                 _filters.value = intent.filters
                 savePrefs()
             }
-
+            PrimeSetIntent.ClearSearch -> _searchText.value = ""
             is PrimeSetIntent.ChangeView -> {
                 _selectedView.value = intent.index
                 savePrefs()

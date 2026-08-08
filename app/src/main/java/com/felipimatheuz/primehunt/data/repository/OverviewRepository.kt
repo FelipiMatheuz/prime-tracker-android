@@ -1,7 +1,7 @@
 package com.felipimatheuz.primehunt.data.repository
 
 import com.felipimatheuz.primehunt.data.local.entity.LocalManifest
-import com.felipimatheuz.primehunt.data.local.enums.GoalStatus
+import com.felipimatheuz.primehunt.domain.model.enums.GoalStatus
 import com.felipimatheuz.primehunt.data.local.dao.ManifestDao
 import com.felipimatheuz.primehunt.domain.model.GoalDomain
 import com.felipimatheuz.primehunt.domain.repository.*

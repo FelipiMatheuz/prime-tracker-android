@@ -1,4 +1,4 @@
-package com.felipimatheuz.primehunt.data.remote.enums
+package com.felipimatheuz.primehunt.domain.model.enums
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -15,8 +15,6 @@ class EnumParsingTest {
 
     @Test
     fun `relic era parsing handles unknown values safely`() {
-        // Should default to AXI or some safe default if specified, 
-        // currently it defaults to AXI in the implementation
         assertEquals(RelicEra.AXI, RelicEra.fromString("Unknown"))
     }
 

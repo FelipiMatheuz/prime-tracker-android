@@ -1,8 +1,8 @@
 package com.felipimatheuz.primehunt.domain.repository
 
-import com.felipimatheuz.primehunt.data.remote.enums.DropRarity
-import com.felipimatheuz.primehunt.data.remote.enums.PrimePartType
-import com.felipimatheuz.primehunt.data.remote.enums.PrimeType
+import com.felipimatheuz.primehunt.domain.model.enums.DropRarity
+import com.felipimatheuz.primehunt.domain.model.enums.PrimePartType
+import com.felipimatheuz.primehunt.domain.model.enums.PrimeType
 import com.felipimatheuz.primehunt.domain.model.PrimeCollection
 import com.felipimatheuz.primehunt.domain.model.PrimeSetDomain
 import com.felipimatheuz.primehunt.domain.model.RelicDomain
@@ -14,6 +14,7 @@ interface PrimeRepository {
     fun observeCollections(): Flow<List<PrimeCollection>>
     fun observeWithoutCollection(): Flow<PrimeCollection>
     fun observeAllRelics(): Flow<List<RelicDomain>>
+    fun observeSetById(id: String): Flow<PrimeSetDomain?>
     
     // Summary Data for Overview
     fun getDatabaseCounts(): Flow<DatabaseCounts>

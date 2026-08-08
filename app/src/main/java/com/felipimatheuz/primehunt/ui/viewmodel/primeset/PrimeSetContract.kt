@@ -1,8 +1,8 @@
 package com.felipimatheuz.primehunt.ui.viewmodel.primeset
 
-import com.felipimatheuz.primehunt.data.local.enums.ProgressFilter
-import com.felipimatheuz.primehunt.data.remote.enums.PrimeType
-import com.felipimatheuz.primehunt.data.remote.enums.RelicSource
+import com.felipimatheuz.primehunt.domain.model.enums.ProgressFilter
+import com.felipimatheuz.primehunt.domain.model.enums.PrimeType
+import com.felipimatheuz.primehunt.domain.model.enums.RelicSource
 import com.felipimatheuz.primehunt.domain.model.PrimeCollection
 import com.felipimatheuz.primehunt.domain.model.PrimeSetDomain
 import com.felipimatheuz.primehunt.ui.mvi.MviIntent

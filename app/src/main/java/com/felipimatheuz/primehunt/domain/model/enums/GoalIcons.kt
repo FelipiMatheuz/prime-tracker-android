@@ -1,4 +1,4 @@
-package com.felipimatheuz.primehunt.data.local.enums
+package com.felipimatheuz.primehunt.domain.model.enums
 
 import androidx.annotation.DrawableRes
 import com.felipimatheuz.primehunt.R

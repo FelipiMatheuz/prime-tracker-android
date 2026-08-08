@@ -32,7 +32,7 @@ import androidx.compose.ui.tooling.preview.AndroidUiModes.UI_MODE_NIGHT_YES
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.data.local.enums.BgIcons
+import com.felipimatheuz.primehunt.domain.model.enums.BgIcons
 import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
 
 @OptIn(ExperimentalMaterial3Api::class)

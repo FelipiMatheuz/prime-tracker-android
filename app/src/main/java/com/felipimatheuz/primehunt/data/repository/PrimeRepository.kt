@@ -1,7 +1,7 @@
 package com.felipimatheuz.primehunt.data.repository
 
 import com.felipimatheuz.primehunt.data.local.dao.*
-import com.felipimatheuz.primehunt.data.remote.enums.RelicSource
+import com.felipimatheuz.primehunt.domain.model.enums.RelicSource
 import com.felipimatheuz.primehunt.domain.mapper.PrimeMapper
 import com.felipimatheuz.primehunt.domain.mapper.RelicMapper
 import com.felipimatheuz.primehunt.domain.model.PrimeCollection
@@ -72,6 +72,14 @@ class PrimeRepositoryImpl @Inject constructor(
         val inventoryMap = inventory.associate { it.primePartId to it.quantity }
         val goalsByTarget = goals.groupBy { it.targetId }
         RelicMapper.mapToDomain(data, inventoryMap, goalsByTarget)
+    }
+
+    override fun observeSetById(id: String): Flow<PrimeSetDomain?> = combine(
+        primeDataStore.baseData.distinctUntilChanged(),
+        primeDataStore.inventoryDao.observeInventory().distinctUntilChanged()
+    ) { data, inventory ->
+        val inventoryMap = inventory.associate { it.primePartId to it.quantity }
+        PrimeMapper.mapToDomainSet(id, data, inventoryMap)
     }
 
     override fun getDatabaseCounts(): Flow<DatabaseCounts> = combine(

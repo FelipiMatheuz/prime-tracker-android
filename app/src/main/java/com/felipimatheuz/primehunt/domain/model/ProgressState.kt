@@ -1,6 +1,6 @@
 package com.felipimatheuz.primehunt.domain.model
 
-import com.felipimatheuz.primehunt.data.local.enums.ProgressFilter
+import com.felipimatheuz.primehunt.domain.model.enums.ProgressFilter
 
 interface ProgressState {
     val progressTotal: Int

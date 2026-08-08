@@ -4,8 +4,8 @@ import com.felipimatheuz.primehunt.data.local.dao.GoalDao
 import com.felipimatheuz.primehunt.data.local.dao.GoalTagDao
 import com.felipimatheuz.primehunt.data.local.entity.GoalEntity
 import com.felipimatheuz.primehunt.data.local.entity.GoalTagEntity
-import com.felipimatheuz.primehunt.data.local.enums.GoalStatus
-import com.felipimatheuz.primehunt.data.local.enums.GoalTargetType
+import com.felipimatheuz.primehunt.domain.model.enums.GoalStatus
+import com.felipimatheuz.primehunt.domain.model.enums.GoalTargetType
 import com.felipimatheuz.primehunt.domain.mapper.GoalMapper
 import com.felipimatheuz.primehunt.domain.model.GoalDomain
 import com.felipimatheuz.primehunt.domain.model.GoalTagDomain

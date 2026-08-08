@@ -1,8 +1,8 @@
 package com.felipimatheuz.primehunt.ui.viewmodel.goals.manage
 
 import androidx.compose.ui.graphics.Color
-import com.felipimatheuz.primehunt.data.local.enums.GoalIcons
-import com.felipimatheuz.primehunt.data.local.enums.GoalTargetType
+import com.felipimatheuz.primehunt.domain.model.enums.GoalIcons
+import com.felipimatheuz.primehunt.domain.model.enums.GoalTargetType
 import com.felipimatheuz.primehunt.domain.model.GoalTagDomain
 import com.felipimatheuz.primehunt.domain.model.TargetDomain
 import com.felipimatheuz.primehunt.ui.mvi.MviIntent

@@ -37,7 +37,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.data.remote.enums.PrimeType
+import com.felipimatheuz.primehunt.domain.model.enums.PrimeType
 import com.felipimatheuz.primehunt.ui.screen.overview.orbital.OrbitalDimens
 import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
 import com.felipimatheuz.primehunt.ui.viewmodel.overview.CategoryOverviewUi

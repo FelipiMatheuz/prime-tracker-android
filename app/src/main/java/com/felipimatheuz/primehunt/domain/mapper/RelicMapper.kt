@@ -1,7 +1,7 @@
 package com.felipimatheuz.primehunt.domain.mapper
 
-import com.felipimatheuz.primehunt.data.local.enums.GoalTargetType
-import com.felipimatheuz.primehunt.data.remote.enums.PrimePartType
+import com.felipimatheuz.primehunt.domain.model.enums.GoalTargetType
+import com.felipimatheuz.primehunt.domain.model.enums.PrimePartType
 import com.felipimatheuz.primehunt.data.repository.PrimeBaseData
 import com.felipimatheuz.primehunt.domain.model.GoalDomain
 import com.felipimatheuz.primehunt.domain.model.RelicComponentDomain
@@ -26,7 +26,6 @@ object RelicMapper {
 
                 var isForma = false
                 var isBlueprint = false
-
                 val name = when {
                     part != null && set != null -> PrimeMapper.formatPartName(set.name, part.part)
                     set != null -> {

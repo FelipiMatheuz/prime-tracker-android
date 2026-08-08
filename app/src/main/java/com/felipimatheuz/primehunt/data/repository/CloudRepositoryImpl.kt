@@ -8,11 +8,12 @@ import com.felipimatheuz.primehunt.data.local.entity.GoalEntity
 import com.felipimatheuz.primehunt.data.local.entity.GoalTagEntity
 import com.felipimatheuz.primehunt.data.local.entity.InventoryPartEntity
 import com.felipimatheuz.primehunt.data.local.AppDatabase
-import com.felipimatheuz.primehunt.data.local.enums.GoalIcons
-import com.felipimatheuz.primehunt.data.local.enums.GoalStatus
-import com.felipimatheuz.primehunt.data.local.enums.GoalTargetType
-import com.felipimatheuz.primehunt.data.remote.enums.PrimePartType
+import com.felipimatheuz.primehunt.domain.model.enums.GoalIcons
+import com.felipimatheuz.primehunt.domain.model.enums.GoalStatus
+import com.felipimatheuz.primehunt.domain.model.enums.GoalTargetType
+import com.felipimatheuz.primehunt.domain.model.enums.PrimePartType
 import com.felipimatheuz.primehunt.domain.mapper.LegacyMigrationParser
+import com.felipimatheuz.primehunt.domain.repository.CloudRepository
 import com.felipimatheuz.primehunt.domain.repository.PrimeRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -20,29 +21,24 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class CloudRepository @Inject constructor(
+class CloudRepositoryImpl @Inject constructor(
     private val database: AppDatabase,
     private val inventoryDao: InventoryDao,
     private val goalDao: GoalDao,
     private val tagDao: GoalTagDao,
     private val primeRepository: PrimeRepository,
     private val parser: LegacyMigrationParser
-) {
+) : CloudRepository {
 
-    data class MigrationResult(
-        val itemsInserted: Int,
-        val ignoredKeys: List<String>
-    )
-
-    suspend fun performMigration(
+    override suspend fun performMigration(
         mapSet: Map<String, Any>,
         mapOther: Map<String, Any>
-    ): MigrationResult = withContext(Dispatchers.IO) {
+    ): CloudRepository.MigrationResult = withContext(Dispatchers.IO) {
         
         val legacyData = parser.parse(mapSet, isSetCategory = true) + 
                          parser.parse(mapOther, isSetCategory = false)
 
-        if (legacyData.isEmpty()) return@withContext MigrationResult(0, emptyList())
+        if (legacyData.isEmpty()) return@withContext CloudRepository.MigrationResult(0, emptyList())
 
         val matchedLegacyKeys = mutableSetOf<String>()
 
@@ -97,10 +93,10 @@ class CloudRepository @Inject constructor(
         }
 
         val ignoredKeys = legacyData.keys.filter { it !in matchedLegacyKeys }
-        MigrationResult(totalInserted, ignoredKeys)
+        CloudRepository.MigrationResult(totalInserted, ignoredKeys)
     }
 
-    suspend fun restoreBackup(
+    override suspend fun restoreBackup(
         inventoryMap: Map<String, Int>,
         goalsList: List<Map<String, Any?>>,
         tagsList: List<Map<String, Any?>>

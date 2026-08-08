@@ -1,6 +1,6 @@
 package com.felipimatheuz.primehunt.domain.util
 
-import com.felipimatheuz.primehunt.data.remote.enums.PrimePartType
+import com.felipimatheuz.primehunt.domain.model.enums.PrimePartType
 
 object PrimeSetResolver {
 

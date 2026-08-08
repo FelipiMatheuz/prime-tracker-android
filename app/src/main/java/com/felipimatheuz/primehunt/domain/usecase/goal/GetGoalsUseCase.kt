@@ -1,6 +1,6 @@
 package com.felipimatheuz.primehunt.domain.usecase.goal
 
-import com.felipimatheuz.primehunt.data.local.enums.GoalTargetType
+import com.felipimatheuz.primehunt.domain.model.enums.GoalTargetType
 import com.felipimatheuz.primehunt.data.repository.PrimeDataStore
 import com.felipimatheuz.primehunt.domain.mapper.PrimeMapper
 import com.felipimatheuz.primehunt.domain.model.GoalDomain
