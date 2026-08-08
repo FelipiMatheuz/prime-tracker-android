@@ -6,11 +6,12 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.felipimatheuz.primehunt.domain.model.enums.BgIcons
 import com.felipimatheuz.primehunt.ui.screen.overview.cards.*
 import com.felipimatheuz.primehunt.ui.viewmodel.overview.OverviewState
 import com.felipimatheuz.primehunt.ui.screen.overview.orbital.OrbitalCarousel
@@ -18,20 +19,24 @@ import com.felipimatheuz.primehunt.ui.screen.overview.orbital.OrbitalState
 import com.felipimatheuz.primehunt.ui.screen.overview.orbital.OverviewBackground
 import com.felipimatheuz.primehunt.ui.screen.overview.orbital.rememberOrbitalState
 import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
+import com.felipimatheuz.primehunt.ui.viewmodel.AppSettingsViewModel
 import com.felipimatheuz.primehunt.ui.viewmodel.overview.OverviewViewModel
 
 @Composable
 fun OverviewScreen(
     padding: PaddingValues = PaddingValues(),
-    viewModel: OverviewViewModel = hiltViewModel()
+    viewModel: OverviewViewModel = hiltViewModel(),
+    settingsViewModel: AppSettingsViewModel = hiltViewModel()
 ) {
     val state = rememberOrbitalState()
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val selectedWallpaper by settingsViewModel.selectedWallpaper.collectAsStateWithLifecycle()
 
     OverviewContent(
         padding = padding,
         orbitalState = state,
-        uiState = uiState
+        uiState = uiState,
+        iconRes = selectedWallpaper.icon
     )
 }
 
@@ -39,10 +44,14 @@ fun OverviewScreen(
 fun OverviewContent(
     padding: PaddingValues,
     orbitalState: OrbitalState,
-    uiState: OverviewState
+    uiState: OverviewState,
+    iconRes: Int = 0
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
-        OverviewBackground(state = orbitalState)
+        OverviewBackground(
+            state = orbitalState,
+            iconRes = iconRes
+        )
 
         OrbitalCarousel(
             state = orbitalState,
@@ -67,7 +76,8 @@ fun OverviewScreenPreview() {
         OverviewContent(
             padding = PaddingValues(),
             orbitalState = rememberOrbitalState(),
-            uiState = OverviewState()
+            uiState = OverviewState(),
+            iconRes = BgIcons.WARFRAME.icon
         )
     }
 }
@@ -79,7 +89,8 @@ fun OverviewScreenDarkPreview() {
         OverviewContent(
             padding = PaddingValues(),
             orbitalState = rememberOrbitalState(),
-            uiState = OverviewState()
+            uiState = OverviewState(),
+            iconRes = BgIcons.WARFRAME.icon
         )
     }
 }

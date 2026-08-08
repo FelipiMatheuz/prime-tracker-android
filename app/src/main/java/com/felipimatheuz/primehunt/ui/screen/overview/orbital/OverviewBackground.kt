@@ -11,10 +11,14 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.felipimatheuz.primehunt.ui.theme.*
 import kotlin.math.cos
@@ -24,6 +28,7 @@ import kotlin.random.Random
 @Composable
 fun OverviewBackground(
     state: OrbitalState,
+    iconRes: Int,
     modifier: Modifier = Modifier,
     darkTheme: Boolean = isSystemInDarkTheme()
 ) {
@@ -59,7 +64,7 @@ fun OverviewBackground(
 
         CenterGlowLayer(state, darkTheme)
 
-        ParticleLayer(darkTheme)
+        ParticleLayer(darkTheme, iconRes)
     }
 }
 
@@ -153,9 +158,10 @@ private fun CenterGlowLayer(state: OrbitalState, darkTheme: Boolean) {
 }
 
 @Composable
-private fun ParticleLayer(darkTheme: Boolean) {
+private fun ParticleLayer(darkTheme: Boolean, iconRes: Int) {
     val particleColor = if (darkTheme) VoidParticleDark else VoidParticleLight
     val infiniteTransition = rememberInfiniteTransition(label = "Particles")
+    val painter = if (iconRes != 0) painterResource(iconRes) else null
 
     val phase by infiniteTransition.animateFloat(
         initialValue = 0f,
@@ -174,7 +180,7 @@ private fun ParticleLayer(darkTheme: Boolean) {
                 radiusFraction = random.nextFloat() * 0.4f + 0.15f,
                 speedMultiplier = random.nextFloat() * 0.5f + 0.5f,
                 initialAngle = random.nextFloat() * 2f * Math.PI.toFloat(),
-                size = random.nextFloat() * 4f + 2f,
+                size = random.nextFloat() * 6f + 2f,
                 alpha = random.nextFloat() * 0.25f + 0.15f
             )
         }
@@ -189,7 +195,21 @@ private fun ParticleLayer(darkTheme: Boolean) {
             val actualRadius = p.radiusFraction * minDim
             val x = center.x + actualRadius * cos(angle)
             val y = center.y + actualRadius * sin(angle)
-            drawCircle(color = particleColor.copy(alpha = p.alpha), radius = p.size.dp.toPx(), center = Offset(x, y))
+            
+            if (painter != null) {
+                val pSize = p.size.dp.toPx()
+                translate(x - pSize / 2, y - pSize / 2) {
+                    with(painter) {
+                        draw(
+                            size = Size(pSize, pSize),
+                            alpha = p.alpha,
+                            colorFilter = ColorFilter.tint(particleColor)
+                        )
+                    }
+                }
+            } else {
+                drawCircle(color = particleColor.copy(alpha = p.alpha), radius = p.size.dp.toPx(), center = Offset(x, y))
+            }
         }
     }
 }
