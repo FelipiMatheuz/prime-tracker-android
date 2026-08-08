@@ -1,10 +1,11 @@
 package com.felipimatheuz.primehunt.domain.mapper
 
-import com.felipimatheuz.primehunt.domain.model.enums.GoalTargetType
-import com.felipimatheuz.primehunt.data.repository.PrimeBaseData
+import com.felipimatheuz.primehunt.domain.model.PrimeBaseData
 import com.felipimatheuz.primehunt.domain.model.GoalDomain
 import com.felipimatheuz.primehunt.domain.model.GoalTagDomain
+import com.felipimatheuz.primehunt.domain.model.enums.GoalTargetType
 import com.felipimatheuz.primehunt.domain.util.PrimeSetResolver
+import com.felipimatheuz.primehunt.domain.util.StringFormatter
 
 object GoalMapper {
 
@@ -45,10 +46,10 @@ object GoalMapper {
                 val setName = part?.let { setMap[it.primeSetId]?.name } ?: ""
 
                 val displayName = if (setName.isNotEmpty()) {
-                    PrimeMapper.formatPartName(setName, part!!.part)
+                    StringFormatter.formatPartName(setName, part!!.part)
                 } else {
                     val set = setMap[goal.targetId]
-                    if (set != null) PrimeMapper.getBlueprintName(set.name) else "Unknown Part"
+                    if (set != null) StringFormatter.getBlueprintName(set.name) else "Unknown Part"
                 }
 
                 displayName to (inventoryMap[goal.targetId] ?: 0)

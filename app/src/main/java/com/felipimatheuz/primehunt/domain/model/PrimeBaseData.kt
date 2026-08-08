@@ -1,4 +1,4 @@
-package com.felipimatheuz.primehunt.data.repository
+package com.felipimatheuz.primehunt.domain.model
 
 import com.felipimatheuz.primehunt.data.local.entity.PrimeComponentEntity
 import com.felipimatheuz.primehunt.data.local.entity.PrimePartEntity

@@ -3,23 +3,13 @@ package com.felipimatheuz.primehunt.domain.mapper
 import com.felipimatheuz.primehunt.data.local.entity.PrimePartEntity
 import com.felipimatheuz.primehunt.domain.model.enums.PrimePartType
 import com.felipimatheuz.primehunt.domain.model.enums.RelicSource
-import com.felipimatheuz.primehunt.data.repository.PrimeBaseData
+import com.felipimatheuz.primehunt.domain.model.PrimeBaseData
 import com.felipimatheuz.primehunt.domain.model.PrimePartDomain
 import com.felipimatheuz.primehunt.domain.model.PrimeSetDomain
 import com.felipimatheuz.primehunt.domain.model.RelicRewardDomain
+import com.felipimatheuz.primehunt.domain.util.StringFormatter
 
 object PrimeMapper {
-    
-    fun capitalizeWords(text: String): String =
-        text.split(" ").joinToString(" ") { it.replaceFirstChar { char -> char.uppercase() } }
-
-    fun formatPartName(setName: String, partType: PrimePartType): String {
-        return "$setName ${capitalizeWords(partType.name.replace("_", " ").lowercase())}"
-    }
-
-    fun getBlueprintName(setName: String): String {
-        return "$setName Blueprint"
-    }
 
     fun mapToDomainSets(
         data: PrimeBaseData,
@@ -72,7 +62,7 @@ object PrimeMapper {
             val relicRewards = comps.map { c ->
                 val relic = relicMap[c.relicId]
                 val formattedName = if (relic != null) "${
-                    capitalizeWords(relic.era.name.lowercase())
+                    StringFormatter.capitalizeWords(relic.era.name.lowercase())
                 } ${relic.name}" else ""
                 RelicRewardDomain(formattedName, c.rarity, relic?.source ?: RelicSource.VAULT)
             }

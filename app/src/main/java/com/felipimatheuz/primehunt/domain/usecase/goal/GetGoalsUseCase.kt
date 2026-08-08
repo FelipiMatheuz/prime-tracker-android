@@ -1,11 +1,11 @@
 package com.felipimatheuz.primehunt.domain.usecase.goal
 
-import com.felipimatheuz.primehunt.domain.model.enums.GoalTargetType
 import com.felipimatheuz.primehunt.data.repository.PrimeDataStore
-import com.felipimatheuz.primehunt.domain.mapper.PrimeMapper
 import com.felipimatheuz.primehunt.domain.model.GoalDomain
 import com.felipimatheuz.primehunt.domain.model.TargetDomain
+import com.felipimatheuz.primehunt.domain.model.enums.GoalTargetType
 import com.felipimatheuz.primehunt.domain.repository.GoalRepository
+import com.felipimatheuz.primehunt.domain.util.StringFormatter
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -38,14 +38,14 @@ class GetGoalsUseCase @Inject constructor(
         }.map { set ->
             TargetDomain(
                 set.id,
-                PrimeMapper.getBlueprintName(set.name),
+                StringFormatter.getBlueprintName(set.name),
                 GoalTargetType.PRIME_PART
             )
         }
 
         val partTargets = parts.map { part ->
             val setName = setMap[part.primeSetId]?.name ?: ""
-            TargetDomain(part.id, PrimeMapper.formatPartName(setName, part.part), GoalTargetType.PRIME_PART)
+            TargetDomain(part.id, StringFormatter.formatPartName(setName, part.part), GoalTargetType.PRIME_PART)
         }
 
         val relicTargets = relics.map {

@@ -1,6 +1,6 @@
 package com.felipimatheuz.primehunt.data.repository
 
-import com.felipimatheuz.primehunt.data.local.entity.LocalManifest
+import com.felipimatheuz.primehunt.domain.model.ManifestDomain
 import com.felipimatheuz.primehunt.domain.model.enums.GoalStatus
 import com.felipimatheuz.primehunt.data.local.dao.ManifestDao
 import com.felipimatheuz.primehunt.domain.model.GoalDomain
@@ -33,7 +33,11 @@ class OverviewRepositoryImpl @Inject constructor(
         GoalSummary(active, completed)
     }
 
-    override fun observeManifest(): Flow<LocalManifest?> = manifestDao.observeManifest()
+    override fun observeManifest(): Flow<ManifestDomain?> = manifestDao.observeManifest().map { 
+        it?.let { 
+            ManifestDomain(it.lastSync, it.collectionsHash, it.primeSetsHash, it.relicsHash)
+        }
+    }
 
     override fun observeGoalsWithTags(): Flow<List<GoalDomain>> = goalRepository.observeAllWithTags()
 }
