@@ -1,14 +1,14 @@
 package com.felipimatheuz.primehunt.domain.model
 
-import androidx.compose.runtime.Immutable
-import com.felipimatheuz.primehunt.data.local.enums.GoalIcons
-import com.felipimatheuz.primehunt.data.remote.enums.DropRarity
-import com.felipimatheuz.primehunt.data.remote.enums.PrimePartType
-import com.felipimatheuz.primehunt.data.remote.enums.PrimeType
-import com.felipimatheuz.primehunt.data.remote.enums.RelicEra
-import com.felipimatheuz.primehunt.data.remote.enums.RelicSource
+import com.felipimatheuz.primehunt.domain.model.enums.DropRarity
+import com.felipimatheuz.primehunt.domain.model.enums.GoalIcons
+import com.felipimatheuz.primehunt.domain.model.enums.GoalStatus
+import com.felipimatheuz.primehunt.domain.model.enums.GoalTargetType
+import com.felipimatheuz.primehunt.domain.model.enums.PrimePartType
+import com.felipimatheuz.primehunt.domain.model.enums.PrimeType
+import com.felipimatheuz.primehunt.domain.model.enums.RelicEra
+import com.felipimatheuz.primehunt.domain.model.enums.RelicSource
 
-@Immutable
 data class GoalTagDomain(
     val id: Long,
     val name: String,
@@ -16,27 +16,24 @@ data class GoalTagDomain(
     val color: Int
 )
 
-@Immutable
 data class GoalDomain(
     val id: Long,
     val targetId: String,
     val targetName: String,
-    val targetType: com.felipimatheuz.primehunt.data.local.enums.GoalTargetType,
+    val targetType: GoalTargetType,
     val currentQuantity: Int,
     val desiredQuantity: Int,
-    val status: com.felipimatheuz.primehunt.data.local.enums.GoalStatus,
+    val status: GoalStatus,
     val note: String?,
     val tag: GoalTagDomain
 )
 
-@Immutable
 data class TargetDomain(
     val id: String,
     val name: String,
-    val type: com.felipimatheuz.primehunt.data.local.enums.GoalTargetType
+    val type: GoalTargetType
 )
 
-@Immutable
 data class PrimeCollection(
     val id: String,
     val name: String,
@@ -44,7 +41,6 @@ data class PrimeCollection(
     val sets: List<PrimeSetDomain>
 )
 
-@Immutable
 data class PrimeSetDomain(
     val id: String,
     val name: String,
@@ -65,7 +61,6 @@ data class PrimeSetDomain(
     val isNested: Boolean get() = parts.any { it.name == PrimePartType.PRIME_SET }
 }
 
-@Immutable
 data class PrimePartDomain(
     val id: String,
     val name: PrimePartType,
@@ -83,14 +78,12 @@ data class PrimePartDomain(
     val vaultedRelics: List<RelicRewardDomain> get() = relics.filter { it.source == RelicSource.VAULT }
 }
 
-@Immutable
 data class RelicRewardDomain(
     val name: String,
     val rarity: DropRarity,
     val source: RelicSource
 )
 
-@Immutable
 data class RelicDomain(
     val id: String,
     val name: String,
@@ -109,7 +102,6 @@ data class RelicDomain(
     val goalCount: Int get() = (goalTags + rewards.flatMap { it.goalTags }).distinctBy { it.id }.size
 }
 
-@Immutable
 data class RelicComponentDomain(
     val name: String,
     val rarity: DropRarity,

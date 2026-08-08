@@ -1,10 +1,8 @@
-package com.felipimatheuz.primehunt.data.remote.enums
+package com.felipimatheuz.primehunt.domain.model.enums
 
 import androidx.annotation.DrawableRes
 import com.felipimatheuz.primehunt.R
-import kotlinx.serialization.Serializable
 
-@Serializable
 enum class RelicEra(@param:DrawableRes val icon: Int) {
     LITH(R.drawable.relic_lith),
     MESO(R.drawable.relic_meso),

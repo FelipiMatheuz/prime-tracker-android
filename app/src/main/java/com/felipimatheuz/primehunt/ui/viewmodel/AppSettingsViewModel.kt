@@ -2,7 +2,7 @@ package com.felipimatheuz.primehunt.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.felipimatheuz.primehunt.data.local.enums.BgIcons
+import com.felipimatheuz.primehunt.domain.model.enums.BgIcons
 import com.felipimatheuz.primehunt.data.local.preferences.UserPreferencesDataSource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

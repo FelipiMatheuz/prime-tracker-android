@@ -1,9 +1,7 @@
-package com.felipimatheuz.primehunt.data.remote.enums
+package com.felipimatheuz.primehunt.domain.model.enums
 
 import com.felipimatheuz.primehunt.R
-import kotlinx.serialization.Serializable
 
-@Serializable
 enum class PrimeType(val displayNameRes: Int) {
     WARFRAME(R.string.overview_warframes),
     PRIMARY(R.string.overview_primary),

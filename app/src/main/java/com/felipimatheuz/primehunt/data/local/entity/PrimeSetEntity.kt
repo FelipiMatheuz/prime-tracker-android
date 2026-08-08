@@ -2,7 +2,7 @@ package com.felipimatheuz.primehunt.data.local.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.felipimatheuz.primehunt.data.remote.enums.PrimeType
+import com.felipimatheuz.primehunt.domain.model.enums.PrimeType
 
 @Entity(tableName = "prime_set")
 data class PrimeSetEntity(

@@ -33,7 +33,7 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.bumptech.glide.integration.compose.placeholder
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.data.remote.enums.PrimePartType
+import com.felipimatheuz.primehunt.domain.model.enums.PrimePartType
 import com.felipimatheuz.primehunt.domain.model.PrimePartDomain
 import com.felipimatheuz.primehunt.domain.model.RelicRewardDomain
 import com.felipimatheuz.primehunt.ui.theme.getColor

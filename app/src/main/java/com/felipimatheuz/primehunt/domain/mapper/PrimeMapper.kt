@@ -1,8 +1,8 @@
 package com.felipimatheuz.primehunt.domain.mapper
 
 import com.felipimatheuz.primehunt.data.local.entity.PrimePartEntity
-import com.felipimatheuz.primehunt.data.remote.enums.PrimePartType
-import com.felipimatheuz.primehunt.data.remote.enums.RelicSource
+import com.felipimatheuz.primehunt.domain.model.enums.PrimePartType
+import com.felipimatheuz.primehunt.domain.model.enums.RelicSource
 import com.felipimatheuz.primehunt.data.repository.PrimeBaseData
 import com.felipimatheuz.primehunt.domain.model.PrimePartDomain
 import com.felipimatheuz.primehunt.domain.model.PrimeSetDomain
@@ -25,24 +25,36 @@ object PrimeMapper {
         data: PrimeBaseData,
         inventoryMap: Map<String, Int>
     ): List<PrimeSetDomain> {
+        return data.sets.map { set ->
+            mapToDomainSet(set.id, data, inventoryMap)!!
+        }
+    }
+
+    fun mapToDomainSet(
+        setId: String,
+        data: PrimeBaseData,
+        inventoryMap: Map<String, Int>
+    ): PrimeSetDomain? {
         val relicMap = data.relics.associateBy { it.id }
         val componentMap = data.components.groupBy { it.primePartId }
         val partsBySetMap = data.parts.groupBy { it.primeSetId }
         val setEntityMap = data.sets.associateBy { it.id }
+        
+        val set = setEntityMap[setId] ?: return null
 
         fun resolveParts(
-            setId: String,
+            id: String,
             multiplier: Int,
             mapper: (PrimePartEntity, Int) -> PrimePartDomain
         ): List<PrimePartDomain> {
-            val setParts = partsBySetMap[setId] ?: emptyList()
-            val hasBlueprint = setParts.any { it.id == setId }
+            val setParts = partsBySetMap[id] ?: emptyList()
+            val hasBlueprint = setParts.any { it.id == id }
 
             return if (!hasBlueprint) {
-                val comps = componentMap[setId] ?: emptyList()
+                val comps = componentMap[id] ?: emptyList()
                 if (comps.isNotEmpty()) {
                     val blueprint = mapper(
-                        PrimePartEntity(setId, setId, PrimePartType.BLUEPRINT, 1),
+                        PrimePartEntity(id, id, PrimePartType.BLUEPRINT, 1),
                         multiplier
                     )
                     val others = setParts.map { mapper(it, multiplier) }
@@ -89,14 +101,12 @@ object PrimeMapper {
             )
         }
 
-        return data.sets.map { set ->
-            PrimeSetDomain(
-                id = set.id,
-                name = set.name,
-                type = set.type,
-                imageUrl = set.image,
-                parts = resolveParts(set.id, 1, ::mapPart).sortedBy { it.name }
-            )
-        }
+        return PrimeSetDomain(
+            id = set.id,
+            name = set.name,
+            type = set.type,
+            imageUrl = set.image,
+            parts = resolveParts(set.id, 1, ::mapPart).sortedBy { it.name }
+        )
     }
 }

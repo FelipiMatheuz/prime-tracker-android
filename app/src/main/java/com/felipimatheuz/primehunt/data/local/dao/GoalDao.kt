@@ -6,7 +6,8 @@ import androidx.room.Query
 import androidx.room.Upsert
 import com.felipimatheuz.primehunt.data.local.entity.GoalEntity
 import com.felipimatheuz.primehunt.data.local.entity.GoalWithTag
-import com.felipimatheuz.primehunt.data.local.enums.GoalTargetType
+import com.felipimatheuz.primehunt.domain.model.enums.GoalTargetType
+import com.felipimatheuz.primehunt.domain.model.enums.GoalStatus
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -59,10 +60,10 @@ interface GoalDao {
     suspend fun getById(id: Long): GoalEntity?
 
     @Query("UPDATE goal SET status = :status, completedAt = :completedAt WHERE id = :id")
-    suspend fun updateStatus(id: Long, status: com.felipimatheuz.primehunt.data.local.enums.GoalStatus, completedAt: Long?)
+    suspend fun updateStatus(id: Long, status: GoalStatus, completedAt: Long?)
 
     @Query("SELECT COUNT(*) FROM goal WHERE status = :status")
-    fun countByStatus(status: com.felipimatheuz.primehunt.data.local.enums.GoalStatus): Flow<Int>
+    fun countByStatus(status: GoalStatus): Flow<Int>
 
     @Upsert
     suspend fun upsert(

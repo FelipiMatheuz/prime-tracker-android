@@ -12,6 +12,8 @@ class GetPrimeSetsUseCase @Inject constructor(
 
     fun observeAllSets(): Flow<List<PrimeSetDomain>> = primeRepository.observeAllSets()
 
+    fun observeSetById(id: String): Flow<PrimeSetDomain?> = primeRepository.observeSetById(id)
+
     fun observeCollections(): Flow<List<PrimeCollection>> = primeRepository.observeCollections()
 
     fun observeWithoutCollection(): Flow<PrimeCollection> = primeRepository.observeWithoutCollection()

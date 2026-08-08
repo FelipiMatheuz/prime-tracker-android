@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
 import com.felipimatheuz.primehunt.data.local.entity.PrimeSetEntity
-import com.felipimatheuz.primehunt.data.remote.enums.PrimeType
+import com.felipimatheuz.primehunt.domain.model.enums.PrimeType
 import kotlinx.coroutines.flow.Flow
 
 @Dao

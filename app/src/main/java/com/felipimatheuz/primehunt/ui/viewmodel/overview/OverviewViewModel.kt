@@ -3,7 +3,7 @@ package com.felipimatheuz.primehunt.ui.viewmodel.overview
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.data.remote.enums.PrimeType
+import com.felipimatheuz.primehunt.domain.model.enums.PrimeType
 import com.felipimatheuz.primehunt.domain.model.OverviewDomainModel
 import com.felipimatheuz.primehunt.domain.usecase.overview.GetOverviewUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel

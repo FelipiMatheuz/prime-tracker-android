@@ -1,14 +1,14 @@
 package com.felipimatheuz.primehunt.data.local
 
 import androidx.room.TypeConverter
-import com.felipimatheuz.primehunt.data.local.enums.GoalIcons
-import com.felipimatheuz.primehunt.data.local.enums.GoalStatus
-import com.felipimatheuz.primehunt.data.local.enums.GoalTargetType
-import com.felipimatheuz.primehunt.data.remote.enums.DropRarity
-import com.felipimatheuz.primehunt.data.remote.enums.PrimePartType
-import com.felipimatheuz.primehunt.data.remote.enums.PrimeType
-import com.felipimatheuz.primehunt.data.remote.enums.RelicEra
-import com.felipimatheuz.primehunt.data.remote.enums.RelicSource
+import com.felipimatheuz.primehunt.domain.model.enums.GoalIcons
+import com.felipimatheuz.primehunt.domain.model.enums.GoalStatus
+import com.felipimatheuz.primehunt.domain.model.enums.GoalTargetType
+import com.felipimatheuz.primehunt.domain.model.enums.DropRarity
+import com.felipimatheuz.primehunt.domain.model.enums.PrimePartType
+import com.felipimatheuz.primehunt.domain.model.enums.PrimeType
+import com.felipimatheuz.primehunt.domain.model.enums.RelicEra
+import com.felipimatheuz.primehunt.domain.model.enums.RelicSource
 
 class Converters {
     @TypeConverter

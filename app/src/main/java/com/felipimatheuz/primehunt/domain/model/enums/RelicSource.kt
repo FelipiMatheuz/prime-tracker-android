@@ -1,9 +1,7 @@
-package com.felipimatheuz.primehunt.data.remote.enums
+package com.felipimatheuz.primehunt.domain.model.enums
 
 import com.felipimatheuz.primehunt.R
-import kotlinx.serialization.Serializable
 
-@Serializable
 enum class RelicSource(val displayNameRes: Int) {
     MISSION(R.string.status_mission),
     RESURGENCE(R.string.status_resurgence),

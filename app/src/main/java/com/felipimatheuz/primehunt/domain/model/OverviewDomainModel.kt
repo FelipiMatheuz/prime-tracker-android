@@ -1,7 +1,7 @@
 package com.felipimatheuz.primehunt.domain.model
 
 import androidx.compose.runtime.Immutable
-import com.felipimatheuz.primehunt.data.remote.enums.PrimeType
+import com.felipimatheuz.primehunt.domain.model.enums.PrimeType
 
 @Immutable
 data class OverviewDomainModel(

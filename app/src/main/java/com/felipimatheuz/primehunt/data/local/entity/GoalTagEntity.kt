@@ -1,6 +1,6 @@
 package com.felipimatheuz.primehunt.data.local.entity
 
-import com.felipimatheuz.primehunt.data.local.enums.GoalIcons
+import com.felipimatheuz.primehunt.domain.model.enums.GoalIcons
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey

@@ -29,8 +29,7 @@ class PrimeDetailViewModel @AssistedInject constructor(
         fun create(setId: String): PrimeDetailViewModel
     }
 
-    override val state: StateFlow<PrimeDetailState> = getPrimeSetsUseCase.observeAllSets()
-        .map { allSets -> allSets.find { it.id == setId } }
+    override val state: StateFlow<PrimeDetailState> = getPrimeSetsUseCase.observeSetById(setId)
         .map { PrimeDetailState(primeSet = it, isLoading = false) }
         .flowOn(Dispatchers.Default)
         .stateIn(

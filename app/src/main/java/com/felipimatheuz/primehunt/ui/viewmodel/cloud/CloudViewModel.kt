@@ -3,7 +3,7 @@ package com.felipimatheuz.primehunt.ui.viewmodel.cloud
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.felipimatheuz.primehunt.core.logging.AppLogger
-import com.felipimatheuz.primehunt.data.repository.UiPreferencesRepository
+import com.felipimatheuz.primehunt.domain.repository.UiPreferencesRepository
 import com.felipimatheuz.primehunt.domain.usecase.cloud.ClearCloudDataUseCase
 import com.felipimatheuz.primehunt.domain.usecase.cloud.DownloadBackupUseCase
 import com.felipimatheuz.primehunt.domain.usecase.cloud.PerformMigrationUseCase

@@ -2,7 +2,7 @@ package com.felipimatheuz.primehunt.data.mapper
 
 import com.felipimatheuz.primehunt.data.local.entity.*
 import com.felipimatheuz.primehunt.data.remote.dto.*
-import com.felipimatheuz.primehunt.data.remote.enums.*
+import com.felipimatheuz.primehunt.domain.model.enums.*
 import javax.inject.Inject
 import javax.inject.Singleton
 

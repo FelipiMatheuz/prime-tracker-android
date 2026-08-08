@@ -3,7 +3,7 @@ package com.felipimatheuz.primehunt.data.local.entity
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.felipimatheuz.primehunt.data.remote.enums.DropRarity
+import com.felipimatheuz.primehunt.domain.model.enums.DropRarity
 
 @Entity(
     tableName = "prime_component",
