@@ -50,12 +50,17 @@ class PrimeSetViewModel @Inject constructor(
     @OptIn(FlowPreview::class)
     override val state: StateFlow<PrimeSetState> = combine(
         getPrimeSetsUseCase.observeAllSets(),
-        getPrimeSetsUseCase.observeCollections(),
-        _searchText.debounce(300.milliseconds).distinctUntilChanged(),
+        combine(
+            getPrimeSetsUseCase.observeCollections(),
+            getPrimeSetsUseCase.observeWithoutCollection()
+        ) { colls, without ->
+            if (without.sets.isNotEmpty()) colls + without else colls
+        },
+        _searchText.debounce(100.milliseconds).distinctUntilChanged(),
         _filters,
         _selectedView
-    ) { sets, collections, query, filters, selectedView ->
-        val filtered = sets.filter { set ->
+    ) { sets, allCollections, query, filters, selectedView ->
+        val filteredSets = sets.filter { set ->
             val matchesQuery = set.name.contains(query, ignoreCase = true) ||
                     set.parts.any { it.name.name.contains(query, ignoreCase = true) }
 
@@ -66,7 +71,13 @@ class PrimeSetViewModel @Inject constructor(
             matchesQuery && matchesCategory && matchesAvailability && matchesProgress
         }
 
-        val grouped = filtered.groupBy { 
+        val filteredSetIds = filteredSets.map { it.id }.toSet()
+
+        val filteredCollections = allCollections.map { collection ->
+            collection.copy(sets = collection.sets.filter { it.id in filteredSetIds })
+        }.filter { it.sets.isNotEmpty() }
+
+        val grouped = filteredSets.groupBy { 
             when (it.type) {
                 PrimeType.ARCH_GUN, PrimeType.ARCHWING -> PrimeType.COMPANION
                 else -> it.type
@@ -74,7 +85,7 @@ class PrimeSetViewModel @Inject constructor(
         }
 
         PrimeSetState(
-            collections = collections,
+            collections = filteredCollections,
             groupedSets = grouped,
             isLoading = false,
             queryFilter = query,
