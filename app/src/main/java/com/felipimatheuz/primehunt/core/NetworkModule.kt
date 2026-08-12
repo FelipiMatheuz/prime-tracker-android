@@ -1,14 +1,14 @@
 package com.felipimatheuz.primehunt.core
 
-import com.fasterxml.jackson.databind.DeserializationFeature
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.felipimatheuz.primehunt.data.remote.PrimeTrackerService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
-import retrofit2.converter.jackson.JacksonConverterFactory
+import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import javax.inject.Singleton
 
 @Module
@@ -18,11 +18,14 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideRetrofit(): Retrofit {
-        val mapper =
-            ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+        val json = Json {
+            ignoreUnknownKeys = true
+            coerceInputValues = true
+        }
+        val contentType = "application/json".toMediaType()
         return Retrofit.Builder()
             .baseUrl("https://raw.githubusercontent.com/FelipiMatheuz/WPH/main/data/")
-            .addConverterFactory(JacksonConverterFactory.create(mapper))
+            .addConverterFactory(json.asConverterFactory(contentType))
             .build()
     }
 

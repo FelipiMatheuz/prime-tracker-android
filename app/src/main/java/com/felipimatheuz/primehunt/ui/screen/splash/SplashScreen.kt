@@ -1,6 +1,7 @@
 package com.felipimatheuz.primehunt.ui.screen.splash
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,7 +37,8 @@ fun SplashScreen(onReady: () -> Unit, viewModel: SplashViewModel = hiltViewModel
 @Composable
 fun SplashContent(syncEvent: SyncEvent, onStart: () -> Unit, onReady: () -> Unit) {
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = Modifier.fillMaxSize()
+        .background(color = MaterialTheme.colorScheme.background)) {
         Column(
             modifier = Modifier.align(Alignment.Center),
             horizontalAlignment = Alignment.CenterHorizontally,

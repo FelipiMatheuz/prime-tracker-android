@@ -1,38 +1,44 @@
 package com.felipimatheuz.primehunt.data.remote.dto
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class RelicDto(
-    @JsonProperty("id") val id: String,
-    @JsonProperty("name") val name: String,
-    @JsonProperty("era") val era: String,
-    @JsonProperty("source") val source: String,
-    @JsonProperty("drops") val drops: List<RelicDropDto>
+    @SerialName("id") val id: String,
+    @SerialName("name") val name: String,
+    @SerialName("era") val era: String,
+    @SerialName("source") val source: String,
+    @SerialName("drops") val drops: List<RelicDropDto>
 )
 
+@Serializable
 data class RelicDropDto(
-    @JsonProperty("id") val id: String,
-    @JsonProperty("rarity") val rarity: String
+    @SerialName("id") val id: String,
+    @SerialName("rarity") val rarity: String
 )
 
+@Serializable
 data class PrimeSetDto(
-    @JsonProperty("id") val id: String,
-    @JsonProperty("name") val name: String,
-    @JsonProperty("type") val type: String,
-    @JsonProperty("image") val image: String,
-    @JsonProperty("components") val components: List<PrimeComponentDto>
+    @SerialName("id") val id: String,
+    @SerialName("name") val name: String,
+    @SerialName("type") val type: String,
+    @SerialName("image") val image: String,
+    @SerialName("components") val components: List<PrimeComponentDto>
 )
 
+@Serializable
 data class PrimeComponentDto(
-    @JsonProperty("id") val id: String,
-    @JsonProperty("part") val part: String,
-    @JsonProperty("quantity") val quantity: Int
+    @SerialName("id") val id: String,
+    @SerialName("part") val part: String,
+    @SerialName("quantity") val quantity: Int
 )
 
+@Serializable
 data class PrimeCollectionDto(
-    @JsonProperty("id") val id: String,
-    @JsonProperty("name") val name: String,
-    @JsonProperty("promoImage") val promoImage: String,
-    @JsonProperty("released") val released: Int,
-    @JsonProperty("primeSets") val primeSets: List<String>
+    @SerialName("id") val id: String,
+    @SerialName("name") val name: String,
+    @SerialName("promoImage") val promoImage: String,
+    @SerialName("released") val released: Int,
+    @SerialName("primeSets") val primeSets: List<String>
 )
