@@ -15,8 +15,8 @@ android {
         applicationId = "com.felipimatheuz.primehunt"
         minSdk = 27
         targetSdk = 37
-        versionCode = 30
-        versionName = "4.0.0"
+        versionCode = 31
+        versionName = "4.0.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -31,6 +31,14 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+        create("staging") {
+            initWith(getByName("release"))
+            isJniDebuggable = true
+            isMinifyEnabled = true
+            isShrinkResources = true
+            isDebuggable = true
+            signingConfig = signingConfigs.getByName("debug")
         }
         release {
             isMinifyEnabled = true
@@ -73,7 +81,7 @@ dependencies {
 
     //retrofit
     implementation(libs.retrofit)
-    implementation(libs.converter.jackson)
+    implementation(libs.converter.kotlinx.serialization)
 
     //androidX
     implementation(libs.androidx.core.ktx)

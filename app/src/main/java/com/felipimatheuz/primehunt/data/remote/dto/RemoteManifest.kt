@@ -1,15 +1,18 @@
 package com.felipimatheuz.primehunt.data.remote.dto
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class RemoteManifest(
-    @JsonProperty("generatedAt") val generatedAt: String,
-    @JsonProperty("generatorVersion") val generatorVersion: String,
-    @JsonProperty("files") val files: List<ManifestFile>
+    @SerialName("generatedAt") val generatedAt: String,
+    @SerialName("generatorVersion") val generatorVersion: String,
+    @SerialName("files") val files: List<ManifestFile>
 )
 
+@Serializable
 data class ManifestFile(
-    @JsonProperty("name") val name: String,
-    @JsonProperty("size") val size: Long,
-    @JsonProperty("sha256") val sha256: String
+    @SerialName("name") val name: String,
+    @SerialName("size") val size: Long,
+    @SerialName("sha256") val sha256: String
 )

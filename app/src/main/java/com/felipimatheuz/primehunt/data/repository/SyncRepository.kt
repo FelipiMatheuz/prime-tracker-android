@@ -131,11 +131,11 @@ class SyncRepositoryImpl @Inject constructor(
         val remoteHash = remoteFiles.find { it.name == fileName }?.sha256
         
         if (remoteHash == null) {
-            return GranularSyncResult(localHash, false, false)
+            return GranularSyncResult(localHash, changed = false, isValid = false)
         }
 
         if (remoteHash == localHash) {
-            return GranularSyncResult(localHash, false, true)
+            return GranularSyncResult(localHash, changed = false, isValid = true)
         }
 
         return try {
@@ -143,10 +143,10 @@ class SyncRepositoryImpl @Inject constructor(
             val data = fetcher()
             emit(SyncEvent.Importing(etlFile))
             importer(data)
-            GranularSyncResult(remoteHash, true, true)
+            GranularSyncResult(remoteHash, changed = true, isValid = true)
         } catch (e: Exception) {
             logger.log("SyncRepository", "Failed to sync $fileName: ${e.message}")
-            GranularSyncResult(localHash, false, false)
+            GranularSyncResult(localHash, changed = false, isValid = false)
         }
     }
 }
