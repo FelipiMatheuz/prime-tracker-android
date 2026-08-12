@@ -3,7 +3,6 @@ package com.felipimatheuz.primehunt.ui.screen.relic.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -25,25 +24,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.drawscope.translate
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.AndroidUiModes.UI_MODE_NIGHT_YES
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.domain.model.enums.GoalIcons
-import com.felipimatheuz.primehunt.domain.model.enums.DropRarity
-import com.felipimatheuz.primehunt.domain.model.enums.RelicEra
-import com.felipimatheuz.primehunt.domain.model.enums.RelicSource
 import com.felipimatheuz.primehunt.domain.model.GoalTagDomain
 import com.felipimatheuz.primehunt.domain.model.RelicComponentDomain
 import com.felipimatheuz.primehunt.domain.model.RelicDomain
+import com.felipimatheuz.primehunt.domain.model.enums.DropRarity
+import com.felipimatheuz.primehunt.domain.model.enums.GoalIcons
+import com.felipimatheuz.primehunt.domain.model.enums.RelicEra
+import com.felipimatheuz.primehunt.domain.model.enums.RelicSource
 import com.felipimatheuz.primehunt.ui.theme.Completed
 import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
 import com.felipimatheuz.primehunt.ui.theme.Vault
@@ -67,7 +64,8 @@ fun RelicCard(
     ) {
         Card(
             modifier = Modifier
-                .fillMaxWidth().height(100.dp)
+                .fillMaxWidth()
+                .height(100.dp)
                 .clickable { onClick() }
                 .border(3.dp, availabilityColor, RoundedCornerShape(12.dp)),
             shape = RoundedCornerShape(12.dp),
@@ -145,8 +143,7 @@ fun RelicCard(
                 .offset(y = (-20).dp)
         ) {
             val glowColor = MaterialTheme.colorScheme.primary
-            val glowIntensity = (relic.missingCount.coerceAtMost(5) / 5f)
-            val isDark = isSystemInDarkTheme()
+            val glowIntensity = ((relic.missingCount + relic.goalCount) / (5f + relic.goalCount))
             val eraPainter = painterResource(relic.era.icon)
 
             Image(
@@ -155,10 +152,9 @@ fun RelicCard(
                 modifier = Modifier
                     .size(40.dp)
                     .drawGlow(
-                        painter = eraPainter,
+                        size = eraPainter.intrinsicSize,
                         color = glowColor,
-                        alpha = if (isDark) glowIntensity * 0.6f else glowIntensity * 0.4f,
-                        radius = 8.dp * glowIntensity
+                        intensity = glowIntensity
                     )
             )
         }
@@ -166,26 +162,29 @@ fun RelicCard(
 }
 
 fun Modifier.drawGlow(
-    painter: Painter,
+    size: Size,
     color: Color,
-    alpha: Float,
-    radius: Dp
+    intensity: Float
 ) = this.drawBehind {
-    if (alpha > 0f) {
-        val glowPx = radius.toPx()
-        val drawSize = Size(size.width + glowPx * 2, size.height + glowPx * 2)
+    if (intensity > 0f) {
+        val minRadius = maxOf(size.width, size.height) / 1.14f
 
-        translate(left = -glowPx, top = -glowPx) {
-            with(painter) {
-                draw(
-                    size = drawSize,
-                    alpha = alpha,
-                    colorFilter = ColorFilter.tint(color)
-                )
-            }
-        }
+        val glowBrush = Brush.radialGradient(
+            colors = listOf(
+                color.copy(alpha = intensity),
+                color.copy(alpha = 0f)
+            ),
+            center = center,
+            radius = minRadius
+        )
+        drawCircle(
+            brush = glowBrush,
+            radius = minRadius,
+            center = center
+        )
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable
@@ -203,6 +202,8 @@ fun RelicCardPreview() {
                     ),
                     RelicComponentDomain("teste", DropRarity.COMMON, false),
                     RelicComponentDomain("", DropRarity.COMMON, false, isForma = true),
+                    RelicComponentDomain("teste", DropRarity.COMMON, false),
+                    RelicComponentDomain("teste", DropRarity.COMMON, false),
                     RelicComponentDomain("teste", DropRarity.COMMON, false)
                 )
             )
@@ -223,6 +224,8 @@ fun RelicCardDarkPreview() {
                     ),
                     RelicComponentDomain("teste", DropRarity.COMMON, false),
                     RelicComponentDomain("", DropRarity.COMMON, false, isForma = true),
+                    RelicComponentDomain("teste", DropRarity.COMMON, false),
+                    RelicComponentDomain("teste", DropRarity.COMMON, false),
                     RelicComponentDomain("teste", DropRarity.COMMON, false)
                 )
             )
