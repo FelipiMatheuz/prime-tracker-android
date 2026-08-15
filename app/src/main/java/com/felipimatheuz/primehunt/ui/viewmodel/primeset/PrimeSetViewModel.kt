@@ -2,6 +2,7 @@ package com.felipimatheuz.primehunt.ui.viewmodel.primeset
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.felipimatheuz.primehunt.domain.model.enums.PrimeSetView
 import com.felipimatheuz.primehunt.domain.model.enums.PrimeType
 import com.felipimatheuz.primehunt.domain.model.matches
 import com.felipimatheuz.primehunt.domain.model.prefs.PrimeSetUiPrefs
@@ -32,7 +33,7 @@ class PrimeSetViewModel @Inject constructor(
 
     private val _searchText = MutableStateFlow("")
     private val _filters = MutableStateFlow(PrimeSetFilters())
-    private val _selectedView = MutableStateFlow(0)
+    private val _selectedView = MutableStateFlow(PrimeSetView.COLLECTIONS)
 
     init {
         viewModelScope.launch {
@@ -109,7 +110,7 @@ class PrimeSetViewModel @Inject constructor(
             }
             PrimeSetIntent.ClearSearch -> _searchText.value = ""
             is PrimeSetIntent.ChangeView -> {
-                _selectedView.value = intent.index
+                _selectedView.value = intent.view
                 savePrefs()
             }
         }

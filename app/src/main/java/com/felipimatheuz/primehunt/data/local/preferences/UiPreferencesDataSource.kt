@@ -18,7 +18,7 @@ import javax.inject.Singleton
 
 @Serializable
 internal data class PrimeSetUiPrefsDto(
-    val selectedView: Int = 0,
+    val selectedView: PrimeSetView = PrimeSetView.COLLECTIONS,
     val progress: ProgressFilter = ProgressFilter.ALL,
     val categories: Set<PrimeType> = emptySet(),
     val availabilities: Set<RelicSource> = emptySet()

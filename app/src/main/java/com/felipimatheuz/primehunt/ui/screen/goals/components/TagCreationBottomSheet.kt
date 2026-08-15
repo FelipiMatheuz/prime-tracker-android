@@ -3,6 +3,7 @@ package com.felipimatheuz.primehunt.ui.screen.goals.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -17,6 +18,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.domain.model.enums.GoalIcons
+import com.felipimatheuz.primehunt.ui.modifier.PressIntensity
+import com.felipimatheuz.primehunt.ui.modifier.pressScale
 import com.felipimatheuz.primehunt.ui.screen.components.GoalTagChip
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -111,9 +114,15 @@ fun TagCreationBottomSheet(
                 )
             }
 
+            val creatButtonInteraction = remember { MutableInteractionSource() }
             Button(
                 onClick = onCreateClick,
-                modifier = Modifier.fillMaxWidth(),
+                interactionSource = creatButtonInteraction,
+                modifier = Modifier.fillMaxWidth().pressScale(
+                    interactionSource = creatButtonInteraction,
+                    intensity = PressIntensity.VERY_SUBTLE,
+                    enabled = isValid
+                ),
                 enabled = isValid
             ) {
                 Text(stringResource(R.string.tag_create_action))

@@ -3,6 +3,7 @@ package com.felipimatheuz.primehunt.ui.screen.relic.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,6 +21,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -41,6 +43,8 @@ import com.felipimatheuz.primehunt.domain.model.enums.DropRarity
 import com.felipimatheuz.primehunt.domain.model.enums.GoalIcons
 import com.felipimatheuz.primehunt.domain.model.enums.RelicEra
 import com.felipimatheuz.primehunt.domain.model.enums.RelicSource
+import com.felipimatheuz.primehunt.ui.modifier.PressIntensity
+import com.felipimatheuz.primehunt.ui.modifier.pressScale
 import com.felipimatheuz.primehunt.ui.theme.Completed
 import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
 import com.felipimatheuz.primehunt.ui.theme.Vault
@@ -57,16 +61,18 @@ fun RelicCard(
         RelicSource.VAULT -> Vault
     }
 
+    val cardInteraction = remember { MutableInteractionSource() }
     Box(
         modifier = modifier
             .width(120.dp)
             .padding(top = 20.dp)
+            .pressScale(cardInteraction, PressIntensity.VERY_SUBTLE)
     ) {
         Card(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(100.dp)
-                .clickable { onClick() }
+                .clickable(interactionSource = cardInteraction) { onClick() }
                 .border(3.dp, availabilityColor, RoundedCornerShape(12.dp)),
             shape = RoundedCornerShape(12.dp),
             colors = CardDefaults.cardColors(

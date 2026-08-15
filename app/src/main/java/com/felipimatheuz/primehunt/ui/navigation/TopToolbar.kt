@@ -1,6 +1,7 @@
 package com.felipimatheuz.primehunt.ui.navigation
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -33,6 +34,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.domain.model.enums.BgIcons
+import com.felipimatheuz.primehunt.ui.modifier.PressIntensity
+import com.felipimatheuz.primehunt.ui.modifier.pressScale
 import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -88,7 +91,12 @@ fun TopToolbar(
             }
         },
         navigationIcon = {
-            IconButton(onClick = onMenuClick) {
+            val menuInteraction = remember { MutableInteractionSource() }
+            IconButton(
+                onClick = onMenuClick,
+                interactionSource = menuInteraction,
+                modifier = Modifier.pressScale(menuInteraction, PressIntensity.SUBTLE)
+            ) {
                 Icon(
                     painter = painterResource(R.drawable.ic_menu),
                     contentDescription = stringResource(R.string.menu_button_description),
@@ -100,7 +108,12 @@ fun TopToolbar(
             var expanded by remember { mutableStateOf(false) }
 
             Box {
-                IconButton(onClick = { expanded = true }) {
+                val settingsInteraction = remember { MutableInteractionSource() }
+                IconButton(
+                    onClick = { expanded = true },
+                    interactionSource = settingsInteraction,
+                    modifier = Modifier.pressScale(settingsInteraction, PressIntensity.SUBTLE)
+                ) {
                     Icon(
                         painter = painterResource(R.drawable.ic_settings),
                         contentDescription = stringResource(R.string.settings_wallpaper_description),
@@ -121,6 +134,7 @@ fun TopToolbar(
                     HorizontalDivider()
 
                     BgIcons.entries.forEach { icon ->
+                        val settingsItemInteraction = remember { MutableInteractionSource() }
                         DropdownMenuItem(
                             text = {
                                 Text(icon.displayName)
@@ -144,7 +158,9 @@ fun TopToolbar(
                                         modifier = Modifier.size(16.dp)
                                     )
                                 }
-                            }
+                            },
+                            interactionSource = settingsItemInteraction,
+                            modifier = Modifier.pressScale(settingsItemInteraction, PressIntensity.VERY_SUBTLE)
                         )
                     }
                 }

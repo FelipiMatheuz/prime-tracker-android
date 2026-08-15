@@ -2,6 +2,7 @@ package com.felipimatheuz.primehunt.ui.screen.primeset.primedetail.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -20,6 +21,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,6 +38,8 @@ import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.domain.model.enums.PrimePartType
 import com.felipimatheuz.primehunt.domain.model.PrimePartDomain
 import com.felipimatheuz.primehunt.domain.model.RelicRewardDomain
+import com.felipimatheuz.primehunt.ui.modifier.PressIntensity
+import com.felipimatheuz.primehunt.ui.modifier.pressScale
 import com.felipimatheuz.primehunt.ui.theme.getColor
 
 @OptIn(ExperimentalLayoutApi::class, ExperimentalGlideComposeApi::class)
@@ -127,14 +131,20 @@ fun DetailComponentItem(
                     )
                     .padding(4.dp)
             ) {
+                val downButtonInteraction = remember { MutableInteractionSource() }
+                val upButtonInteraction = remember { MutableInteractionSource() }
+
                 IconButton(
                     onClick = { onUpdateQuantity(-1) },
+                    interactionSource = downButtonInteraction,
                     modifier = Modifier.size(32.dp)
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_down_arrow),
                         contentDescription = "Minus",
-                        modifier = Modifier.size(16.dp)
+                        modifier = Modifier
+                            .size(16.dp)
+                            .pressScale(downButtonInteraction, PressIntensity.MODERATE)
                     )
                 }
 
@@ -147,12 +157,15 @@ fun DetailComponentItem(
 
                 IconButton(
                     onClick = { onUpdateQuantity(1) },
+                    interactionSource = upButtonInteraction,
                     modifier = Modifier.size(32.dp)
                 ) {
                     Icon(
                         painterResource(R.drawable.ic_up_arrow),
                         contentDescription = "Add",
-                        modifier = Modifier.size(16.dp)
+                        modifier = Modifier
+                            .size(16.dp)
+                            .pressScale(upButtonInteraction, PressIntensity.MODERATE)
                     )
                 }
             }

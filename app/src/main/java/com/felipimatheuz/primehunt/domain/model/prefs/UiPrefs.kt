@@ -2,6 +2,7 @@ package com.felipimatheuz.primehunt.domain.model.prefs
 
 import com.felipimatheuz.primehunt.domain.model.enums.GoalStatus
 import com.felipimatheuz.primehunt.domain.model.enums.GoalTargetType
+import com.felipimatheuz.primehunt.domain.model.enums.PrimeSetView
 import com.felipimatheuz.primehunt.domain.model.enums.ProgressFilter
 import com.felipimatheuz.primehunt.domain.model.enums.RelicsView
 import com.felipimatheuz.primehunt.domain.model.enums.PrimeType
@@ -9,7 +10,7 @@ import com.felipimatheuz.primehunt.domain.model.enums.RelicEra
 import com.felipimatheuz.primehunt.domain.model.enums.RelicSource
 
 data class PrimeSetUiPrefs(
-    val selectedView: Int = 0,
+    val selectedView: PrimeSetView = PrimeSetView.COLLECTIONS,
     val progress: ProgressFilter = ProgressFilter.ALL,
     val categories: Set<PrimeType> = emptySet(),
     val availabilities: Set<RelicSource> = emptySet()

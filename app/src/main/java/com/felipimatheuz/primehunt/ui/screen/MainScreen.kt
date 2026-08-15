@@ -1,6 +1,7 @@
 package com.felipimatheuz.primehunt.ui.screen
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -39,6 +40,8 @@ import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.ui.NavDisplay
 import com.felipimatheuz.primehunt.BuildConfig
 import com.felipimatheuz.primehunt.R
+import com.felipimatheuz.primehunt.ui.modifier.PressIntensity
+import com.felipimatheuz.primehunt.ui.modifier.pressScale
 import com.felipimatheuz.primehunt.ui.navigation.AboutKey
 import com.felipimatheuz.primehunt.ui.navigation.AppNavKey
 import com.felipimatheuz.primehunt.ui.navigation.CloudKey
@@ -246,6 +249,7 @@ fun DrawerContent(
     onKeySelected: (AppNavKey) -> Unit
 ) {
     AppNavKey.topLevelRoutes.forEachIndexed { index, appNavKey ->
+        val menuItemInteraction = remember { MutableInteractionSource() }
         NavigationDrawerItem(
             label = { Text(stringResource(appNavKey.label)) },
             icon = {
@@ -257,7 +261,10 @@ fun DrawerContent(
             },
             selected = currentKey == appNavKey,
             onClick = { onKeySelected(appNavKey) },
-            modifier = Modifier.padding(vertical = 8.dp)
+            interactionSource = menuItemInteraction,
+            modifier = Modifier
+                .padding(vertical = 8.dp)
+                .pressScale(menuItemInteraction, PressIntensity.VERY_SUBTLE)
         )
         if (index == 3) {
             Text(

@@ -1,5 +1,6 @@
 package com.felipimatheuz.primehunt.ui.screen.primeset.primedetail
 
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -14,6 +15,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -23,6 +25,8 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.domain.model.enums.PrimeType
+import com.felipimatheuz.primehunt.ui.modifier.PressIntensity
+import com.felipimatheuz.primehunt.ui.modifier.pressScale
 import com.felipimatheuz.primehunt.ui.screen.primeset.primedetail.components.DetailComponentItem
 import com.felipimatheuz.primehunt.ui.screen.primeset.primedetail.components.DetailError
 import com.felipimatheuz.primehunt.ui.screen.primeset.primedetail.components.DetailHeader
@@ -140,11 +144,15 @@ fun PrimeDetailContent(
                     }
                 }
             } ?: DetailError()
+
+            val closeInteraction = remember { MutableInteractionSource() }
             IconButton(
                 onClick = onBack,
+                interactionSource = closeInteraction,
                 modifier = Modifier
                     .padding(8.dp)
                     .align(Alignment.TopEnd)
+                    .pressScale(closeInteraction, PressIntensity.SUBTLE)
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_close),
@@ -162,7 +170,7 @@ fun PrimeDetailScreenPreview() {
     PrimeTrackerTheme {
         PrimeDetailContent(
             padding = PaddingValues(),
-            state = PrimeDetailState(),
+            state = PrimeDetailState(isLoading = false),
             onIntent = {},
             onBack = {}
         )

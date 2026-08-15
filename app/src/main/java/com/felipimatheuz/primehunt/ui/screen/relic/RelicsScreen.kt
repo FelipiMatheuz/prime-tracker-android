@@ -28,7 +28,9 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.domain.model.RelicDomain
+import com.felipimatheuz.primehunt.domain.model.enums.RelicsView
 import com.felipimatheuz.primehunt.ui.screen.components.PrimeSearchBar
+import com.felipimatheuz.primehunt.ui.screen.components.PrimeSegmentedSelector
 import com.felipimatheuz.primehunt.ui.screen.relic.components.*
 import com.felipimatheuz.primehunt.ui.viewmodel.relic.RelicIntent
 import com.felipimatheuz.primehunt.ui.viewmodel.relic.RelicState
@@ -87,9 +89,11 @@ fun RelicsContent(
                 onClearClick = { onIntent(RelicIntent.ClearSearch) }
             )
 
-            RelicsViewSelector(
-                selectedView = state.selectedView,
-                onViewChange = { onIntent(RelicIntent.ChangeView(it)) }
+            PrimeSegmentedSelector(
+                options = RelicsView.entries,
+                selectedOption = state.selectedView,
+                onOptionClick = { onIntent(RelicIntent.ChangeView(it)) },
+                labelProvider = { it.displayNameRes }
             )
 
             Box(
