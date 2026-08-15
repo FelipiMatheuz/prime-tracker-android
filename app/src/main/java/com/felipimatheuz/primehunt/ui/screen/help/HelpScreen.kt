@@ -7,6 +7,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -45,6 +46,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.felipimatheuz.primehunt.R
+import com.felipimatheuz.primehunt.ui.modifier.PressIntensity
+import com.felipimatheuz.primehunt.ui.modifier.pressScale
 import com.felipimatheuz.primehunt.ui.screen.components.TipItem
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -104,8 +107,10 @@ private fun HelpIndex(
             if (index == 0) {
                 Spacer(modifier = Modifier.width(16.dp))
             }
+            val chipInteraction = remember { MutableInteractionSource() }
             AssistChip(
                 onClick = { onChipClick(index) },
+                interactionSource = chipInteraction,
                 label = { Text(stringResource(section.title)) },
                 colors = AssistChipDefaults.assistChipColors(
                     labelColor = MaterialTheme.colorScheme.primary,
@@ -114,6 +119,10 @@ private fun HelpIndex(
                 border = AssistChipDefaults.assistChipBorder(
                     borderColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.2f),
                     enabled = true
+                ),
+                modifier = Modifier.pressScale(
+                    interactionSource = chipInteraction,
+                    intensity = PressIntensity.VERY_SUBTLE
                 )
             )
             if (index == sections.size - 1) {

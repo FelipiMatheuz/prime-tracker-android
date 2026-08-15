@@ -15,7 +15,7 @@ android {
         applicationId = "com.felipimatheuz.primehunt"
         minSdk = 27
         targetSdk = 37
-        versionCode = 31
+        versionCode = 33
         versionName = "4.0.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

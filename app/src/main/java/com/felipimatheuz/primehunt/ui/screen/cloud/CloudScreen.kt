@@ -21,10 +21,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.ui.screen.cloud.components.CloudAccountCard
 import com.felipimatheuz.primehunt.ui.screen.cloud.components.CloudBackupCard
 import com.felipimatheuz.primehunt.ui.screen.cloud.components.DangerZoneCard
@@ -51,6 +53,8 @@ fun CloudScreen(
         onError = { isError = true }
     )
 
+    val sendLogsText = stringResource(R.string.cloud_log_debug)
+
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collect { effect ->
             when (effect) {
@@ -67,7 +71,7 @@ fun CloudScreen(
                         putExtra(Intent.EXTRA_STREAM, contentUri)
                         addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                     }
-                    val chooser = Intent.createChooser(intent, "Send Logs")
+                    val chooser = Intent.createChooser(intent, sendLogsText)
                     context.startActivity(chooser)
                 }
             }

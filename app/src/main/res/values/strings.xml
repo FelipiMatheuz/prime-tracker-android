@@ -205,6 +205,24 @@
     <string name="cloud_account_desc">Cloud features require a connected account.</string>
     <string name="cloud_sign_in_google">Sign In with Google</string>
     <string name="cloud_disconnect">Disconnect</string>
+    <string name="cloud_log_debug">Send Logs</string>
+    <string name="cloud_backup_title">Cloud Backup</string>
+    <string name="cloud_backup_desc">Cloud Backup stores only your personal progress.</string>
+    <string name="cloud_backup_upload">Upload</string>
+    <string name="cloud_backup_download">Download</string>
+    <string name="cloud_diagnostics_title">Diagnostics</string>
+    <string name="cloud_diagnostics_desc">Export temporary logs to support.</string>
+    <string name="cloud_legacy_migration_title">Legacy Migration</string>
+    <string name="cloud_legacy_migration_desc">Legacy Migration imports your previous checklist into the new Inventory system.\n[Temporary Feature]</string>
+    <string name="cloud_legacy_migration_completed">Migration Completed</string>
+    <string name="cloud_legacy_migration_start">Start Migration</string>
+    <string name="cloud_danger_zone_title">Delete All Data</string>
+    <string name="cloud_danger_zone_desc">Delete every cloud record. Inventory. Goals. This action cannot be undone.</string>
+    <string name="cloud_danger_zone_clear">Clear Cloud Data</string>
+    <string name="cloud_danger_zone_dialog">Delete all cloud data?</string>
+    <string name="cloud_danger_zone_description">This action cannot be undone.</string>
+    <string name="cloud_danger_zone_delete">Delete</string>
+    <string name="cloud_danger_zone_cancel">Cancel</string>
 
     <!-- Settings -->
     <string name="settings_wallpaper_title">Wallpaper</string>

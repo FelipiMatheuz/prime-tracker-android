@@ -1,6 +1,7 @@
 package com.felipimatheuz.primehunt.ui.screen.goals.manage
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -44,6 +45,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.domain.model.enums.GoalStatus
 import com.felipimatheuz.primehunt.domain.model.enums.GoalTargetType
+import com.felipimatheuz.primehunt.ui.modifier.PressIntensity
+import com.felipimatheuz.primehunt.ui.modifier.pressScale
 import com.felipimatheuz.primehunt.ui.screen.goals.components.GoalForm
 import com.felipimatheuz.primehunt.ui.screen.goals.components.GoalFormActions
 import com.felipimatheuz.primehunt.ui.screen.goals.components.GoalFormState
@@ -129,11 +132,22 @@ fun ManageGoalContent(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = if (state.isEditMode) stringResource(R.string.manage_goal_details) else stringResource(R.string.manage_goal_new),
+                text = if (state.isEditMode) stringResource(R.string.manage_goal_details) else stringResource(
+                    R.string.manage_goal_new
+                ),
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold
             )
-            IconButton(onClick = onBack) {
+
+            val closeButtonInteraction = remember { MutableInteractionSource() }
+            IconButton(
+                onClick = onBack,
+                interactionSource = closeButtonInteraction,
+                modifier = Modifier.pressScale(
+                    closeButtonInteraction,
+                    PressIntensity.SUBTLE
+                )
+            ) {
                 Icon(
                     painter = painterResource(R.drawable.ic_close),
                     contentDescription = stringResource(R.string.close)
@@ -179,40 +193,81 @@ fun ManageGoalContent(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
+                    val completeButtonInteraction = remember { MutableInteractionSource() }
                     Button(
                         onClick = { onIntent(ManageGoalIntent.CompleteGoal) },
-                        modifier = Modifier.weight(1f),
+                        interactionSource = completeButtonInteraction,
+                        modifier = Modifier
+                            .weight(1f)
+                            .pressScale(
+                                completeButtonInteraction,
+                                PressIntensity.VERY_SUBTLE
+                            ),
                         enabled = !isCompleted && !state.isSaving,
                         colors = ButtonDefaults.buttonColors(
                             containerColor = com.felipimatheuz.primehunt.ui.theme.Completed
                         ),
                         shape = MaterialTheme.shapes.medium
                     ) {
-                        Icon(painterResource(R.drawable.ic_check), contentDescription = null, modifier = Modifier.size(18.dp))
+                        Icon(
+                            painterResource(R.drawable.ic_check),
+                            contentDescription = null,
+                            modifier = Modifier.size(18.dp)
+                        )
                         Spacer(Modifier.width(8.dp))
-                        Text(stringResource(R.string.manage_goal_action_complete), fontWeight = FontWeight.Bold, maxLines = 1)
+                        Text(
+                            stringResource(R.string.manage_goal_action_complete),
+                            fontWeight = FontWeight.Bold,
+                            maxLines = 1
+                        )
                     }
 
+                    val deleteButtonInteraction = remember { MutableInteractionSource() }
                     OutlinedButton(
                         onClick = { showDeleteConfirmation = true },
-                        modifier = Modifier.weight(1f),
+                        interactionSource = deleteButtonInteraction,
+                        modifier = Modifier
+                            .weight(1f)
+                            .pressScale(
+                                deleteButtonInteraction,
+                                PressIntensity.VERY_SUBTLE
+                            ),
                         enabled = !isCompleted && !state.isSaving,
                         colors = ButtonDefaults.outlinedButtonColors(
                             contentColor = MaterialTheme.colorScheme.error
                         ),
-                        border = BorderStroke(1.dp, if (isCompleted) MaterialTheme.colorScheme.outline.copy(alpha = 0.12f) else MaterialTheme.colorScheme.error.copy(alpha = 0.5f)),
+                        border = BorderStroke(
+                            1.dp,
+                            if (isCompleted) MaterialTheme.colorScheme.outline.copy(alpha = 0.12f) else MaterialTheme.colorScheme.error.copy(
+                                alpha = 0.5f
+                            )
+                        ),
                         shape = MaterialTheme.shapes.medium
                     ) {
-                        Icon(painterResource(R.drawable.ic_delete), contentDescription = null, modifier = Modifier.size(18.dp))
+                        Icon(
+                            painterResource(R.drawable.ic_delete),
+                            contentDescription = null,
+                            modifier = Modifier.size(18.dp)
+                        )
                         Spacer(Modifier.width(8.dp))
-                        Text(stringResource(R.string.manage_goal_action_delete), fontWeight = FontWeight.Bold)
+                        Text(
+                            stringResource(R.string.manage_goal_action_delete),
+                            fontWeight = FontWeight.Bold
+                        )
                     }
                 }
             }
 
+            val saveButtonInteraction = remember { MutableInteractionSource() }
             Button(
                 onClick = { onIntent(ManageGoalIntent.SaveGoal) },
-                modifier = Modifier.fillMaxWidth(),
+                interactionSource = saveButtonInteraction,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .pressScale(
+                        saveButtonInteraction,
+                        PressIntensity.VERY_SUBTLE
+                    ),
                 enabled = isFormEnabled && state.isFormValid && (!state.isEditMode || state.hasChanges) && !state.isSaving,
                 shape = MaterialTheme.shapes.medium
             ) {
@@ -223,7 +278,9 @@ fun ManageGoalContent(
                     )
                 } else {
                     Text(
-                        text = if (state.isEditMode) stringResource(R.string.manage_goal_action_save) else stringResource(R.string.manage_goal_action_create),
+                        text = if (state.isEditMode) stringResource(R.string.manage_goal_action_save) else stringResource(
+                            R.string.manage_goal_action_create
+                        ),
                         fontWeight = FontWeight.Bold
                     )
                 }

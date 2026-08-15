@@ -1,5 +1,6 @@
 package com.felipimatheuz.primehunt.ui.screen.cloud.components
 
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -10,8 +11,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.felipimatheuz.primehunt.R
+import com.felipimatheuz.primehunt.ui.modifier.PressIntensity
+import com.felipimatheuz.primehunt.ui.modifier.pressScale
 import com.felipimatheuz.primehunt.ui.viewmodel.cloud.CloudState
 
 @Composable
@@ -39,26 +44,33 @@ fun DangerZoneCard(
                 .fillMaxWidth()
         ) {
             Text(
-                text = "Delete All Data",
+                text = stringResource(R.string.cloud_danger_zone_title),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.error
             )
             Text(
-                text = "Delete every cloud record. Inventory. Goals. This action cannot be undone.",
+                text = stringResource(R.string.cloud_danger_zone_desc),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.error.copy(alpha = 0.7f)
             )
 
             Spacer(modifier = Modifier.height(16.dp))
-
+            val clearButtonInteraction = remember { MutableInteractionSource() }
             Button(
+                interactionSource = clearButtonInteraction,
                 onClick = { showConfirmation = true },
                 enabled = isEnabled,
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.error
                 ),
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .pressScale(
+                        interactionSource = clearButtonInteraction,
+                        intensity = PressIntensity.VERY_SUBTLE,
+                        enabled = isEnabled
+                    )
             ) {
                 if (state.isLoading && state.isAuthenticated) {
                     CircularProgressIndicator(
@@ -67,7 +79,7 @@ fun DangerZoneCard(
                         color = MaterialTheme.colorScheme.onError
                     )
                 } else {
-                    Text("Clear Cloud Data")
+                    Text(stringResource(R.string.cloud_danger_zone_clear))
                 }
             }
         }
@@ -76,21 +88,38 @@ fun DangerZoneCard(
     if (showConfirmation) {
         AlertDialog(
             onDismissRequest = { showConfirmation = false },
-            title = { Text("Delete all cloud data?") },
-            text = { Text("This action cannot be undone.") },
+            title = { Text(stringResource(R.string.cloud_danger_zone_dialog)) },
+            text = { Text(stringResource(R.string.cloud_danger_zone_description)) },
             confirmButton = {
+                val clearButtonInteraction = remember { MutableInteractionSource() }
                 TextButton(
                     onClick = {
                         showConfirmation = false
                         onClearCloudDataClick()
-                    }
+                    },
+                    interactionSource = clearButtonInteraction,
+                    modifier = Modifier.pressScale(
+                        interactionSource = clearButtonInteraction,
+                        intensity = PressIntensity.VERY_SUBTLE
+                    )
                 ) {
-                    Text("Delete", color = MaterialTheme.colorScheme.error)
+                    Text(
+                        stringResource(R.string.cloud_danger_zone_delete),
+                        color = MaterialTheme.colorScheme.error
+                    )
                 }
             },
             dismissButton = {
-                TextButton(onClick = { showConfirmation = false }) {
-                    Text("Cancel")
+                val cancelButtonInteraction = remember { MutableInteractionSource() }
+                TextButton(
+                    onClick = { showConfirmation = false },
+                    interactionSource = cancelButtonInteraction,
+                    modifier = Modifier.pressScale(
+                        interactionSource = cancelButtonInteraction,
+                        intensity = PressIntensity.VERY_SUBTLE
+                    )
+                ) {
+                    Text(stringResource(R.string.cloud_danger_zone_cancel))
                 }
             }
         )

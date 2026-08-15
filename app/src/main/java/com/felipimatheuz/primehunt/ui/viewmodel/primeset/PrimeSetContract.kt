@@ -5,6 +5,7 @@ import com.felipimatheuz.primehunt.domain.model.enums.PrimeType
 import com.felipimatheuz.primehunt.domain.model.enums.RelicSource
 import com.felipimatheuz.primehunt.domain.model.PrimeCollection
 import com.felipimatheuz.primehunt.domain.model.PrimeSetDomain
+import com.felipimatheuz.primehunt.domain.model.enums.PrimeSetView
 import com.felipimatheuz.primehunt.ui.mvi.MviIntent
 import com.felipimatheuz.primehunt.ui.mvi.MviState
 
@@ -28,7 +29,7 @@ data class PrimeSetState(
     val groupedSets: Map<PrimeType, List<PrimeSetDomain>> = emptyMap(),
     val queryFilter: String = "",
     val activeFilters: PrimeSetFilters = PrimeSetFilters(),
-    val selectedView: Int = 0,
+    val selectedView: PrimeSetView = PrimeSetView.COLLECTIONS,
     val isLoading: Boolean = true
 ) : MviState
 
@@ -36,5 +37,5 @@ sealed class PrimeSetIntent : MviIntent {
     data class Search(val query: String) : PrimeSetIntent()
     object ClearSearch : PrimeSetIntent()
     data class UpdateFilters(val filters: PrimeSetFilters) : PrimeSetIntent()
-    data class ChangeView(val index: Int) : PrimeSetIntent()
+    data class ChangeView(val view: PrimeSetView) : PrimeSetIntent()
 }

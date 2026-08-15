@@ -1,5 +1,6 @@
 package com.felipimatheuz.primehunt.ui.screen.primeset.primedetail.components
 
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,10 +10,13 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.felipimatheuz.primehunt.R
+import com.felipimatheuz.primehunt.ui.modifier.PressIntensity
+import com.felipimatheuz.primehunt.ui.modifier.pressScale
 
 @Composable
 fun DetailQuickActions(
@@ -25,9 +29,15 @@ fun DetailQuickActions(
             .padding(horizontal = 16.dp, vertical = 8.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
+        val plusOneInteraction = remember { MutableInteractionSource() }
+        val minusOneInteraction = remember { MutableInteractionSource() }
+
         Button(
             onClick = onRemoveSet,
-            modifier = Modifier.weight(1f),
+            interactionSource = minusOneInteraction,
+            modifier = Modifier
+                .weight(1f)
+                .pressScale(minusOneInteraction, PressIntensity.VERY_SUBTLE),
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.surfaceVariant,
                 contentColor = MaterialTheme.colorScheme.onSurfaceVariant
@@ -37,7 +47,10 @@ fun DetailQuickActions(
         }
         Button(
             onClick = onAddSet,
-            modifier = Modifier.weight(1f)
+            interactionSource = plusOneInteraction,
+            modifier = Modifier
+                .weight(1f)
+                .pressScale(plusOneInteraction, PressIntensity.VERY_SUBTLE)
         ) {
             Text(stringResource(R.string.detail_action_add_set))
         }

@@ -1,5 +1,6 @@
 package com.felipimatheuz.primehunt.ui.screen.primeset.components
 
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -19,6 +20,7 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -28,6 +30,8 @@ import com.felipimatheuz.primehunt.domain.model.enums.PrimeType
 import com.felipimatheuz.primehunt.domain.model.enums.RelicSource
 import com.felipimatheuz.primehunt.ui.viewmodel.primeset.PrimeSetFilters
 import com.felipimatheuz.primehunt.domain.model.enums.ProgressFilter
+import com.felipimatheuz.primehunt.ui.modifier.PressIntensity
+import com.felipimatheuz.primehunt.ui.modifier.pressScale
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
@@ -54,10 +58,13 @@ fun FilterBottomSheet(
             FilterSectionTitle(stringResource(R.string.filter_section_progress))
             FlowRow(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 ProgressFilter.entries.forEach { option ->
+                    val chipInteraction = remember { MutableInteractionSource() }
                     FilterChip(
                         selected = filters.progress == option,
                         onClick = { onFiltersChanged(filters.copy(progress = option)) },
-                        label = { Text(stringResource(option.displayNameRes)) }
+                        interactionSource = chipInteraction,
+                        label = { Text(stringResource(option.displayNameRes)) },
+                        modifier = Modifier.pressScale(chipInteraction, PressIntensity.INTENSE)
                     )
                 }
             }
@@ -65,6 +72,7 @@ fun FilterBottomSheet(
             FilterSectionTitle(stringResource(R.string.filter_section_category))
             FlowRow(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 PrimeType.entries.forEach { type ->
+                    val chipInteraction = remember { MutableInteractionSource() }
                     FilterChip(
                         selected = filters.categories.contains(type),
                         onClick = {
@@ -75,7 +83,9 @@ fun FilterBottomSheet(
                             }
                             onFiltersChanged(filters.copy(categories = newCategories))
                         },
-                        label = { Text(stringResource(type.displayNameRes)) }
+                        interactionSource = chipInteraction,
+                        label = { Text(stringResource(type.displayNameRes)) },
+                        modifier = Modifier.pressScale(chipInteraction, PressIntensity.INTENSE)
                     )
                 }
             }
@@ -83,6 +93,7 @@ fun FilterBottomSheet(
             FilterSectionTitle(stringResource(R.string.filter_section_availability))
             FlowRow(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 RelicSource.entries.forEach { source ->
+                    val chipInteraction = remember { MutableInteractionSource() }
                     FilterChip(
                         selected = filters.availabilities.contains(source),
                         onClick = {
@@ -93,15 +104,19 @@ fun FilterBottomSheet(
                             }
                             onFiltersChanged(filters.copy(availabilities = newAvail))
                         },
-                        label = { Text(stringResource(source.displayNameRes)) }
+                        interactionSource = chipInteraction,
+                        label = { Text(stringResource(source.displayNameRes)) },
+                        modifier = Modifier.pressScale(chipInteraction, PressIntensity.INTENSE)
                     )
                 }
             }
             
             Spacer(modifier = Modifier.height(32.dp))
+            val filterButtonInteraction = remember { MutableInteractionSource() }
             Button(
                 onClick = { onFiltersChanged(PrimeSetFilters()); onDismiss() },
-                modifier = Modifier.fillMaxWidth(),
+                interactionSource = filterButtonInteraction,
+                modifier = Modifier.fillMaxWidth().pressScale(filterButtonInteraction, PressIntensity.VERY_SUBTLE),
                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.errorContainer, contentColor = MaterialTheme.colorScheme.onErrorContainer)
             ) {
                 Text(stringResource(R.string.filter_clear_all))

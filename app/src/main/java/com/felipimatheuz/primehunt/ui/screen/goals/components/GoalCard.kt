@@ -2,6 +2,7 @@ package com.felipimatheuz.primehunt.ui.screen.goals.components
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -28,6 +29,8 @@ import com.felipimatheuz.primehunt.domain.model.enums.GoalStatus
 import com.felipimatheuz.primehunt.domain.model.enums.GoalTargetType
 import com.felipimatheuz.primehunt.domain.model.GoalDomain
 import com.felipimatheuz.primehunt.domain.model.GoalTagDomain
+import com.felipimatheuz.primehunt.ui.modifier.PressIntensity
+import com.felipimatheuz.primehunt.ui.modifier.pressScale
 import com.felipimatheuz.primehunt.ui.screen.components.GoalTagChip
 import com.felipimatheuz.primehunt.ui.theme.Completed
 import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
@@ -84,12 +87,18 @@ fun GoalCard(
         label = "highlightAnimation"
     )
 
+    val cardInteraction = remember { MutableInteractionSource() }
     Card(
         onClick = onClick,
+        interactionSource = cardInteraction,
         modifier = modifier
             .fillMaxWidth()
             .heightIn(min = 170.dp)
-            .alpha(if (isCompleted) 0.5f else 1f),
+            .alpha(if (isCompleted) 0.5f else 1f)
+            .pressScale(
+                interactionSource = cardInteraction,
+                intensity = PressIntensity.VERY_SUBTLE
+            ),
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
             containerColor = backgroundColor

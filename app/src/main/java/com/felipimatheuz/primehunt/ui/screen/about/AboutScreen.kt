@@ -1,6 +1,7 @@
 package com.felipimatheuz.primehunt.ui.screen.about
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -42,6 +43,8 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.felipimatheuz.primehunt.BuildConfig
 import com.felipimatheuz.primehunt.R
+import com.felipimatheuz.primehunt.ui.modifier.PressIntensity
+import com.felipimatheuz.primehunt.ui.modifier.pressScale
 import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
 import com.felipimatheuz.primehunt.ui.util.IntentUtils
 import com.felipimatheuz.primehunt.ui.viewmodel.about.AboutViewModel
@@ -74,8 +77,10 @@ fun AboutScreen(
                 title = stringResource(R.string.about_developer_title),
                 content = {
                     Column {
-                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp),
-                            verticalAlignment = Alignment.CenterVertically) {
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
                             Image(
                                 painter = painterResource(id = R.drawable.cs_logo),
                                 contentDescription = null,
@@ -108,6 +113,8 @@ fun AboutScreen(
                 title = stringResource(R.string.about_support_title),
                 content = {
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        val emailButtonInteraction = remember { MutableInteractionSource() }
+                        val bugButtonInteraction = remember { MutableInteractionSource() }
                         OutlinedButton(
                             onClick = {
                                 IntentUtils.contactEmail(
@@ -117,14 +124,24 @@ fun AboutScreen(
                                     snackBarHostState,
                                     scope
                                 )
-                            }
+                            },
+                            interactionSource = emailButtonInteraction,
+                            modifier = Modifier.pressScale(
+                                emailButtonInteraction,
+                                PressIntensity.VERY_SUBTLE
+                            )
                         ) {
                             Text(stringResource(R.string.about_contact))
                         }
                         OutlinedButton(
                             onClick = {
                                 IntentUtils.openUrl(context, bugReportUrl, snackBarHostState, scope)
-                            }
+                            },
+                            interactionSource = bugButtonInteraction,
+                            modifier = Modifier.pressScale(
+                                bugButtonInteraction,
+                                PressIntensity.VERY_SUBTLE
+                            )
                         ) {
                             Text(stringResource(R.string.about_report_bug))
                         }
@@ -144,10 +161,18 @@ fun AboutScreen(
                             style = MaterialTheme.typography.bodyMedium
                         )
                         Spacer(modifier = Modifier.height(12.dp))
+                        val repositoryButtonInteraction = remember { MutableInteractionSource() }
                         Button(
                             onClick = {
                                 IntentUtils.openUrl(context, repoUrl, snackBarHostState, scope)
-                            }
+                            },
+                            interactionSource = repositoryButtonInteraction,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .pressScale(
+                                    repositoryButtonInteraction,
+                                    PressIntensity.VERY_SUBTLE
+                                )
                         ) {
                             Text(stringResource(R.string.about_repository))
                         }
@@ -167,8 +192,16 @@ fun AboutScreen(
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
                         )
                         Spacer(modifier = Modifier.height(12.dp))
+                        val supportButtonInteraction = remember { MutableInteractionSource() }
                         Button(
-                            onClick = { showDonationDialog = true }
+                            onClick = { showDonationDialog = true },
+                            interactionSource = supportButtonInteraction,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .pressScale(
+                                    supportButtonInteraction,
+                                    PressIntensity.VERY_SUBTLE
+                                )
                         ) {
                             Text(stringResource(R.string.about_support_dev_button))
                         }
@@ -320,12 +353,28 @@ private fun DonationDialog(
         title = { Text(stringResource(R.string.about_support_dev_dialog_title)) },
         text = { Text(stringResource(R.string.about_support_dev_dialog_desc)) },
         confirmButton = {
-            Button(onClick = onConfirm) {
+            val confirmButtonInteraction = remember { MutableInteractionSource() }
+            Button(
+                onClick = onConfirm,
+                interactionSource = confirmButtonInteraction,
+                modifier = Modifier.pressScale(
+                    confirmButtonInteraction,
+                    PressIntensity.VERY_SUBTLE
+                )
+            ) {
                 Text(stringResource(R.string.about_support_dev_dialog_action))
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) {
+            val dismissButtonInteraction = remember { MutableInteractionSource() }
+            TextButton(
+                onClick = onDismiss,
+                interactionSource = dismissButtonInteraction,
+                modifier = Modifier.pressScale(
+                    dismissButtonInteraction,
+                    PressIntensity.VERY_SUBTLE
+                )
+            ) {
                 Text(stringResource(R.string.manage_goal_cancel))
             }
         }

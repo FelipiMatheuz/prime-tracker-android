@@ -1,5 +1,6 @@
 package com.felipimatheuz.primehunt.ui.screen.goals
 
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -39,6 +40,8 @@ import com.felipimatheuz.primehunt.domain.model.enums.GoalStatus
 import com.felipimatheuz.primehunt.domain.model.enums.GoalTargetType
 import com.felipimatheuz.primehunt.domain.model.GoalDomain
 import com.felipimatheuz.primehunt.domain.model.GoalTagDomain
+import com.felipimatheuz.primehunt.ui.modifier.PressIntensity
+import com.felipimatheuz.primehunt.ui.modifier.pressScale
 import com.felipimatheuz.primehunt.ui.screen.components.PrimeSearchBar
 import com.felipimatheuz.primehunt.ui.screen.goals.components.GoalCard
 import com.felipimatheuz.primehunt.ui.screen.goals.components.GoalEmptyState
@@ -136,9 +139,11 @@ fun GoalsContent(
     if (state.isLoading) {
         GoalSkeleton(paddingValues = paddingValues)
     } else {
-        Box(modifier = Modifier
-            .fillMaxSize()
-            .padding(paddingValues)) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+        ) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -189,18 +194,27 @@ fun GoalsContent(
                     }
                 }
             }
-                FloatingActionButton(
-                    onClick = onAddGoal,
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary,
-                    modifier = Modifier.align(Alignment.BottomEnd).padding(16.dp)
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_plus),
-                        contentDescription = null,
-                        modifier = Modifier.size(24.dp)
+
+            val fabInteraction = remember { MutableInteractionSource() }
+            FloatingActionButton(
+                onClick = onAddGoal,
+                interactionSource = fabInteraction,
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary,
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(16.dp)
+                    .pressScale(
+                        interactionSource = fabInteraction,
+                        intensity = PressIntensity.VERY_SUBTLE
                     )
-                }
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_plus),
+                    contentDescription = null,
+                    modifier = Modifier.size(24.dp)
+                )
+            }
         }
     }
 

@@ -1,6 +1,7 @@
 package com.felipimatheuz.primehunt.ui.screen.goals.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -45,6 +46,8 @@ import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.domain.model.enums.GoalTargetType
 import com.felipimatheuz.primehunt.domain.model.GoalTagDomain
 import com.felipimatheuz.primehunt.domain.model.TargetDomain
+import com.felipimatheuz.primehunt.ui.modifier.PressIntensity
+import com.felipimatheuz.primehunt.ui.modifier.pressScale
 import com.felipimatheuz.primehunt.ui.screen.components.GoalTagChip
 
 data class GoalFormState(
@@ -94,7 +97,9 @@ fun GoalForm(
         ) {
             ExposedDropdownMenuBox(
                 expanded = typeDropdownExpanded,
-                onExpandedChange = { if (!state.readOnlyTarget && state.enabled) typeDropdownExpanded = it },
+                onExpandedChange = {
+                    if (!state.readOnlyTarget && state.enabled) typeDropdownExpanded = it
+                },
                 modifier = Modifier.weight(1f)
             ) {
                 OutlinedTextField(
@@ -103,7 +108,11 @@ fun GoalForm(
                     readOnly = true,
                     enabled = state.enabled && !state.readOnlyTarget,
                     label = { Text(stringResource(R.string.manage_goal_target_type)) },
-                    trailingIcon = { if (!state.readOnlyTarget && state.enabled) ExposedDropdownMenuDefaults.TrailingIcon(expanded = typeDropdownExpanded) },
+                    trailingIcon = {
+                        if (!state.readOnlyTarget && state.enabled) ExposedDropdownMenuDefaults.TrailingIcon(
+                            expanded = typeDropdownExpanded
+                        )
+                    },
                     modifier = Modifier.menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable),
                     colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors()
                 )
@@ -191,7 +200,11 @@ fun GoalForm(
                 readOnly = true,
                 enabled = state.enabled,
                 label = { Text(stringResource(R.string.manage_goal_tag)) },
-                trailingIcon = { if (state.enabled) ExposedDropdownMenuDefaults.TrailingIcon(expanded = tagDropdownExpanded) },
+                trailingIcon = {
+                    if (state.enabled) ExposedDropdownMenuDefaults.TrailingIcon(
+                        expanded = tagDropdownExpanded
+                    )
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable),
@@ -227,7 +240,10 @@ fun GoalForm(
                                     modifier = Modifier.size(18.dp)
                                 )
                                 Spacer(modifier = Modifier.width(8.dp))
-                                Text(stringResource(R.string.tag_create_option), color = MaterialTheme.colorScheme.primary)
+                                Text(
+                                    stringResource(R.string.tag_create_option),
+                                    color = MaterialTheme.colorScheme.primary
+                                )
                             }
                         },
                         onClick = {
@@ -240,26 +256,40 @@ fun GoalForm(
         }
 
         if (state.showManualQuantity) {
-            Row(modifier = Modifier.fillMaxWidth(),
+            Row(
+                modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically) {
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Text(
                     text = stringResource(R.string.manage_goal_current_progress),
                     style = MaterialTheme.typography.labelLarge,
-                    color = if (state.enabled) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f)
+                    color = if (state.enabled) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.onSurfaceVariant.copy(
+                        alpha = 0.38f
+                    )
                 )
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
                         .background(
-                            if (state.enabled) MaterialTheme.colorScheme.surfaceContainerHighest else MaterialTheme.colorScheme.surfaceContainerHighest.copy(alpha = 0.38f),
+                            if (state.enabled) MaterialTheme.colorScheme.surfaceContainerHighest else MaterialTheme.colorScheme.surfaceContainerHighest.copy(
+                                alpha = 0.38f
+                            ),
                             RoundedCornerShape(20.dp)
                         )
                         .padding(4.dp)
                 ) {
+                    val minusQuantityInteraction = remember { MutableInteractionSource() }
                     IconButton(
                         onClick = { actions.onManualQuantityChange(state.manualCurrentQuantity - 1) },
-                        modifier = Modifier.size(32.dp),
+                        interactionSource = minusQuantityInteraction,
+                        modifier = Modifier
+                            .size(32.dp)
+                            .pressScale(
+                                interactionSource = minusQuantityInteraction,
+                                intensity = PressIntensity.MODERATE,
+                                enabled = state.enabled
+                            ),
                         enabled = state.enabled
                     ) {
                         Icon(
@@ -273,13 +303,23 @@ fun GoalForm(
                         text = state.manualCurrentQuantity.toString(),
                         style = MaterialTheme.typography.bodyMedium,
                         fontWeight = FontWeight.Bold,
-                        color = if (state.enabled) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f),
+                        color = if (state.enabled) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurface.copy(
+                            alpha = 0.38f
+                        ),
                         modifier = Modifier.padding(horizontal = 8.dp)
                     )
 
+                    val plusQuantityInteraction = remember { MutableInteractionSource() }
                     IconButton(
                         onClick = { actions.onManualQuantityChange(state.manualCurrentQuantity + 1) },
-                        modifier = Modifier.size(32.dp),
+                        interactionSource = plusQuantityInteraction,
+                        modifier = Modifier
+                            .size(32.dp)
+                            .pressScale(
+                                interactionSource = plusQuantityInteraction,
+                                intensity = PressIntensity.MODERATE,
+                                enabled = state.enabled
+                            ),
                         enabled = state.enabled
                     ) {
                         Icon(

@@ -1,5 +1,6 @@
 package com.felipimatheuz.primehunt.ui.screen.cloud.components
 
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,10 +18,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.felipimatheuz.primehunt.R
+import com.felipimatheuz.primehunt.ui.modifier.PressIntensity
+import com.felipimatheuz.primehunt.ui.modifier.pressScale
 import com.felipimatheuz.primehunt.ui.viewmodel.cloud.CloudState
 
 @Composable
@@ -48,12 +54,12 @@ fun CloudBackupCard(
                 .fillMaxWidth()
         ) {
             Text(
-                text = "Cloud Backup",
+                text = stringResource(R.string.cloud_backup_title),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold
             )
             Text(
-                text = "Upload or restore your Inventory and Goals.",
+                text = stringResource(R.string.cloud_backup_desc),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
             )
@@ -64,10 +70,18 @@ fun CloudBackupCard(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
+                val uploadInteraction = remember { MutableInteractionSource() }
                 Button(
                     onClick = onUploadClick,
+                    interactionSource = uploadInteraction,
                     enabled = isEnabled && !state.isDownloading,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier
+                        .weight(1f)
+                        .pressScale(
+                            uploadInteraction,
+                            PressIntensity.VERY_SUBTLE,
+                            isEnabled && !state.isDownloading
+                        )
                 ) {
                     if (state.isUploading) {
                         CircularProgressIndicator(
@@ -76,13 +90,21 @@ fun CloudBackupCard(
                             color = MaterialTheme.colorScheme.onPrimary
                         )
                     } else {
-                        Text("Upload")
+                        Text(stringResource(R.string.cloud_backup_upload))
                     }
                 }
+                val downloadInteraction = remember { MutableInteractionSource() }
                 OutlinedButton(
                     onClick = onDownloadClick,
+                    interactionSource = downloadInteraction,
                     enabled = isEnabled && !state.isUploading,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier
+                        .weight(1f)
+                        .pressScale(
+                            downloadInteraction,
+                            PressIntensity.VERY_SUBTLE,
+                            isEnabled && !state.isUploading
+                        )
                 ) {
                     if (state.isDownloading) {
                         CircularProgressIndicator(
@@ -91,7 +113,7 @@ fun CloudBackupCard(
                             color = MaterialTheme.colorScheme.primary
                         )
                     } else {
-                        Text("Download")
+                        Text(stringResource(R.string.cloud_backup_download))
                     }
                 }
             }

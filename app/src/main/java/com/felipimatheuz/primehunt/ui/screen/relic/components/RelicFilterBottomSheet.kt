@@ -1,5 +1,6 @@
 package com.felipimatheuz.primehunt.ui.screen.relic.components
 
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -19,6 +20,7 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -29,6 +31,8 @@ import com.felipimatheuz.primehunt.domain.model.enums.RelicSource
 import com.felipimatheuz.primehunt.domain.model.enums.ProgressFilter
 import com.felipimatheuz.primehunt.ui.viewmodel.relic.RelicFilters
 import com.felipimatheuz.primehunt.domain.model.enums.RelicsView
+import com.felipimatheuz.primehunt.ui.modifier.PressIntensity
+import com.felipimatheuz.primehunt.ui.modifier.pressScale
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
@@ -64,6 +68,7 @@ fun RelicFilterBottomSheet(
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     RelicEra.entries.forEach { era ->
+                        val chipInteraction = remember { MutableInteractionSource() }
                         FilterChip(
                             selected = filters.eras.contains(era),
                             onClick = {
@@ -74,7 +79,12 @@ fun RelicFilterBottomSheet(
                                 }
                                 onFiltersChanged(filters.copy(eras = newEras))
                             },
-                            label = { Text(era.displayName) }
+                            interactionSource = chipInteraction,
+                            label = { Text(era.displayName) },
+                            modifier = Modifier.pressScale(
+                                chipInteraction,
+                                PressIntensity.INTENSE
+                            )
                         )
                     }
                 }
@@ -87,6 +97,7 @@ fun RelicFilterBottomSheet(
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     RelicSource.entries.forEach { source ->
+                        val chipInteraction = remember { MutableInteractionSource() }
                         FilterChip(
                             selected = filters.availabilities.contains(source),
                             onClick = {
@@ -97,6 +108,11 @@ fun RelicFilterBottomSheet(
                                 }
                                 onFiltersChanged(filters.copy(availabilities = newAvail))
                             },
+                            interactionSource = chipInteraction,
+                            modifier = Modifier.pressScale(
+                                chipInteraction,
+                                PressIntensity.INTENSE
+                            ),
                             label = { Text(stringResource(source.displayNameRes)) }
                         )
                     }
@@ -110,9 +126,15 @@ fun RelicFilterBottomSheet(
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     ProgressFilter.entries.forEach { option ->
+                        val filterInteraction = remember { MutableInteractionSource() }
                         FilterChip(
                             selected = filters.progress == option,
                             onClick = { onFiltersChanged(filters.copy(progress = option)) },
+                            interactionSource = filterInteraction,
+                            modifier = Modifier.pressScale(
+                                filterInteraction,
+                                PressIntensity.INTENSE
+                            ),
                             label = { Text(stringResource(option.displayNameRes)) }
                         )
                     }
@@ -120,9 +142,17 @@ fun RelicFilterBottomSheet(
             }
 
             Spacer(modifier = Modifier.height(32.dp))
+
+            val buttonInteraction = remember { MutableInteractionSource() }
             Button(
                 onClick = { onFiltersChanged(RelicFilters()); onDismiss() },
-                modifier = Modifier.fillMaxWidth(),
+                interactionSource = buttonInteraction,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .pressScale(
+                        buttonInteraction,
+                        PressIntensity.VERY_SUBTLE
+                    ),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.errorContainer,
                     contentColor = MaterialTheme.colorScheme.onErrorContainer
