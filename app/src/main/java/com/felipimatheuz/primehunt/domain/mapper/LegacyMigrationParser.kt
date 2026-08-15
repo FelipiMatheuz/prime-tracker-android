@@ -21,7 +21,7 @@ class LegacyMigrationParser @Inject constructor() {
 
             val lastSegment = filteredSegments.last()
             val hasNumericSuffix = lastSegment.toIntOrNull() != null
-            
+
             val cleanSegments = if (hasNumericSuffix) {
                 filteredSegments.dropLast(1)
             } else {
@@ -31,7 +31,8 @@ class LegacyMigrationParser @Inject constructor() {
             val normalizedPart = when (val partType = cleanSegments.last()) {
                 "ULIMB" -> "UPPER_LIMB"
                 "LLIMB" -> "LOWER_LIMB"
-                "BLADE" -> if (cleanSegments.first().equals("venka", true)) "BLADES"  else partType
+                "CIRCUIT" -> "SYSTEMS"
+                "BLADE" -> if (cleanSegments.first().equals("venka", true)) "BLADES" else partType
                 else -> partType
             }
 
@@ -44,6 +45,14 @@ class LegacyMigrationParser @Inject constructor() {
     }
 
     fun normalizeNewName(name: String): String {
-        return name.replace(" Prime", "", ignoreCase = true).trim()
+        return name.replace(" Prime", "", ignoreCase = true)
+            .replace(" Collar", "", ignoreCase = true)
+            .trim()
+    }
+
+    fun normalizePrimeSetId(name: String): String {
+        return name.replace("_prime", "", ignoreCase = true)
+            .uppercase()
+            .trim()
     }
 }

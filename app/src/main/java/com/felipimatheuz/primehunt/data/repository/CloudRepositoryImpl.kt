@@ -34,9 +34,9 @@ class CloudRepositoryImpl @Inject constructor(
         mapSet: Map<String, Any>,
         mapOther: Map<String, Any>
     ): CloudRepository.MigrationResult = withContext(Dispatchers.IO) {
-        
-        val legacyData = parser.parse(mapSet, isSetCategory = true) + 
-                         parser.parse(mapOther, isSetCategory = false)
+
+        val legacyData = parser.parse(mapSet, isSetCategory = true) +
+                parser.parse(mapOther, isSetCategory = false)
 
         if (legacyData.isEmpty()) return@withContext CloudRepository.MigrationResult(0, emptyList())
 
@@ -49,24 +49,29 @@ class CloudRepositoryImpl @Inject constructor(
 
             val inventoryToInsert = mutableListOf<InventoryPartEntity>()
 
+            allSets.forEach { set ->
+                val normalizedSetName = parser.normalizeNewName(set.name)
+                val legacyKey = "${normalizedSetName}_BLUEPRINT"
+                legacyData[legacyKey]?.let { qty ->
+                    inventoryToInsert.add(InventoryPartEntity(set.id, qty))
+                    matchedLegacyKeys.add(legacyKey)
+                }
+            }
+
             allParts.forEach { part ->
                 val set = setMap[part.primeSetId] ?: return@forEach
                 val normalizedSetName = parser.normalizeNewName(set.name)
 
-                val legacyKey = if (part.part == PrimePartType.BLUEPRINT) {
-                    "${normalizedSetName}_BLUEPRINT"
-                } else {
-                    "${normalizedSetName}_${part.part.name}"
-                }
-
+                val legacyKey = "${normalizedSetName}_${part.part.name}"
                 legacyData[legacyKey]?.let { qty ->
                     inventoryToInsert.add(InventoryPartEntity(part.id, qty))
                     matchedLegacyKeys.add(legacyKey)
                 }
 
                 if (part.part == PrimePartType.PRIME_SET) {
-                    val nestedLegacyKey = "${normalizedSetName}_${parser.normalizeNewName(part.id)}"
+                    val nestedLegacyKey = "${normalizedSetName}_${parser.normalizePrimeSetId(part.id)}"
                     legacyData[nestedLegacyKey]?.let { qty ->
+                        inventoryToInsert.add(InventoryPartEntity(part.id, qty))
                         val subParts = primeRepository.getPartsBySetSync(part.id)
                         subParts.forEach { sub ->
                             inventoryToInsert.add(InventoryPartEntity(sub.id, qty))
@@ -81,7 +86,7 @@ class CloudRepositoryImpl @Inject constructor(
                 val consolidated = inventoryToInsert
                     .groupBy { it.primePartId }
                     .map { (id, list) -> InventoryPartEntity(id, list.sumOf { it.quantity }) }
-                
+
                 inventoryDao.upsert(consolidated)
                 consolidated.size
             } else {
