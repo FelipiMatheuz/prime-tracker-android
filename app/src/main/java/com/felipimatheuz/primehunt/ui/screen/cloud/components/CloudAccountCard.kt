@@ -85,6 +85,10 @@ fun CloudAccountCard(
                     text = state.userEmail ?: "",
                     style = MaterialTheme.typography.bodyMedium
                 )
+                Text(
+                    text = state.userName ?: "",
+                    style = MaterialTheme.typography.bodySmall
+                )
                 Spacer(modifier = Modifier.height(16.dp))
                 val signOutButtonInteraction = remember { MutableInteractionSource() }
                 Button(

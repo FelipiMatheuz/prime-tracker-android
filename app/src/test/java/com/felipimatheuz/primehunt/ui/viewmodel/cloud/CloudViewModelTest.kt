@@ -68,7 +68,7 @@ class CloudViewModelTest {
 
     @Test
     fun `UploadBackup should work when authenticated`() = runTest {
-        createViewModel(user = UserData("user123", "User"))
+        createViewModel(user = UserData("user123", "User", "user123@email.com"))
         
         viewModel.onIntent(CloudIntent.UploadBackup)
         runCurrent()
@@ -78,7 +78,7 @@ class CloudViewModelTest {
 
     @Test
     fun `Mutual exclusion between Upload and Download`() = runTest {
-        createViewModel(user = UserData("user123", "User"))
+        createViewModel(user = UserData("user123", "User", "user123@email.com"))
         
         coEvery { uploadBackupUseCase(any()) } coAnswers {
             kotlinx.coroutines.delay(1.seconds)
@@ -99,7 +99,7 @@ class CloudViewModelTest {
 
     @Test
     fun `Legacy Migration - success scenario`() = runTest {
-        createViewModel(user = UserData("user123", "User"))
+        createViewModel(user = UserData("user123", "User", "user123@email.com"))
         
         coEvery { performMigrationUseCase("user123") } returns CloudActionResult.SuccessMigration
         
@@ -112,7 +112,7 @@ class CloudViewModelTest {
 
     @Test
     fun `Legacy Migration - failure scenario`() = runTest {
-        createViewModel(user = UserData("user123", "User"))
+        createViewModel(user = UserData("user123", "User", "user123@email.com"))
         
         val errorResult = CloudActionResult.Error("No items found")
         coEvery { performMigrationUseCase("user123") } returns errorResult
@@ -125,7 +125,7 @@ class CloudViewModelTest {
 
     @Test
     fun `Clear Cloud Data - success scenario`() = runTest {
-        createViewModel(user = UserData("user123", "User"))
+        createViewModel(user = UserData("user123", "User", "user123@email.com"))
         
         coEvery { clearCloudDataUseCase("user123") } returns CloudActionResult.SuccessClearData
         
