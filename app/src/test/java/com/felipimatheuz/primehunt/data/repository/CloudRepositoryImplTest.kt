@@ -6,10 +6,10 @@ import com.felipimatheuz.primehunt.data.local.dao.GoalDao
 import com.felipimatheuz.primehunt.data.local.dao.GoalTagDao
 import com.felipimatheuz.primehunt.data.local.dao.InventoryDao
 import com.felipimatheuz.primehunt.data.local.entity.InventoryPartEntity
-import com.felipimatheuz.primehunt.domain.mapper.LegacyMigrationParser
+import com.felipimatheuz.primehunt.domain.util.LegacyMigrationParser
 import com.felipimatheuz.primehunt.domain.model.enums.PrimePartType
 import com.felipimatheuz.primehunt.domain.model.enums.PrimeType
-import com.felipimatheuz.primehunt.domain.repository.PrimeRepository
+import com.felipimatheuz.primehunt.domain.repository.InventoryRepository
 import com.felipimatheuz.primehunt.domain.repository.SyncPart
 import com.felipimatheuz.primehunt.domain.repository.SyncSet
 import io.mockk.*
@@ -28,7 +28,7 @@ class CloudRepositoryImplTest {
     private val inventoryDao = mockk<InventoryDao>(relaxed = true)
     private val goalDao = mockk<GoalDao>(relaxed = true)
     private val tagDao = mockk<GoalTagDao>(relaxed = true)
-    private val primeRepository = mockk<PrimeRepository>(relaxed = true)
+    private val inventoryRepository = mockk<InventoryRepository>(relaxed = true)
     private val parser = LegacyMigrationParser()
 
     private lateinit var repository: CloudRepositoryImpl
@@ -40,7 +40,7 @@ class CloudRepositoryImplTest {
             val block = invocation.args[1] as suspend () -> Any?
             block()
         }
-        repository = CloudRepositoryImpl(database, inventoryDao, goalDao, tagDao, primeRepository, parser)
+        repository = CloudRepositoryImpl(database, inventoryDao, goalDao, tagDao, inventoryRepository, parser)
     }
 
     @Test
@@ -52,12 +52,12 @@ class CloudRepositoryImplTest {
         val mapOther = legacyData["OTHER"] ?: emptyMap()
 
         // Mock items in the new database that match migration_mock.json
-        coEvery { primeRepository.getAllSetsSync() } returns listOf(
+        coEvery { inventoryRepository.getAllSetsSync() } returns listOf(
             SyncSet("gauss_prime", "Gauss Prime", PrimeType.WARFRAME, ""),
             SyncSet("fang_prime", "Fang Prime", PrimeType.MELEE, ""),
             SyncSet("lex_prime", "Lex Prime", PrimeType.SECONDARY, "")
         )
-        coEvery { primeRepository.getAllPartsSync() } returns listOf(
+        coEvery { inventoryRepository.getAllPartsSync() } returns listOf(
             SyncPart("gauss_neuro", "gauss_prime", PrimePartType.NEUROPTICS, 1),
             SyncPart("gauss_chassis", "gauss_prime", PrimePartType.CHASSIS, 1),
             SyncPart("gauss_systems", "gauss_prime", PrimePartType.SYSTEMS, 1),
@@ -89,14 +89,14 @@ class CloudRepositoryImplTest {
         // Mocking legacy data similar to what might be in migration_mock but specific for this case
         val mapSet = mapOf("Aklex_LEX_0" to true) 
         
-        coEvery { primeRepository.getAllSetsSync() } returns listOf(
+        coEvery { inventoryRepository.getAllSetsSync() } returns listOf(
             SyncSet("aklex_prime", "Aklex Prime", PrimeType.SECONDARY, ""),
             SyncSet("lex_prime", "Lex Prime", PrimeType.SECONDARY, "")
         )
-        coEvery { primeRepository.getAllPartsSync() } returns listOf(
+        coEvery { inventoryRepository.getAllPartsSync() } returns listOf(
             SyncPart("lex_as_part", "aklex_prime", PrimePartType.PRIME_SET, 2)
         )
-        coEvery { primeRepository.getPartsBySetSync("lex_as_part") } returns listOf(
+        coEvery { inventoryRepository.getPartsBySetSync(any()) } returns listOf(
             SyncPart("lex_bp", "lex_prime", PrimePartType.BLUEPRINT, 1),
             SyncPart("lex_barrel", "lex_prime", PrimePartType.BARREL, 1)
         )
@@ -118,8 +118,8 @@ class CloudRepositoryImplTest {
     fun `performMigration should return ignored keys when items are not matched`() = runTest {
         // Arrange
         val mapSet = mapOf("Unknown_Item_PART_0" to true)
-        coEvery { primeRepository.getAllSetsSync() } returns emptyList()
-        coEvery { primeRepository.getAllPartsSync() } returns emptyList()
+        coEvery { inventoryRepository.getAllSetsSync() } returns emptyList()
+        coEvery { inventoryRepository.getAllPartsSync() } returns emptyList()
 
         // Act
         val result = repository.performMigration(mapSet, emptyMap())

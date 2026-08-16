@@ -2,7 +2,7 @@ package com.felipimatheuz.primehunt.data.repository
 
 import com.felipimatheuz.primehunt.data.local.dao.InventoryDao
 import com.felipimatheuz.primehunt.data.local.entity.InventoryPartEntity
-import com.felipimatheuz.primehunt.domain.repository.PrimeRepository
+import com.felipimatheuz.primehunt.domain.repository.InventoryRepository
 import com.felipimatheuz.primehunt.domain.util.PrimeSetResolver
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -12,7 +12,7 @@ import javax.inject.Singleton
 @Singleton
 class PrimeDetailRepository @Inject constructor(
     private val inventoryDao: InventoryDao,
-    private val primeRepository: PrimeRepository
+    private val inventoryRepository: InventoryRepository
 ) {
 
     suspend fun updateInventory(partId: String, delta: Int) = withContext(Dispatchers.IO) {
@@ -22,8 +22,8 @@ class PrimeDetailRepository @Inject constructor(
     }
 
     suspend fun updateSetInventory(setId: String, delta: Int) = withContext(Dispatchers.IO) {
-        val parts = primeRepository.getAllPartsSync()
-        val components = primeRepository.getAllComponentsSync()
+        val parts = inventoryRepository.getAllPartsSync()
+        val components = inventoryRepository.getAllComponentsSync()
         
         val partsBySetMap = parts.groupBy { it.primeSetId }.mapValues { entry ->
             entry.value.map { PrimeSetResolver.ResolvePart(it.id, it.part, it.quantity) }

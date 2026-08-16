@@ -1,27 +1,30 @@
 package com.felipimatheuz.primehunt.domain.usecase.cloud
 
 import com.felipimatheuz.primehunt.domain.repository.CloudRepository
-import com.felipimatheuz.primehunt.data.cloud.Firestore
+import com.felipimatheuz.primehunt.domain.repository.CloudRemoteDataSource
 import com.felipimatheuz.primehunt.ui.viewmodel.cloud.CloudActionResult
 import javax.inject.Inject
 
 class DownloadBackupUseCase @Inject constructor(
-    private val firestore: Firestore,
+    private val remoteDataSource: CloudRemoteDataSource,
     private val cloudRepository: CloudRepository
 ) {
     suspend operator fun invoke(userId: String): CloudActionResult {
-        return when (val result = firestore.downloadBackup(userId)) {
-            is Firestore.BackupResult.Success -> {
-                try {
-                    cloudRepository.restoreBackup(result.inventory, result.goals, result.tags)
-                    CloudActionResult.SuccessBackupDownload
-                } catch (e: Exception) {
-                    CloudActionResult.Error(e.message ?: "Restore failed")
-                }
-            }
-            is Firestore.BackupResult.Error -> {
-                CloudActionResult.Error(result.message)
-            }
+        val data = remoteDataSource.downloadBackup(userId)
+            ?: return CloudActionResult.Error("No backup found or error occurred")
+        
+        return try {
+            @Suppress("UNCHECKED_CAST")
+            val inventory = data["inventory"] as? Map<String, Int> ?: emptyMap()
+            @Suppress("UNCHECKED_CAST")
+            val goals = data["goals"] as? List<Map<String, Any?>> ?: emptyList()
+            @Suppress("UNCHECKED_CAST")
+            val tags = data["tags"] as? List<Map<String, Any?>> ?: emptyList()
+            
+            cloudRepository.restoreBackup(inventory, goals, tags)
+            CloudActionResult.SuccessBackupDownload
+        } catch (e: Exception) {
+            CloudActionResult.Error(e.message ?: "Restore failed")
         }
     }
 }

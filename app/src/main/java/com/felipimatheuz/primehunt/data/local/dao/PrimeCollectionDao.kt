@@ -4,10 +4,16 @@ import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
 import com.felipimatheuz.primehunt.data.local.entity.PrimeCollectionEntity
+import com.felipimatheuz.primehunt.data.local.entity.PrimeCollectionWithSets
+import androidx.room.Transaction
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PrimeCollectionDao {
+
+    @Transaction
+    @Query("SELECT * FROM prime_collection ORDER BY released DESC")
+    fun getAllWithSets(): Flow<List<PrimeCollectionWithSets>>
 
     @Query("SELECT * FROM prime_collection ORDER BY released DESC")
     fun getAll(): Flow<List<PrimeCollectionEntity>>

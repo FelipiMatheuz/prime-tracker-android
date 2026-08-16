@@ -3,13 +3,13 @@ package com.felipimatheuz.primehunt.domain.usecase.cloud
 import com.felipimatheuz.primehunt.data.local.dao.GoalDao
 import com.felipimatheuz.primehunt.data.local.dao.GoalTagDao
 import com.felipimatheuz.primehunt.data.local.dao.InventoryDao
-import com.felipimatheuz.primehunt.data.cloud.Firestore
+import com.felipimatheuz.primehunt.domain.repository.CloudRemoteDataSource
 import com.felipimatheuz.primehunt.ui.viewmodel.cloud.CloudActionResult
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 class UploadBackupUseCase @Inject constructor(
-    private val firestore: Firestore,
+    private val remoteDataSource: CloudRemoteDataSource,
     private val inventoryDao: InventoryDao,
     private val goalDao: GoalDao,
     private val tagDao: GoalTagDao
@@ -37,6 +37,15 @@ class UploadBackupUseCase @Inject constructor(
                 "color" to tag.color
             )
         }
-        return firestore.uploadBackup(userId, inventory, goals, tags)
+        
+        val data = mapOf(
+            "inventory" to inventory,
+            "goals" to goals,
+            "tags" to tags,
+            "updatedAt" to System.currentTimeMillis()
+        )
+        
+        val success = remoteDataSource.uploadBackup(userId, data)
+        return if (success) CloudActionResult.SuccessBackupUpload else CloudActionResult.Error("Failed to upload backup")
     }
 }

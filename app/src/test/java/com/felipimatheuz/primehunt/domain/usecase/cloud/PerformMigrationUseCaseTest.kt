@@ -1,8 +1,8 @@
 package com.felipimatheuz.primehunt.domain.usecase.cloud
 
-import com.felipimatheuz.primehunt.data.cloud.Firestore
 import com.felipimatheuz.primehunt.domain.model.prefs.CloudUiPrefs
 import com.felipimatheuz.primehunt.domain.repository.CloudRepository
+import com.felipimatheuz.primehunt.domain.repository.CloudRemoteDataSource
 import com.felipimatheuz.primehunt.domain.repository.UiPreferencesRepository
 import com.felipimatheuz.primehunt.ui.viewmodel.cloud.CloudActionResult
 import io.mockk.*
@@ -17,10 +17,10 @@ import org.junit.Test
 @OptIn(ExperimentalCoroutinesApi::class)
 class PerformMigrationUseCaseTest {
 
-    private val firestore = mockk<Firestore>()
+    private val remoteDataSource = mockk<CloudRemoteDataSource>()
     private val cloudRepository = mockk<CloudRepository>()
     private val uiPreferencesRepository = mockk<UiPreferencesRepository>()
-    private val useCase = PerformMigrationUseCase(firestore, cloudRepository, uiPreferencesRepository)
+    private val useCase = PerformMigrationUseCase(remoteDataSource, cloudRepository, uiPreferencesRepository)
 
     private val userId = "test_user_id"
 
@@ -30,12 +30,12 @@ class PerformMigrationUseCaseTest {
         val jsonContent = loadJsonFromResources("migration_mock.json")
         val legacyData = parseJsonToMap(jsonContent)
         
-        coEvery { firestore.readLegacyChecklist(userId) } returns Firestore.LegacyChecklistResult.Success(legacyData)
+        coEvery { remoteDataSource.readLegacyChecklist(userId) } returns CloudRemoteDataSource.LegacyChecklistResult.Success(legacyData)
         coEvery { cloudRepository.performMigration(any(), any()) } returns CloudRepository.MigrationResult(
             itemsInserted = 6,
             ignoredKeys = emptyList()
         )
-        coEvery { firestore.deleteLegacyChecklist(userId) } returns true
+        coEvery { remoteDataSource.deleteLegacyChecklist(userId) } returns true
         coEvery { uiPreferencesRepository.cloudPrefs } returns flowOf(CloudUiPrefs(isMigrationSuccess = false))
         coEvery { uiPreferencesRepository.updateCloudPrefs(any()) } just Runs
 
@@ -45,14 +45,14 @@ class PerformMigrationUseCaseTest {
         // Assert
         assertEquals(CloudActionResult.SuccessMigration, result)
         coVerify { cloudRepository.performMigration(any(), any()) }
-        coVerify { firestore.deleteLegacyChecklist(userId) }
+        coVerify { remoteDataSource.deleteLegacyChecklist(userId) }
         coVerify { uiPreferencesRepository.updateCloudPrefs(match { it.isMigrationSuccess }) }
     }
 
     @Test
     fun `invoke should return Error when readLegacyChecklist fails`() = runTest {
         // Arrange
-        coEvery { firestore.readLegacyChecklist(userId) } returns Firestore.LegacyChecklistResult.Error("Network error")
+        coEvery { remoteDataSource.readLegacyChecklist(userId) } returns CloudRemoteDataSource.LegacyChecklistResult.Error("Network error")
 
         // Act
         val result = useCase(userId)
@@ -67,7 +67,7 @@ class PerformMigrationUseCaseTest {
     fun `invoke should return Error when no items are inserted`() = runTest {
         // Arrange
         val legacyData = mapOf("SET" to emptyMap<String, Any>(), "OTHER" to emptyMap<String, Any>())
-        coEvery { firestore.readLegacyChecklist(userId) } returns Firestore.LegacyChecklistResult.Success(legacyData)
+        coEvery { remoteDataSource.readLegacyChecklist(userId) } returns CloudRemoteDataSource.LegacyChecklistResult.Success(legacyData)
         coEvery { cloudRepository.performMigration(any(), any()) } returns CloudRepository.MigrationResult(
             itemsInserted = 0,
             ignoredKeys = emptyList()
@@ -85,7 +85,7 @@ class PerformMigrationUseCaseTest {
     fun `invoke should return Error when items are ignored`() = runTest {
         // Arrange
         val legacyData = mapOf("SET" to emptyMap<String, Any>(), "OTHER" to emptyMap<String, Any>())
-        coEvery { firestore.readLegacyChecklist(userId) } returns Firestore.LegacyChecklistResult.Success(legacyData)
+        coEvery { remoteDataSource.readLegacyChecklist(userId) } returns CloudRemoteDataSource.LegacyChecklistResult.Success(legacyData)
         coEvery { cloudRepository.performMigration(any(), any()) } returns CloudRepository.MigrationResult(
             itemsInserted = 0,
             ignoredKeys = listOf("Unknown_Item")
@@ -103,12 +103,12 @@ class PerformMigrationUseCaseTest {
     fun `invoke should return Error when deleteLegacyChecklist fails`() = runTest {
         // Arrange
         val legacyData = mapOf("SET" to emptyMap<String, Any>(), "OTHER" to emptyMap<String, Any>())
-        coEvery { firestore.readLegacyChecklist(userId) } returns Firestore.LegacyChecklistResult.Success(legacyData)
+        coEvery { remoteDataSource.readLegacyChecklist(userId) } returns CloudRemoteDataSource.LegacyChecklistResult.Success(legacyData)
         coEvery { cloudRepository.performMigration(any(), any()) } returns CloudRepository.MigrationResult(
             itemsInserted = 1,
             ignoredKeys = emptyList()
         )
-        coEvery { firestore.deleteLegacyChecklist(userId) } returns false
+        coEvery { remoteDataSource.deleteLegacyChecklist(userId) } returns false
 
         // Act
         val result = useCase(userId)

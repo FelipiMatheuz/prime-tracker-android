@@ -1,11 +1,14 @@
-package com.felipimatheuz.primehunt.domain.mapper
+package com.felipimatheuz.primehunt.data.mapper
 
 import com.felipimatheuz.primehunt.data.local.entity.PrimePartEntity
 import com.felipimatheuz.primehunt.data.local.entity.PrimeSetEntity
+import com.felipimatheuz.primehunt.data.model.PrimeBaseData
+import com.felipimatheuz.primehunt.domain.model.GoalDomain
+import com.felipimatheuz.primehunt.domain.model.GoalTagDomain
+import com.felipimatheuz.primehunt.domain.model.RelicComponentDomain
+import com.felipimatheuz.primehunt.domain.model.RelicDomain
 import com.felipimatheuz.primehunt.domain.model.enums.GoalTargetType
 import com.felipimatheuz.primehunt.domain.model.enums.PrimePartType
-import com.felipimatheuz.primehunt.domain.model.PrimeBaseData
-import com.felipimatheuz.primehunt.domain.model.*
 import com.felipimatheuz.primehunt.domain.util.StringFormatter
 
 object RelicMapper {
