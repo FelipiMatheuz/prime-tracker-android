@@ -80,7 +80,7 @@ private fun VoidEnergyLayer(darkTheme: Boolean) {
         val widthPx = with(density) { maxWidth.toPx() }
         val heightPx = with(density) { maxHeight.toPx() }
 
-        val blob1Offset by infiniteTransition.animateValue(
+        val blob1Offset = infiniteTransition.animateValue(
             initialValue = Offset(widthPx * 0.1f, heightPx * 0.2f),
             targetValue = Offset(widthPx * 0.2f, heightPx * 0.1f),
             typeConverter = Offset.VectorConverter,
@@ -93,11 +93,11 @@ private fun VoidEnergyLayer(darkTheme: Boolean) {
         
         EnergyBlob(
             color = energyColor1,
-            offset = blob1Offset,
+            offset = { blob1Offset.value },
             scale = 1.2f
         )
 
-        val blob2Offset by infiniteTransition.animateValue(
+        val blob2Offset = infiniteTransition.animateValue(
             initialValue = Offset(widthPx * 0.8f, heightPx * 0.7f),
             targetValue = Offset(widthPx * 0.7f, heightPx * 0.8f),
             typeConverter = Offset.VectorConverter,
@@ -110,18 +110,24 @@ private fun VoidEnergyLayer(darkTheme: Boolean) {
 
         EnergyBlob(
             color = energyColor2,
-            offset = blob2Offset,
+            offset = { blob2Offset.value },
             scale = 1.5f
         )
     }
 }
 
 @Composable
-private fun EnergyBlob(color: Color, offset: Offset, scale: Float) {
+private fun EnergyBlob(color: Color, offset: () -> Offset, scale: Float) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .graphicsLayer { translationX = offset.x; translationY = offset.y; scaleX = scale; scaleY = scale }
+            .graphicsLayer {
+                val currentOffset = offset()
+                translationX = currentOffset.x
+                translationY = currentOffset.y
+                scaleX = scale
+                scaleY = scale
+            }
             .drawWithCache {
                 val brush = Brush.radialGradient(
                     0f to color, 1f to Color.Transparent,
@@ -136,7 +142,7 @@ private fun EnergyBlob(color: Color, offset: Offset, scale: Float) {
 private fun CenterGlowLayer(state: OrbitalState, darkTheme: Boolean) {
     val glowColor = if (darkTheme) VoidGlowDark else VoidGlowLight
 
-    val reactiveIntensity by animateFloatAsState(
+    val reactiveIntensity = animateFloatAsState(
         targetValue = 1f + (state.normalizedRotationSpeed * 0.5f),
         animationSpec = spring(stiffness = Spring.StiffnessLow),
         label = "GlowReaction"
@@ -145,7 +151,11 @@ private fun CenterGlowLayer(state: OrbitalState, darkTheme: Boolean) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .graphicsLayer { scaleX = reactiveIntensity; scaleY = reactiveIntensity }
+            .graphicsLayer {
+                val scale = reactiveIntensity.value
+                scaleX = scale
+                scaleY = scale
+            }
             .drawWithCache {
                 val brush = Brush.radialGradient(
                     colors = listOf(glowColor, Color.Transparent),

@@ -2,9 +2,6 @@ package com.felipimatheuz.primehunt.core
 
 import android.content.Context
 import androidx.room.Room
-import com.felipimatheuz.primehunt.data.local.dao.GoalDao
-import com.felipimatheuz.primehunt.data.local.dao.GoalTagDao
-import com.felipimatheuz.primehunt.data.local.dao.InventoryDao
 import com.felipimatheuz.primehunt.data.local.AppDatabase
 import com.felipimatheuz.primehunt.data.local.dao.*
 import dagger.Module
@@ -29,32 +26,42 @@ object DatabaseModule {
     }
 
     @Provides
+    @Singleton
     fun provideRelicDao(db: AppDatabase): RelicDao = db.relicDao()
 
     @Provides
+    @Singleton
     fun provideManifestDao(db: AppDatabase): ManifestDao = db.manifestDao()
 
     @Provides
+    @Singleton
     fun providePrimeSetDao(db: AppDatabase): PrimeSetDao = db.primeSetDao()
 
     @Provides
+    @Singleton
     fun providePrimePartDao(db: AppDatabase): PrimePartDao = db.primePartDao()
 
     @Provides
+    @Singleton
     fun providePrimeComponentDao(db: AppDatabase): PrimeComponentDao = db.primeComponentDao()
 
     @Provides
+    @Singleton
     fun providePrimeCollectionDao(db: AppDatabase): PrimeCollectionDao = db.primeCollectionDao()
 
     @Provides
+    @Singleton
     fun providePrimeCollectionSetDao(db: AppDatabase): PrimeCollectionSetDao = db.primeCollectionSetDao()
 
     @Provides
+    @Singleton
     fun provideInventoryDao(db: AppDatabase): InventoryDao = db.inventoryDao()
 
     @Provides
+    @Singleton
     fun provideGoalDao(db: AppDatabase): GoalDao = db.goalDao()
 
     @Provides
+    @Singleton
     fun provideGoalTagDao(db: AppDatabase): GoalTagDao = db.goalTagDao()
 }

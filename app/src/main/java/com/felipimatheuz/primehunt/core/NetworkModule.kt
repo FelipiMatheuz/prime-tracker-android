@@ -17,11 +17,16 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(): Retrofit {
-        val json = Json {
+    fun provideJson(): Json {
+        return Json {
             ignoreUnknownKeys = true
             coerceInputValues = true
         }
+    }
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(json: Json): Retrofit {
         val contentType = "application/json".toMediaType()
         return Retrofit.Builder()
             .baseUrl("https://raw.githubusercontent.com/FelipiMatheuz/WPH/main/data/")

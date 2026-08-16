@@ -1,7 +1,6 @@
 package com.felipimatheuz.primehunt.ui.screen.splash
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,11 +21,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.felipimatheuz.primehunt.R
+import com.felipimatheuz.primehunt.domain.model.SyncEvent
 import com.felipimatheuz.primehunt.ui.screen.splash.components.CephalonAnimation
 import com.felipimatheuz.primehunt.ui.screen.splash.components.TextSyncAnimation
 import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
 import com.felipimatheuz.primehunt.ui.viewmodel.splash.SplashViewModel
-import com.felipimatheuz.primehunt.domain.model.SyncEvent
 
 @Composable
 fun SplashScreen(onReady: () -> Unit, viewModel: SplashViewModel = hiltViewModel()) {
@@ -37,8 +36,7 @@ fun SplashScreen(onReady: () -> Unit, viewModel: SplashViewModel = hiltViewModel
 @Composable
 fun SplashContent(syncEvent: SyncEvent, onStart: () -> Unit, onReady: () -> Unit) {
 
-    Box(modifier = Modifier.fillMaxSize()
-        .background(color = MaterialTheme.colorScheme.background)) {
+    Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier.align(Alignment.Center),
             horizontalAlignment = Alignment.CenterHorizontally,
