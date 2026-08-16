@@ -80,7 +80,7 @@ The application is designed around:
   - ViewModel
   - Kotlin Flow & Coroutines
   - Room
-  - Glide (image loading)
+  - Coil 3 (image loading)
   - Firebase (Auth, Firestore)
   - Material3 Components
   - Retrofit2 (API calls)
