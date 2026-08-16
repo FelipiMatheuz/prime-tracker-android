@@ -33,9 +33,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
-import com.bumptech.glide.integration.compose.GlideImage
-import com.bumptech.glide.integration.compose.placeholder
+import coil3.compose.AsyncImage
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.domain.model.enums.RelicSource
 import com.felipimatheuz.primehunt.domain.model.PrimeSetDomain
@@ -46,7 +44,6 @@ import com.felipimatheuz.primehunt.ui.theme.Completed
 import com.felipimatheuz.primehunt.ui.theme.InProgress
 import com.felipimatheuz.primehunt.ui.theme.NotStarted
 
-@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun PrimeSetCard(
     primeSet: PrimeSetDomain,
@@ -77,12 +74,12 @@ fun PrimeSetCard(
                     .background(MaterialTheme.colorScheme.surface)
                     .border(2.dp, NotStarted, RoundedCornerShape(8.dp, 0.dp, 0.dp, 8.dp))
             ) {
-                GlideImage(
+                AsyncImage(
                     model = primeSet.imageUrl,
                     contentDescription = null,
                     contentScale = ContentScale.Fit,
-                    loading = placeholder(R.drawable.ic_orokin),
-                    failure = placeholder(R.drawable.ic_orokin),
+                    placeholder = painterResource(R.drawable.ic_orokin),
+                    error = painterResource(R.drawable.ic_orokin),
                     modifier = Modifier.fillMaxSize()
                 )
             }

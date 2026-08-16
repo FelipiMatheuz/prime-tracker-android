@@ -31,9 +31,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
-import com.bumptech.glide.integration.compose.GlideImage
-import com.bumptech.glide.integration.compose.placeholder
+import coil3.compose.AsyncImage
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.domain.model.enums.PrimePartType
 import com.felipimatheuz.primehunt.domain.model.PrimePartDomain
@@ -42,7 +40,7 @@ import com.felipimatheuz.primehunt.ui.modifier.PressIntensity
 import com.felipimatheuz.primehunt.ui.modifier.pressScale
 import com.felipimatheuz.primehunt.ui.theme.getColor
 
-@OptIn(ExperimentalLayoutApi::class, ExperimentalGlideComposeApi::class)
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun DetailComponentItem(
     part: PrimePartDomain,
@@ -73,12 +71,12 @@ fun DetailComponentItem(
             contentAlignment = Alignment.Center
         ) {
             if (isSet && part.imageUrl != null) {
-                GlideImage(
+                AsyncImage(
                     model = part.imageUrl,
                     contentDescription = null,
                     contentScale = ContentScale.Fit,
-                    loading = placeholder(R.drawable.ic_orokin),
-                    failure = placeholder(R.drawable.ic_orokin),
+                    placeholder = painterResource(R.drawable.ic_orokin),
+                    error = painterResource(R.drawable.ic_orokin),
                     modifier = Modifier.fillMaxSize()
                 )
             } else {

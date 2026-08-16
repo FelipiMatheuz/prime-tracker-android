@@ -15,8 +15,8 @@ android {
         applicationId = "com.felipimatheuz.primehunt"
         minSdk = 27
         targetSdk = 37
-        versionCode = 34
-        versionName = "4.0.3"
+        versionCode = 35
+        versionName = "4.0.4"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -83,6 +83,10 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.converter.kotlinx.serialization)
 
+    //coil
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
+
     //androidX
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -94,7 +98,6 @@ dependencies {
 
     //compose
     implementation(libs.bundles.compose)
-    implementation(libs.compose)
     implementation(libs.material)
     implementation(libs.androidx.navigationthree.runtime)
     implementation(libs.androidx.navigationthree.ui)
