@@ -51,7 +51,7 @@ class CloudViewModel @Inject constructor(
         _state.update {
             it.copy(
                 isAuthenticated = user != null,
-                userEmail = user?.userId,
+                userEmail = user?.email,
                 userName = user?.name
             )
         }
@@ -104,7 +104,7 @@ class CloudViewModel @Inject constructor(
             it.copy(
                 isLoading = false,
                 isAuthenticated = user != null,
-                userEmail = user?.userId,
+                userEmail = user?.email,
                 userName = user?.name,
                 actionResult = if (user != null) CloudActionResult.SuccessSignIn 
                               else CloudActionResult.Error(result.errorMessage ?: "")
@@ -207,23 +207,6 @@ class CloudViewModel @Inject constructor(
         viewModelScope.launch {
             delay(3.seconds)
             resetResult()
-        }
-    }
-
-    fun getPromptMessage(
-        result: CloudActionResult,
-        onSuccess: () -> Unit,
-        onError: () -> Unit
-    ): String {
-        return when (result) {
-            CloudActionResult.SuccessSignIn -> { onSuccess(); "Sign In Successful" }
-            CloudActionResult.SuccessSignOut -> { onSuccess(); "Sign Out Successful" }
-            CloudActionResult.SuccessBackupUpload -> { onSuccess(); "Backup uploaded successfully" }
-            CloudActionResult.SuccessBackupDownload -> { onSuccess(); "Data restored successfully" }
-            CloudActionResult.SuccessMigration -> { onSuccess(); "Migration completed" }
-            CloudActionResult.SuccessClearData -> { onSuccess(); "Cloud data deleted" }
-            is CloudActionResult.Error -> { onError(); result.message }
-            CloudActionResult.None -> ""
         }
     }
 }

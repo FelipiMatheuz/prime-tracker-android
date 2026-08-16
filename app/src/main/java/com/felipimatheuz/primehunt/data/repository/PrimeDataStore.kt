@@ -1,7 +1,7 @@
 package com.felipimatheuz.primehunt.data.repository
 
 import com.felipimatheuz.primehunt.data.local.dao.*
-import com.felipimatheuz.primehunt.domain.model.PrimeBaseData
+import com.felipimatheuz.primehunt.data.model.PrimeBaseData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob

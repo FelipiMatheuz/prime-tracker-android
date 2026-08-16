@@ -1,4 +1,4 @@
-package com.felipimatheuz.primehunt.domain.mapper
+package com.felipimatheuz.primehunt.domain.util
 
 import javax.inject.Inject
 import javax.inject.Singleton

@@ -6,10 +6,10 @@ import com.felipimatheuz.primehunt.domain.model.enums.RelicsView
 import com.felipimatheuz.primehunt.domain.model.enums.RelicEra
 import com.felipimatheuz.primehunt.domain.model.prefs.RelicUiPrefs
 import com.felipimatheuz.primehunt.domain.model.enums.RelicSource
+import com.felipimatheuz.primehunt.domain.repository.RelicRepository
 import com.felipimatheuz.primehunt.domain.repository.UiPreferencesRepository
 import com.felipimatheuz.primehunt.domain.model.RelicDomain
 import com.felipimatheuz.primehunt.domain.model.matches
-import com.felipimatheuz.primehunt.domain.usecase.relic.GetRelicsUseCase
 import com.felipimatheuz.primehunt.ui.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -29,7 +29,7 @@ import kotlin.time.Duration.Companion.milliseconds
 
 @HiltViewModel
 class RelicViewModel @Inject constructor(
-    getRelicsUseCase: GetRelicsUseCase,
+    relicRepository: RelicRepository,
     private val uiPreferencesRepository: UiPreferencesRepository
 ) : ViewModel(), MviViewModel<RelicState, RelicIntent> {
 
@@ -52,7 +52,7 @@ class RelicViewModel @Inject constructor(
 
     @OptIn(FlowPreview::class)
     override val state: StateFlow<RelicState> = combine(
-        getRelicsUseCase().distinctUntilChanged(),
+        relicRepository.observeAllRelics().distinctUntilChanged(),
         _searchText.debounce(300.milliseconds).distinctUntilChanged(),
         _filters,
         _selectedView

@@ -16,9 +16,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -33,6 +30,7 @@ import com.felipimatheuz.primehunt.ui.screen.cloud.components.DangerZoneCard
 import com.felipimatheuz.primehunt.ui.screen.cloud.components.DiagnosticsCard
 import com.felipimatheuz.primehunt.ui.screen.cloud.components.LegacyMigrationCard
 import com.felipimatheuz.primehunt.ui.theme.InProgress
+import com.felipimatheuz.primehunt.ui.viewmodel.cloud.CloudActionResult
 import com.felipimatheuz.primehunt.ui.viewmodel.cloud.CloudIntent
 import com.felipimatheuz.primehunt.ui.viewmodel.cloud.CloudSideEffect
 import com.felipimatheuz.primehunt.ui.viewmodel.cloud.CloudViewModel
@@ -45,13 +43,19 @@ fun CloudScreen(
 ) {
     val state by viewModel.state.collectAsState()
     val context = LocalContext.current
-    var isError by remember { mutableStateOf(false) }
 
-    val message = viewModel.getPromptMessage(
-        state.actionResult,
-        onSuccess = { isError = false },
-        onError = { isError = true }
-    )
+    val message = when (val result = state.actionResult) {
+        CloudActionResult.SuccessSignIn -> stringResource(R.string.cloud_success_sign_in)
+        CloudActionResult.SuccessSignOut -> stringResource(R.string.cloud_success_sign_out)
+        CloudActionResult.SuccessBackupUpload -> stringResource(R.string.cloud_success_upload)
+        CloudActionResult.SuccessBackupDownload -> stringResource(R.string.cloud_success_download)
+        CloudActionResult.SuccessMigration -> stringResource(R.string.cloud_success_migration)
+        CloudActionResult.SuccessClearData -> stringResource(R.string.cloud_success_clear)
+        is CloudActionResult.Error -> stringResource(R.string.cloud_error_generic, result.message)
+        CloudActionResult.None -> ""
+    }
+
+    val isError = state.actionResult is CloudActionResult.Error
 
     val sendLogsText = stringResource(R.string.cloud_log_debug)
 

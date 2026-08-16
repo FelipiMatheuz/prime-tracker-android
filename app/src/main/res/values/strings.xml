@@ -223,6 +223,13 @@
     <string name="cloud_danger_zone_description">This action cannot be undone.</string>
     <string name="cloud_danger_zone_delete">Delete</string>
     <string name="cloud_danger_zone_cancel">Cancel</string>
+    <string name="cloud_success_sign_in">Sign In Successful</string>
+    <string name="cloud_success_sign_out">Sign Out Successful</string>
+    <string name="cloud_success_upload">Backup uploaded successfully</string>
+    <string name="cloud_success_download">Data restored successfully</string>
+    <string name="cloud_success_migration">Migration completed</string>
+    <string name="cloud_success_clear">Cloud data deleted</string>
+    <string name="cloud_error_generic">An error occurred: %1$s</string>
 
     <!-- Settings -->
     <string name="settings_wallpaper_title">Wallpaper</string>

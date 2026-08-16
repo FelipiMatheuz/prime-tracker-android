@@ -12,9 +12,9 @@ import com.felipimatheuz.primehunt.domain.model.enums.GoalIcons
 import com.felipimatheuz.primehunt.domain.model.enums.GoalStatus
 import com.felipimatheuz.primehunt.domain.model.enums.GoalTargetType
 import com.felipimatheuz.primehunt.domain.model.enums.PrimePartType
-import com.felipimatheuz.primehunt.domain.mapper.LegacyMigrationParser
+import com.felipimatheuz.primehunt.domain.util.LegacyMigrationParser
 import com.felipimatheuz.primehunt.domain.repository.CloudRepository
-import com.felipimatheuz.primehunt.domain.repository.PrimeRepository
+import com.felipimatheuz.primehunt.domain.repository.InventoryRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -26,7 +26,7 @@ class CloudRepositoryImpl @Inject constructor(
     private val inventoryDao: InventoryDao,
     private val goalDao: GoalDao,
     private val tagDao: GoalTagDao,
-    private val primeRepository: PrimeRepository,
+    private val inventoryRepository: InventoryRepository,
     private val parser: LegacyMigrationParser
 ) : CloudRepository {
 
@@ -43,14 +43,15 @@ class CloudRepositoryImpl @Inject constructor(
         val matchedLegacyKeys = mutableSetOf<String>()
 
         val totalInserted = database.withTransaction {
-            val allParts = primeRepository.getAllPartsSync()
-            val allSets = primeRepository.getAllSetsSync()
-            val setMap = allSets.associateBy { it.id }
+            val allParts = inventoryRepository.getAllPartsSync()
+            val allSets = inventoryRepository.getAllSetsSync()
+            
+            val normalizedNamesCache = allSets.associate { it.id to parser.normalizeNewName(it.name) }
 
             val inventoryToInsert = mutableListOf<InventoryPartEntity>()
 
             allSets.forEach { set ->
-                val normalizedSetName = parser.normalizeNewName(set.name)
+                val normalizedSetName = normalizedNamesCache[set.id] ?: return@forEach
                 val legacyKey = "${normalizedSetName}_BLUEPRINT"
                 legacyData[legacyKey]?.let { qty ->
                     inventoryToInsert.add(InventoryPartEntity(set.id, qty))
@@ -59,8 +60,7 @@ class CloudRepositoryImpl @Inject constructor(
             }
 
             allParts.forEach { part ->
-                val set = setMap[part.primeSetId] ?: return@forEach
-                val normalizedSetName = parser.normalizeNewName(set.name)
+                val normalizedSetName = normalizedNamesCache[part.primeSetId] ?: return@forEach
 
                 val legacyKey = "${normalizedSetName}_${part.part.name}"
                 legacyData[legacyKey]?.let { qty ->
@@ -72,7 +72,7 @@ class CloudRepositoryImpl @Inject constructor(
                     val nestedLegacyKey = "${normalizedSetName}_${parser.normalizePrimeSetId(part.id)}"
                     legacyData[nestedLegacyKey]?.let { qty ->
                         inventoryToInsert.add(InventoryPartEntity(part.id, qty))
-                        val subParts = primeRepository.getPartsBySetSync(part.id)
+                        val subParts = inventoryRepository.getPartsBySetSync(part.id)
                         subParts.forEach { sub ->
                             inventoryToInsert.add(InventoryPartEntity(sub.id, qty))
                         }

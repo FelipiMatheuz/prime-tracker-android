@@ -4,7 +4,6 @@ import com.felipimatheuz.primehunt.domain.model.enums.GoalStatus
 import com.felipimatheuz.primehunt.domain.model.enums.PrimeType
 import com.felipimatheuz.primehunt.domain.model.*
 import com.felipimatheuz.primehunt.domain.repository.*
-import com.felipimatheuz.primehunt.domain.usecase.primeset.GetPrimeSetsUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -13,12 +12,12 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class GetOverviewUseCase @Inject constructor(
-    private val getPrimeSetsUseCase: GetPrimeSetsUseCase,
+    private val primeRepository: PrimeRepository,
     private val overviewRepository: OverviewRepository
 ) {
 
     operator fun invoke(): Flow<OverviewDomainModel> {
-        val setsFlow = getPrimeSetsUseCase.observeAllSets().distinctUntilChanged()
+        val setsFlow = primeRepository.observeAllSets().distinctUntilChanged()
 
         val primeSetsDomainFlow = setsFlow
             .map { calculatePrimeSetsDomain(it) }

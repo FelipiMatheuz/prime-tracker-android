@@ -1,12 +1,12 @@
 package com.felipimatheuz.primehunt.data.repository
 
 import com.felipimatheuz.primehunt.data.local.dao.*
-import com.felipimatheuz.primehunt.domain.model.enums.RelicSource
-import com.felipimatheuz.primehunt.domain.mapper.PrimeMapper
-import com.felipimatheuz.primehunt.domain.mapper.RelicMapper
+import com.felipimatheuz.primehunt.data.mapper.PrimeMapper
+import com.felipimatheuz.primehunt.data.mapper.RelicMapper
 import com.felipimatheuz.primehunt.domain.model.PrimeCollection
 import com.felipimatheuz.primehunt.domain.model.PrimeSetDomain
 import com.felipimatheuz.primehunt.domain.model.RelicDomain
+import com.felipimatheuz.primehunt.domain.model.enums.RelicSource
 import com.felipimatheuz.primehunt.domain.repository.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -24,7 +24,7 @@ class PrimeRepositoryImpl @Inject constructor(
     private val partDao: PrimePartDao,
     private val setDao: PrimeSetDao,
     private val componentDao: PrimeComponentDao
-) : PrimeRepository {
+) : PrimeRepository, InventoryRepository, RelicRepository {
 
     override fun observeAllSets(): Flow<List<PrimeSetDomain>> = combine(
         primeDataStore.baseData.distinctUntilChanged(),
@@ -35,16 +35,15 @@ class PrimeRepositoryImpl @Inject constructor(
     }
 
     override fun observeCollections(): Flow<List<PrimeCollection>> = combine(
-        collectionDao.getAll().distinctUntilChanged(),
-        collectionSetDao.getAll().distinctUntilChanged(),
+        collectionDao.getAllWithSets().distinctUntilChanged(),
         observeAllSets()
-    ) { collections, relations, allSets ->
-        collections.map { coll ->
-            val setIds = relations.filter { it.collectionId == coll.id }.map { it.primeSetId }
+    ) { collectionsWithSets, allSets ->
+        collectionsWithSets.map { collWithSets ->
+            val setIds = collWithSets.sets.map { it.id }.toSet()
             PrimeCollection(
-                id = coll.id,
-                name = coll.name,
-                promoImage = coll.promoImage,
+                id = collWithSets.collection.id,
+                name = collWithSets.collection.name,
+                promoImage = collWithSets.collection.promoImage,
                 sets = allSets.filter { it.id in setIds }
             )
         }

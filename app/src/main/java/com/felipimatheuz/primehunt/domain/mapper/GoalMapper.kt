@@ -1,6 +1,6 @@
 package com.felipimatheuz.primehunt.domain.mapper
 
-import com.felipimatheuz.primehunt.domain.model.PrimeBaseData
+import com.felipimatheuz.primehunt.data.model.PrimeBaseData
 import com.felipimatheuz.primehunt.domain.model.GoalDomain
 import com.felipimatheuz.primehunt.domain.model.GoalTagDomain
 import com.felipimatheuz.primehunt.domain.model.enums.GoalTargetType

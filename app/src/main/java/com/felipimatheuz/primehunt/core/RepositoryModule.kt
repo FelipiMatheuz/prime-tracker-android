@@ -20,6 +20,18 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
+    abstract fun bindInventoryRepository(
+        primeRepositoryImpl: PrimeRepositoryImpl
+    ): InventoryRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindRelicRepository(
+        primeRepositoryImpl: PrimeRepositoryImpl
+    ): RelicRepository
+
+    @Binds
+    @Singleton
     abstract fun bindOverviewRepository(
         overviewRepositoryImpl: OverviewRepositoryImpl
     ): OverviewRepository

@@ -6,8 +6,8 @@ import com.felipimatheuz.primehunt.domain.model.enums.PrimeSetView
 import com.felipimatheuz.primehunt.domain.model.enums.PrimeType
 import com.felipimatheuz.primehunt.domain.model.matches
 import com.felipimatheuz.primehunt.domain.model.prefs.PrimeSetUiPrefs
+import com.felipimatheuz.primehunt.domain.repository.PrimeRepository
 import com.felipimatheuz.primehunt.domain.repository.UiPreferencesRepository
-import com.felipimatheuz.primehunt.domain.usecase.primeset.GetPrimeSetsUseCase
 import com.felipimatheuz.primehunt.ui.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -27,7 +27,7 @@ import kotlin.time.Duration.Companion.milliseconds
 
 @HiltViewModel
 class PrimeSetViewModel @Inject constructor(
-    getPrimeSetsUseCase: GetPrimeSetsUseCase,
+    primeRepository: PrimeRepository,
     private val uiPreferencesRepository: UiPreferencesRepository
 ) : ViewModel(), MviViewModel<PrimeSetState, PrimeSetIntent> {
 
@@ -50,10 +50,10 @@ class PrimeSetViewModel @Inject constructor(
 
     @OptIn(FlowPreview::class)
     override val state: StateFlow<PrimeSetState> = combine(
-        getPrimeSetsUseCase.observeAllSets(),
+        primeRepository.observeAllSets(),
         combine(
-            getPrimeSetsUseCase.observeCollections(),
-            getPrimeSetsUseCase.observeWithoutCollection()
+            primeRepository.observeCollections(),
+            primeRepository.observeWithoutCollection()
         ) { colls, without ->
             if (without.sets.isNotEmpty()) colls + without else colls
         },

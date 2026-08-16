@@ -14,6 +14,7 @@ import javax.inject.Singleton
 @Singleton
 class OverviewRepositoryImpl @Inject constructor(
     private val primeRepository: PrimeRepository,
+    private val relicRepository: RelicRepository,
     private val goalRepository: GoalRepository,
     private val manifestDao: ManifestDao
 ) : OverviewRepository {
@@ -22,7 +23,7 @@ class OverviewRepositoryImpl @Inject constructor(
         DatabaseSummary(it.collections, it.sets, it.parts, it.relics)
     }
 
-    override fun getRelicSummary(): Flow<RelicSummary> = primeRepository.getRelicCounts().map {
+    override fun getRelicSummary(): Flow<RelicSummary> = relicRepository.getRelicCounts().map {
         RelicSummary(it.available, it.vaulted, it.resurgence, it.baro)
     }
 
