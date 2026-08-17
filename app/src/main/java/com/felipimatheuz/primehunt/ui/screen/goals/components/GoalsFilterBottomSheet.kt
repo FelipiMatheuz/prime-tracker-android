@@ -124,7 +124,7 @@ fun GoalsFilterBottomSheet(
                             leadingIcon = {
                                 Icon(
                                     painter = painterResource(tag.icon.icon),
-                                    contentDescription = null,
+                                    contentDescription = tag.icon.name,
                                     modifier = Modifier.size(16.dp),
                                     tint = if (filters.categoryIds.contains(tag.id)) LocalContentColor.current else Color(
                                         tag.color

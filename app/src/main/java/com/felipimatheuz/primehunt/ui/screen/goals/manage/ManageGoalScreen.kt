@@ -211,7 +211,7 @@ fun ManageGoalContent(
                     ) {
                         Icon(
                             painterResource(R.drawable.ic_check),
-                            contentDescription = null,
+                            contentDescription = stringResource(R.string.check_description),
                             modifier = Modifier.size(18.dp)
                         )
                         Spacer(Modifier.width(8.dp))
@@ -246,7 +246,7 @@ fun ManageGoalContent(
                     ) {
                         Icon(
                             painterResource(R.drawable.ic_delete),
-                            contentDescription = null,
+                            contentDescription = stringResource(R.string.delete_description),
                             modifier = Modifier.size(18.dp)
                         )
                         Spacer(Modifier.width(8.dp))

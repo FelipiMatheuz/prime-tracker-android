@@ -211,7 +211,7 @@ fun GoalsContent(
             ) {
                 Icon(
                     painter = painterResource(R.drawable.ic_plus),
-                    contentDescription = null,
+                    contentDescription = stringResource(R.string.plus_description),
                     modifier = Modifier.size(24.dp)
                 )
             }

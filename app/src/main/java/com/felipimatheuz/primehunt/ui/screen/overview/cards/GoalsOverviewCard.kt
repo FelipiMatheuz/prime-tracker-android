@@ -84,7 +84,10 @@ private fun GoalStat(status: GoalStatus, value: String) {
 
         Icon(
             painter = painterResource(icon),
-            contentDescription = null,
+            contentDescription = stringResource(
+                if (status == GoalStatus.COMPLETED) R.string.overview_sets_completed_label
+                else R.string.overview_sets_in_progress
+            ),
             tint = color,
             modifier = Modifier.size(24.dp)
         )

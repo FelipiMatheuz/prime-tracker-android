@@ -7,6 +7,15 @@
     <string name="no_data_dash">-</string>
     <string name="error_no_browser">No web browser found to open link.</string>
     <string name="error_no_email_app">No email app found.</string>
+    <string name="generic_icon_description">%1$s Icon</string>
+    <string name="generic_image_description">%1$s Image</string>
+    <string name="generic_collection_description">Promo image of %1$s</string>
+    <string name="expand_collapse_icon">Expand/Collapse Icon</string>
+    <string name="search_description">Search Icon</string>
+    <string name="check_description">Check Icon</string>
+    <string name="delete_description">Filter Icon</string>
+    <string name="plus_description">Plus Icon</string>
+    <string name="minus_description">Minus Icon</string>
 
     <!-- Navigation -->
     <string name="menu_button_description">Quick Menu</string>
@@ -19,10 +28,11 @@
     <string name="menu_cloud">Data Transfer</string>
     <string name="menu_section_features">FEATURES</string>
     <string name="menu_section_application">APPLICATION</string>
+    <string name="menu_logo_description">Prime Tracker Logo</string>
+
 
     <!-- Splash & Sync -->
     <string name="by_owner">by Cyberman Studios</string>
-    <string name="logo" translatable="false">Image Logo</string>
     <string name="starting_sync">Starting synchronization…</string>
     <string name="check_manifest">Checking updates…</string>
     <string name="downloading_content">Updating %1$s content…</string>
@@ -36,6 +46,7 @@
     <string name="etl_file_relics">relics</string>
     <string name="etl_file_prime_sets">prime sets</string>
     <string name="etl_file_prime_collections">prime collections</string>
+    <string name="splash_cephalon_ehiza_description" translatable="false">Cephalon Ehiza</string>
 
     <!-- Overview -->
     <string name="overview_database">Database</string>
@@ -75,6 +86,9 @@
     <string name="status_vault">Vaulted</string>
     <string name="status_baro">Baro (Trader)</string>
     <string name="status_resurgence">Varzia (Resurgence)</string>
+    <string name="mastery_image_description">Mastery Rank Icon</string>
+    <string name="dependency_image_description">This set has dependencies</string>
+
 
     <!-- Prime Detail -->
     <string name="detail_pieces_owned_template">%1$d / %2$d Pieces Owned</string>
@@ -82,6 +96,7 @@
     <string name="detail_action_remove_set">-1 Set</string>
     <string name="error_detail_load_set" translatable="false">Excalibur Prime</string>
     <string name="error_detail_load_info">Prime data unavailable.\n(I hope you not to try farm Excalibur Prime)</string>
+    <string name="error_detail_load_image_description">Concept art image of Excalibur Prime</string>
 
     <!-- Components -->
     <string name="comp_blueprint">Blueprint</string>
@@ -137,6 +152,9 @@
     <string name="relic_group_events">Events (Resurgence / Baro)</string>
     <string name="relic_group_missing_4_plus">Missing 4+</string>
     <string name="relic_group_missing_1_3">Missing 1–3</string>
+    <string name="relic_contains_forma">Contains Forma</string>
+    <string name="relic_tracked_description">Tracked Icon</string>
+    <string name="relic_era_icon_description">Relic Icon</string>
 
     <!-- Goals -->
     <string name="goals_search_label">Search goals, targets or tags…</string>
@@ -179,6 +197,7 @@
     <string name="tag_select_icon">Select Icon</string>
     <string name="tag_select_color">Select Color</string>
     <string name="goals_most_used_tag">Main Tag</string>
+    <string name="tag_custom_image_description">Custom Tag Icon</string>
 
     <!-- Filters -->
     <string name="filter">Filter</string>
@@ -230,6 +249,7 @@
     <string name="cloud_success_migration">Migration completed</string>
     <string name="cloud_success_clear">Cloud data deleted</string>
     <string name="cloud_error_generic">An error occurred: %1$s</string>
+    <string name="cloud_google_logo_description">Google Logo</string>
 
     <!-- Settings -->
     <string name="settings_wallpaper_title">Wallpaper</string>
@@ -302,4 +322,5 @@
     <string name="about_bug_report_url">https://github.com/FelipiMatheuz/prime-tracker-android/issues</string>
     <string name="about_contact_email">cyberman.studios@gmail.com</string>
     <string name="about_play_store_url">https://play.google.com/store/apps/details?id=com.felipimatheuz.primehunt</string>
+    <string name="about_developer_logo_description">Cyberman Studios Logo</string>
 </resources>

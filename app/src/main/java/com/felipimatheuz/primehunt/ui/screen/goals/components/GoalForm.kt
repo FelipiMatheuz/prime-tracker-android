@@ -127,7 +127,7 @@ fun GoalForm(
                                     Row(verticalAlignment = Alignment.CenterVertically) {
                                         Icon(
                                             painter = painterResource(type.icon),
-                                            contentDescription = null,
+                                            contentDescription = type.name,
                                             modifier = Modifier.size(18.dp)
                                         )
                                         Spacer(modifier = Modifier.width(8.dp))
@@ -236,7 +236,7 @@ fun GoalForm(
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 Icon(
                                     painter = painterResource(R.drawable.ic_plus),
-                                    contentDescription = null,
+                                    contentDescription = stringResource(R.string.plus_description),
                                     modifier = Modifier.size(18.dp)
                                 )
                                 Spacer(modifier = Modifier.width(8.dp))
@@ -294,7 +294,7 @@ fun GoalForm(
                     ) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_down_arrow),
-                            contentDescription = "Minus",
+                            contentDescription = stringResource(R.string.minus_description),
                             modifier = Modifier.size(16.dp)
                         )
                     }
@@ -324,7 +324,7 @@ fun GoalForm(
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.ic_up_arrow),
-                            contentDescription = "Add",
+                            contentDescription = stringResource(R.string.plus_description),
                             modifier = Modifier.size(16.dp)
                         )
                     }

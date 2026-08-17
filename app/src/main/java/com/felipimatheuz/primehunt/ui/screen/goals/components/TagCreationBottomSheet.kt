@@ -76,7 +76,7 @@ fun TagCreationBottomSheet(
                 ) {
                     Icon(
                         painter = painterResource(selectedIcon.icon),
-                        contentDescription = null,
+                        contentDescription = selectedIcon.name,
                         modifier = Modifier.size(32.dp)
                     )
                 }

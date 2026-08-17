@@ -61,7 +61,7 @@ fun SplashContent(syncEvent: SyncEvent, onStart: () -> Unit, onReady: () -> Unit
             )
             Image(
                 painterResource(R.drawable.cs_logo),
-                contentDescription = stringResource(R.string.logo)
+                contentDescription = stringResource(R.string.about_developer_logo_description)
             )
         }
     }

@@ -162,7 +162,7 @@ fun CollectionCard(
                     ) {
                         AsyncImage(
                             model = collection.promoImage,
-                            contentDescription = null,
+                            contentDescription = stringResource(R.string.generic_collection_description, collection.name),
                             contentScale = ContentScale.Crop,
                             placeholder = painterResource(R.drawable.ic_orokin),
                             error = painterResource(R.drawable.ic_orokin),
@@ -195,7 +195,7 @@ fun CollectionCard(
 
                 Icon(
                     painterResource(R.drawable.ic_show_hide),
-                    contentDescription = null,
+                    contentDescription = stringResource(R.string.expand_collapse_icon),
                     modifier = Modifier.rotate(rotation)
                 )
             }

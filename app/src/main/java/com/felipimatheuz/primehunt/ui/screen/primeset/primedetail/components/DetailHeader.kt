@@ -48,7 +48,7 @@ fun DetailHeader(primeSet: PrimeSetDomain) {
         PrimePanel(modifier = Modifier.size(200.dp)) {
             AsyncImage(
                 model = primeSet.imageUrl,
-                contentDescription = null,
+                contentDescription = stringResource(R.string.generic_image_description, primeSet.name),
                 contentScale = ContentScale.Fit,
                 placeholder = painterResource(R.drawable.ic_orokin),
                 error = painterResource(R.drawable.ic_orokin),
@@ -108,7 +108,7 @@ fun DetailHeader(primeSet: PrimeSetDomain) {
             AnimatedVisibility(targetColor == Completed) {
                 Image(
                     painter = painterResource(id = R.drawable.mastery_rank),
-                    contentDescription = null,
+                    contentDescription = stringResource(R.string.mastery_image_description),
                     modifier = Modifier.size(24.dp)
                 )
             }

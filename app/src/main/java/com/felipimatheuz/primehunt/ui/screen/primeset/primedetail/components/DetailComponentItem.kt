@@ -73,7 +73,10 @@ fun DetailComponentItem(
             if (isSet && part.imageUrl != null) {
                 AsyncImage(
                     model = part.imageUrl,
-                    contentDescription = null,
+                    contentDescription = stringResource(
+                        R.string.generic_icon_description,
+                        stringResource(part.name.text)
+                    ),
                     contentScale = ContentScale.Fit,
                     placeholder = painterResource(R.drawable.ic_orokin),
                     error = painterResource(R.drawable.ic_orokin),
@@ -84,7 +87,7 @@ fun DetailComponentItem(
                     if (isSet) R.drawable.ic_prime else if (isArchwingSystems) R.drawable.prime_circuit else part.name.icon
                 Image(
                     painter = painterResource(id = imgIconRes),
-                    contentDescription = null,
+                    contentDescription = stringResource(R.string.generic_icon_description, stringResource(part.name.text)),
                     modifier = Modifier.size(if (isSet) 40.dp else 32.dp)
                 )
             }
@@ -139,7 +142,7 @@ fun DetailComponentItem(
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_down_arrow),
-                        contentDescription = "Minus",
+                        contentDescription = stringResource(R.string.minus_description),
                         modifier = Modifier
                             .size(16.dp)
                             .pressScale(downButtonInteraction, PressIntensity.MODERATE)
@@ -160,7 +163,7 @@ fun DetailComponentItem(
                 ) {
                     Icon(
                         painterResource(R.drawable.ic_up_arrow),
-                        contentDescription = "Add",
+                        contentDescription = stringResource(R.string.plus_description),
                         modifier = Modifier
                             .size(16.dp)
                             .pressScale(upButtonInteraction, PressIntensity.MODERATE)

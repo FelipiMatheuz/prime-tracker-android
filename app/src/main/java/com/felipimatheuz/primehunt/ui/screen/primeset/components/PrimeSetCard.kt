@@ -76,7 +76,7 @@ fun PrimeSetCard(
             ) {
                 AsyncImage(
                     model = primeSet.imageUrl,
-                    contentDescription = null,
+                    contentDescription = stringResource(R.string.generic_image_description, primeSet.name),
                     contentScale = ContentScale.Fit,
                     placeholder = painterResource(R.drawable.ic_orokin),
                     error = painterResource(R.drawable.ic_orokin),
@@ -98,7 +98,7 @@ fun PrimeSetCard(
                         Spacer(modifier = Modifier.width(8.dp))
                         Image(
                             painter = painterResource(R.drawable.ic_nested),
-                            contentDescription = "Dependency",
+                            contentDescription = stringResource(R.string.dependency_image_description),
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary),
                             modifier = Modifier.size(16.dp)
                         )
@@ -144,7 +144,7 @@ fun PrimeSetCard(
                 AnimatedVisibility(textColor == Completed) {
                     Image(
                         painter = painterResource(id = R.drawable.mastery_rank),
-                        contentDescription = null,
+                        contentDescription = stringResource(R.string.mastery_image_description),
                         modifier = Modifier.size(16.dp)
                     )
                 }

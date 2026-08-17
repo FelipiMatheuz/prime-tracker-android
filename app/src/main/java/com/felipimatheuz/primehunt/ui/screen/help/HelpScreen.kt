@@ -139,7 +139,7 @@ private fun HelpSectionItem(section: HelpSection) {
             section.icon?.let {
                 Icon(
                     painter = painterResource(id = section.icon),
-                    contentDescription = null,
+                    contentDescription = stringResource(R.string.generic_icon_description, stringResource(section.title)),
                     tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.size(24.dp)
                 )
@@ -232,7 +232,7 @@ private fun FaqSectionItem(items: List<FaqItem>) {
                     val rotation by animateFloatAsState(if (isExpanded) 180f else 0f, label = "arrowRotation")
                     Icon(
                         painter = painterResource(id = R.drawable.ic_show_hide),
-                        contentDescription = null,
+                        contentDescription = stringResource(R.string.expand_collapse_icon),
                         tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.rotate(rotation)
                     )

@@ -33,10 +33,12 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.zIndex
+import com.felipimatheuz.primehunt.R
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.milliseconds
@@ -193,7 +195,7 @@ fun AnimatedRelicDialog(
 
                 Image(
                     painter = painterResource(relicEraIcon),
-                    contentDescription = null,
+                    contentDescription = stringResource(R.string.relic_era_icon_description),
                     modifier = Modifier
                         .zIndex(2f)
                         .size(56.dp)
