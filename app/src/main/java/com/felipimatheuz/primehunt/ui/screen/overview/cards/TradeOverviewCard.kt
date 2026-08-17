@@ -32,7 +32,7 @@ fun TradeOverviewCard(state: TradeOverviewUi) {
         ) {
             Image(
                 painter = painterResource(R.drawable.regal_aya),
-                contentDescription = null
+                contentDescription = stringResource(R.string.generic_icon_description, stringResource(R.string.overview_trade_title))
             )
             Spacer(modifier = Modifier.width(4.dp))
             Text(

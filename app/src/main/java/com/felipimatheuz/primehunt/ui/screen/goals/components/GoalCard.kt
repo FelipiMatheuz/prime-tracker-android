@@ -122,7 +122,7 @@ fun GoalCard(
             ) {
                 Icon(
                     painter = painterResource(goal.targetType.icon),
-                    contentDescription = null,
+                    contentDescription = stringResource(goal.targetType.label),
                     modifier = Modifier.size(18.dp),
                     tint = if (isCompleted) Completed else MaterialTheme.colorScheme.primary
                 )
@@ -150,7 +150,7 @@ fun GoalCard(
             ) {
                 Icon(
                     painter = painterResource(if (isCompleted) R.drawable.ic_check else R.drawable.ic_target),
-                    contentDescription = null,
+                    contentDescription = stringResource(if (isCompleted) R.string.status_completed else R.string.status_active),
                     modifier = Modifier.size(24.dp),
                     tint = progressColor
                 )

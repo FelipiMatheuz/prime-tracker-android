@@ -83,7 +83,7 @@ fun AboutScreen(
                         ) {
                             Image(
                                 painter = painterResource(id = R.drawable.cs_logo),
-                                contentDescription = null,
+                                contentDescription = stringResource(R.string.about_developer_logo_description),
                                 modifier = Modifier.size(32.dp)
                             )
                             Text(
@@ -266,7 +266,7 @@ private fun AboutHeader(
     ) {
         Image(
             painter = painterResource(id = R.drawable.cephalon_ehiza),
-            contentDescription = null,
+            contentDescription = stringResource(R.string.splash_cephalon_ehiza_description),
             modifier = Modifier.size(80.dp)
         )
         Spacer(modifier = Modifier.height(16.dp))
@@ -299,7 +299,7 @@ private fun AboutHeader(
             ) {
                 Icon(
                     painter = painterResource(R.drawable.ic_check),
-                    contentDescription = null,
+                    contentDescription = stringResource(R.string.check_description),
                     modifier = Modifier.size(16.dp)
                 )
                 Spacer(modifier = Modifier.width(4.dp))

@@ -56,7 +56,7 @@ fun CloudAccountCard(
             ) {
                 Image(
                     painter = painterResource(R.drawable.ic_google),
-                    contentDescription = null,
+                    contentDescription = stringResource(R.string.cloud_google_logo_description),
                     modifier = Modifier.size(24.dp)
                 )
                 Column {

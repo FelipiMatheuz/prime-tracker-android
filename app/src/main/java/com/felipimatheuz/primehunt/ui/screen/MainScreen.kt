@@ -109,7 +109,7 @@ fun MainContent(
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.cephalon_ehiza),
-                        contentDescription = null,
+                        contentDescription = stringResource(R.string.menu_logo_description),
                         modifier = Modifier.size(40.dp)
                     )
                     Column {
@@ -255,7 +255,7 @@ fun DrawerContent(
             icon = {
                 Icon(
                     painter = painterResource(appNavKey.icon),
-                    contentDescription = null,
+                    contentDescription = stringResource(R.string.generic_icon_description, appNavKey.label),
                     modifier = Modifier.size(32.dp)
                 )
             },

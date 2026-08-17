@@ -41,7 +41,7 @@ fun DetailError() {
                     painter = painterResource(
                         R.drawable.sad_excalibur_prime
                     ),
-                    contentDescription = null,
+                    contentDescription = stringResource(R.string.error_detail_load_image_description),
                     modifier = Modifier.fillMaxSize()
                         .clip(RoundedCornerShape(16.dp))
                 )

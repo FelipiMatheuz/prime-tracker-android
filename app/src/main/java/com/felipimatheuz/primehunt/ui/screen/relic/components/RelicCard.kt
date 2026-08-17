@@ -99,7 +99,7 @@ fun RelicCard(
                     if (relic.hasForma) {
                         Icon(
                             painter = painterResource(R.drawable.ic_forma),
-                            contentDescription = null,
+                            contentDescription = stringResource(R.string.relic_contains_forma),
                             modifier = Modifier.size(16.dp)
                         )
                     }
@@ -128,7 +128,7 @@ fun RelicCard(
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Image(
                             painter = painterResource(R.drawable.ic_target),
-                            contentDescription = null,
+                            contentDescription = stringResource(R.string.relic_tracked_description),
                             modifier = Modifier.size(14.dp),
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary)
                         )
@@ -154,7 +154,7 @@ fun RelicCard(
 
             Image(
                 painter = eraPainter,
-                contentDescription = null,
+                contentDescription = stringResource(R.string.relic_era_icon_description),
                 modifier = Modifier
                     .size(40.dp)
                     .drawGlow(

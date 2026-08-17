@@ -48,7 +48,7 @@ fun PrimeSearchBar(
                 leadingIcon = {
                     Icon(
                         painter = painterResource(R.drawable.ic_search),
-                        contentDescription = null
+                        contentDescription = stringResource(R.string.search_description)
                     )
                 },
                 trailingIcon = {

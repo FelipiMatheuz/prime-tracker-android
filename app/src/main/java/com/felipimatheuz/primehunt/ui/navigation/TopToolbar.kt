@@ -76,7 +76,10 @@ fun TopToolbar(
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
                             painter = painterResource(id = it.icon),
-                            contentDescription = null,
+                            contentDescription = stringResource(
+                                R.string.generic_icon_description,
+                                stringResource(it.label)
+                            ),
                             modifier = Modifier
                                 .size(32.dp)
                                 .padding(end = 8.dp),
@@ -146,7 +149,10 @@ fun TopToolbar(
                             leadingIcon = {
                                 Icon(
                                     painter = painterResource(icon.icon),
-                                    contentDescription = null,
+                                    contentDescription = stringResource(
+                                        R.string.generic_icon_description,
+                                        icon.displayName
+                                    ),
                                     modifier = Modifier.size(24.dp)
                                 )
                             },
@@ -160,7 +166,10 @@ fun TopToolbar(
                                 }
                             },
                             interactionSource = settingsItemInteraction,
-                            modifier = Modifier.pressScale(settingsItemInteraction, PressIntensity.VERY_SUBTLE)
+                            modifier = Modifier.pressScale(
+                                settingsItemInteraction,
+                                PressIntensity.VERY_SUBTLE
+                            )
                         )
                     }
                 }

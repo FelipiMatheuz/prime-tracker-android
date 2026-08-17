@@ -46,7 +46,7 @@ fun IconPickerDialog(
                     ) {
                         Icon(
                             painter = painterResource(icon.icon),
-                            contentDescription = null,
+                            contentDescription = icon.name,
                             modifier = Modifier.size(32.dp)
                         )
                     }

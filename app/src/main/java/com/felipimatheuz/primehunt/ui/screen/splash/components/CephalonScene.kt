@@ -11,6 +11,7 @@ import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.felipimatheuz.primehunt.R
@@ -62,7 +63,7 @@ private fun CephalonBody(
 
         Image(
             painter = painterResource(R.drawable.cephalon_body),
-            contentDescription = null,
+            contentDescription = stringResource(R.string.splash_cephalon_ehiza_description),
             modifier = Modifier
                 .graphicsLayer {
                     alpha = state.bodyAlpha
@@ -72,7 +73,7 @@ private fun CephalonBody(
         )
         Image(
             painter = painterResource(R.drawable.cephalon_body),
-            contentDescription = null,
+            contentDescription = stringResource(R.string.splash_cephalon_ehiza_description),
             colorFilter = ColorFilter.tint(
                 state.bodyTint,
                 BlendMode.Modulate
@@ -100,7 +101,7 @@ private fun CephalonPiece(
 
     Image(
         painter = painterResource(R.drawable.cephalon_piece),
-        contentDescription = null,
+        contentDescription = stringResource(R.string.splash_cephalon_ehiza_description),
 
         colorFilter = ColorFilter.tint(
             state.piecesTint,
