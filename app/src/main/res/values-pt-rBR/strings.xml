@@ -71,7 +71,7 @@
     <string name="overview_trade_title">Trocas</string>
     <string name="overview_trade_sets">Conjuntos Duplicados</string>
     <string name="overview_trade_parts">Partes Duplicadas</string>
-    <string name="overview_trade_ducats">Preço Médio em Ducados: %1$d</string>
+    <string name="overview_trade_ducats">Preço Médio em Ducats: %1$d</string>
     <string name="overview_trade_unit_sets">CONJUNTOS</string>
     <string name="overview_trade_unit_parts">PARTES</string>
 

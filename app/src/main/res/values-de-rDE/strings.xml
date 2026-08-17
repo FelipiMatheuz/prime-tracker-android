@@ -71,7 +71,7 @@
     <string name="overview_trade_title">Handel</string>
     <string name="overview_trade_sets">Doppelte Sets</string>
     <string name="overview_trade_parts">Doppelte Teile</string>
-    <string name="overview_trade_ducats">Durchschnittlicher Dukaten-Preis: %1$d</string>
+    <string name="overview_trade_ducats">Durchschnittlicher Ducat-Preis: %1$d</string>
     <string name="overview_trade_unit_sets">SETS</string>
     <string name="overview_trade_unit_parts">TEILE</string>
 
