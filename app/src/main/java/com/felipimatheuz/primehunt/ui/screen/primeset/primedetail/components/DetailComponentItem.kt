@@ -50,6 +50,7 @@ fun DetailComponentItem(
 
     ) {
     val isSet = part.name == PrimePartType.PRIME_SET
+    val setName = part.id.replace("_", " ").replaceFirstChar { it.uppercase() }
     val isArchwingSystems = part.name == PrimePartType.SYSTEMS && isArchwing
 
     Row(
@@ -73,10 +74,7 @@ fun DetailComponentItem(
             if (isSet && part.imageUrl != null) {
                 AsyncImage(
                     model = part.imageUrl,
-                    contentDescription = stringResource(
-                        R.string.generic_icon_description,
-                        stringResource(part.name.text)
-                    ),
+                    contentDescription = stringResource(R.string.generic_icon_description, setName),
                     contentScale = ContentScale.Fit,
                     placeholder = painterResource(R.drawable.ic_orokin),
                     error = painterResource(R.drawable.ic_orokin),
@@ -87,7 +85,7 @@ fun DetailComponentItem(
                     if (isSet) R.drawable.ic_prime else if (isArchwingSystems) R.drawable.prime_circuit else part.name.icon
                 Image(
                     painter = painterResource(id = imgIconRes),
-                    contentDescription = stringResource(R.string.generic_icon_description, stringResource(part.name.text)),
+                    contentDescription = stringResource(R.string.generic_icon_description, setName),
                     modifier = Modifier.size(if (isSet) 40.dp else 32.dp)
                 )
             }
@@ -97,8 +95,7 @@ fun DetailComponentItem(
 
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                text = if (isSet) part.id.replace("_", " ").replaceFirstChar { it.uppercase() }
-                else stringResource(part.name.text),
+                text = if (isSet) setName else stringResource(part.name.text),
                 style = if (isSet) MaterialTheme.typography.titleMedium else MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.Bold,
                 color = if (isSet) MaterialTheme.colorScheme.primary else Color.Unspecified
