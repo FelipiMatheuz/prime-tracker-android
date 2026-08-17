@@ -4,18 +4,18 @@
     <string name="close">Close</string>
     <string name="complete">Complete</string>
     <string name="no_results">No results found</string>
-    <string name="no_data_dash">-</string>
+    <string name="no_data_dash" translatable="false">-</string>
     <string name="error_no_browser">No web browser found to open link.</string>
     <string name="error_no_email_app">No email app found.</string>
     <string name="generic_icon_description">%1$s Icon</string>
     <string name="generic_image_description">%1$s Image</string>
     <string name="generic_collection_description">Promo image of %1$s</string>
-    <string name="expand_collapse_icon">Expand/Collapse Icon</string>
-    <string name="search_description">Search Icon</string>
-    <string name="check_description">Check Icon</string>
-    <string name="delete_description">Filter Icon</string>
-    <string name="plus_description">Plus Icon</string>
-    <string name="minus_description">Minus Icon</string>
+    <string name="expand_collapse_icon">Expand/Collapse</string>
+    <string name="search_description">Search</string>
+    <string name="check_description">Check</string>
+    <string name="delete_description">Filter</string>
+    <string name="plus_description">Plus</string>
+    <string name="minus_description">Minus</string>
 
     <!-- Navigation -->
     <string name="menu_button_description">Quick Menu</string>
@@ -66,7 +66,7 @@
     <string name="overview_melee">Melee</string>
     <string name="overview_arch_gun">Arch Gun</string>
     <string name="overview_companion">Companion</string>
-    <string name="overview_archwing">Archwing</string>
+    <string name="overview_archwing" translatable="false">Archwing</string>
     <string name="overview_others">Others</string>
     <string name="overview_trade_title">Trading</string>
     <string name="overview_trade_sets">Duplicate Sets</string>
@@ -135,10 +135,10 @@
     <string name="view_relic_era">Era</string>
     <string name="view_relic_availability">Availability</string>
     <string name="view_relic_progress">Progress</string>
-    <string name="relic_era_lith">Lith</string>
-    <string name="relic_era_meso">Meso</string>
-    <string name="relic_era_neo">Neo</string>
-    <string name="relic_era_axi">Axi</string>
+    <string name="relic_era_lith" translatable="false">Lith</string>
+    <string name="relic_era_meso" translatable="false">Meso</string>
+    <string name="relic_era_neo" translatable="false">Neo</string>
+    <string name="relic_era_axi" translatable="false">Axi</string>
     <string name="relic_missing_indicator">%1$d Missing</string>
     <string name="relic_completed">Completed</string>
     <string name="relic_tracked_indicator">%1$d Tracked</string>
