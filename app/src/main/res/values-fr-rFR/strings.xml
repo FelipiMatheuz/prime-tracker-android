@@ -1,0 +1,326 @@
+<resources>
+    <!-- General -->
+
+    <string name="close">Fermer</string>
+    <string name="complete">Terminé</string>
+    <string name="no_results">Aucun résultat trouvé</string>
+
+    <string name="error_no_browser">Aucun navigateur web trouvé pour ouvrir le lien.</string>
+    <string name="error_no_email_app">Aucune application de messagerie trouvée.</string>
+    <string name="generic_icon_description">Icône %1$s</string>
+    <string name="generic_image_description">Image %1$s</string>
+    <string name="generic_collection_description">Image promotionnelle de %1$s</string>
+    <string name="expand_collapse_icon">Développer/Réduire</string>
+    <string name="search_description">Rechercher</string>
+    <string name="check_description">Vérifier</string>
+    <string name="delete_description">Filtrer</string>
+    <string name="plus_description">Plus</string>
+    <string name="minus_description">Moins</string>
+
+    <!-- Navigation -->
+    <string name="menu_button_description">Menu rapide</string>
+    <string name="menu_overview">Aperçu</string>
+    <string name="menu_prime_sets">Ensembles Prime</string>
+    <string name="menu_goals">Objectifs</string>
+    <string name="menu_relics">Reliques</string>
+    <string name="menu_help">Aide</string>
+    <string name="menu_about">À propos</string>
+    <string name="menu_cloud">Transfert de données</string>
+    <string name="menu_section_features">FONCTIONNALITÉS</string>
+    <string name="menu_section_application">APPLICATION</string>
+    <string name="menu_logo_description">Logo de Prime Tracker</string>
+
+
+    <!-- Splash & Sync -->
+    <string name="by_owner">par Cyberman Studios</string>
+    <string name="starting_sync">Démarrage de la synchronisation…</string>
+    <string name="check_manifest">Vérification des mises à jour…</string>
+    <string name="downloading_content">Mise à jour du contenu de %1$s…</string>
+    <string name="importing_content">Importation du contenu de %1$s…</string>
+    <string name="sync_success">Synchronisation réussie !</string>
+    <string name="sync_up_to_date">Tout le contenu est déjà à jour.</string>
+    <string name="sync_failed">Échec de la synchronisation\nLa dernière synchronisation réussie sera utilisée.</string>
+    <string name="sync_sign_error">Un problème est survenu. Veuillez réessayer.</string>
+    <string name="sync_sign_cancel">Connexion annulée.</string>
+    <string name="sync_sign_invalid">Identifiants invalides</string>
+    <string name="etl_file_relics">reliques</string>
+    <string name="etl_file_prime_sets">ensembles prime</string>
+    <string name="etl_file_prime_collections">collections prime</string>
+
+
+    <!-- Overview -->
+    <string name="overview_database">Base de données</string>
+    <string name="overview_db_collections">Collections Prime</string>
+    <string name="overview_db_sets">Ensembles Prime</string>
+    <string name="overview_db_parts">Pièces Prime</string>
+    <string name="overview_db_relics">Reliques</string>
+    <string name="overview_db_last_sync">Dernière synchro</string>
+    <string name="overview_sets_finished">Terminés</string>
+    <string name="overview_sets_in_progress">En cours</string>
+    <string name="overview_sets_missing">Manquants</string>
+    <string name="overview_sets_categories_title">CATÉGORIES</string>
+    <string name="overview_sets_completed_label">COMPLÉTÉS</string>
+
+    <string name="overview_primary">Principale</string>
+    <string name="overview_secondary">Secondaire</string>
+    <string name="overview_melee">Mêlée</string>
+    <string name="overview_arch_gun">Arch-fusil</string>
+    <string name="overview_companion">Compagnon</string>
+
+    <string name="overview_others">Autres</string>
+    <string name="overview_trade_title">Échange</string>
+    <string name="overview_trade_sets">Ensembles en double</string>
+    <string name="overview_trade_parts">Pièces en double</string>
+    <string name="overview_trade_ducats">Prix moyen en Ducats : %1$d</string>
+    <string name="overview_trade_unit_sets">ENSEMBLES</string>
+    <string name="overview_trade_unit_parts">PIÈCES</string>
+
+    <!-- Prime Sets -->
+    <string name="tab_collections">Collections</string>
+    <string name="tab_prime_sets">Ensembles Prime</string>
+    <string name="primeset_search_label">Rechercher des ensembles Prime…</string>
+    <string name="prime_collection_template">Pack %1$s</string>
+    <string name="prime_no_collection">Primes autonomes</string>
+    <string name="sets_completed_template">%1$d sur %2$d ensembles complétés</string>
+    <string name="status_mission">Disponible</string>
+    <string name="status_vault">En Soute</string>
+    <string name="status_baro">Baro (Marchand)</string>
+    <string name="status_resurgence">Varzia (Résurgence)</string>
+    <string name="mastery_image_description">Icône de Rang de Maîtrise</string>
+    <string name="dependency_image_description">Cet ensemble a des dépendances</string>
+
+
+    <!-- Prime Detail -->
+    <string name="detail_pieces_owned_template">%1$d / %2$d pièces possédées</string>
+    <string name="detail_action_add_set">+1 Ensemble</string>
+    <string name="detail_action_remove_set">-1 Ensemble</string>
+
+    <string name="error_detail_load_info">Données Prime indisponibles.\n(J\'espère que vous n\'essayez pas de farmer Excalibur Prime)</string>
+    <string name="error_detail_load_image_description">Concept art d\'Excalibur Prime</string>
+
+    <!-- Components -->
+    <string name="comp_blueprint">Schéma</string>
+    <string name="comp_blade">Lame</string>
+    <string name="comp_neuroptics">Neuroptiques</string>
+    <string name="comp_chassis">Châssis</string>
+    <string name="comp_systems">Systèmes</string>
+    <string name="comp_barrel">Canon</string>
+    <string name="comp_disc">Disque</string>
+    <string name="comp_handle">Poignée</string>
+    <string name="comp_ornament">Ornement</string>
+    <string name="comp_receiver">Culasse</string>
+    <string name="comp_stock">Crosse</string>
+    <string name="comp_link">Lien</string>
+    <string name="comp_cerebrum">Cervelet</string>
+    <string name="comp_carapace">Carapace</string>
+    <string name="comp_gauntlet">Gantelet</string>
+    <string name="comp_pouch">Pochette</string>
+    <string name="comp_stars">Étoiles</string>
+    <string name="comp_hilt">Garde</string>
+    <string name="comp_harness">Harnais</string>
+    <string name="comp_wings">Ailes</string>
+    <string name="comp_band">Bande</string>
+    <string name="comp_buckle">Boucle</string>
+    <string name="comp_head">Tête</string>
+    <string name="comp_grip">Poignée</string>
+    <string name="comp_string">Corde</string>
+    <string name="comp_llinb">Membre Inférieur</string>
+    <string name="comp_ulimb">Membre Supérieur</string>
+    <string name="comp_guard">Garde</string>
+    <string name="comp_boot">Botte</string>
+    <string name="comp_chain">Chaîne</string>
+
+    <!-- Relics -->
+    <string name="relic_search_label">Rechercher des reliques, ensembles ou pièces…</string>
+    <string name="view_relic_era">Ère</string>
+    <string name="view_relic_availability">Disponibilité</string>
+    <string name="view_relic_progress">Progression</string>
+
+
+
+
+    <string name="relic_missing_indicator">%1$d manquants</string>
+    <string name="relic_completed">Complété</string>
+    <string name="relic_tracked_indicator">%1$d suivis</string>
+    <string name="relic_needed_indicator">%1$d nécessaires</string>
+    <string name="relic_requires_label">Nécessite %1$s</string>
+    <string name="relic_origin_current">Rotation actuelle</string>
+    <string name="relic_origin_resurgence">Résurgence Prime</string>
+    <string name="relic_origin_baro">Baro Ki\'Teer</string>
+    <string name="relic_origin_vaulted">En Soute</string>
+    <string name="relic_group_available">Disponibles</string>
+    <string name="relic_group_events">Événements (Résurgence / Baro)</string>
+    <string name="relic_group_missing_4_plus">Manquants 4+</string>
+    <string name="relic_group_missing_1_3">Manquants 1–3</string>
+    <string name="relic_contains_forma">Contient un Forma</string>
+    <string name="relic_tracked_description">Icône de suivi</string>
+    <string name="relic_era_icon_description">Icône de relique</string>
+
+    <!-- Goals -->
+    <string name="goals_search_label">Rechercher des objectifs, cibles ou tags…</string>
+    <string name="goal_target_prime_set">Ensemble Prime</string>
+    <string name="goal_target_prime_part">Pièce Prime</string>
+    <string name="goal_target_relic">Relique</string>
+    <string name="goal_target_forma">Forma</string>
+    <string name="empty_goals_active_title">Aucun objectif actif</string>
+    <string name="empty_goals_active_desc">Appuyez sur + pour créer votre premier plan de farm.</string>
+    <string name="empty_goals_completed_title">Aucun objectif terminé</string>
+    <string name="empty_goals_completed_desc">Les objectifs terminés apparaîtront ici.</string>
+    <string name="status_active">Actif</string>
+    <string name="status_completed">Terminé</string>
+    <string name="manage_goal_details">Détails de l\'objectif</string>
+    <string name="manage_goal_new">Nouvel objectif</string>
+    <string name="manage_goal_target_type">Type de cible</string>
+    <string name="manage_goal_quantity">Quantité</string>
+    <string name="manage_goal_target">Cible</string>
+    <string name="manage_goal_tag">Tag</string>
+    <string name="manage_goal_notes">Notes (Optionnel)</string>
+    <string name="manage_goal_current_progress">Progression actuelle :</string>
+    <string name="manage_goal_action_complete">Terminer l\'objectif</string>
+    <string name="manage_goal_action_delete">Supprimer</string>
+    <string name="manage_goal_action_save">Enregistrer les modifications</string>
+    <string name="manage_goal_action_create">Créer l\'objectif</string>
+    <string name="manage_goal_delete_title">Supprimer l\'objectif</string>
+    <string name="manage_goal_delete_message">Voulez-vous vraiment supprimer cet objectif de farm ?</string>
+    <string name="manage_goal_cancel">Annuler</string>
+    <string name="forma_blueprint">Schéma de Forma</string>
+
+    <!-- Tags -->
+    <string name="tag_create_title">Créer un nouveau tag</string>
+    <string name="tag_create_name">Nom du tag</string>
+    <string name="tag_create_icon">Icône</string>
+    <string name="tag_create_color">Couleur</string>
+    <string name="tag_create_preview">Aperçu</string>
+    <string name="tag_create_action">Créer le tag</string>
+    <string name="tag_create_change_hint">Appuyez pour modifier</string>
+    <string name="tag_create_option">Créer un tag…</string>
+    <string name="tag_select_icon">Sélectionner l\'icône</string>
+    <string name="tag_select_color">Sélectionner la couleur</string>
+    <string name="goals_most_used_tag">Tag principal</string>
+    <string name="tag_custom_image_description">Icône de tag personnalisée</string>
+
+    <!-- Filters -->
+    <string name="filter">Filtrer</string>
+    <string name="filter_title">Filtres avancés</string>
+    <string name="filter_section_progress">Progression</string>
+    <string name="filter_section_category">Catégorie</string>
+    <string name="filter_section_availability">Disponibilité</string>
+    <string name="filter_section_status">Statut</string>
+    <string name="filter_section_target_type">Type de cible</string>
+    <string name="filter_clear_all">Tout effacer</string>
+    <string name="filter_progress_all">Tout</string>
+    <string name="filter_progress_complete">Complétés</string>
+    <string name="filter_progress_incomplete">Incomplets</string>
+    <string name="filter_progress_in_progress">En cours</string>
+    <string name="filter_progress_not_started">Pas commencé</string>
+    <string name="filter_status_active">Actif</string>
+    <string name="filter_status_completed">Terminé</string>
+    <string name="filter_section_era">Ère</string>
+
+    <!-- Cloud -->
+    <string name="cloud_account">Compte Cloud</string>
+    <string name="cloud_status_not_connected">Non connecté</string>
+    <string name="cloud_status_connected">Connecté</string>
+    <string name="cloud_account_desc">Les fonctionnalités Cloud nécessitent un compte connecté.</string>
+    <string name="cloud_sign_in_google">Se connecter avec Google</string>
+    <string name="cloud_disconnect">Se déconnecter</string>
+    <string name="cloud_log_debug">Envoyer les logs</string>
+    <string name="cloud_backup_title">Sauvegarde Cloud</string>
+    <string name="cloud_backup_desc">La sauvegarde Cloud stocke uniquement votre progression personnelle.</string>
+    <string name="cloud_backup_upload">Uploader</string>
+    <string name="cloud_backup_download">Télécharger</string>
+    <string name="cloud_diagnostics_title">Diagnostics</string>
+    <string name="cloud_diagnostics_desc">Exporter les logs temporaires vers le support.</string>
+    <string name="cloud_legacy_migration_title">Migration héritée</string>
+    <string name="cloud_legacy_migration_desc">La migration héritée importe votre ancienne liste dans le nouveau système d\'inventaire.\n[Fonctionnalité temporaire]</string>
+    <string name="cloud_legacy_migration_completed">Migration terminée</string>
+    <string name="cloud_legacy_migration_start">Démarrer la migration</string>
+    <string name="cloud_danger_zone_title">Supprimer toutes les données</string>
+    <string name="cloud_danger_zone_desc">Supprime tous les enregistrements cloud. Inventaire. Objectifs. Cette action est irréversible.</string>
+    <string name="cloud_danger_zone_clear">Effacer les données Cloud</string>
+    <string name="cloud_danger_zone_dialog">Supprimer toutes les données cloud ?</string>
+    <string name="cloud_danger_zone_description">Cette action est irréversible.</string>
+    <string name="cloud_danger_zone_delete">Supprimer</string>
+    <string name="cloud_danger_zone_cancel">Annuler</string>
+    <string name="cloud_success_sign_in">Connexion réussie</string>
+    <string name="cloud_success_sign_out">Déconnexion réussie</string>
+    <string name="cloud_success_upload">Sauvegarde uploadée avec succès</string>
+    <string name="cloud_success_download">Données restaurées avec succès</string>
+    <string name="cloud_success_migration">Migration terminée</string>
+    <string name="cloud_success_clear">Données cloud supprimées</string>
+    <string name="cloud_error_generic">Une erreur est survenue : %1$s</string>
+    <string name="cloud_google_logo_description">Logo Google</string>
+
+    <!-- Settings -->
+    <string name="settings_wallpaper_title">Fond d\'écran</string>
+    <string name="settings_wallpaper_description">Paramètres du fond d\'écran</string>
+    <string name="settings_wallpaper_selected">Sélectionné</string>
+
+    <!-- Help -->
+    <string name="help_tip">Astuce</string>
+    <string name="help_gs_title">Premiers pas</string>
+    <string name="help_gs_desc">Prime Tracker vous aide à organiser votre collection Prime, à suivre votre inventaire et à planifier vos objectifs de farm.\n\nTout est stocké localement par défaut.\nLa sauvegarde Cloud est facultative.</string>
+    <string name="help_gs_tip">L\'inventaire stocke ce que vous possédez.\nLes objectifs vous aident à planifier ce que vous voulez.</string>
+    <string name="help_ps_title">Ensembles Prime</string>
+    <string name="help_ps_desc">Les ensembles Prime sont le cœur de Prime Tracker.\n\nChaque ensemble Prime est automatiquement complété en fonction des pièces Prime disponibles dans votre inventaire.</string>
+    <string name="help_ps_inv_title">Inventaire</string>
+    <string name="help_ps_inv_desc">L\'inventaire stocke chaque pièce Prime que vous possédez.\n\nMettre à jour votre inventaire met immédiatement à jour la progression de la collection dans toute l\'application.</string>
+    <string name="help_ps_inv_tip">Utilisez l\'inventaire pour enregistrer les pièces possédées.\nLa complétion est calculée automatiquement.</string>
+    <string name="help_relics_title">Reliques</string>
+    <string name="help_relics_desc">Parcourez chaque relique disponible dans le jeu.\n\nChaque relique affiche sa table de butin, sa disponibilité et sa source d\'acquisition.</string>
+    <string name="help_relics_av_title">Disponibilité</string>
+    <string name="help_relics_av_desc">Les reliques peuvent être disponibles via :\n\nActive - En Soute - Résurgence Prime - Baro Ki\'Teer</string>
+    <string name="help_relics_av_tip">Utilisez les filtres pour localiser rapidement des reliques ou des pièces Prime spécifiques.</string>
+    <string name="help_goals_title">Objectifs</string>
+    <string name="help_goals_desc">Les objectifs aident à organiser vos plans de farm, rappels et objectifs d\'échange.\n\nLes objectifs ne consomment jamais l\'inventaire automatiquement.</string>
+    <string name="help_goals_tags_title">Tags</string>
+    <string name="help_goals_tags_desc">Organisez vos objectifs en utilisant des tags personnalisés tels que :\n\nFarm - Échange - Ducats</string>
+    <string name="help_goals_tags_tip">Utilisez les objectifs pour la planification.\nUtilisez l\'inventaire pour représenter les objets que vous possédez déjà.</string>
+    <string name="help_cloud_title">Sauvegarde Cloud</string>
+    <string name="help_cloud_desc">La sauvegarde Cloud stocke uniquement votre progression personnelle.\n\nVous pouvez uploader ou télécharger votre inventaire et vos objectifs à tout moment.</string>
+    <string name="help_cloud_legacy_title">Migration héritée</string>
+    <string name="help_cloud_legacy_desc">La migration héritée importe votre ancienne liste dans le nouveau système d\'inventaire.\n\nAprès une migration réussie, les données héritées sont définitivement supprimées de la sauvegarde Cloud.</string>
+    <string name="help_cloud_legacy_tip">Les données du jeu et les données personnelles sont synchronisées indépendamment.</string>
+    <string name="help_faq_title">FAQ</string>
+    <string name="help_faq_q1">Puis-je utiliser Prime Tracker hors ligne ?</string>
+    <string name="help_faq_a1">Oui.\n\nToutes les fonctionnalités de l\'application fonctionnent hors ligne.\n\nLa sauvegarde Cloud est facultative.</string>
+    <string name="help_faq_q2">Pourquoi terminer un objectif ne consomme-t-il pas l\'inventaire ?</string>
+    <string name="help_faq_a2">Les objectifs représentent la planification personnelle.\n\nL\'inventaire représente les objets possédés.\n\nLes deux systèmes sont intentionnellement indépendants.</string>
+    <string name="help_faq_q3">Comment la complétion des ensembles Prime est-elle calculée ?</string>
+    <string name="help_faq_a3">La complétion est calculée automatiquement à partir des pièces Prime enregistrées dans votre inventaire.</string>
+    <string name="help_faq_q4">Qu\'est-ce qui est stocké dans la sauvegarde Cloud ?</string>
+    <string name="help_faq_a4">Uniquement les données personnelles :\n\nInventaire\n\nObjectifs\n\nPréférences de l\'application</string>
+    <string name="help_faq_q5">Puis-je migrer mon ancienne liste ?</string>
+    <string name="help_faq_a5">Oui.\n\nUtilisez la migration héritée sur l\'écran de sauvegarde Cloud.\n\nAVERTISSEMENT : Cette fonctionnalité sera supprimée au fil des versions.</string>
+
+    <!-- About -->
+    <string name="about_slogan">Votre compagnon pour la Chasse Prime</string>
+    <string name="about_version_label">Version %1$s</string>
+    <string name="about_update_available">Nouvelle version disponible !</string>
+    <string name="about_update_button">Mettre à jour maintenant</string>
+    <string name="about_developer_title">Créé par</string>
+    <string name="about_developer_name">Cyberman Studios</string>
+    <string name="about_developer_desc">Studio indépendant de jeux et logiciels.\n(Constructeur solitaire et joueur de Warframe pendant son temps libre)</string>
+    <string name="about_support_title">Support et retours</string>
+    <string name="about_contact">Contact</string>
+    <string name="about_report_bug">Signaler un bug</string>
+    <string name="about_open_source_title">Open Source</string>
+    <string name="about_license">Licence : GNU GPL v3</string>
+    <string name="about_repository">Dépôt officiel</string>
+    <string name="about_support_dev_title">Soutenir le développement</string>
+    <string name="about_support_dev_desc">Ce projet est gratuit et open source. Si vous le trouvez utile, envisagez de soutenir son développement continu.</string>
+    <string name="about_support_dev_button">Soutenir le développement</string>
+    <string name="about_support_dev_dialog_title">Soutenir le projet</string>
+    <string name="about_support_dev_dialog_desc">Votre soutien aide à garder l\'application gratuite, sans publicité, et toujours à jour avec le dernier contenu Prime. Vous pouvez faire un don via le lien ci-dessous.</string>
+    <string name="about_support_dev_dialog_action">Faire un don</string>
+    <string name="about_credits_title">Crédits</string>
+    <string name="about_credits_desc">Prime Tracker est un projet indépendant réalisé par des fans. Il n\'est en aucun cas affilié à, approuvé par ou associé à Digital Extremes. Warframe et tous les actifs associés sont la propriété de Digital Extremes.</string>
+    <string name="about_footer_thanks">Merci d\'utiliser Prime Tracker ! Bonne chasse, Tenno.</string>
+    <string name="about_email_subject">Prime Tracker - Retours</string>
+    <string name="about_repo_url">https://github.com/FelipiMatheuz/prime-tracker-android</string>
+    <string name="about_donation_url">https://github.com/sponsors/FelipiMatheuz</string>
+    <string name="about_bug_report_url">https://github.com/FelipiMatheuz/prime-tracker-android/issues</string>
+    <string name="about_contact_email">cyberman.studios@gmail.com</string>
+    <string name="about_play_store_url">https://play.google.com/store/apps/details?id=com.felipimatheuz.primehunt</string>
+    <string name="about_developer_logo_description">Logo de Cyberman Studios</string>
+</resources>

@@ -1,0 +1,326 @@
+<resources>
+    <!-- General -->
+
+    <string name="close">关闭</string>
+    <string name="complete">完成</string>
+    <string name="no_results">未找到结果</string>
+
+    <string name="error_no_browser">未找到用于打开链接的浏览器。</string>
+    <string name="error_no_email_app">未找到邮件应用。</string>
+    <string name="generic_icon_description">%1$s 图标</string>
+    <string name="generic_image_description">%1$s 图片</string>
+    <string name="generic_collection_description">%1$s 的宣传图</string>
+    <string name="expand_collapse_icon">展开/收起</string>
+    <string name="search_description">搜索</string>
+    <string name="check_description">检查</string>
+    <string name="delete_description">筛选</string>
+    <string name="plus_description">加</string>
+    <string name="minus_description">减</string>
+
+    <!-- Navigation -->
+    <string name="menu_button_description">快捷菜单</string>
+    <string name="menu_overview">总览</string>
+    <string name="menu_prime_sets">Prime 套装</string>
+    <string name="menu_goals">目标</string>
+    <string name="menu_relics">虚空遗物</string>
+    <string name="menu_help">帮助</string>
+    <string name="menu_about">关于</string>
+    <string name="menu_cloud">数据传输</string>
+    <string name="menu_section_features">功能</string>
+    <string name="menu_section_application">应用</string>
+    <string name="menu_logo_description">Prime Tracker 标志</string>
+
+
+    <!-- Splash & Sync -->
+    <string name="by_owner">由 Cyberman Studios 开发</string>
+    <string name="starting_sync">正在开始同步…</string>
+    <string name="check_manifest">正在检查更新…</string>
+    <string name="downloading_content">正在更新 %1$s 内容…</string>
+    <string name="importing_content">正在导入 %1$s 内容…</string>
+    <string name="sync_success">同步成功！</string>
+    <string name="sync_up_to_date">所有内容已是最新。</string>
+    <string name="sync_failed">同步失败\n将使用最后一次成功的同步数据。</string>
+    <string name="sync_sign_error">出错了。请重试。 </string>
+    <string name="sync_sign_cancel">连接已取消。</string>
+    <string name="sync_sign_invalid">凭证无效</string>
+    <string name="etl_file_relics">虚空遗物</string>
+    <string name="etl_file_prime_sets">Prime 套装</string>
+    <string name="etl_file_prime_collections">Prime 珍藏</string>
+
+
+    <!-- Overview -->
+    <string name="overview_database">数据库</string>
+    <string name="overview_db_collections">Prime 珍藏</string>
+    <string name="overview_db_sets">Prime 套装</string>
+    <string name="overview_db_parts">Prime 部件</string>
+    <string name="overview_db_relics">虚空遗物</string>
+    <string name="overview_db_last_sync">上次同步</string>
+    <string name="overview_sets_finished">已完成</string>
+    <string name="overview_sets_in_progress">进行中</string>
+    <string name="overview_sets_missing">缺失</string>
+    <string name="overview_sets_categories_title">分类</string>
+    <string name="overview_sets_completed_label">已完成</string>
+
+    <string name="overview_primary">主武器</string>
+    <string name="overview_secondary">副武器</string>
+    <string name="overview_melee">近战武器</string>
+    <string name="overview_arch_gun">Archwing 枪械</string>
+    <string name="overview_companion">守护 / 伴侣</string>
+
+    <string name="overview_others">其他</string>
+    <string name="overview_trade_title">交易</string>
+    <string name="overview_trade_sets">重复套装</string>
+    <string name="overview_trade_parts">重复部件</string>
+    <string name="overview_trade_ducats">平均杜卡德金币价格: %1$d</string>
+    <string name="overview_trade_unit_sets">套装</string>
+    <string name="overview_trade_unit_parts">部件</string>
+
+    <!-- Prime Sets -->
+    <string name="tab_collections">珍藏</string>
+    <string name="tab_prime_sets">Prime 套装</string>
+    <string name="primeset_search_label">搜索 Prime 套装…</string>
+    <string name="prime_collection_template">%1$s 组合包</string>
+    <string name="prime_no_collection">独立 Prime</string>
+    <string name="sets_completed_template">已完成 %1$d / %2$d 套装</string>
+    <string name="status_mission">可获得</string>
+    <string name="status_vault">已入库</string>
+    <string name="status_baro">Baro (虚空商人)</string>
+    <string name="status_resurgence">Varzia (复间)</string>
+    <string name="mastery_image_description">段位图标</string>
+    <string name="dependency_image_description">此套装有前置依赖</string>
+
+
+    <!-- Prime Detail -->
+    <string name="detail_pieces_owned_template">已拥有 %1$d / %2$d 部件</string>
+    <string name="detail_action_add_set">+1 套装</string>
+    <string name="detail_action_remove_set">-1 套装</string>
+
+    <string name="error_detail_load_info">Prime 数据不可用。\n(我希望你不是在尝试刷 Excalibur Prime)</string>
+    <string name="error_detail_load_image_description">Excalibur Prime 的概念图</string>
+
+    <!-- Components -->
+    <string name="comp_blueprint">蓝图</string>
+    <string name="comp_blade">刃部</string>
+    <string name="comp_neuroptics">头部神经光元</string>
+    <string name="comp_chassis">机体</string>
+    <string name="comp_systems">系统</string>
+    <string name="comp_barrel">枪管</string>
+    <string name="comp_disc">圆盘</string>
+    <string name="comp_handle">握柄</string>
+    <string name="comp_ornament">装饰</string>
+    <string name="comp_receiver">机匣</string>
+    <string name="comp_stock">枪托</string>
+    <string name="comp_link">连接器</string>
+    <string name="comp_cerebrum">脑部</string>
+    <string name="comp_carapace">外壳</string>
+    <string name="comp_gauntlet">护手</string>
+    <string name="comp_pouch">囊袋</string>
+    <string name="comp_stars">星标</string>
+    <string name="comp_hilt">剑柄</string>
+    <string name="comp_harness">外壳</string>
+    <string name="comp_wings">机翼</string>
+    <string name="comp_band">束带</string>
+    <string name="comp_buckle">带扣</string>
+    <string name="comp_head">头部</string>
+    <string name="comp_grip">握把</string>
+    <string name="comp_string">弓弦</string>
+    <string name="comp_llinb">下弓臂</string>
+    <string name="comp_ulimb">上弓臂</string>
+    <string name="comp_guard">护手</string>
+    <string name="comp_boot">护靴</string>
+    <string name="comp_chain">链子</string>
+
+    <!-- Relics -->
+    <string name="relic_search_label">搜索虚空遗物、套装或部件…</string>
+    <string name="view_relic_era">纪元</string>
+    <string name="view_relic_availability">可用性</string>
+    <string name="view_relic_progress">进度</string>
+
+
+
+
+    <string name="relic_missing_indicator">缺失 %1$d</string>
+    <string name="relic_completed">已完成</string>
+    <string name="relic_tracked_indicator">已追踪 %1$d</string>
+    <string name="relic_needed_indicator">需要 %1$d</string>
+    <string name="relic_requires_label">需要 %1$s</string>
+    <string name="relic_origin_current">当前轮换</string>
+    <string name="relic_origin_resurgence">Prime 复间</string>
+    <string name="relic_origin_baro">巴洛·基·提尔</string>
+    <string name="relic_origin_vaulted">已入库</string>
+    <string name="relic_group_available">可获得</string>
+    <string name="relic_group_events">活动 (复间 / Baro)</string>
+    <string name="relic_group_missing_4_plus">缺失 4+</string>
+    <string name="relic_group_missing_1_3">缺失 1–3</string>
+    <string name="relic_contains_forma">包含 Forma</string>
+    <string name="relic_tracked_description">已追踪图标</string>
+    <string name="relic_era_icon_description">虚空遗物图标</string>
+
+    <!-- Goals -->
+    <string name="goals_search_label">搜索目标、对象或标签…</string>
+    <string name="goal_target_prime_set">Prime 套装</string>
+    <string name="goal_target_prime_part">Prime 部件</string>
+    <string name="goal_target_relic">虚空遗物</string>
+    <string name="goal_target_forma">Forma</string>
+    <string name="empty_goals_active_title">无活动目标</string>
+    <string name="empty_goals_active_desc">点击 + 创建你的第一个刷取计划。</string>
+    <string name="empty_goals_completed_title">无已完成目标</string>
+    <string name="empty_goals_completed_desc">已完成的目标将显示在这里。</string>
+    <string name="status_active">活动中</string>
+    <string name="status_completed">已完成</string>
+    <string name="manage_goal_details">目标详情</string>
+    <string name="manage_goal_new">新目标</string>
+    <string name="manage_goal_target_type">目标类型</string>
+    <string name="manage_goal_quantity">数量</string>
+    <string name="manage_goal_target">目标</string>
+    <string name="manage_goal_tag">标签</string>
+    <string name="manage_goal_notes">备注 (可选)</string>
+    <string name="manage_goal_current_progress">当前进度:</string>
+    <string name="manage_goal_action_complete">完成目标</string>
+    <string name="manage_goal_action_delete">删除</string>
+    <string name="manage_goal_action_save">保存更改</string>
+    <string name="manage_goal_action_create">创建目标</string>
+    <string name="manage_goal_delete_title">删除目标</string>
+    <string name="manage_goal_delete_message">你确定要删除这个刷取目标吗？</string>
+    <string name="manage_goal_cancel">取消</string>
+    <string name="forma_blueprint">Forma 蓝图</string>
+
+    <!-- Tags -->
+    <string name="tag_create_title">创建新标签</string>
+    <string name="tag_create_name">标签名称</string>
+    <string name="tag_create_icon">图标</string>
+    <string name="tag_create_color">颜色</string>
+    <string name="tag_create_preview">预览</string>
+    <string name="tag_create_action">创建标签</string>
+    <string name="tag_create_change_hint">点击更改</string>
+    <string name="tag_create_option">创建标签…</string>
+    <string name="tag_select_icon">选择图标</string>
+    <string name="tag_select_color">选择颜色</string>
+    <string name="goals_most_used_tag">主标签</string>
+    <string name="tag_custom_image_description">自定义标签图标</string>
+
+    <!-- Filters -->
+    <string name="filter">筛选</string>
+    <string name="filter_title">高级筛选</string>
+    <string name="filter_section_progress">进度</string>
+    <string name="filter_section_category">分类</string>
+    <string name="filter_section_availability">可用性</string>
+    <string name="filter_section_status">状态</string>
+    <string name="filter_section_target_type">目标类型</string>
+    <string name="filter_clear_all">全部清除</string>
+    <string name="filter_progress_all">全部</string>
+    <string name="filter_progress_complete">已完成</string>
+    <string name="filter_progress_incomplete">未完成</string>
+    <string name="filter_progress_in_progress">进行中</string>
+    <string name="filter_progress_not_started">未开始</string>
+    <string name="filter_status_active">活动中</string>
+    <string name="filter_status_completed">已完成</string>
+    <string name="filter_section_era">纪元</string>
+
+    <!-- Cloud -->
+    <string name="cloud_account">云端账号</string>
+    <string name="cloud_status_not_connected">未连接</string>
+    <string name="cloud_status_connected">已连接</string>
+    <string name="cloud_account_desc">云端功能需要连接账号。</string>
+    <string name="cloud_sign_in_google">使用 Google 登录</string>
+    <string name="cloud_disconnect">断开连接</string>
+    <string name="cloud_log_debug">发送日志</string>
+    <string name="cloud_backup_title">云端备份</string>
+    <string name="cloud_backup_desc">云端备份仅存储你的个人进度。</string>
+    <string name="cloud_backup_upload">上传</string>
+    <string name="cloud_backup_download">下载</string>
+    <string name="cloud_diagnostics_title">诊断</string>
+    <string name="cloud_diagnostics_desc">导出临时日志给支持人员。</string>
+    <string name="cloud_legacy_migration_title">旧版本迁移</string>
+    <string name="cloud_legacy_migration_desc">旧版本迁移会将你之前的清单导入新的库存系统。\n[临时功能]</string>
+    <string name="cloud_legacy_migration_completed">迁移已完成</string>
+    <string name="cloud_legacy_migration_start">开始迁移</string>
+    <string name="cloud_danger_zone_title">删除所有数据</string>
+    <string name="cloud_danger_zone_desc">删除所有云端记录。库存、目标。此操作无法撤销。</string>
+    <string name="cloud_danger_zone_clear">清除云端数据</string>
+    <string name="cloud_danger_zone_dialog">删除所有云端数据？</string>
+    <string name="cloud_danger_zone_description">此操作无法撤销。</string>
+    <string name="cloud_danger_zone_delete">删除</string>
+    <string name="cloud_danger_zone_cancel">取消</string>
+    <string name="cloud_success_sign_in">登录成功</string>
+    <string name="cloud_success_sign_out">登出成功</string>
+    <string name="cloud_success_upload">备份上传成功</string>
+    <string name="cloud_success_download">数据恢复成功</string>
+    <string name="cloud_success_migration">迁移完成</string>
+    <string name="cloud_success_clear">云端数据已删除</string>
+    <string name="cloud_error_generic">发生错误: %1$s</string>
+    <string name="cloud_google_logo_description">Google 标志</string>
+
+    <!-- Settings -->
+    <string name="settings_wallpaper_title">壁纸</string>
+    <string name="settings_wallpaper_description">壁纸设置</string>
+    <string name="settings_wallpaper_selected">已选择</string>
+
+    <!-- Help -->
+    <string name="help_tip">提示</string>
+    <string name="help_gs_title">入门指南</string>
+    <string name="help_gs_desc">Prime Tracker 帮助你组织 Prime 珍藏、追踪库存并规划刷取目标。\n\n默认情况下，所有内容都存储在本地。\n云端备份是可选的。</string>
+    <string name="help_gs_tip">库存存储你已拥有的物品。\n目标帮助你规划你想要的物品。</string>
+    <string name="help_ps_title">Prime 套装</string>
+    <string name="help_ps_desc">Prime 套装是 Prime Tracker 的核心。\n\n每个 Prime 套装会根据你库存中可用的 Prime 部件自动完成。</string>
+    <string name="help_ps_inv_title">库存</string>
+    <string name="help_ps_inv_desc">库存存储你拥有的每一个 Prime 部件。\n\n更新你的库存会立即更新整个应用的珍藏进度。</string>
+    <string name="help_ps_inv_tip">使用库存来登记已拥有的部件。\n完成度是自动计算的。</string>
+    <string name="help_relics_title">虚空遗物</string>
+    <string name="help_relics_desc">浏览游戏中可用的每一个虚空遗物。\n\n每个虚空遗物都会显示其掉落表、可用性和获取来源。</string>
+    <string name="help_relics_av_title">可用性</string>
+    <string name="help_relics_av_desc">虚空遗物可以通过以下方式获得:\n\n活动 - 已入库 - Prime 复间 - 巴洛·基\'泰尔</string>
+    <string name="help_relics_av_tip">使用筛选器快速定位特定的虚空遗物或 Prime 部件。</string>
+    <string name="help_goals_title">目标</string>
+    <string name="help_goals_desc">目标帮助组织你的刷取计划、提醒和交易目标。\n\n目标永远不会自动消耗库存。</string>
+    <string name="help_goals_tags_title">标签</string>
+    <string name="help_goals_tags_desc">使用自定义标签组织目标，例如:\n\n刷取 - 交易 - 杜卡德金币</string>
+    <string name="help_goals_tags_tip">使用目标进行规划。\n使用库存表示你已经拥有的物品。</string>
+    <string name="help_cloud_title">云端备份</string>
+    <string name="help_cloud_desc">云端备份仅存储你的个人进度。\n\n你可以随时上传或下载你的库存和目标。</string>
+    <string name="help_cloud_legacy_title">旧版本迁移</string>
+    <string name="help_cloud_legacy_desc">旧版本迁移会将你之前的清单导入新的库存系统。\n\n迁移成功后，旧数据将永久从云端备份中删除。</string>
+    <string name="help_cloud_legacy_tip">游戏数据和个人数据是独立同步的。</string>
+    <string name="help_faq_title">常见问题</string>
+    <string name="help_faq_q1">我可以离线使用 Prime Tracker 吗？</string>
+    <string name="help_faq_a1">可以。\n\n所有应用功能都支持离线使用。\n\n云端备份是可选的。</string>
+    <string name="help_faq_q2">为什么完成目标不会消耗库存？</string>
+    <string name="help_faq_a2">目标代表个人规划。\n\n库存代表已拥有的物品。\n\n这两个系统被有意设计为相互独立。 </string>
+    <string name="help_faq_q3">Prime 套装完成度是如何计算的？</string>
+    <string name="help_faq_a3">完成度是根据你库存中登记的 Prime 部件自动计算的。</string>
+    <string name="help_faq_q4">云端备份中存储了什么？</string>
+    <string name="help_faq_a4">仅限个人数据:\n\n库存\n\n目标\n\n应用偏好设置</string>
+    <string name="help_faq_q5">我可以迁移旧的清单吗？</string>
+    <string name="help_faq_a5">可以。\n\n在云端备份页面使用旧版本迁移。\n\n警告: 此功能将随版本进度被移除。</string>
+
+    <!-- About -->
+    <string name="about_slogan">你的 Prime 狩猎伴侣</string>
+    <string name="about_version_label">版本 %1$s</string>
+    <string name="about_update_available">有新版本可用！</string>
+    <string name="about_update_button">立即更新</string>
+    <string name="about_developer_title">开发者</string>
+    <string name="about_developer_name">Cyberman Studios</string>
+    <string name="about_developer_desc">独立游戏与软件工作室。\n(一人开发，余暇时间也是 Warframe 玩家) </string>
+    <string name="about_support_title">支持与反馈</string>
+    <string name="about_contact">联系我们</string>
+    <string name="about_report_bug">报告 Bug</string>
+    <string name="about_open_source_title">开源</string>
+    <string name="about_license">许可证: GNU GPL v3</string>
+    <string name="about_repository">官方仓库</string>
+    <string name="about_support_dev_title">支持开发</string>
+    <string name="about_support_dev_desc">本项目是免费且开源的。如果你觉得它有用，请考虑支持其持续开发。</string>
+    <string name="about_support_dev_button">支持开发</string>
+    <string name="about_support_dev_dialog_title">支持本项目</string>
+    <string name="about_support_dev_dialog_desc">你的支持有助于保持应用免费、无广告，并始终保持最新的 Prime 内容。你可以通过下方链接进行捐赠。</string>
+    <string name="about_support_dev_dialog_action">捐赠</string>
+    <string name="about_credits_title">致谢</string>
+    <string name="about_credits_desc">Prime Tracker 是一个独立的粉丝制作项目。它不隶属于 Digital Extremes，也不受其支持或与之关联。Warframe 及其所有相关资产均为 Digital Extremes 的财产。</string>
+    <string name="about_footer_thanks">感谢使用 Prime Tracker！狩猎愉快，Tenno。</string>
+    <string name="about_email_subject">Prime Tracker - 反馈</string>
+    <string name="about_repo_url">https://github.com/FelipiMatheuz/prime-tracker-android</string>
+    <string name="about_donation_url">https://github.com/sponsors/FelipiMatheuz</string>
+    <string name="about_bug_report_url">https://github.com/FelipiMatheuz/prime-tracker-android/issues</string>
+    <string name="about_contact_email">cyberman.studios@gmail.com</string>
+    <string name="about_play_store_url">https://play.google.com/store/apps/details?id=com.felipimatheuz.primehunt</string>
+    <string name="about_developer_logo_description">Cyberman Studios 标志</string>
+</resources>
