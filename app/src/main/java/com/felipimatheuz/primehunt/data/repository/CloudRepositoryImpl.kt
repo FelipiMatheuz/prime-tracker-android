@@ -45,13 +45,12 @@ class CloudRepositoryImpl @Inject constructor(
         val totalInserted = database.withTransaction {
             val allParts = inventoryRepository.getAllPartsSync()
             val allSets = inventoryRepository.getAllSetsSync()
-            
-            val normalizedNamesCache = allSets.associate { it.id to parser.normalizeNewName(it.name) }
+            val setMap = allSets.associateBy { it.id }
 
             val inventoryToInsert = mutableListOf<InventoryPartEntity>()
 
             allSets.forEach { set ->
-                val normalizedSetName = normalizedNamesCache[set.id] ?: return@forEach
+                val normalizedSetName = parser.normalizeNewName(set.name)
                 val legacyKey = "${normalizedSetName}_BLUEPRINT"
                 legacyData[legacyKey]?.let { qty ->
                     inventoryToInsert.add(InventoryPartEntity(set.id, qty))
@@ -60,7 +59,8 @@ class CloudRepositoryImpl @Inject constructor(
             }
 
             allParts.forEach { part ->
-                val normalizedSetName = normalizedNamesCache[part.primeSetId] ?: return@forEach
+                val set = setMap[part.primeSetId] ?: return@forEach
+                val normalizedSetName = parser.normalizeNewName(set.name)
 
                 val legacyKey = "${normalizedSetName}_${part.part.name}"
                 legacyData[legacyKey]?.let { qty ->
