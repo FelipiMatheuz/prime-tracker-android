@@ -6,13 +6,13 @@ import com.felipimatheuz.primehunt.data.local.entity.InventoryPartEntity
 import com.felipimatheuz.primehunt.data.local.AppDatabase
 import com.felipimatheuz.primehunt.domain.model.enums.PrimePartType
 import com.felipimatheuz.primehunt.domain.model.enums.PrimeType
-import com.felipimatheuz.primehunt.domain.mapper.LegacyMigrationParser
 import com.felipimatheuz.primehunt.domain.repository.CloudRepository
-import com.felipimatheuz.primehunt.domain.repository.PrimeRepository
 import com.felipimatheuz.primehunt.data.local.dao.GoalDao
 import com.felipimatheuz.primehunt.data.local.dao.GoalTagDao
+import com.felipimatheuz.primehunt.domain.repository.InventoryRepository
 import com.felipimatheuz.primehunt.domain.repository.SyncPart
 import com.felipimatheuz.primehunt.domain.repository.SyncSet
+import com.felipimatheuz.primehunt.domain.util.LegacyMigrationParser
 import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -28,7 +28,7 @@ class LegacyMigrationIntegrationTest {
     private val inventoryDao = mockk<InventoryDao>(relaxed = true)
     private val goalDao = mockk<GoalDao>(relaxed = true)
     private val tagDao = mockk<GoalTagDao>(relaxed = true)
-    private val primeRepository = mockk<PrimeRepository>(relaxed = true)
+    private val inventoryRepository = mockk<InventoryRepository>(relaxed = true)
     private val parser = LegacyMigrationParser()
 
     private lateinit var repository: CloudRepository
@@ -40,7 +40,7 @@ class LegacyMigrationIntegrationTest {
             val block = invocation.args[1] as suspend () -> Any?
             block()
         }
-        repository = CloudRepositoryImpl(database, inventoryDao, goalDao, tagDao, primeRepository, parser)
+        repository = CloudRepositoryImpl(database, inventoryDao, goalDao, tagDao, inventoryRepository, parser)
     }
 
     @Test
@@ -55,11 +55,11 @@ class LegacyMigrationIntegrationTest {
         )
 
         // Mock New
-        coEvery { primeRepository.getAllSetsSync() } returns listOf(
+        coEvery { inventoryRepository.getAllSetsSync() } returns listOf(
             SyncSet("gauss_prime", "Gauss Prime", PrimeType.WARFRAME, ""),
             SyncSet("fang_prime", "Fang Prime", PrimeType.MELEE, "")
         )
-        coEvery { primeRepository.getAllPartsSync() } returns listOf(
+        coEvery { inventoryRepository.getAllPartsSync() } returns listOf(
             SyncPart("gauss_neuro", "gauss_prime", PrimePartType.NEUROPTICS, 1),
             SyncPart("fang_blade", "fang_prime", PrimePartType.BLADE, 1)
         )
@@ -84,8 +84,8 @@ class LegacyMigrationIntegrationTest {
             "Unknown_Item_PART_0" to true
         )
         
-        coEvery { primeRepository.getAllSetsSync() } returns emptyList()
-        coEvery { primeRepository.getAllPartsSync() } returns emptyList()
+        coEvery { inventoryRepository.getAllSetsSync() } returns emptyList()
+        coEvery { inventoryRepository.getAllPartsSync() } returns emptyList()
 
         val result = repository.performMigration(mapSet, emptyMap())
 
@@ -100,16 +100,16 @@ class LegacyMigrationIntegrationTest {
             "Aklex_LEX_0" to true 
         )
 
-        coEvery { primeRepository.getAllSetsSync() } returns listOf(
+        coEvery { inventoryRepository.getAllSetsSync() } returns listOf(
             SyncSet("aklex_prime", "Aklex Prime", PrimeType.SECONDARY, ""),
             SyncSet("lex_prime", "Lex Prime", PrimeType.SECONDARY, "")
         )
 
-        coEvery { primeRepository.getAllPartsSync() } returns listOf(
+        coEvery { inventoryRepository.getAllPartsSync() } returns listOf(
             SyncPart("lex_as_part", "aklex_prime", PrimePartType.PRIME_SET, 2)
         )
 
-        coEvery { primeRepository.getPartsBySetSync("lex_as_part") } returns listOf(
+        coEvery { inventoryRepository.getPartsBySetSync("lex_as_part") } returns listOf(
             SyncPart("lex_bp", "lex_prime", PrimePartType.BLUEPRINT, 1),
             SyncPart("lex_barrel", "lex_prime", PrimePartType.BARREL, 1)
         )

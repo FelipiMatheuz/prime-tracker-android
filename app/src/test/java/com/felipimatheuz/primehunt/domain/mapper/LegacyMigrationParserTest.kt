@@ -1,5 +1,6 @@
 package com.felipimatheuz.primehunt.domain.mapper
 
+import com.felipimatheuz.primehunt.domain.util.LegacyMigrationParser
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
