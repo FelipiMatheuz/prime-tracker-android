@@ -51,6 +51,7 @@ class CloudViewModel @Inject constructor(
         _state.update {
             it.copy(
                 isAuthenticated = user != null,
+                userId = user?.userId,
                 userEmail = user?.email,
                 userName = user?.name
             )
@@ -96,7 +97,7 @@ class CloudViewModel @Inject constructor(
     private fun handleSignInResult(result: SignInResult) {
         val user = result.data
         if (user != null) {
-            logger.log("CloudViewModel", "SignIn Success: ${user.userId}")
+            logger.log("CloudViewModel", "SignIn Success: ${user.email}")
         } else {
             logger.log("CloudViewModel", "SignIn Error: ${result.errorMessage}")
         }
@@ -104,6 +105,7 @@ class CloudViewModel @Inject constructor(
             it.copy(
                 isLoading = false,
                 isAuthenticated = user != null,
+                userId = user?.userId,
                 userEmail = user?.email,
                 userName = user?.name,
                 actionResult = if (user != null) CloudActionResult.SuccessSignIn 
@@ -123,6 +125,7 @@ class CloudViewModel @Inject constructor(
                 it.copy(
                     isLoading = false,
                     isAuthenticated = false,
+                    userId = null,
                     userEmail = null,
                     userName = null,
                     actionResult = CloudActionResult.SuccessSignOut
@@ -136,7 +139,7 @@ class CloudViewModel @Inject constructor(
     private fun uploadBackup() {
         logger.log("CloudViewModel", "Intent: UploadBackup")
         if (_state.value.isDownloading || _state.value.isLoading) return
-        val userId = _state.value.userEmail ?: return
+        val userId = _state.value.userId ?: return
         viewModelScope.launch {
             _state.update { it.copy(isUploading = true) }
             val result = uploadBackupUseCase(userId)
@@ -149,7 +152,7 @@ class CloudViewModel @Inject constructor(
     private fun downloadBackup() {
         logger.log("CloudViewModel", "Intent: DownloadBackup")
         if (_state.value.isUploading || _state.value.isLoading) return
-        val userId = _state.value.userEmail ?: return
+        val userId = _state.value.userId ?: return
         viewModelScope.launch {
             _state.update { it.copy(isDownloading = true) }
             val result = downloadBackupUseCase(userId)
@@ -167,7 +170,7 @@ class CloudViewModel @Inject constructor(
     private fun startMigration() {
         logger.log("CloudViewModel", "Intent: StartMigration")
         if (_state.value.isMigrationSuccess) return
-        val userId = _state.value.userEmail ?: return
+        val userId = _state.value.userId ?: return
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
             val result = performMigrationUseCase(userId)
@@ -187,7 +190,7 @@ class CloudViewModel @Inject constructor(
 
     private fun clearCloudData() {
         logger.log("CloudViewModel", "Intent: ClearCloudData")
-        val userId = _state.value.userEmail ?: return
+        val userId = _state.value.userId ?: return
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
             val result = clearCloudDataUseCase(userId)

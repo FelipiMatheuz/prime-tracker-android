@@ -5,6 +5,7 @@ import com.felipimatheuz.primehunt.ui.mvi.MviState
 
 data class CloudState(
     val isAuthenticated: Boolean = false,
+    val userId: String? = null,
     val userEmail: String? = null,
     val userName: String? = null,
     val isLoading: Boolean = false,
