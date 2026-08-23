@@ -183,7 +183,7 @@
     <string name="manage_goal_delete_title">Supprimer l\'objectif</string>
     <string name="manage_goal_delete_message">Voulez-vous vraiment supprimer cet objectif de farm ?</string>
     <string name="manage_goal_cancel">Annuler</string>
-    <string name="forma_blueprint">Schéma de Forma</string>
+    <string name="forma_blueprint">Forma: Schéma</string>
 
     <!-- Tags -->
     <string name="tag_create_title">Créer un nouveau tag</string>

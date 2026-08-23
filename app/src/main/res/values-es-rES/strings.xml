@@ -183,7 +183,7 @@
     <string name="manage_goal_delete_title">Eliminar objetivo</string>
     <string name="manage_goal_delete_message">¿Estás seguro de que quieres eliminar este objetivo de farmeo?</string>
     <string name="manage_goal_cancel">Cancelar</string>
-    <string name="forma_blueprint">Plano de Forma</string>
+    <string name="forma_blueprint">Forma: Plano</string>
 
     <!-- Tags -->
     <string name="tag_create_title">Crear nueva etiqueta</string>

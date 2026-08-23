@@ -179,7 +179,7 @@ fun GoalForm(
                 onValueChange = actions.onTargetQueryChange,
                 suggestions = state.suggestions,
                 onSuggestionSelected = actions.onTargetSelected,
-                label = "Target",
+                label = stringResource(R.string.manage_goal_target),
                 modifier = Modifier.fillMaxWidth(),
                 enabled = state.enabled,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),

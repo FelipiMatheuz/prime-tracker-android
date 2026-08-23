@@ -40,6 +40,7 @@ import com.felipimatheuz.primehunt.domain.model.enums.RelicSource
 import com.felipimatheuz.primehunt.domain.model.GoalTagDomain
 import com.felipimatheuz.primehunt.domain.model.RelicComponentDomain
 import com.felipimatheuz.primehunt.domain.model.RelicDomain
+import com.felipimatheuz.primehunt.domain.model.enums.PrimePartType
 import com.felipimatheuz.primehunt.ui.screen.components.GoalTagChip
 import com.felipimatheuz.primehunt.ui.screen.components.PrimePanel
 import com.felipimatheuz.primehunt.ui.theme.Completed
@@ -54,7 +55,7 @@ fun RelicDetailsDialog(
     AnimatedRelicDialog(
         relicEraIcon = relic.era.icon,
         onDismiss = onDismiss
-    ) { closeDialog  ->
+    ) { closeDialog ->
         RelicDetailsContent(
             relic = relic,
             onDismiss = closeDialog
@@ -148,7 +149,7 @@ private fun RelicDetailsContent(
                     .thenBy { it.name }
             )
         }
-        
+
         Box(modifier = Modifier.weight(1f, fill = false)) {
             LazyColumn(
                 modifier = Modifier.fillMaxWidth(),
@@ -205,9 +206,9 @@ private fun RelicRewardItem(reward: RelicComponentDomain) {
             text = if (reward.isForma) {
                 stringResource(R.string.forma_blueprint)
             } else if (reward.isBlueprint) {
-                "${reward.name} ${stringResource(R.string.comp_blueprint)}"
+                "${reward.name}: ${stringResource(R.string.comp_blueprint)}"
             } else {
-                reward.name
+                normalizeRewardName(reward.name)
             },
             style = MaterialTheme.typography.bodyLarge,
             fontWeight = FontWeight.Bold
@@ -228,7 +229,10 @@ private fun RelicRewardItem(reward: RelicComponentDomain) {
                     )
                 } else if (!reward.isForma) {
                     Text(
-                        text = stringResource(R.string.relic_needed_indicator, reward.neededQuantity),
+                        text = stringResource(
+                            R.string.relic_needed_indicator,
+                            reward.neededQuantity
+                        ),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -269,6 +273,27 @@ private fun RelicRewardItem(reward: RelicComponentDomain) {
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun normalizeRewardName(name: String): String {
+    val primeIndex = name.indexOf("Prime")
+    if (primeIndex == -1) {
+        return name
+    }
+
+    val immutablePart = name.substring(0, primeIndex + "Prime".length).trim()
+    val translatablePart = name.substring(primeIndex + "Prime".length).trim()
+    val primePart = PrimePartType.fromString(translatablePart)
+    if (primePart == PrimePartType.BLUEPRINT || primePart == PrimePartType.PRIME_SET) {
+        return name
+    }
+
+    return buildString {
+        append(immutablePart.replaceFirstChar { it.uppercase() })
+        append(": ")
+        append(stringResource(primePart.text))
     }
 }
 
