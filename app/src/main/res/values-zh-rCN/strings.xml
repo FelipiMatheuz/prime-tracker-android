@@ -183,7 +183,7 @@
     <string name="manage_goal_delete_title">删除目标</string>
     <string name="manage_goal_delete_message">你确定要删除这个刷取目标吗？</string>
     <string name="manage_goal_cancel">取消</string>
-    <string name="forma_blueprint">Forma 蓝图</string>
+    <string name="forma_blueprint">Forma: 蓝图</string>
 
     <!-- Tags -->
     <string name="tag_create_title">创建新标签</string>

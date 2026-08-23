@@ -183,7 +183,7 @@
     <string name="manage_goal_delete_title">Delete Goal</string>
     <string name="manage_goal_delete_message">Are you sure you want to delete this farming goal?</string>
     <string name="manage_goal_cancel">Cancel</string>
-    <string name="forma_blueprint">Forma Blueprint</string>
+    <string name="forma_blueprint">Forma: Blueprint</string>
 
     <!-- Tags -->
     <string name="tag_create_title">Create New Tag</string>

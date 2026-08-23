@@ -42,7 +42,7 @@ fun GoalsOverviewCard(state: GoalsOverviewUi) {
     ) {
         Text(
             text = stringResource(R.string.menu_goals),
-            style = MaterialTheme.typography.displayMedium.copy(textAlign = TextAlign.Center),
+            style = MaterialTheme.typography.displaySmall.copy(textAlign = TextAlign.Center),
             fontWeight = FontWeight.Bold,
             modifier = Modifier.fillMaxWidth()
         )

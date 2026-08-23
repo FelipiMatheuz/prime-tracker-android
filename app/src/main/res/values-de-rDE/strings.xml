@@ -183,7 +183,7 @@
     <string name="manage_goal_delete_title">Ziel löschen</string>
     <string name="manage_goal_delete_message">Bist du sicher, dass du dieses Farming-Ziel löschen möchtest?</string>
     <string name="manage_goal_cancel">Abbrechen</string>
-    <string name="forma_blueprint">Forma Blaupause</string>
+    <string name="forma_blueprint">Forma: Blaupause</string>
 
     <!-- Tags -->
     <string name="tag_create_title">Neuen Tag erstellen</string>

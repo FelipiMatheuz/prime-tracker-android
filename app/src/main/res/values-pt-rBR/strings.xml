@@ -64,7 +64,7 @@
     <string name="overview_primary">Primária</string>
     <string name="overview_secondary">Secundária</string>
     <string name="overview_melee">Branca</string>
-    <string name="overview_arch_gun">Arma Archwing</string>
+    <string name="overview_arch_gun">Arch Arma</string>
     <string name="overview_companion">Companheiro</string>
 
     <string name="overview_others">Outros</string>
@@ -183,7 +183,7 @@
     <string name="manage_goal_delete_title">Excluir Objetivo</string>
     <string name="manage_goal_delete_message">Tem certeza de que deseja excluir este objetivo de farm?</string>
     <string name="manage_goal_cancel">Cancelar</string>
-    <string name="forma_blueprint">Diagrama de Forma</string>
+    <string name="forma_blueprint">Forma: Diagrama</string>
 
     <!-- Tags -->
     <string name="tag_create_title">Criar Nova Etiqueta</string>
@@ -281,7 +281,7 @@
     <string name="help_cloud_legacy_title">Migração de Legado</string>
     <string name="help_cloud_legacy_desc">A Migração de Legado importa seu checklist anterior para o novo sistema de Inventário.\n\nApós uma migração bem-sucedida, os dados legados são removidos permanentemente do Backup na Nuvem.</string>
     <string name="help_cloud_legacy_tip">Os dados do jogo e os dados pessoais são sincronizados de forma independente.</string>
-    <string name="help_faq_title">FAQ</string>
+    <string name="help_faq_title">Perguntas Frequentes</string>
     <string name="help_faq_q1">Posso usar o Prime Tracker offline?</string>
     <string name="help_faq_a1">Sim.\n\nTodos os recursos do aplicativo funcionam offline.\n\nO Backup na Nuvem é opcional.</string>
     <string name="help_faq_q2">Por que concluir um Objetivo não consome o Inventário?</string>

@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.ui.modifier.PressIntensity
@@ -44,7 +45,13 @@ fun PrimeSearchBar(
                 onSearch = { },
                 expanded = false,
                 onExpandedChange = { },
-                placeholder = { Text(stringResource(placeholderRes)) },
+                placeholder = {
+                    Text(
+                        stringResource(placeholderRes),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                },
                 leadingIcon = {
                     Icon(
                         painter = painterResource(R.drawable.ic_search),
@@ -74,7 +81,10 @@ fun PrimeSearchBar(
                             IconButton(
                                 onClick = onFilterClick,
                                 interactionSource = filterButtonInteraction,
-                                modifier = Modifier.pressScale(filterButtonInteraction, PressIntensity.MODERATE)
+                                modifier = Modifier.pressScale(
+                                    filterButtonInteraction,
+                                    PressIntensity.MODERATE
+                                )
                             ) {
                                 Icon(
                                     painter = painterResource(R.drawable.btn_filter),
@@ -88,9 +98,9 @@ fun PrimeSearchBar(
             )
         },
         expanded = false,
-        onExpandedChange = { },
+        onExpandedChange = {},
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp)
-    ) { }
+    ) {}
 }
