@@ -17,6 +17,20 @@
     <string name="plus_description">Plus</string>
     <string name="minus_description">Minus</string>
 
+    <!-- Settings -->
+    <string name="settings_theme_title">Thema</string>
+    <string name="settings_theme_option_system">System</string>
+    <string name="settings_theme_option_light">Hell</string>
+    <string name="settings_theme_option_dark">Dunkel</string>
+    <string name="settings_language_title">Sprache</string>
+    <string name="settings_language_option_system">System</string>
+    <string name="settings_language_option_english">Englisch</string>
+    <string name="settings_language_option_german">Deutsch</string>
+    <string name="settings_language_option_spanish">Spanisch</string>
+    <string name="settings_language_option_french">Französisch</string>
+    <string name="settings_language_option_portuguese_br">Portugiesisch (Brasilien)</string>
+    <string name="settings_language_option_chinese_cn">Chinesisch (Vereinfacht)</string>
+
     <!-- Navigation -->
     <string name="menu_button_description">Schnellmenü</string>
     <string name="menu_overview">Übersicht</string>

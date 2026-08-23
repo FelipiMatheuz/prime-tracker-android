@@ -23,6 +23,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,12 +35,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.ui.NavDisplay
 import com.felipimatheuz.primehunt.BuildConfig
 import com.felipimatheuz.primehunt.R
+import com.felipimatheuz.primehunt.domain.model.enums.AppLanguage
 import com.felipimatheuz.primehunt.ui.modifier.PressIntensity
 import com.felipimatheuz.primehunt.ui.modifier.pressScale
 import com.felipimatheuz.primehunt.ui.navigation.AboutKey
@@ -97,6 +101,17 @@ fun MainContent(
     val snackBarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     val selectedWallpaper by settingsViewModel.selectedWallpaper.collectAsStateWithLifecycle()
+    val selectedTheme by settingsViewModel.selectedTheme.collectAsStateWithLifecycle()
+    val selectedLanguage by settingsViewModel.selectedLanguage.collectAsStateWithLifecycle()
+
+    LaunchedEffect(selectedLanguage) {
+        val appLocale: LocaleListCompat = if (selectedLanguage == AppLanguage.SYSTEM) {
+            LocaleListCompat.getEmptyLocaleList()
+        } else {
+            LocaleListCompat.forLanguageTags(selectedLanguage.languageTag)
+        }
+        AppCompatDelegate.setApplicationLocales(appLocale)
+    }
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -150,7 +165,11 @@ fun MainContent(
                     currentKey = (navState.topLevelRoute as? AppNavKey) ?: OverviewKey,
                     onMenuClick = { scope.launch { drawerState.open() } },
                     selectedWallpaper = selectedWallpaper,
-                    onWallpaperSelected = settingsViewModel::updateWallpaper
+                    onWallpaperSelected = settingsViewModel::updateWallpaper,
+                    selectedTheme = selectedTheme,
+                    onThemeSelected = settingsViewModel::updateTheme,
+                    selectedLanguage = selectedLanguage,
+                    onLanguageSelected = settingsViewModel::updateLanguage
                 )
             },
             snackbarHost = { SnackbarHost(snackBarHostState) }
