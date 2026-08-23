@@ -17,6 +17,20 @@
     <string name="plus_description">Mais</string>
     <string name="minus_description">Menos</string>
 
+    <!-- Settings -->
+    <string name="settings_theme_title">Tema</string>
+    <string name="settings_theme_option_system">Sistema</string>
+    <string name="settings_theme_option_light">Claro</string>
+    <string name="settings_theme_option_dark">Escuro</string>
+    <string name="settings_language_title">Idioma</string>
+    <string name="settings_language_option_system">Sistema</string>
+    <string name="settings_language_option_english">Inglês</string>
+    <string name="settings_language_option_german">Alemão</string>
+    <string name="settings_language_option_spanish">Espanhol</string>
+    <string name="settings_language_option_french">Francês</string>
+    <string name="settings_language_option_portuguese_br">Português (Brasil)</string>
+    <string name="settings_language_option_chinese_cn">Chinês (Simplificado)</string>
+
     <!-- Navigation -->
     <string name="menu_button_description">Menu Rápido</string>
     <string name="menu_overview">Visão Geral</string>

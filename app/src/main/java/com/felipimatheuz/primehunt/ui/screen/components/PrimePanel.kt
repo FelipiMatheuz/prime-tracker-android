@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.felipimatheuz.primehunt.domain.model.enums.AppTheme
 import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
 
 @Composable
@@ -104,7 +105,7 @@ fun PrimePanel(
 @Preview(showBackground = true, name = "Tema Claro")
 @Composable
 fun PrimePanelLightPreview() {
-    PrimeTrackerTheme(darkTheme = false) {
+    PrimeTrackerTheme(theme = AppTheme.LIGHT) {
         Surface(color = MaterialTheme.colorScheme.surface) {
             Box(modifier = Modifier.padding(24.dp)) {
                 PrimePanel {
@@ -123,7 +124,7 @@ fun PrimePanelLightPreview() {
 @Preview(showBackground = true, name = "Tema Escuro", backgroundColor = 0xFF1C1B1F)
 @Composable
 fun PrimePanelDarkPreview() {
-    PrimeTrackerTheme(darkTheme = true) {
+    PrimeTrackerTheme(theme = AppTheme.DARK) {
         Surface(color = MaterialTheme.colorScheme.surface) {
             Box(modifier = Modifier.padding(24.dp)) {
                 PrimePanel {
