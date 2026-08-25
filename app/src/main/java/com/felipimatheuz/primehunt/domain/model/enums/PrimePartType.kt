@@ -40,7 +40,7 @@ enum class PrimePartType(@param:StringRes val text: Int, @param:DrawableRes val 
 
     companion object {
         fun fromString(value: String): PrimePartType {
-            return entries.find { it.name.equals(value, ignoreCase = true) } ?: BLUEPRINT
+            return entries.find { it.name.equals(value.replace(" ", "_"), ignoreCase = true) } ?: BLUEPRINT
         }
     }
 }

@@ -15,8 +15,8 @@ android {
         applicationId = "com.felipimatheuz.primehunt"
         minSdk = 27
         targetSdk = 37
-        versionCode = 39
-        versionName = "4.0.8"
+        versionCode = 40
+        versionName = "4.0.9"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
