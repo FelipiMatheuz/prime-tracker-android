@@ -287,7 +287,7 @@ private fun normalizeRewardName(name: String): String {
     val translatablePart = name.substring(primeIndex + "Prime".length).trim()
     val primePart = PrimePartType.fromString(translatablePart)
     if (primePart == PrimePartType.BLUEPRINT || primePart == PrimePartType.PRIME_SET) {
-        return name
+        return "$immutablePart: $translatablePart"
     }
 
     return buildString {
