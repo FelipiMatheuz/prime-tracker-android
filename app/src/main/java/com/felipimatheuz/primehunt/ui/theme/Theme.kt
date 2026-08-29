@@ -7,16 +7,16 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
+import com.felipimatheuz.primehunt.domain.model.enums.AppTheme
 
 private val DarkColorScheme = darkColorScheme(
     primary = Gold200,
-    primaryContainer = Gold700,
+    primaryContainer = Gold500,
     onPrimary = Black,
-    secondary = Cyan200,
-    secondaryContainer = Cyan200,
+    secondary = Cyan700,
+    secondaryContainer = Cyan700,
     onSecondary = White
 )
 
@@ -25,24 +25,27 @@ private val LightColorScheme = lightColorScheme(
     primaryContainer = Gold700,
     onPrimary = White,
     secondary = Cyan200,
-    secondaryContainer = Cyan700,
+    secondaryContainer = Cyan200,
     onSecondary = Black
 )
 
 @Composable
 fun PrimeTrackerTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    theme: AppTheme = AppTheme.SYSTEM,
     content: @Composable () -> Unit
 ) {
+    val darkTheme = when (theme) {
+        AppTheme.SYSTEM -> isSystemInDarkTheme()
+        AppTheme.LIGHT -> false
+        AppTheme.DARK -> true
+    }
     val colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme
 
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            WindowCompat.setDecorFitsSystemWindows(window, true)
-            window.statusBarColor = colorScheme.primary.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
+            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
         }
     }
 

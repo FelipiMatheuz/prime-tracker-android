@@ -1,0 +1,44 @@
+package com.felipimatheuz.primehunt.data.local.dao
+
+import androidx.room.Dao
+import androidx.room.Query
+import androidx.room.Upsert
+import com.felipimatheuz.primehunt.data.local.entity.PrimePartEntity
+import kotlinx.coroutines.flow.Flow
+
+@Dao
+interface PrimePartDao {
+
+    @Query("SELECT * FROM prime_part")
+    fun getAll(): Flow<List<PrimePartEntity>>
+
+    @Query("SELECT * FROM prime_part")
+    suspend fun getAllSync(): List<PrimePartEntity>
+
+    @Query("""
+        SELECT *
+        FROM prime_part
+        WHERE primeSetId = :setId
+    """)
+    fun getByPrimeSet(setId: String): Flow<List<PrimePartEntity>>
+
+    @Query("""
+        SELECT *
+        FROM prime_part
+        WHERE id = :id
+    """)
+    suspend fun getById(id: String): PrimePartEntity?
+
+    @Query("""
+        SELECT *
+        FROM prime_part
+        WHERE primeSetId = :setId
+    """)
+    suspend fun getByPrimeSetSync(setId: String): List<PrimePartEntity>
+
+    @Query("SELECT COUNT(*) FROM prime_part")
+    fun count(): Flow<Int>
+
+    @Upsert
+    suspend fun upsertAll(parts: List<PrimePartEntity>)
+}

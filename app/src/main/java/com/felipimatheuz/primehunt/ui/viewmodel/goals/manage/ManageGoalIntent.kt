@@ -1,0 +1,32 @@
+package com.felipimatheuz.primehunt.ui.viewmodel.goals.manage
+
+import androidx.compose.ui.graphics.Color
+import com.felipimatheuz.primehunt.domain.model.enums.GoalIcons
+import com.felipimatheuz.primehunt.domain.model.enums.GoalTargetType
+import com.felipimatheuz.primehunt.domain.model.GoalTagDomain
+import com.felipimatheuz.primehunt.domain.model.TargetDomain
+import com.felipimatheuz.primehunt.ui.mvi.MviIntent
+
+sealed interface ManageGoalIntent : MviIntent {
+    data class Initialize(val goalId: Long?) : ManageGoalIntent
+
+    data class UpdateTargetType(val type: GoalTargetType) : ManageGoalIntent
+    data class UpdateQuantity(val quantity: Int) : ManageGoalIntent
+    data class UpdateManualQuantity(val quantity: Int) : ManageGoalIntent
+    data class SearchTarget(val query: String) : ManageGoalIntent
+    data class SelectTarget(val target: TargetDomain) : ManageGoalIntent
+    data class SelectTag(val tag: GoalTagDomain) : ManageGoalIntent
+    data class UpdateNotes(val notes: String) : ManageGoalIntent
+
+    data object SaveGoal : ManageGoalIntent
+    data object DeleteGoal : ManageGoalIntent
+    data object CompleteGoal : ManageGoalIntent
+    data object ResetOperation : ManageGoalIntent
+
+    data object ShowTagSheet : ManageGoalIntent
+    data object HideTagSheet : ManageGoalIntent
+    data class UpdateNewTagName(val name: String) : ManageGoalIntent
+    data class UpdateNewTagIcon(val icon: GoalIcons) : ManageGoalIntent
+    data class UpdateNewTagColor(val color: Color) : ManageGoalIntent
+    data object CreateTag : ManageGoalIntent
+}

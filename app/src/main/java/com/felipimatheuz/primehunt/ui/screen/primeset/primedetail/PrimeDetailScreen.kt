@@ -1,0 +1,179 @@
+package com.felipimatheuz.primehunt.ui.screen.primeset.primedetail
+
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.felipimatheuz.primehunt.R
+import com.felipimatheuz.primehunt.domain.model.enums.PrimeType
+import com.felipimatheuz.primehunt.ui.modifier.PressIntensity
+import com.felipimatheuz.primehunt.ui.modifier.pressScale
+import com.felipimatheuz.primehunt.ui.screen.primeset.primedetail.components.DetailComponentItem
+import com.felipimatheuz.primehunt.ui.screen.primeset.primedetail.components.DetailError
+import com.felipimatheuz.primehunt.ui.screen.primeset.primedetail.components.DetailHeader
+import com.felipimatheuz.primehunt.ui.screen.primeset.primedetail.components.DetailQuickActions
+import com.felipimatheuz.primehunt.ui.screen.primeset.primedetail.components.PrimeDetailSkeleton
+import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
+import com.felipimatheuz.primehunt.ui.viewmodel.primedetail.PrimeDetailIntent
+import com.felipimatheuz.primehunt.ui.viewmodel.primedetail.PrimeDetailState
+import com.felipimatheuz.primehunt.ui.viewmodel.primedetail.PrimeDetailViewModel
+
+@Composable
+fun PrimeDetailScreen(
+    padding: PaddingValues,
+    setId: String,
+    onBack: () -> Unit
+) {
+    val viewModel: PrimeDetailViewModel = hiltViewModel(
+        key = setId,
+        creationCallback = { factory: PrimeDetailViewModel.Factory ->
+            factory.create(setId)
+        }
+    )
+    val state by viewModel.state.collectAsStateWithLifecycle()
+
+    PrimeDetailContent(
+        padding = padding,
+        state = state,
+        onIntent = viewModel::onIntent,
+        onBack = onBack
+    )
+}
+
+@Composable
+fun PrimeDetailContent(
+    padding: PaddingValues,
+    state: PrimeDetailState,
+    onIntent: (PrimeDetailIntent) -> Unit,
+    onBack: () -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(padding)
+    ) {
+        if (state.isLoading) {
+            PrimeDetailSkeleton()
+        } else {
+            state.primeSet?.let { set ->
+                Column(modifier = Modifier.fillMaxSize()) {
+                    DetailHeader(set)
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1f)
+                    ) {
+
+                        item {
+                            DetailQuickActions(
+                                onAddSet = {
+                                    onIntent(
+                                        PrimeDetailIntent.UpdateSetQuantity(
+                                            1
+                                        )
+                                    )
+                                },
+                                onRemoveSet = {
+                                    onIntent(
+                                        PrimeDetailIntent.UpdateSetQuantity(
+                                            -1
+                                        )
+                                    )
+                                }
+                            )
+                        }
+
+                        set.parts.forEach { part ->
+                            item(key = part.id) {
+                                DetailComponentItem(
+                                    part,
+                                    isArchwing = set.type == PrimeType.ARCHWING
+                                ) { delta ->
+                                    onIntent(
+                                        PrimeDetailIntent.UpdateQuantity(
+                                            part.id,
+                                            delta
+                                        )
+                                    )
+                                }
+                            }
+
+                            if (part.nestedParts.isNotEmpty()) {
+                                items(
+                                    part.nestedParts,
+                                    key = { "nested_${part.id}_${it.id}" }) { nested ->
+                                    DetailComponentItem(nested, isNested = true, isArchwing = false)
+                                    { delta ->
+                                        onIntent(
+                                            PrimeDetailIntent.UpdateQuantity(
+                                                nested.id,
+                                                delta
+                                            )
+                                        )
+                                    }
+                                }
+                            }
+
+                            item {
+                                HorizontalDivider(
+                                    modifier = Modifier.padding(horizontal = 16.dp),
+                                    thickness = 0.5.dp,
+                                    color = MaterialTheme.colorScheme.outlineVariant
+                                )
+                            }
+                        }
+                    }
+                }
+            } ?: DetailError()
+
+            val closeInteraction = remember { MutableInteractionSource() }
+            IconButton(
+                onClick = onBack,
+                interactionSource = closeInteraction,
+                modifier = Modifier
+                    .padding(8.dp)
+                    .align(Alignment.TopEnd)
+                    .pressScale(closeInteraction, PressIntensity.SUBTLE)
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_close),
+                    contentDescription = stringResource(R.string.close),
+                    tint = MaterialTheme.colorScheme.onSurface
+                )
+            }
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PrimeDetailScreenPreview() {
+    PrimeTrackerTheme {
+        PrimeDetailContent(
+            padding = PaddingValues(),
+            state = PrimeDetailState(isLoading = false),
+            onIntent = {},
+            onBack = {}
+        )
+    }
+}

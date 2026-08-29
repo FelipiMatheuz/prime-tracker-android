@@ -1,0 +1,25 @@
+package com.felipimatheuz.primehunt.data.local.entity
+
+import androidx.room.Entity
+import androidx.room.Index
+import androidx.room.PrimaryKey
+import com.felipimatheuz.primehunt.domain.model.enums.DropRarity
+
+@Entity(
+    tableName = "prime_component",
+    indices = [
+        Index(value = ["relicId"]),
+        Index(value = ["primePartId"])
+    ]
+)
+data class PrimeComponentEntity(
+
+    @PrimaryKey
+    val id: String,
+
+    val relicId: String,
+
+    val primePartId: String,
+
+    val rarity: DropRarity
+)
