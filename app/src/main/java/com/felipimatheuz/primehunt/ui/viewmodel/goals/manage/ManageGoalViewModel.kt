@@ -207,7 +207,7 @@ class ManageGoalViewModel @Inject constructor(
                     desiredQuantity = s.quantity,
                     tagId = s.selectedTag!!.id,
                     note = s.notes.ifBlank { null },
-                    manualCurrentQuantity = if (s.targetType == GoalTargetType.RELIC || s.targetType == GoalTargetType.FORMA) s.manualCurrentQuantity else null
+                    manualCurrentQuantity = if (s.targetType == GoalTargetType.RELIC || s.targetType == GoalTargetType.FORMA || s.targetType == GoalTargetType.DUCAT) s.manualCurrentQuantity else null
                 )
             } else {
                 repository.saveGoal(
@@ -216,7 +216,7 @@ class ManageGoalViewModel @Inject constructor(
                     desiredQuantity = s.quantity,
                     tagId = s.selectedTag!!.id,
                     note = s.notes.ifBlank { null },
-                    manualCurrentQuantity = if (s.targetType == GoalTargetType.RELIC || s.targetType == GoalTargetType.FORMA) s.manualCurrentQuantity else 0
+                    manualCurrentQuantity = if (s.targetType == GoalTargetType.RELIC || s.targetType == GoalTargetType.FORMA || s.targetType == GoalTargetType.DUCAT) s.manualCurrentQuantity else 0
                 )
             }
 

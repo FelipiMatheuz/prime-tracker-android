@@ -175,7 +175,8 @@
     <string name="goal_target_prime_set">Prime Set</string>
     <string name="goal_target_prime_part">Prime Part</string>
     <string name="goal_target_relic">Relic</string>
-    <string name="goal_target_forma">Forma</string>
+    <string name="goal_target_forma" translatable="false">Forma</string>
+    <string name="goal_target_ducat" translatable="false">Ducat</string>
     <string name="empty_goals_active_title">No active goals</string>
     <string name="empty_goals_active_desc">Tap + to create your first farming plan.</string>
     <string name="empty_goals_completed_title">No completed goals</string>

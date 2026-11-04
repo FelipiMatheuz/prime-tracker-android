@@ -175,7 +175,7 @@
     <string name="goal_target_prime_set">Ensemble Prime</string>
     <string name="goal_target_prime_part">Pièce Prime</string>
     <string name="goal_target_relic">Relique</string>
-    <string name="goal_target_forma">Forma</string>
+
     <string name="empty_goals_active_title">Aucun objectif actif</string>
     <string name="empty_goals_active_desc">Appuyez sur + pour créer votre premier plan de farm.</string>
     <string name="empty_goals_completed_title">Aucun objectif terminé</string>

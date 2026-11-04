@@ -166,7 +166,7 @@ fun ManageGoalContent(
                 notes = state.notes,
                 manualCurrentQuantity = state.manualCurrentQuantity,
                 readOnlyTarget = state.isEditMode,
-                showManualQuantity = state.isEditMode && (state.targetType == GoalTargetType.RELIC || state.targetType == GoalTargetType.FORMA),
+                showManualQuantity = state.isEditMode && (state.targetType == GoalTargetType.RELIC || state.targetType == GoalTargetType.FORMA || state.targetType == GoalTargetType.DUCAT),
                 enabled = isFormEnabled,
                 focusRequester = if (!state.isEditMode) focusRequester else null
             ),

@@ -70,6 +70,10 @@ object GoalMapper {
             GoalTargetType.FORMA -> {
                 "Forma" to goal.currentQuantity
             }
+
+            GoalTargetType.DUCAT -> {
+                "Ducat" to goal.currentQuantity
+            }
         }
 
         return GoalDomain(
