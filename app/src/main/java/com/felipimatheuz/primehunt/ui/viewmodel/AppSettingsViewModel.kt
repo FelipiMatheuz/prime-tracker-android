@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.felipimatheuz.primehunt.domain.model.enums.BgIcons
 import com.felipimatheuz.primehunt.domain.model.enums.AppTheme
 import com.felipimatheuz.primehunt.domain.model.enums.AppLanguage
+import com.felipimatheuz.primehunt.data.cloud.GoogleCredential
 import com.felipimatheuz.primehunt.data.local.preferences.UserPreferencesDataSource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -16,8 +17,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AppSettingsViewModel @Inject constructor(
-    private val preferencesDataSource: UserPreferencesDataSource
+    private val preferencesDataSource: UserPreferencesDataSource,
+    googleCredential: GoogleCredential
 ) : ViewModel() {
+
+    val isUserSignedIn: StateFlow<Boolean> = googleCredential.isUserSignedInFlow
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = googleCredential.getSignedInUser() != null
+        )
 
     val selectedWallpaper: StateFlow<BgIcons> = preferencesDataSource.selectedWallpaper
         .stateIn(

@@ -13,6 +13,9 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.auth
 import com.google.firebase.Firebase
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 import java.util.concurrent.CancellationException
 import javax.inject.Inject
@@ -33,6 +36,15 @@ class GoogleCredential @Inject constructor(@param:ApplicationContext private val
     private val request: GetCredentialRequest = GetCredentialRequest.Builder()
         .addCredentialOption(googleIdOption)
         .build()
+
+    val isUserSignedInFlow: Flow<Boolean> = callbackFlow {
+        val listener = com.google.firebase.auth.FirebaseAuth.AuthStateListener { firebaseAuth ->
+            trySend(firebaseAuth.currentUser != null)
+        }
+        auth.addAuthStateListener(listener)
+        trySend(auth.currentUser != null)
+        awaitClose { auth.removeAuthStateListener(listener) }
+    }
 
     fun getSignedInUser(): UserData? = auth.currentUser?.run {
         UserData(userId = uid, name = displayName, email = email)

@@ -36,6 +36,7 @@
     <string name="menu_overview">Overview</string>
     <string name="menu_prime_sets">Prime Sets</string>
     <string name="menu_goals">Goals</string>
+    <string name="menu_squad_finder">Squad Finder</string>
     <string name="menu_relics">Relics</string>
     <string name="menu_help">Help</string>
     <string name="menu_about">About</string>
@@ -44,6 +45,75 @@
     <string name="menu_section_application">APPLICATION</string>
     <string name="menu_logo_description">Prime Tracker Logo</string>
 
+    <!-- Squad Finder & Platforms/Regions -->
+    <string name="platform_pc">PC</string>
+    <string name="platform_playstation">PlayStation</string>
+    <string name="platform_xbox">Xbox</string>
+    <string name="platform_switch">Nintendo Switch</string>
+    <string name="platform_crossplay">Crossplay / Any</string>
+    <string name="region_north_america">North America</string>
+    <string name="region_south_america">South America</string>
+    <string name="region_europe">Europe</string>
+    <string name="region_asia">Asia</string>
+    <string name="region_oceania">Oceania</string>
+
+    <!-- Squad Finder Tabs -->
+    <string name="squad_tab_opportunities">Opportunities</string>
+    <string name="squad_tab_my_announcement">My Announcement</string>
+    <string name="squad_tab_profile">Profile</string>
+
+    <!-- Squad Finder Notifications & UI -->
+    <string name="notification_channel_squad_finder_name">Squad Finder Session</string>
+    <string name="notification_channel_squad_finder_desc">Notifications for active squad announcements</string>
+    <string name="notification_squad_title">Squad Finder: %1$s</string>
+    <string name="notification_squad_status">%1$s • %2$s (%3$s)</string>
+    <string name="notification_squad_connected">Connected</string>
+    <string name="notification_squad_disconnected">Offline</string>
+    <string name="notification_action_stop">Stop Announcement</string>
+
+    <string name="squad_card_my_announcement">My Announcement</string>
+    <string name="squad_card_active">Active</string>
+    <string name="squad_card_nick_label">Nick: </string>
+    <string name="squad_card_copy_nickname">Copy Nickname</string>
+    <string name="squad_card_nickname_copied">Nickname \'%1$s\' copied!</string>
+    <string name="squad_card_note_label">Note: %1$s</string>
+
+    <string name="squad_list_my_goals_title">My Active Goals:</string>
+    <string name="squad_list_filter_all">All</string>
+    <string name="squad_list_filter_platform_all">Platform: All</string>
+    <string name="squad_list_filter_region_all">Region: All</string>
+    <string name="squad_list_empty_title">No opportunities found</string>
+    <string name="squad_list_empty_desc">Be the first to publish an announcement or adjust your search filters.</string>
+
+    <string name="squad_my_profile_required_title">Profile Required</string>
+    <string name="squad_my_profile_required_desc">Register your Warframe Nickname, Platform, and Region before creating an announcement.</string>
+    <string name="squad_my_profile_setup_button">Configure Profile</string>
+    <string name="squad_my_active_title">Active Announcement</string>
+    <string name="squad_my_target_label">Goal:</string>
+    <string name="squad_my_stop_button">Stop Announcement</string>
+    <string name="squad_my_stop_dialog_title">Stop Announcement?</string>
+    <string name="squad_my_stop_dialog_desc">Your announcement will no longer be visible in public search for other players.</string>
+    <string name="squad_my_stop_dialog_confirm">Yes, Stop</string>
+    <string name="squad_my_stop_dialog_cancel">Cancel</string>
+    <string name="squad_my_new_title">New Squad Announcement</string>
+    <string name="squad_my_select_goal">Select a Goal</string>
+    <string name="squad_my_goal_label">Farm Goal</string>
+    <string name="squad_my_no_goals">No active goals registered</string>
+    <string name="squad_my_note_label">Optional Note (e.g. Radshare 4/4)</string>
+    <string name="squad_my_note_placeholder">e.g., Looking for fast farm</string>
+    <string name="squad_my_inherited_profile_title">Data Inherited from Profile:</string>
+    <string name="squad_my_publish_button">Publish Announcement</string>
+
+    <string name="squad_profile_title">Warframe Profile</string>
+    <string name="squad_profile_desc">Register your info to sync your farm announcements.</string>
+    <string name="squad_profile_nickname_label">Warframe Nickname</string>
+    <string name="squad_profile_nickname_placeholder">e.g., TennoPrime</string>
+    <string name="squad_profile_platform_label">Platform</string>
+    <string name="squad_profile_region_label">Region</string>
+    <string name="squad_profile_save_button">Save Profile</string>
+    <string name="squad_profile_saved_title">Registered Profile:</string>
+
+    <string name="squad_screen_offline_banner">No connection to Squad Finder server</string>
 
     <!-- Splash & Sync -->
     <string name="by_owner">by Cyberman Studios</string>

@@ -54,8 +54,8 @@ class PrimeSetViewModel @Inject constructor(
         combine(
             primeRepository.observeCollections(),
             primeRepository.observeWithoutCollection()
-        ) { colls, without ->
-            if (without.sets.isNotEmpty()) colls + without else colls
+        ) { cols, without ->
+            if (without.sets.isNotEmpty()) cols + without else cols
         },
         _searchText.debounce(100.milliseconds).distinctUntilChanged(),
         _filters,

@@ -17,6 +17,7 @@ sealed interface AppNavKey : NavKey {
                 PrimeSetsKey,
                 RelicsKey,
                 GoalsKey,
+                SquadFinderKey,
                 CloudKey,
                 HelpKey,
                 AboutKey
@@ -83,4 +84,10 @@ data class NewGoalKey(val id: String = java.util.UUID.randomUUID().toString()) :
 data class GoalDetailKey(val goalId: Long) : AppNavKey {
     override val icon = R.drawable.ic_waypoint
     override val label = R.string.menu_goals
+}
+
+@Serializable
+data object SquadFinderKey : AppNavKey {
+    override val icon: Int = R.drawable.ic_squad
+    override val label: Int = R.string.menu_squad_finder
 }

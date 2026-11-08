@@ -36,6 +36,7 @@
     <string name="menu_overview">总览</string>
     <string name="menu_prime_sets">Prime 套装</string>
     <string name="menu_goals">目标</string>
+    <string name="menu_squad_finder">小队招募</string>
     <string name="menu_relics">虚空遗物</string>
     <string name="menu_help">帮助</string>
     <string name="menu_about">关于</string>
@@ -44,6 +45,75 @@
     <string name="menu_section_application">应用</string>
     <string name="menu_logo_description">Prime Tracker 标志</string>
 
+    <!-- Squad Finder & Platforms/Regions -->
+    <string name="platform_pc">PC</string>
+    <string name="platform_playstation">PlayStation</string>
+    <string name="platform_xbox">Xbox</string>
+    <string name="platform_switch">Nintendo Switch</string>
+    <string name="platform_crossplay">跨平台 / 任意</string>
+    <string name="region_north_america">北美洲</string>
+    <string name="region_south_america">南美洲</string>
+    <string name="region_europe">欧洲</string>
+    <string name="region_asia">亚洲</string>
+    <string name="region_oceania">大洋洲</string>
+
+    <!-- Squad Finder Tabs -->
+    <string name="squad_tab_opportunities">招募列表</string>
+    <string name="squad_tab_my_announcement">我的招募</string>
+    <string name="squad_tab_profile">个人资料</string>
+
+    <!-- Squad Finder Notifications & UI -->
+    <string name="notification_channel_squad_finder_name">小队招募会话</string>
+    <string name="notification_channel_squad_finder_desc">当前活跃小队招募通知</string>
+    <string name="notification_squad_title">小队招募: %1$s</string>
+    <string name="notification_squad_status">%1$s • %2$s (%3$s)</string>
+    <string name="notification_squad_connected">已连接</string>
+    <string name="notification_squad_disconnected">离线</string>
+    <string name="notification_action_stop">结束招募</string>
+
+    <string name="squad_card_my_announcement">我的招募</string>
+    <string name="squad_card_active">活跃</string>
+    <string name="squad_card_nick_label">游戏ID: </string>
+    <string name="squad_card_copy_nickname">复制游戏ID</string>
+    <string name="squad_card_nickname_copied">已复制游戏ID \'%1$s\'！</string>
+    <string name="squad_card_note_label">备注: %1$s</string>
+
+    <string name="squad_list_my_goals_title">我的活跃目标:</string>
+    <string name="squad_list_filter_all">全部</string>
+    <string name="squad_list_filter_platform_all">平台: 全部</string>
+    <string name="squad_list_filter_region_all">区域: 全部</string>
+    <string name="squad_list_empty_title">未找到任何招募</string>
+    <string name="squad_list_empty_desc">成为第一个发布招募的人，或者调整您的搜索筛选。</string>
+
+    <string name="squad_my_profile_required_title">需要个人资料</string>
+    <string name="squad_my_profile_required_desc">在创建招募前，请先注册您的 Warframe 游戏ID、平台和区域。</string>
+    <string name="squad_my_profile_setup_button">设置个人资料</string>
+    <string name="squad_my_active_title">正在招募中</string>
+    <string name="squad_my_target_label">目标:</string>
+    <string name="squad_my_stop_button">结束招募</string>
+    <string name="squad_my_stop_dialog_title">确认结束招募？</string>
+    <string name="squad_my_stop_dialog_desc">结束招募后，您的招募将不再对其他玩家可见。</string>
+    <string name="squad_my_stop_dialog_confirm">是的，结束</string>
+    <string name="squad_my_stop_dialog_cancel">取消</string>
+    <string name="squad_my_new_title">新建小队招募</string>
+    <string name="squad_my_select_goal">选择一个目标</string>
+    <string name="squad_my_goal_label">刷取目标</string>
+    <string name="squad_my_no_goals">未注册任何活跃目标</string>
+    <string name="squad_my_note_label">可选备注 (例如: 遗物光辉 4/4)</string>
+    <string name="squad_my_note_placeholder">例如: 快速刷取</string>
+    <string name="squad_my_inherited_profile_title">继承自个人资料的数据:</string>
+    <string name="squad_my_publish_button">发布招募</string>
+
+    <string name="squad_profile_title">Warframe 个人资料</string>
+    <string name="squad_profile_desc">注册您的信息以同步您的招募发布。</string>
+    <string name="squad_profile_nickname_label">Warframe 游戏ID</string>
+    <string name="squad_profile_nickname_placeholder">例如: TennoPrime</string>
+    <string name="squad_profile_platform_label">平台</string>
+    <string name="squad_profile_region_label">区域</string>
+    <string name="squad_profile_save_button">保存个人资料</string>
+    <string name="squad_profile_saved_title">已注册资料:</string>
+
+    <string name="squad_screen_offline_banner">与小队招募服务器的连接断开</string>
 
     <!-- Splash & Sync -->
     <string name="by_owner">由 Cyberman Studios 开发</string>

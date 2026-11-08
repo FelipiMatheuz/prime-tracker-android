@@ -60,6 +60,7 @@ import com.felipimatheuz.primehunt.ui.navigation.OverviewKey
 import com.felipimatheuz.primehunt.ui.navigation.PrimeDetailKey
 import com.felipimatheuz.primehunt.ui.navigation.PrimeSetsKey
 import com.felipimatheuz.primehunt.ui.navigation.RelicsKey
+import com.felipimatheuz.primehunt.ui.navigation.SquadFinderKey
 import com.felipimatheuz.primehunt.ui.navigation.TopToolbar
 import com.felipimatheuz.primehunt.ui.navigation.rememberNavigationState
 import com.felipimatheuz.primehunt.ui.navigation.toEntries
@@ -74,6 +75,7 @@ import com.felipimatheuz.primehunt.ui.screen.primeset.PrimeSetScreen
 import com.felipimatheuz.primehunt.ui.screen.primeset.primedetail.PrimeDetailScreen
 import com.felipimatheuz.primehunt.ui.screen.relic.RelicsScreen
 import com.felipimatheuz.primehunt.ui.screen.splash.SplashScreen
+import com.felipimatheuz.primehunt.ui.screen.squadfinder.SquadFinderScreen
 import com.felipimatheuz.primehunt.ui.viewmodel.AppSettingsViewModel
 import kotlinx.coroutines.launch
 
@@ -103,6 +105,7 @@ fun MainContent(
     val selectedWallpaper by settingsViewModel.selectedWallpaper.collectAsStateWithLifecycle()
     val selectedTheme by settingsViewModel.selectedTheme.collectAsStateWithLifecycle()
     val selectedLanguage by settingsViewModel.selectedLanguage.collectAsStateWithLifecycle()
+    val isUserSignedIn by settingsViewModel.isUserSignedIn.collectAsStateWithLifecycle()
 
     LaunchedEffect(selectedLanguage) {
         val appLocale: LocaleListCompat = if (selectedLanguage == AppLanguage.SYSTEM) {
@@ -153,7 +156,8 @@ fun MainContent(
                         onKeySelected = { key ->
                             navigator.navigate(key)
                             scope.launch { drawerState.close() }
-                        }
+                        },
+                        isUserSignedIn = isUserSignedIn
                     )
                 }
             }
@@ -259,40 +263,78 @@ fun AppNavGraph(
         is HelpKey -> HelpScreen(padding)
 
         is AboutKey -> AboutScreen(padding, snackBarHostState)
+
+        is SquadFinderKey -> SquadFinderScreen(padding)
     }
 }
 
 @Composable
 fun DrawerContent(
     currentKey: AppNavKey,
-    onKeySelected: (AppNavKey) -> Unit
+    onKeySelected: (AppNavKey) -> Unit,
+    isUserSignedIn: Boolean = false
 ) {
-    AppNavKey.topLevelRoutes.forEachIndexed { index, appNavKey ->
-        val menuItemInteraction = remember { MutableInteractionSource() }
-        NavigationDrawerItem(
-            label = { Text(stringResource(appNavKey.label)) },
-            icon = {
-                Icon(
-                    painter = painterResource(appNavKey.icon),
-                    contentDescription = stringResource(R.string.generic_icon_description, appNavKey.label),
-                    modifier = Modifier.size(32.dp)
-                )
-            },
-            selected = currentKey == appNavKey,
-            onClick = { onKeySelected(appNavKey) },
-            interactionSource = menuItemInteraction,
-            modifier = Modifier
-                .padding(vertical = 8.dp)
-                .pressScale(menuItemInteraction, PressIntensity.VERY_SUBTLE)
-        )
-        if (index == 3) {
-            Text(
-                text = stringResource(R.string.menu_section_application),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.75f),
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
-            HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
+    val featureRoutes = remember(isUserSignedIn) {
+        buildList {
+            add(OverviewKey)
+            add(PrimeSetsKey)
+            add(RelicsKey)
+            add(GoalsKey)
+            if (isUserSignedIn) {
+                add(SquadFinderKey)
+            }
         }
     }
+    val applicationRoutes = remember {
+        listOf(CloudKey, HelpKey, AboutKey)
+    }
+
+    featureRoutes.forEach { appNavKey ->
+        DrawerMenuItem(
+            appNavKey = appNavKey,
+            isSelected = currentKey == appNavKey,
+            onKeySelected = onKeySelected
+        )
+    }
+
+    Text(
+        text = stringResource(R.string.menu_section_application),
+        style = MaterialTheme.typography.bodySmall,
+        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.75f),
+        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+    )
+    HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
+
+    applicationRoutes.forEach { appNavKey ->
+        DrawerMenuItem(
+            appNavKey = appNavKey,
+            isSelected = currentKey == appNavKey,
+            onKeySelected = onKeySelected
+        )
+    }
+}
+
+@Composable
+private fun DrawerMenuItem(
+    appNavKey: AppNavKey,
+    isSelected: Boolean,
+    onKeySelected: (AppNavKey) -> Unit
+) {
+    val menuItemInteraction = remember { MutableInteractionSource() }
+    NavigationDrawerItem(
+        label = { Text(stringResource(appNavKey.label)) },
+        icon = {
+            Icon(
+                painter = painterResource(appNavKey.icon),
+                contentDescription = stringResource(R.string.generic_icon_description, stringResource(appNavKey.label)),
+                modifier = Modifier.size(32.dp)
+            )
+        },
+        selected = isSelected,
+        onClick = { onKeySelected(appNavKey) },
+        interactionSource = menuItemInteraction,
+        modifier = Modifier
+            .padding(vertical = 8.dp)
+            .pressScale(menuItemInteraction, PressIntensity.VERY_SUBTLE)
+    )
 }
