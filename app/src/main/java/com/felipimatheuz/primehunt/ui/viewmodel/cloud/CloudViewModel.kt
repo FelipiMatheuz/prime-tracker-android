@@ -3,13 +3,13 @@ package com.felipimatheuz.primehunt.ui.viewmodel.cloud
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.felipimatheuz.primehunt.core.logging.AppLogger
+import com.felipimatheuz.primehunt.domain.model.AuthState
+import com.felipimatheuz.primehunt.domain.repository.AuthRepository
 import com.felipimatheuz.primehunt.domain.repository.UiPreferencesRepository
 import com.felipimatheuz.primehunt.domain.usecase.cloud.ClearCloudDataUseCase
 import com.felipimatheuz.primehunt.domain.usecase.cloud.DownloadBackupUseCase
 import com.felipimatheuz.primehunt.domain.usecase.cloud.PerformMigrationUseCase
 import com.felipimatheuz.primehunt.domain.usecase.cloud.UploadBackupUseCase
-import com.felipimatheuz.primehunt.domain.model.SignInResult
-import com.felipimatheuz.primehunt.data.cloud.GoogleCredential
 import com.felipimatheuz.primehunt.ui.mvi.MviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -25,7 +25,7 @@ import kotlin.time.Duration.Companion.seconds
 
 @HiltViewModel
 class CloudViewModel @Inject constructor(
-    private val googleCredential: GoogleCredential,
+    private val authRepository: AuthRepository,
     private val uiPreferencesRepository: UiPreferencesRepository,
     private val uploadBackupUseCase: UploadBackupUseCase,
     private val downloadBackupUseCase: DownloadBackupUseCase,
@@ -42,19 +42,23 @@ class CloudViewModel @Inject constructor(
 
     init {
         logger.log("CloudViewModel", "Initializing")
-        updateUserInfo()
+        observeAuthState()
         observeMigrationStatus()
     }
 
-    private fun updateUserInfo() {
-        val user = googleCredential.getSignedInUser()
-        _state.update {
-            it.copy(
-                isAuthenticated = user != null,
-                userId = user?.userId,
-                userEmail = user?.email,
-                userName = user?.name
-            )
+    private fun observeAuthState() {
+        viewModelScope.launch {
+            authRepository.authState.collect { authState ->
+                val user = authState.currentUser
+                _state.update {
+                    it.copy(
+                        isAuthenticated = authState.isAuthenticated,
+                        userId = user?.userId,
+                        userEmail = user?.email,
+                        userName = user?.name
+                    )
+                }
+            }
         }
     }
 
@@ -67,8 +71,6 @@ class CloudViewModel @Inject constructor(
     }
 
     override fun onIntent(intent: CloudIntent) {
-        if (!_state.value.isAuthenticated && isProtectedIntent(intent)) return
-
         when (intent) {
             is CloudIntent.SignIn -> signIn()
             is CloudIntent.SignOut -> signOut()
@@ -81,38 +83,21 @@ class CloudViewModel @Inject constructor(
         }
     }
 
-    private fun isProtectedIntent(intent: CloudIntent): Boolean {
-        return intent !is CloudIntent.SignIn && intent !is CloudIntent.ResetResult && intent !is CloudIntent.SendLogs
-    }
-
     private fun signIn() {
         logger.log("CloudViewModel", "Intent: SignIn")
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
-            val result = googleCredential.signUpCredentialManager()
-            handleSignInResult(result)
+            val result = authRepository.signIn()
+            val isSuccess = result is AuthState.Authenticated
+            _state.update {
+                it.copy(
+                    isLoading = false,
+                    actionResult = if (isSuccess) CloudActionResult.SuccessSignIn
+                    else CloudActionResult.Error((result as? AuthState.AuthError)?.message ?: "")
+                )
+            }
+            scheduleReset()
         }
-    }
-
-    private fun handleSignInResult(result: SignInResult) {
-        val user = result.data
-        if (user != null) {
-            logger.log("CloudViewModel", "SignIn Success: ${user.email}")
-        } else {
-            logger.log("CloudViewModel", "SignIn Error: ${result.errorMessage}")
-        }
-        _state.update {
-            it.copy(
-                isLoading = false,
-                isAuthenticated = user != null,
-                userId = user?.userId,
-                userEmail = user?.email,
-                userName = user?.name,
-                actionResult = if (user != null) CloudActionResult.SuccessSignIn 
-                              else CloudActionResult.Error(result.errorMessage ?: "")
-            )
-        }
-        scheduleReset()
     }
 
     private fun signOut() {
@@ -120,14 +105,10 @@ class CloudViewModel @Inject constructor(
         if (_state.value.isUploading || _state.value.isDownloading) return
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
-            googleCredential.signOut()
+            authRepository.signOut()
             _state.update {
                 it.copy(
                     isLoading = false,
-                    isAuthenticated = false,
-                    userId = null,
-                    userEmail = null,
-                    userName = null,
                     actionResult = CloudActionResult.SuccessSignOut
                 )
             }

@@ -33,6 +33,8 @@
 
     <!-- Navigation -->
     <string name="menu_button_description">Quick Menu</string>
+    <string name="menu_account_not_logged">User Disconnected</string>
+    <string name="menu_account_logged">User Connected: %1$s</string>
     <string name="menu_overview">Overview</string>
     <string name="menu_prime_sets">Prime Sets</string>
     <string name="menu_goals">Goals</string>
@@ -309,6 +311,7 @@
     <string name="cloud_account_desc">Cloud features require a connected account.</string>
     <string name="cloud_sign_in_google">Sign In with Google</string>
     <string name="cloud_disconnect">Disconnect</string>
+    <string name="cloud_sign_out_announcement_warning">You have an active announcement in Squad Finder. Signing out will cancel your announcement and stop the background service.</string>
     <string name="cloud_log_debug">Send Logs</string>
     <string name="cloud_backup_title">Cloud Backup</string>
     <string name="cloud_backup_desc">Cloud Backup stores only your personal progress.</string>

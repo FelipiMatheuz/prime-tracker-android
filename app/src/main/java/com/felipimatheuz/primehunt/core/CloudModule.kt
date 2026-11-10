@@ -1,6 +1,8 @@
 package com.felipimatheuz.primehunt.core
 
 import com.felipimatheuz.primehunt.data.cloud.Firestore
+import com.felipimatheuz.primehunt.data.repository.AuthRepositoryImpl
+import com.felipimatheuz.primehunt.domain.repository.AuthRepository
 import com.felipimatheuz.primehunt.domain.repository.CloudRemoteDataSource
 import dagger.Binds
 import dagger.Module
@@ -17,4 +19,10 @@ abstract class CloudModule {
     abstract fun bindCloudRemoteDataSource(
         firestore: Firestore
     ): CloudRemoteDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindAuthRepository(
+        impl: AuthRepositoryImpl
+    ): AuthRepository
 }

@@ -33,6 +33,8 @@
 
     <!-- Navigation -->
     <string name="menu_button_description">Menu rapide</string>
+    <string name="menu_account_not_logged">Utilisateur déconnecté</string>
+    <string name="menu_account_logged">Utilisateur connecté : %1$s</string>
     <string name="menu_overview">Aperçu</string>
     <string name="menu_prime_sets">Ensembles Prime</string>
     <string name="menu_goals">Objectifs</string>
@@ -308,6 +310,7 @@
     <string name="cloud_account_desc">Les fonctionnalités Cloud nécessitent un compte connecté.</string>
     <string name="cloud_sign_in_google">Se connecter avec Google</string>
     <string name="cloud_disconnect">Se déconnecter</string>
+    <string name="cloud_sign_out_announcement_warning">Vous avez une annonce active dans Squad Finder. La déconnexion annulera votre annonce et arrêtera le service en arrière-plan.</string>
     <string name="cloud_log_debug">Envoyer les logs</string>
     <string name="cloud_backup_title">Sauvegarde Cloud</string>
     <string name="cloud_backup_desc">La sauvegarde Cloud stocke uniquement votre progression personnelle.</string>

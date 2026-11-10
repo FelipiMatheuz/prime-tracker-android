@@ -10,7 +10,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -26,13 +25,11 @@ fun DangerZoneCard(
     modifier: Modifier = Modifier
 ) {
     var showConfirmation by remember { mutableStateOf(false) }
-    val isEnabled = state.isAuthenticated && !state.isLoading
-    val alpha = if (state.isAuthenticated) 1f else 0.5f
+    val isEnabled = !state.isLoading
 
     Card(
         modifier = modifier
-            .fillMaxWidth()
-            .alpha(alpha),
+            .fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.2f)
@@ -72,7 +69,7 @@ fun DangerZoneCard(
                         enabled = isEnabled
                     )
             ) {
-                if (state.isLoading && state.isAuthenticated) {
+                if (state.isLoading) {
                     CircularProgressIndicator(
                         modifier = Modifier.size(18.dp),
                         strokeWidth = 2.dp,

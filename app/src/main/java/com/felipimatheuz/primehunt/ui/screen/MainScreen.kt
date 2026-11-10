@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import com.felipimatheuz.primehunt.ui.screen.account.AccountDialog
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -17,6 +19,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
+import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -32,10 +35,13 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.appcompat.app.AppCompatDelegate
+import coil3.compose.AsyncImage
 import androidx.core.os.LocaleListCompat
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -106,6 +112,8 @@ fun MainContent(
     val selectedTheme by settingsViewModel.selectedTheme.collectAsStateWithLifecycle()
     val selectedLanguage by settingsViewModel.selectedLanguage.collectAsStateWithLifecycle()
     val isUserSignedIn by settingsViewModel.isUserSignedIn.collectAsStateWithLifecycle()
+    val currentUser by settingsViewModel.currentUser.collectAsStateWithLifecycle()
+    var showAccountDialog by rememberSaveable { mutableStateOf(false) }
 
     LaunchedEffect(selectedLanguage) {
         val appLocale: LocaleListCompat = if (selectedLanguage == AppLanguage.SYSTEM) {
@@ -114,6 +122,21 @@ fun MainContent(
             LocaleListCompat.forLanguageTags(selectedLanguage.languageTag)
         }
         AppCompatDelegate.setApplicationLocales(appLocale)
+    }
+
+    LaunchedEffect(isUserSignedIn) {
+        if (!isUserSignedIn) {
+            val currentRoute = navState.topLevelRoute
+            if (currentRoute is CloudKey || currentRoute is SquadFinderKey) {
+                navigator.navigate(OverviewKey)
+            }
+        }
+    }
+
+    if (showAccountDialog) {
+        AccountDialog(
+            onDismissRequest = { showAccountDialog = false }
+        )
     }
 
     ModalNavigationDrawer(
@@ -130,7 +153,7 @@ fun MainContent(
                         contentDescription = stringResource(R.string.menu_logo_description),
                         modifier = Modifier.size(40.dp)
                     )
-                    Column {
+                    Column(modifier = Modifier.weight(1f)) {
                         Text(
                             text = stringResource(R.string.app_name),
                             style = MaterialTheme.typography.titleLarge
@@ -141,8 +164,41 @@ fun MainContent(
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                         )
                     }
-
+                    val accountInteraction = remember { MutableInteractionSource() }
+                    OutlinedIconButton(
+                        onClick = {
+                            scope.launch { drawerState.close() }
+                            showAccountDialog = true
+                        },
+                        interactionSource = accountInteraction,
+                        modifier = Modifier
+                            .size(48.dp)
+                            .pressScale(accountInteraction, PressIntensity.SUBTLE)
+                    ) {
+                        if (isUserSignedIn) {
+                            AsyncImage(
+                                model = currentUser?.photoUrl,
+                                contentDescription = stringResource(
+                                    R.string.menu_account_logged,
+                                    currentUser?.name ?: ""
+                                ),
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .clip(CircleShape),
+                                contentScale = ContentScale.Crop,
+                                error = painterResource(R.drawable.ic_user_default),
+                                placeholder = painterResource(R.drawable.ic_user_default)
+                            )
+                        } else {
+                            Icon(
+                                painter = painterResource(R.drawable.ic_user_dc),
+                                contentDescription = stringResource(R.string.menu_account_not_logged),
+                                modifier = Modifier.size(32.dp)
+                            )
+                        }
+                    }
                 }
+
                 Column(modifier = Modifier.padding(horizontal = 16.dp)) {
                     Text(
                         text = stringResource(R.string.menu_section_features),
@@ -285,8 +341,14 @@ fun DrawerContent(
             }
         }
     }
-    val applicationRoutes = remember {
-        listOf(CloudKey, HelpKey, AboutKey)
+    val applicationRoutes = remember(isUserSignedIn) {
+        buildList {
+            if (isUserSignedIn) {
+                add(CloudKey)
+            }
+            add(HelpKey)
+            add(AboutKey)
+        }
     }
 
     featureRoutes.forEach { appNavKey ->
@@ -326,7 +388,10 @@ private fun DrawerMenuItem(
         icon = {
             Icon(
                 painter = painterResource(appNavKey.icon),
-                contentDescription = stringResource(R.string.generic_icon_description, stringResource(appNavKey.label)),
+                contentDescription = stringResource(
+                    R.string.generic_icon_description,
+                    stringResource(appNavKey.label)
+                ),
                 modifier = Modifier.size(32.dp)
             )
         },

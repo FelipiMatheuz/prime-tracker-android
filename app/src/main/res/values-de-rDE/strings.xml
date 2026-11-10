@@ -33,6 +33,8 @@
 
     <!-- Navigation -->
     <string name="menu_button_description">Schnellmenü</string>
+    <string name="menu_account_not_logged">Benutzer nicht verbunden</string>
+    <string name="menu_account_logged">Benutzer verbunden: %1$s</string>
     <string name="menu_overview">Übersicht</string>
     <string name="menu_prime_sets">Prime Sets</string>
     <string name="menu_goals">Ziele</string>
@@ -308,6 +310,7 @@
     <string name="cloud_account_desc">Cloud-Funktionen erfordern ein verbundenes Konto.</string>
     <string name="cloud_sign_in_google">Mit Google anmelden</string>
     <string name="cloud_disconnect">Trennen</string>
+    <string name="cloud_sign_out_announcement_warning">Du hast eine aktive Ankündigung im Squad Finder. Beim Abmelden wird deine Ankündigung storniert und der Hintergrunddienst beendet.</string>
     <string name="cloud_log_debug">Logs senden</string>
     <string name="cloud_backup_title">Cloud-Backup</string>
     <string name="cloud_backup_desc">Cloud-Backup speichert nur deinen persönlichen Fortschritt.</string>

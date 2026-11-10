@@ -1,6 +1,5 @@
 package com.felipimatheuz.primehunt.data.repository
 
-import com.felipimatheuz.primehunt.data.cloud.GoogleCredential
 import com.felipimatheuz.primehunt.data.mapper.SquadMapper
 import com.felipimatheuz.primehunt.data.model.PrimeBaseData
 import com.felipimatheuz.primehunt.data.remote.dto.AnnouncementDto
@@ -10,6 +9,7 @@ import com.felipimatheuz.primehunt.domain.model.squad.Platform
 import com.felipimatheuz.primehunt.domain.model.squad.Region
 import com.felipimatheuz.primehunt.domain.model.squad.SquadAnnouncement
 import com.felipimatheuz.primehunt.domain.model.squad.UserProfile
+import com.felipimatheuz.primehunt.domain.repository.AuthRepository
 import com.felipimatheuz.primehunt.domain.repository.SquadRepository
 import com.felipimatheuz.primehunt.domain.util.StringFormatter
 import kotlinx.coroutines.flow.Flow
@@ -22,7 +22,7 @@ import javax.inject.Singleton
 @Singleton
 class SquadRepositoryImpl @Inject constructor(
     private val remoteDataSource: SquadRemoteDataSource,
-    private val googleCredential: GoogleCredential,
+    private val authRepository: AuthRepository,
     private val primeDataStore: PrimeDataStore
 ) : SquadRepository {
 
@@ -107,7 +107,7 @@ class SquadRepositoryImpl @Inject constructor(
     }
 
     override fun observeOwnAnnouncement(): Flow<SquadAnnouncement?> {
-        val currentUserId = googleCredential.getSignedInUser()?.userId ?: return flowOf(null)
+        val currentUserId = authRepository.getCurrentUser()?.userId ?: return flowOf(null)
 
         return combine(
             remoteDataSource.observeAnnouncements(),
@@ -130,7 +130,7 @@ class SquadRepositoryImpl @Inject constructor(
         platformFilter: Platform?,
         regionFilter: Region?
     ): Flow<List<SquadAnnouncement>> {
-        val currentUserId = googleCredential.getSignedInUser()?.userId ?: ""
+        val currentUserId = authRepository.getCurrentUser()?.userId ?: ""
 
         return combine(
             remoteDataSource.observeAnnouncements(),
@@ -166,7 +166,7 @@ class SquadRepositoryImpl @Inject constructor(
     }
 
     private fun getRequiredUserId(): String {
-        return googleCredential.getSignedInUser()?.userId
+        return authRepository.getCurrentUser()?.userId
             ?: throw IllegalStateException("User must be logged in to perform Squad Finder operations.")
     }
 

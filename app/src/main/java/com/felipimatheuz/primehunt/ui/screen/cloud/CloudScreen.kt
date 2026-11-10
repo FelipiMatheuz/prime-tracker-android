@@ -24,7 +24,6 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.felipimatheuz.primehunt.R
-import com.felipimatheuz.primehunt.ui.screen.cloud.components.CloudAccountCard
 import com.felipimatheuz.primehunt.ui.screen.cloud.components.CloudBackupCard
 import com.felipimatheuz.primehunt.ui.screen.cloud.components.DangerZoneCard
 import com.felipimatheuz.primehunt.ui.screen.cloud.components.DiagnosticsCard
@@ -108,14 +107,6 @@ fun CloudScreen(
                     )
                 }
             }
-        }
-
-        item {
-            CloudAccountCard(
-                state = state,
-                onSignInClick = { viewModel.onIntent(CloudIntent.SignIn) },
-                onSignOutClick = { viewModel.onIntent(CloudIntent.SignOut) }
-            )
         }
 
         item {

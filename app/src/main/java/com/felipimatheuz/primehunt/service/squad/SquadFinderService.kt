@@ -6,9 +6,9 @@ import android.content.pm.ServiceInfo
 import android.os.Build
 import android.os.IBinder
 import androidx.core.app.ServiceCompat
-import com.felipimatheuz.primehunt.data.cloud.GoogleCredential
 import com.felipimatheuz.primehunt.domain.model.squad.Platform
 import com.felipimatheuz.primehunt.domain.model.squad.Region
+import com.felipimatheuz.primehunt.domain.repository.AuthRepository
 import com.felipimatheuz.primehunt.domain.repository.SquadRepository
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -27,7 +27,7 @@ class SquadFinderService : Service() {
 
     @Inject lateinit var squadRepository: SquadRepository
     @Inject lateinit var squadNotificationManager: SquadNotificationManager
-    @Inject lateinit var googleCredential: GoogleCredential
+    @Inject lateinit var authRepository: AuthRepository
 
     private val serviceScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private var heartbeatJob: Job? = null
@@ -52,7 +52,7 @@ class SquadFinderService : Service() {
     }
 
     private fun handleStart(intent: Intent?) {
-        if (googleCredential.getSignedInUser() == null) {
+        if (authRepository.getCurrentUser() == null) {
             stopSelf()
             return
         }
@@ -130,7 +130,7 @@ class SquadFinderService : Service() {
         heartbeatJob = serviceScope.launch {
             while (true) {
                 delay(HEARTBEAT_INTERVAL_MS.milliseconds)
-                if (googleCredential.getSignedInUser() == null) {
+                if (authRepository.getCurrentUser() == null) {
                     handleStop()
                     break
                 }

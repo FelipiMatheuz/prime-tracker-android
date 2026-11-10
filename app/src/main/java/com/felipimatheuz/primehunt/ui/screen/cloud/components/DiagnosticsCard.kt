@@ -7,7 +7,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -22,12 +21,9 @@ fun DiagnosticsCard(
     onSendLogsClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val alpha = if (state.isAuthenticated) 1f else 0.5f
-
     Card(
         modifier = modifier
-            .fillMaxWidth()
-            .alpha(alpha),
+            .fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f)
@@ -55,13 +51,13 @@ fun DiagnosticsCard(
             OutlinedButton(
                 onClick = onSendLogsClick,
                 interactionSource = logButtonInteraction,
-                enabled = state.isAuthenticated,
+                enabled = !state.isLoading,
                 modifier = Modifier
                     .fillMaxWidth()
                     .pressScale(
                         interactionSource = logButtonInteraction,
                         PressIntensity.VERY_SUBTLE,
-                        state.isAuthenticated
+                        !state.isLoading
                     )
             ) {
                 Text(stringResource(R.string.cloud_log_debug))

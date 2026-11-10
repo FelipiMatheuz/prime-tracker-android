@@ -1,10 +1,11 @@
 package com.felipimatheuz.primehunt.ui.viewmodel.cloud
 
 import com.felipimatheuz.primehunt.core.logging.AppLogger
-import com.felipimatheuz.primehunt.domain.repository.UiPreferencesRepository
+import com.felipimatheuz.primehunt.domain.model.AuthState
 import com.felipimatheuz.primehunt.domain.model.UserData
-import com.felipimatheuz.primehunt.data.cloud.GoogleCredential
 import com.felipimatheuz.primehunt.domain.model.prefs.CloudUiPrefs
+import com.felipimatheuz.primehunt.domain.repository.AuthRepository
+import com.felipimatheuz.primehunt.domain.repository.UiPreferencesRepository
 import com.felipimatheuz.primehunt.domain.usecase.cloud.ClearCloudDataUseCase
 import com.felipimatheuz.primehunt.domain.usecase.cloud.DownloadBackupUseCase
 import com.felipimatheuz.primehunt.domain.usecase.cloud.PerformMigrationUseCase
@@ -12,6 +13,7 @@ import com.felipimatheuz.primehunt.domain.usecase.cloud.UploadBackupUseCase
 import io.mockk.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.*
 import org.junit.After
@@ -23,7 +25,7 @@ import kotlin.time.Duration.Companion.seconds
 @OptIn(ExperimentalCoroutinesApi::class)
 class CloudViewModelTest {
 
-    private val googleCredential: GoogleCredential = mockk(relaxed = true)
+    private val authRepository: AuthRepository = mockk(relaxed = true)
     private val uiPreferencesRepository: UiPreferencesRepository = mockk(relaxed = true)
     private val uploadBackupUseCase: UploadBackupUseCase = mockk(relaxed = true)
     private val downloadBackupUseCase: DownloadBackupUseCase = mockk(relaxed = true)
@@ -33,21 +35,25 @@ class CloudViewModelTest {
     
     private val testDispatcher = StandardTestDispatcher()
     private lateinit var viewModel: CloudViewModel
+    private val authStateFlow = MutableStateFlow<AuthState>(AuthState.Unauthenticated)
 
     @Before
     fun setup() {
         Dispatchers.setMain(testDispatcher)
-        
+        every { authRepository.authState } returns authStateFlow
         every { uiPreferencesRepository.cloudPrefs } returns flowOf(CloudUiPrefs(false))
     }
 
-    private fun createViewModel(user: UserData? = null) {
-        every { googleCredential.getSignedInUser() } returns user
+    private fun TestScope.createViewModel(user: UserData? = null) {
+        val state = if (user != null) AuthState.Authenticated(user) else AuthState.Unauthenticated
+        authStateFlow.value = state
+        every { authRepository.getCurrentUser() } returns user
         viewModel = CloudViewModel(
-            googleCredential, uiPreferencesRepository,
+            authRepository, uiPreferencesRepository,
             uploadBackupUseCase, downloadBackupUseCase,
             performMigrationUseCase, clearCloudDataUseCase, logger
         )
+        runCurrent()
     }
 
     @After
@@ -57,12 +63,12 @@ class CloudViewModelTest {
     }
 
     @Test
-    fun `when not authenticated, protected intents should be ignored`() = runTest {
+    fun `when not authenticated, upload backup should be ignored`() = runTest {
         createViewModel(user = null)
-        
+
         viewModel.onIntent(CloudIntent.UploadBackup)
         runCurrent()
-        
+
         coVerify(exactly = 0) { uploadBackupUseCase(any()) }
     }
 

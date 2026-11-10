@@ -7,7 +7,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -22,13 +21,11 @@ fun LegacyMigrationCard(
     onMigrateClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val isEnabled = state.isAuthenticated && !state.isLoading && !state.isMigrationSuccess
-    val alpha = if (state.isAuthenticated) 1f else 0.5f
+    val isEnabled = !state.isLoading && !state.isMigrationSuccess
 
     Card(
         modifier = modifier
-            .fillMaxWidth()
-            .alpha(alpha),
+            .fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f)
@@ -64,7 +61,7 @@ fun LegacyMigrationCard(
                         enabled = isEnabled
                     )
             ) {
-                if (state.isLoading && !state.isMigrationSuccess && state.isAuthenticated) {
+                if (state.isLoading && !state.isMigrationSuccess) {
                     CircularProgressIndicator(
                         modifier = Modifier.size(18.dp),
                         strokeWidth = 2.dp,

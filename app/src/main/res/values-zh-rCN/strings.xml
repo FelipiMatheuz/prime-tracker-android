@@ -33,6 +33,8 @@
 
     <!-- Navigation -->
     <string name="menu_button_description">快捷菜单</string>
+    <string name="menu_account_not_logged">用户未连接</string>
+    <string name="menu_account_logged">已连接用户：%1$s</string>
     <string name="menu_overview">总览</string>
     <string name="menu_prime_sets">Prime 套装</string>
     <string name="menu_goals">目标</string>
@@ -308,6 +310,7 @@
     <string name="cloud_account_desc">云端功能需要连接账号。</string>
     <string name="cloud_sign_in_google">使用 Google 登录</string>
     <string name="cloud_disconnect">断开连接</string>
+    <string name="cloud_sign_out_announcement_warning">你在 Squad Finder 中有一个活动的公告。退出登录将取消你的公告并停止后台服务。</string>
     <string name="cloud_log_debug">发送日志</string>
     <string name="cloud_backup_title">云端备份</string>
     <string name="cloud_backup_desc">云端备份仅存储你的个人进度。</string>

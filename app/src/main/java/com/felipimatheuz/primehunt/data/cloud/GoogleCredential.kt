@@ -47,7 +47,7 @@ class GoogleCredential @Inject constructor(@param:ApplicationContext private val
     }
 
     fun getSignedInUser(): UserData? = auth.currentUser?.run {
-        UserData(userId = uid, name = displayName, email = email)
+        UserData(userId = uid, name = displayName, email = email, photoUrl = photoUrl?.toString())
     }
 
     suspend fun signOut() {
@@ -65,7 +65,12 @@ class GoogleCredential @Inject constructor(@param:ApplicationContext private val
                         val user = auth.signInWithCredential(authCredential).await().user
                         return SignInResult(
                             data = user?.run {
-                                UserData(userId = user.uid, name = user.displayName, user.email)
+                                UserData(
+                                    userId = user.uid,
+                                    name = user.displayName,
+                                    email = user.email,
+                                    photoUrl = user.photoUrl?.toString()
+                                )
                             }, errorMessage = null
                         )
                     } catch (_: GoogleIdTokenParsingException) {

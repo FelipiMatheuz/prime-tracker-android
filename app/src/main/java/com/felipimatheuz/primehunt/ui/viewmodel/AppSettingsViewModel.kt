@@ -2,15 +2,17 @@ package com.felipimatheuz.primehunt.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.felipimatheuz.primehunt.domain.model.UserData
 import com.felipimatheuz.primehunt.domain.model.enums.BgIcons
 import com.felipimatheuz.primehunt.domain.model.enums.AppTheme
 import com.felipimatheuz.primehunt.domain.model.enums.AppLanguage
-import com.felipimatheuz.primehunt.data.cloud.GoogleCredential
+import com.felipimatheuz.primehunt.domain.repository.AuthRepository
 import com.felipimatheuz.primehunt.data.local.preferences.UserPreferencesDataSource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,14 +20,23 @@ import javax.inject.Inject
 @HiltViewModel
 class AppSettingsViewModel @Inject constructor(
     private val preferencesDataSource: UserPreferencesDataSource,
-    googleCredential: GoogleCredential
+    authRepository: AuthRepository
 ) : ViewModel() {
 
-    val isUserSignedIn: StateFlow<Boolean> = googleCredential.isUserSignedInFlow
+    val isUserSignedIn: StateFlow<Boolean> = authRepository.authState
+        .map { it.isAuthenticated }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
-            initialValue = googleCredential.getSignedInUser() != null
+            initialValue = authRepository.getCurrentUser() != null
+        )
+
+    val currentUser: StateFlow<UserData?> = authRepository.authState
+        .map { it.currentUser }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = authRepository.getCurrentUser()
         )
 
     val selectedWallpaper: StateFlow<BgIcons> = preferencesDataSource.selectedWallpaper
