@@ -18,6 +18,7 @@ import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -77,9 +78,11 @@ fun SquadMyAnnouncementContent(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         if (userProfile == null) {
-            PrimePanel(modifier = Modifier.fillMaxWidth()) {
+            Card(modifier = Modifier.fillMaxWidth()) {
                 Column(
-                    modifier = Modifier.padding(16.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Icon(
@@ -106,7 +109,10 @@ fun SquadMyAnnouncementContent(
                     val profileButtonInteraction = remember { MutableInteractionSource() }
                     Button(
                         onClick = onNavigateToProfile,
-                        modifier = Modifier.pressScale(profileButtonInteraction, PressIntensity.MODERATE)
+                        modifier = Modifier.pressScale(
+                            profileButtonInteraction,
+                            PressIntensity.MODERATE
+                        )
                     ) {
                         Text(stringResource(R.string.squad_my_profile_setup_button))
                     }
@@ -183,7 +189,10 @@ fun SquadMyAnnouncementContent(
                     if (!ownAnnouncement.note.isNullOrBlank()) {
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
-                            text = stringResource(R.string.squad_card_note_label, ownAnnouncement.note),
+                            text = stringResource(
+                                R.string.squad_card_note_label,
+                                ownAnnouncement.note
+                            ),
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -304,8 +313,13 @@ fun SquadMyAnnouncementContent(
             modifier = Modifier.fillMaxWidth()
         )
 
-        PrimePanel(modifier = Modifier.fillMaxWidth()) {
-            Column(modifier = Modifier.padding(12.dp)) {
+        Card(modifier = Modifier.fillMaxWidth()) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(12.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
                 Text(
                     text = stringResource(R.string.squad_my_inherited_profile_title),
                     style = MaterialTheme.typography.labelSmall,
@@ -313,16 +327,24 @@ fun SquadMyAnnouncementContent(
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = "${stringResource(R.string.squad_card_nick_label)}${userProfile.nickname}",
+                    text = "${stringResource(R.string.squad_card_nick_label)} ${userProfile.nickname}",
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.SemiBold
                 )
                 Text(
-                    text = "${stringResource(R.string.squad_profile_platform_label)}: ${stringResource(userProfile.platform.labelRes)}",
+                    text = "${stringResource(R.string.squad_profile_platform_label)}: ${
+                        stringResource(
+                            userProfile.platform.labelRes
+                        )
+                    }",
                     style = MaterialTheme.typography.bodySmall
                 )
                 Text(
-                    text = "${stringResource(R.string.squad_profile_region_label)}: ${stringResource(userProfile.region.labelRes)}",
+                    text = "${stringResource(R.string.squad_profile_region_label)}: ${
+                        stringResource(
+                            userProfile.region.labelRes
+                        )
+                    }",
                     style = MaterialTheme.typography.bodySmall
                 )
             }

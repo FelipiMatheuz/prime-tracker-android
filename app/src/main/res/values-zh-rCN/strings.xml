@@ -60,7 +60,7 @@
     <string name="region_oceania">大洋洲</string>
 
     <!-- Squad Finder Tabs -->
-    <string name="squad_tab_opportunities">招募列表</string>
+    <string name="squad_tab_opportunities">招募</string>
     <string name="squad_tab_my_announcement">我的招募</string>
     <string name="squad_tab_profile">个人资料</string>
 
@@ -75,9 +75,9 @@
 
     <string name="squad_card_my_announcement">我的招募</string>
     <string name="squad_card_active">活跃</string>
-    <string name="squad_card_nick_label">游戏ID: </string>
-    <string name="squad_card_copy_nickname">复制游戏ID</string>
-    <string name="squad_card_nickname_copied">已复制游戏ID \'%1$s\'！</string>
+    <string name="squad_card_nick_label">"用户名: "</string>
+    <string name="squad_card_copy_nickname">复制用户名</string>
+    <string name="squad_card_nickname_copied">用户名已复制 \'%1$s\'！</string>
     <string name="squad_card_note_label">备注: %1$s</string>
 
     <string name="squad_list_my_goals_title">我的活跃目标:</string>
@@ -88,7 +88,7 @@
     <string name="squad_list_empty_desc">成为第一个发布招募的人，或者调整您的搜索筛选。</string>
 
     <string name="squad_my_profile_required_title">需要个人资料</string>
-    <string name="squad_my_profile_required_desc">在创建招募前，请先注册您的 Warframe 游戏ID、平台和区域。</string>
+    <string name="squad_my_profile_required_desc">在创建招募前，请先注册您的 Warframe 用户名、平台和区域。</string>
     <string name="squad_my_profile_setup_button">设置个人资料</string>
     <string name="squad_my_active_title">正在招募中</string>
     <string name="squad_my_target_label">目标:</string>
@@ -108,7 +108,7 @@
 
     <string name="squad_profile_title">Warframe 个人资料</string>
     <string name="squad_profile_desc">注册您的信息以同步您的招募发布。</string>
-    <string name="squad_profile_nickname_label">Warframe 游戏ID</string>
+    <string name="squad_profile_nickname_label">Warframe 用户名</string>
     <string name="squad_profile_nickname_placeholder">例如: TennoPrime</string>
     <string name="squad_profile_platform_label">平台</string>
     <string name="squad_profile_region_label">区域</string>

@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -39,7 +40,6 @@ import com.felipimatheuz.primehunt.domain.model.squad.Region
 import com.felipimatheuz.primehunt.domain.model.squad.UserProfile
 import com.felipimatheuz.primehunt.ui.modifier.PressIntensity
 import com.felipimatheuz.primehunt.ui.modifier.pressScale
-import com.felipimatheuz.primehunt.ui.screen.components.PrimePanel
 import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -50,8 +50,16 @@ fun SquadProfileContent(
     modifier: Modifier = Modifier
 ) {
     var nickname by remember(userProfile) { mutableStateOf(userProfile?.nickname ?: "") }
-    var selectedPlatform by remember(userProfile) { mutableStateOf(userProfile?.platform ?: Platform.PC) }
-    var selectedRegion by remember(userProfile) { mutableStateOf(userProfile?.region ?: Region.NORTH_AMERICA) }
+    var selectedPlatform by remember(userProfile) {
+        mutableStateOf(
+            userProfile?.platform ?: Platform.PC
+        )
+    }
+    var selectedRegion by remember(userProfile) {
+        mutableStateOf(
+            userProfile?.region ?: Region.NORTH_AMERICA
+        )
+    }
 
     var platformDropdownExpanded by remember { mutableStateOf(false) }
     var regionDropdownExpanded by remember { mutableStateOf(false) }
@@ -185,7 +193,9 @@ fun SquadProfileContent(
 
         if (userProfile != null) {
             Spacer(modifier = Modifier.height(24.dp))
-            PrimePanel(modifier = Modifier.fillMaxWidth()) {
+            Card(
+                modifier = Modifier.fillMaxWidth()
+            ) {
                 Column(modifier = Modifier.padding(12.dp)) {
                     Text(
                         text = stringResource(R.string.squad_profile_saved_title),
@@ -194,16 +204,24 @@ fun SquadProfileContent(
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
-                        text = "${stringResource(R.string.squad_card_nick_label)}${userProfile.nickname}",
+                        text = "${stringResource(R.string.squad_card_nick_label)} ${userProfile.nickname}",
                         style = MaterialTheme.typography.bodyMedium,
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "${stringResource(R.string.squad_profile_platform_label)}: ${stringResource(userProfile.platform.labelRes)}",
+                        text = "${stringResource(R.string.squad_profile_platform_label)}: ${
+                            stringResource(
+                                userProfile.platform.labelRes
+                            )
+                        }",
                         style = MaterialTheme.typography.bodySmall
                     )
                     Text(
-                        text = "${stringResource(R.string.squad_profile_region_label)}: ${stringResource(userProfile.region.labelRes)}",
+                        text = "${stringResource(R.string.squad_profile_region_label)}: ${
+                            stringResource(
+                                userProfile.region.labelRes
+                            )
+                        }",
                         style = MaterialTheme.typography.bodySmall
                     )
                 }

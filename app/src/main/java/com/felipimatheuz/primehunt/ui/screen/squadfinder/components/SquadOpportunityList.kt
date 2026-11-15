@@ -49,11 +49,11 @@ fun SquadOpportunityListContent(
     publicAnnouncements: List<SquadAnnouncement>,
     availableGoals: List<GoalDomain>,
     selectedTargetIdFilter: String?,
-    selectedPlatformFilter: Platform?,
+    selectedPlatformFilter: Platform,
     selectedRegionFilter: Region?,
     isLoading: Boolean,
     onTargetFilterChange: (String?) -> Unit,
-    onPlatformFilterChange: (Platform?) -> Unit,
+    onPlatformFilterChange: (Platform) -> Unit,
     onRegionFilterChange: (Region?) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -61,7 +61,7 @@ fun SquadOpportunityListContent(
     var showFilterBottomSheet by remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState()
 
-    val activeFiltersCount = (if (selectedPlatformFilter != null) 1 else 0) +
+    val activeFiltersCount = (if (selectedPlatformFilter != Platform.CROSSPLAY) 1 else 0) +
             (if (selectedRegionFilter != null) 1 else 0)
 
     if (showFilterBottomSheet) {
@@ -71,7 +71,7 @@ fun SquadOpportunityListContent(
             onPlatformFilterChange = onPlatformFilterChange,
             onRegionFilterChange = onRegionFilterChange,
             onClearFilters = {
-                onPlatformFilterChange(null)
+                onPlatformFilterChange(Platform.CROSSPLAY)
                 onRegionFilterChange(null)
             },
             onDismiss = { showFilterBottomSheet = false },
@@ -240,7 +240,7 @@ fun SquadOpportunityListPreview() {
                 ),
                 availableGoals = emptyList(),
                 selectedTargetIdFilter = null,
-                selectedPlatformFilter = null,
+                selectedPlatformFilter = Platform.CROSSPLAY,
                 selectedRegionFilter = null,
                 isLoading = false,
                 onTargetFilterChange = {},
@@ -260,7 +260,7 @@ fun SquadOpportunityListEmptyPreview() {
                 publicAnnouncements = emptyList(),
                 availableGoals = emptyList(),
                 selectedTargetIdFilter = null,
-                selectedPlatformFilter = null,
+                selectedPlatformFilter = Platform.CROSSPLAY,
                 selectedRegionFilter = null,
                 isLoading = false,
                 onTargetFilterChange = {},

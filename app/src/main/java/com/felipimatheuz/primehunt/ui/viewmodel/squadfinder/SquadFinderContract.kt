@@ -16,7 +16,7 @@ data class SquadFinderState(
     val publicAnnouncements: List<SquadAnnouncement> = emptyList(),
     val availableGoals: List<GoalDomain> = emptyList(),
     val targetIdFilter: String? = null,
-    val platformFilter: Platform? = null,
+    val platformFilter: Platform = Platform.CROSSPLAY,
     val regionFilter: Region? = null,
     val errorMessage: String? = null
 ) : MviState

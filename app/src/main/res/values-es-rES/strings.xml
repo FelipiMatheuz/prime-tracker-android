@@ -60,7 +60,7 @@
     <string name="region_oceania">Oceanía</string>
 
     <!-- Squad Finder Tabs -->
-    <string name="squad_tab_opportunities">Oportunidades</string>
+    <string name="squad_tab_opportunities">Reclutando</string>
     <string name="squad_tab_my_announcement">Mi anuncio</string>
     <string name="squad_tab_profile">Perfil</string>
 
@@ -75,9 +75,9 @@
 
     <string name="squad_card_my_announcement">Mi anuncio</string>
     <string name="squad_card_active">Activo</string>
-    <string name="squad_card_nick_label">Nick: </string>
-    <string name="squad_card_copy_nickname">Copiar nickname</string>
-    <string name="squad_card_nickname_copied">¡Nickname \'%1$s\' copiado!</string>
+    <string name="squad_card_nick_label">Nombre de usuario:</string>
+    <string name="squad_card_copy_nickname">Copiar nombre de usuario</string>
+    <string name="squad_card_nickname_copied">¡Usuario \'%1$s\' copiado!</string>
     <string name="squad_card_note_label">Nota: %1$s</string>
 
     <string name="squad_list_my_goals_title">Mis objetivos activos:</string>
@@ -88,7 +88,7 @@
     <string name="squad_list_empty_desc">Sé el primero en publicar un anuncio o ajusta tus filtros de búsqueda.</string>
 
     <string name="squad_my_profile_required_title">Perfil requerido</string>
-    <string name="squad_my_profile_required_desc">Registra tu nickname, plataforma y región de Warframe antes de crear un anuncio.</string>
+    <string name="squad_my_profile_required_desc">Registra tu nombre de usuario, plataforma y región de Warframe antes de crear un anuncio.</string>
     <string name="squad_my_profile_setup_button">Configurar perfil</string>
     <string name="squad_my_active_title">Anuncio en transmisión</string>
     <string name="squad_my_target_label">Objetivo:</string>
@@ -108,7 +108,7 @@
 
     <string name="squad_profile_title">Perfil de Warframe</string>
     <string name="squad_profile_desc">Registra tus datos para sincronizar tus anuncios de farm.</string>
-    <string name="squad_profile_nickname_label">Nickname de Warframe</string>
+    <string name="squad_profile_nickname_label">Nombre de usuario no Warframe</string>
     <string name="squad_profile_nickname_placeholder">Ej: TennoPrime</string>
     <string name="squad_profile_platform_label">Plataforma</string>
     <string name="squad_profile_region_label">Región</string>

@@ -3,7 +3,6 @@ package com.felipimatheuz.primehunt.ui.screen.squadfinder.components
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -36,7 +35,7 @@ import com.felipimatheuz.primehunt.ui.modifier.pressScale
 fun SquadFilterBottomSheet(
     selectedPlatformFilter: Platform?,
     selectedRegionFilter: Region?,
-    onPlatformFilterChange: (Platform?) -> Unit,
+    onPlatformFilterChange: (Platform) -> Unit,
     onRegionFilterChange: (Region?) -> Unit,
     onClearFilters: () -> Unit,
     onDismiss: () -> Unit,
@@ -66,22 +65,14 @@ fun SquadFilterBottomSheet(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                val allPlatformInteraction = remember { MutableInteractionSource() }
-                FilterChip(
-                    selected = selectedPlatformFilter == null,
-                    onClick = { onPlatformFilterChange(null) },
-                    interactionSource = allPlatformInteraction,
-                    label = { Text(stringResource(R.string.squad_list_filter_all)) },
-                    modifier = Modifier.pressScale(allPlatformInteraction, PressIntensity.INTENSE)
-                )
-
                 Platform.entries.forEach { platform ->
                     val chipInteraction = remember(platform) { MutableInteractionSource() }
                     val isSelected = selectedPlatformFilter == platform
+                    val isDefaultPlatform = platform == Platform.CROSSPLAY && selectedPlatformFilter == null
                     FilterChip(
                         selected = isSelected,
                         onClick = {
-                            if (isSelected) onPlatformFilterChange(null)
+                            if (isSelected) onPlatformFilterChange(Platform.CROSSPLAY)
                             else onPlatformFilterChange(platform)
                         },
                         interactionSource = chipInteraction,
