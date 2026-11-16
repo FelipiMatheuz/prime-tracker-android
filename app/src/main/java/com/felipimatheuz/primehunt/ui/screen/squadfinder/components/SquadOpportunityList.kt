@@ -1,5 +1,6 @@
 package com.felipimatheuz.primehunt.ui.screen.squadfinder.components
 
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,6 +17,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -40,6 +42,8 @@ import com.felipimatheuz.primehunt.domain.model.enums.AppTheme
 import com.felipimatheuz.primehunt.domain.model.squad.Platform
 import com.felipimatheuz.primehunt.domain.model.squad.Region
 import com.felipimatheuz.primehunt.domain.model.squad.SquadAnnouncement
+import com.felipimatheuz.primehunt.ui.modifier.PressIntensity
+import com.felipimatheuz.primehunt.ui.modifier.pressScale
 import com.felipimatheuz.primehunt.ui.screen.components.PrimeSearchBar
 import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
 
@@ -55,6 +59,7 @@ fun SquadOpportunityListContent(
     onTargetFilterChange: (String?) -> Unit,
     onPlatformFilterChange: (Platform) -> Unit,
     onRegionFilterChange: (Region?) -> Unit,
+    onNavigateToCreateAnnouncement: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     var searchQuery by remember { mutableStateOf("") }
@@ -79,139 +84,165 @@ fun SquadOpportunityListContent(
         )
     }
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(horizontal = 16.dp)
+    Box(
+        modifier = modifier.fillMaxSize()
     ) {
-        // Search Bar with Filter Action
-        PrimeSearchBar(
-            query = searchQuery,
-            onQueryChange = { query ->
-                searchQuery = query
-                if (query.isBlank()) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp)
+        ) {
+            // Search Bar with Filter Action
+            PrimeSearchBar(
+                query = searchQuery,
+                onQueryChange = { query ->
+                    searchQuery = query
+                    if (query.isBlank()) {
+                        onTargetFilterChange(null)
+                    }
+                },
+                placeholderRes = R.string.search_description,
+                activeFiltersCount = activeFiltersCount,
+                onFilterClick = { showFilterBottomSheet = true },
+                onClearClick = {
+                    searchQuery = ""
                     onTargetFilterChange(null)
-                }
-            },
-            placeholderRes = R.string.search_description,
-            activeFiltersCount = activeFiltersCount,
-            onFilterClick = { showFilterBottomSheet = true },
-            onClearClick = {
-                searchQuery = ""
-                onTargetFilterChange(null)
-            },
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        // Goal Suggestions (if user has active goals)
-        if (availableGoals.isNotEmpty()) {
-            Text(
-                text = stringResource(R.string.squad_list_my_goals_title),
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.padding(top = 4.dp, bottom = 4.dp)
+                },
+                modifier = Modifier.fillMaxWidth()
             )
 
-            LazyRow(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                contentPadding = PaddingValues(vertical = 4.dp)
-            ) {
-                item {
-                    FilterChip(
-                        selected = selectedTargetIdFilter == null,
-                        onClick = { onTargetFilterChange(null) },
-                        label = { Text(stringResource(R.string.squad_list_filter_all)) },
-                        colors = FilterChipDefaults.filterChipColors(
-                            selectedContainerColor = MaterialTheme.colorScheme.primaryContainer
+            // Goal Suggestions (if user has active goals)
+            if (availableGoals.isNotEmpty()) {
+                Text(
+                    text = stringResource(R.string.squad_list_my_goals_title),
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(top = 4.dp, bottom = 4.dp)
+                )
+
+                LazyRow(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    contentPadding = PaddingValues(vertical = 4.dp)
+                ) {
+                    item {
+                        FilterChip(
+                            selected = selectedTargetIdFilter == null,
+                            onClick = { onTargetFilterChange(null) },
+                            label = { Text(stringResource(R.string.squad_list_filter_all)) },
+                            colors = FilterChipDefaults.filterChipColors(
+                                selectedContainerColor = MaterialTheme.colorScheme.primaryContainer
+                            )
                         )
-                    )
+                    }
+                    items(availableGoals, key = { it.id }) { goal ->
+                        val isSelected = selectedTargetIdFilter == goal.targetId
+                        FilterChip(
+                            selected = isSelected,
+                            onClick = {
+                                if (isSelected) onTargetFilterChange(null)
+                                else onTargetFilterChange(goal.targetId)
+                            },
+                            label = { Text(goal.targetName) },
+                            colors = FilterChipDefaults.filterChipColors(
+                                selectedContainerColor = MaterialTheme.colorScheme.primaryContainer
+                            )
+                        )
+                    }
                 }
-                items(availableGoals, key = { it.id }) { goal ->
-                    val isSelected = selectedTargetIdFilter == goal.targetId
-                    FilterChip(
-                        selected = isSelected,
-                        onClick = {
-                            if (isSelected) onTargetFilterChange(null)
-                            else onTargetFilterChange(goal.targetId)
-                        },
-                        label = { Text(goal.targetName) },
-                        colors = FilterChipDefaults.filterChipColors(
-                            selectedContainerColor = MaterialTheme.colorScheme.primaryContainer
-                        )
-                    )
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Announcements List / States
+            when {
+                isLoading -> {
+                    LazyColumn(
+                        verticalArrangement = Arrangement.spacedBy(12.dp),
+                        contentPadding = PaddingValues(bottom = 16.dp)
+                    ) {
+                        items(4) {
+                            SquadCardSkeleton()
+                        }
+                        item {
+                            Spacer(modifier = Modifier.height(80.dp))
+                        }
+                    }
+                }
+
+                publicAnnouncements.isEmpty() -> {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(32.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center
+                        ) {
+                            Icon(
+                                painter = painterResource(R.drawable.ic_squad),
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
+                                modifier = Modifier.size(64.dp)
+                            )
+                            Spacer(modifier = Modifier.height(16.dp))
+                            Text(
+                                text = stringResource(R.string.squad_list_empty_title),
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.onSurface
+                            )
+                            Spacer(modifier = Modifier.height(8.dp))
+                            Text(
+                                text = stringResource(R.string.squad_list_empty_desc),
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                textAlign = TextAlign.Center
+                            )
+                        }
+                    }
+                }
+
+                else -> {
+                    val filteredList = if (searchQuery.isNotBlank()) {
+                        publicAnnouncements.filter {
+                            it.targetName.contains(searchQuery, ignoreCase = true) ||
+                                    it.nickname.contains(searchQuery, ignoreCase = true)
+                        }
+                    } else {
+                        publicAnnouncements
+                    }
+
+                    LazyColumn(
+                        verticalArrangement = Arrangement.spacedBy(12.dp),
+                        contentPadding = PaddingValues(bottom = 16.dp)
+                    ) {
+                        items(filteredList, key = { it.id }) { announcement ->
+                            SquadCard(announcement = announcement)
+                        }
+                        item {
+                            Spacer(modifier = Modifier.height(80.dp))
+                        }
+                    }
                 }
             }
         }
 
-        Spacer(modifier = Modifier.height(8.dp))
-
-        // Announcements List / States
-        when {
-            isLoading -> {
-                LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(12.dp),
-                    contentPadding = PaddingValues(bottom = 16.dp)
-                ) {
-                    items(4) {
-                        SquadCardSkeleton()
-                    }
-                }
-            }
-
-            publicAnnouncements.isEmpty() -> {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(32.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_squad),
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
-                            modifier = Modifier.size(64.dp)
-                        )
-                        Spacer(modifier = Modifier.height(16.dp))
-                        Text(
-                            text = stringResource(R.string.squad_list_empty_title),
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.onSurface
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(
-                            text = stringResource(R.string.squad_list_empty_desc),
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            textAlign = TextAlign.Center
-                        )
-                    }
-                }
-            }
-
-            else -> {
-                val filteredList = if (searchQuery.isNotBlank()) {
-                    publicAnnouncements.filter {
-                        it.targetName.contains(searchQuery, ignoreCase = true) ||
-                                it.nickname.contains(searchQuery, ignoreCase = true)
-                    }
-                } else {
-                    publicAnnouncements
-                }
-
-                LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(12.dp),
-                    contentPadding = PaddingValues(bottom = 16.dp)
-                ) {
-                    items(filteredList, key = { it.id }) { announcement ->
-                        SquadCard(announcement = announcement)
-                    }
-                }
-            }
+        val fabInteraction = remember { MutableInteractionSource() }
+        FloatingActionButton(
+            onClick = onNavigateToCreateAnnouncement,
+            interactionSource = fabInteraction,
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(16.dp)
+                .pressScale(fabInteraction, PressIntensity.MODERATE)
+        ) {
+            Icon(
+                painter = painterResource(R.drawable.ic_plus),
+                contentDescription = null,
+                modifier = Modifier.size(24.dp)
+            )
         }
     }
 }
@@ -245,7 +276,8 @@ fun SquadOpportunityListPreview() {
                 isLoading = false,
                 onTargetFilterChange = {},
                 onPlatformFilterChange = {},
-                onRegionFilterChange = {}
+                onRegionFilterChange = {},
+                onNavigateToCreateAnnouncement = {}
             )
         }
     }
@@ -265,7 +297,8 @@ fun SquadOpportunityListEmptyPreview() {
                 isLoading = false,
                 onTargetFilterChange = {},
                 onPlatformFilterChange = {},
-                onRegionFilterChange = {}
+                onRegionFilterChange = {},
+                onNavigateToCreateAnnouncement = {}
             )
         }
     }

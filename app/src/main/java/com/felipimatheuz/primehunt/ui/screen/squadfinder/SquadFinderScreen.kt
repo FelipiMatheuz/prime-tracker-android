@@ -1,6 +1,6 @@
 package com.felipimatheuz.primehunt.ui.screen.squadfinder
 
-import androidx.annotation.StringRes
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -37,18 +37,18 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.domain.model.enums.AppTheme
-import com.felipimatheuz.primehunt.ui.screen.components.PrimeSegmentedSelector
-import com.felipimatheuz.primehunt.ui.screen.squadfinder.components.SquadMyAnnouncementContent
+import com.felipimatheuz.primehunt.ui.screen.squadfinder.components.SquadActiveAnnouncementContent
+import com.felipimatheuz.primehunt.ui.screen.squadfinder.components.SquadCreateAnnouncementContent
 import com.felipimatheuz.primehunt.ui.screen.squadfinder.components.SquadOpportunityListContent
 import com.felipimatheuz.primehunt.ui.screen.squadfinder.components.SquadProfileContent
 import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
 import com.felipimatheuz.primehunt.ui.viewmodel.squadfinder.SquadFinderIntent
 import com.felipimatheuz.primehunt.ui.viewmodel.squadfinder.SquadFinderViewModel
 
-enum class SquadTab(@StringRes val titleRes: Int) {
-    OPPORTUNITIES(R.string.squad_tab_opportunities),
-    MY_ANNOUNCEMENT(R.string.squad_tab_my_announcement),
-    PROFILE(R.string.squad_tab_profile)
+enum class SquadSubScreen {
+    LIST,
+    CREATE,
+    PROFILE
 }
 
 @Composable
@@ -57,13 +57,21 @@ fun SquadFinderScreen(
     viewModel: SquadFinderViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    var selectedTab by rememberSaveable { mutableStateOf(SquadTab.OPPORTUNITIES) }
+    var currentSubScreen by rememberSaveable { mutableStateOf(SquadSubScreen.LIST) }
+    var previousSubScreen by rememberSaveable { mutableStateOf<SquadSubScreen?>(null) }
     val snackbarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(state.errorMessage) {
         state.errorMessage?.let { error ->
             snackbarHostState.showSnackbar(error)
             viewModel.onIntent(SquadFinderIntent.ClearError)
+        }
+    }
+
+    if (state.ownAnnouncement == null && currentSubScreen != SquadSubScreen.LIST) {
+        BackHandler {
+            currentSubScreen = previousSubScreen ?: SquadSubScreen.LIST
+            previousSubScreen = SquadSubScreen.LIST
         }
     }
 
@@ -98,51 +106,62 @@ fun SquadFinderScreen(
                 }
             }
 
-            // Segmented Selector Header
-            PrimeSegmentedSelector(
-                options = SquadTab.entries,
-                selectedOption = selectedTab,
-                onOptionClick = { selectedTab = it },
-                labelProvider = { it.titleRes },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 8.dp)
-            )
-
-            // Content according to selected tab
-            when (selectedTab) {
-                SquadTab.OPPORTUNITIES -> SquadOpportunityListContent(
-                    publicAnnouncements = state.publicAnnouncements,
-                    availableGoals = state.availableGoals,
-                    selectedTargetIdFilter = state.targetIdFilter,
-                    selectedPlatformFilter = state.platformFilter,
-                    selectedRegionFilter = state.regionFilter,
-                    isLoading = state.isLoading,
-                    onTargetFilterChange = { id -> viewModel.onIntent(SquadFinderIntent.SetTargetFilter(id)) },
-                    onPlatformFilterChange = { p -> viewModel.onIntent(SquadFinderIntent.SetPlatformFilter(p)) },
-                    onRegionFilterChange = { r -> viewModel.onIntent(SquadFinderIntent.SetRegionFilter(r)) }
-                )
-
-                SquadTab.MY_ANNOUNCEMENT -> SquadMyAnnouncementContent(
-                    userProfile = state.userProfile,
-                    ownAnnouncement = state.ownAnnouncement,
-                    availableGoals = state.availableGoals,
+            val ownAnnouncement = state.ownAnnouncement
+            if (ownAnnouncement != null) {
+                SquadActiveAnnouncementContent(
+                    ownAnnouncement = ownAnnouncement,
                     isConnected = state.isConnected,
-                    onCreateAnnouncement = { targetId, note ->
-                        viewModel.onIntent(SquadFinderIntent.CreateAnnouncement(targetId, note))
-                    },
                     onStopAnnouncement = {
                         viewModel.onIntent(SquadFinderIntent.DeleteAnnouncement)
-                    },
-                    onNavigateToProfile = { selectedTab = SquadTab.PROFILE }
-                )
-
-                SquadTab.PROFILE -> SquadProfileContent(
-                    userProfile = state.userProfile,
-                    onSaveProfile = { nickname, platform, region ->
-                        viewModel.onIntent(SquadFinderIntent.SaveProfile(nickname, platform, region))
+                        currentSubScreen = SquadSubScreen.LIST
                     }
                 )
+            } else {
+                when (currentSubScreen) {
+                    SquadSubScreen.LIST -> SquadOpportunityListContent(
+                        publicAnnouncements = state.publicAnnouncements,
+                        availableGoals = state.availableGoals,
+                        selectedTargetIdFilter = state.targetIdFilter,
+                        selectedPlatformFilter = state.platformFilter,
+                        selectedRegionFilter = state.regionFilter,
+                        isLoading = state.isLoading,
+                        onTargetFilterChange = { id -> viewModel.onIntent(SquadFinderIntent.SetTargetFilter(id)) },
+                        onPlatformFilterChange = { p -> viewModel.onIntent(SquadFinderIntent.SetPlatformFilter(p)) },
+                        onRegionFilterChange = { r -> viewModel.onIntent(SquadFinderIntent.SetRegionFilter(r)) },
+                        onNavigateToCreateAnnouncement = {
+                            previousSubScreen = SquadSubScreen.LIST
+                            currentSubScreen = SquadSubScreen.CREATE
+                        }
+                    )
+
+                    SquadSubScreen.CREATE -> SquadCreateAnnouncementContent(
+                        userProfile = state.userProfile,
+                        availableGoals = state.availableGoals,
+                        isConnected = state.isConnected,
+                        onCreateAnnouncement = { targetId, note ->
+                            viewModel.onIntent(SquadFinderIntent.CreateAnnouncement(targetId, note))
+                        },
+                        onNavigateToProfile = {
+                            previousSubScreen = SquadSubScreen.CREATE
+                            currentSubScreen = SquadSubScreen.PROFILE
+                        },
+                        onClose = {
+                            currentSubScreen = SquadSubScreen.LIST
+                        }
+                    )
+
+                    SquadSubScreen.PROFILE -> SquadProfileContent(
+                        userProfile = state.userProfile,
+                        onSaveProfile = { nickname, platform, region ->
+                            viewModel.onIntent(SquadFinderIntent.SaveProfile(nickname, platform, region))
+                            currentSubScreen = SquadSubScreen.CREATE
+                        },
+                        onClose = {
+                            currentSubScreen = previousSubScreen ?: SquadSubScreen.CREATE
+                            previousSubScreen = SquadSubScreen.LIST
+                        }
+                    )
+                }
             }
         }
 

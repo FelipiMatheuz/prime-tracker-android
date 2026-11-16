@@ -35,7 +35,7 @@ sealed class SquadFinderIntent : MviIntent {
     data object HeartbeatAnnouncement : SquadFinderIntent()
     data object DeleteAnnouncement : SquadFinderIntent()
     data class SetTargetFilter(val targetId: String?) : SquadFinderIntent()
-    data class SetPlatformFilter(val platform: Platform?) : SquadFinderIntent()
+    data class SetPlatformFilter(val platform: Platform) : SquadFinderIntent()
     data class SetRegionFilter(val region: Region?) : SquadFinderIntent()
     data object ClearError : SquadFinderIntent()
 }

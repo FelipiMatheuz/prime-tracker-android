@@ -1,6 +1,7 @@
 package com.felipimatheuz.primehunt.ui.screen.squadfinder.components
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,12 +13,13 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuAnchorType
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
@@ -27,6 +29,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -45,9 +48,10 @@ import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SquadProfileContent(
+    modifier: Modifier = Modifier,
     userProfile: UserProfile?,
     onSaveProfile: (nickname: String, platform: Platform, region: Region) -> Unit,
-    modifier: Modifier = Modifier
+    onClose: (() -> Unit)? = null
 ) {
     var nickname by remember(userProfile) { mutableStateOf(userProfile?.nickname ?: "") }
     var selectedPlatform by remember(userProfile) {
@@ -67,164 +71,150 @@ fun SquadProfileContent(
     val isNicknameValid = nickname.isNotBlank() && nickname.length <= 30
     val scrollState = rememberScrollState()
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(16.dp)
-            .verticalScroll(scrollState)
+    Box(
+        modifier = modifier.fillMaxSize()
     ) {
-        Text(
-            text = stringResource(R.string.squad_profile_title),
-            style = MaterialTheme.typography.titleLarge,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary
-        )
-        Text(
-            text = stringResource(R.string.squad_profile_desc),
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        OutlinedTextField(
-            value = nickname,
-            onValueChange = { if (it.length <= 30) nickname = it },
-            label = { Text(stringResource(R.string.squad_profile_nickname_label)) },
-            placeholder = { Text(stringResource(R.string.squad_profile_nickname_placeholder)) },
-            isError = nickname.isNotBlank() && nickname.length > 30,
-            singleLine = true,
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        ExposedDropdownMenuBox(
-            expanded = platformDropdownExpanded,
-            onExpandedChange = { platformDropdownExpanded = !platformDropdownExpanded },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            OutlinedTextField(
-                value = stringResource(selectedPlatform.labelRes),
-                onValueChange = {},
-                readOnly = true,
-                label = { Text(stringResource(R.string.squad_profile_platform_label)) },
-                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = platformDropdownExpanded) },
-                modifier = Modifier
-                    .menuAnchor()
-                    .fillMaxWidth()
-            )
-
-            ExposedDropdownMenu(
-                expanded = platformDropdownExpanded,
-                onDismissRequest = { platformDropdownExpanded = false }
-            ) {
-                Platform.entries.forEach { platform ->
-                    DropdownMenuItem(
-                        text = { Text(stringResource(platform.labelRes)) },
-                        onClick = {
-                            selectedPlatform = platform
-                            platformDropdownExpanded = false
-                        }
-                    )
-                }
-            }
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        ExposedDropdownMenuBox(
-            expanded = regionDropdownExpanded,
-            onExpandedChange = { regionDropdownExpanded = !regionDropdownExpanded },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            OutlinedTextField(
-                value = stringResource(selectedRegion.labelRes),
-                onValueChange = {},
-                readOnly = true,
-                label = { Text(stringResource(R.string.squad_profile_region_label)) },
-                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = regionDropdownExpanded) },
-                modifier = Modifier
-                    .menuAnchor()
-                    .fillMaxWidth()
-            )
-
-            ExposedDropdownMenu(
-                expanded = regionDropdownExpanded,
-                onDismissRequest = { regionDropdownExpanded = false }
-            ) {
-                Region.entries.forEach { region ->
-                    DropdownMenuItem(
-                        text = { Text(stringResource(region.labelRes)) },
-                        onClick = {
-                            selectedRegion = region
-                            regionDropdownExpanded = false
-                        }
-                    )
-                }
-            }
-        }
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        val saveButtonInteraction = remember { MutableInteractionSource() }
-        Button(
-            onClick = {
-                if (isNicknameValid) {
-                    onSaveProfile(nickname.trim(), selectedPlatform, selectedRegion)
-                }
-            },
-            enabled = isNicknameValid,
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .pressScale(saveButtonInteraction, PressIntensity.MODERATE)
+                .fillMaxSize()
+                .padding(16.dp)
+                .verticalScroll(scrollState)
         ) {
-            Icon(
-                painter = painterResource(R.drawable.ic_check),
-                contentDescription = null,
-                modifier = Modifier.size(20.dp)
-            )
-            Spacer(modifier = Modifier.width(8.dp))
             Text(
-                text = stringResource(R.string.squad_profile_save_button),
-                fontWeight = FontWeight.Bold
+                text = stringResource(R.string.squad_profile_title),
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.padding(end = 40.dp)
             )
-        }
+            Text(
+                text = stringResource(R.string.squad_profile_desc),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
 
-        if (userProfile != null) {
-            Spacer(modifier = Modifier.height(24.dp))
-            Card(
+            Spacer(modifier = Modifier.height(20.dp))
+
+            OutlinedTextField(
+                value = nickname,
+                onValueChange = { if (it.length <= 30) nickname = it },
+                label = { Text(stringResource(R.string.squad_profile_nickname_label)) },
+                placeholder = { Text(stringResource(R.string.squad_profile_nickname_placeholder)) },
+                isError = nickname.isNotBlank() && nickname.length > 30,
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            ExposedDropdownMenuBox(
+                expanded = platformDropdownExpanded,
+                onExpandedChange = { platformDropdownExpanded = !platformDropdownExpanded },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Column(modifier = Modifier.padding(12.dp)) {
-                    Text(
-                        text = stringResource(R.string.squad_profile_saved_title),
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text(
-                        text = "${stringResource(R.string.squad_card_nick_label)} ${userProfile.nickname}",
-                        style = MaterialTheme.typography.bodyMedium,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Text(
-                        text = "${stringResource(R.string.squad_profile_platform_label)}: ${
-                            stringResource(
-                                userProfile.platform.labelRes
-                            )
-                        }",
-                        style = MaterialTheme.typography.bodySmall
-                    )
-                    Text(
-                        text = "${stringResource(R.string.squad_profile_region_label)}: ${
-                            stringResource(
-                                userProfile.region.labelRes
-                            )
-                        }",
-                        style = MaterialTheme.typography.bodySmall
-                    )
+                OutlinedTextField(
+                    value = stringResource(selectedPlatform.labelRes),
+                    onValueChange = {},
+                    readOnly = true,
+                    label = { Text(stringResource(R.string.squad_profile_platform_label)) },
+                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = platformDropdownExpanded) },
+                    modifier = Modifier
+                        .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable)
+                        .fillMaxWidth()
+                )
+
+                ExposedDropdownMenu(
+                    expanded = platformDropdownExpanded,
+                    onDismissRequest = { platformDropdownExpanded = false }
+                ) {
+                    Platform.entries.forEach { platform ->
+                        DropdownMenuItem(
+                            text = { Text(stringResource(platform.labelRes)) },
+                            onClick = {
+                                selectedPlatform = platform
+                                platformDropdownExpanded = false
+                            }
+                        )
+                    }
                 }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            ExposedDropdownMenuBox(
+                expanded = regionDropdownExpanded,
+                onExpandedChange = { regionDropdownExpanded = !regionDropdownExpanded },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                OutlinedTextField(
+                    value = stringResource(selectedRegion.labelRes),
+                    onValueChange = {},
+                    readOnly = true,
+                    label = { Text(stringResource(R.string.squad_profile_region_label)) },
+                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = regionDropdownExpanded) },
+                    modifier = Modifier
+                        .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable)
+                        .fillMaxWidth()
+                )
+
+                ExposedDropdownMenu(
+                    expanded = regionDropdownExpanded,
+                    onDismissRequest = { regionDropdownExpanded = false }
+                ) {
+                    Region.entries.forEach { region ->
+                        DropdownMenuItem(
+                            text = { Text(stringResource(region.labelRes)) },
+                            onClick = {
+                                selectedRegion = region
+                                regionDropdownExpanded = false
+                            }
+                        )
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            val saveButtonInteraction = remember { MutableInteractionSource() }
+            Button(
+                onClick = {
+                    if (isNicknameValid) {
+                        onSaveProfile(nickname.trim(), selectedPlatform, selectedRegion)
+                    }
+                },
+                enabled = isNicknameValid,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .pressScale(saveButtonInteraction, PressIntensity.MODERATE)
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_check),
+                    contentDescription = null,
+                    modifier = Modifier.size(20.dp)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = stringResource(R.string.squad_profile_save_button),
+                    fontWeight = FontWeight.Bold
+                )
+            }
+        }
+
+        if (onClose != null) {
+            val closeInteraction = remember { MutableInteractionSource() }
+            IconButton(
+                onClick = onClose,
+                interactionSource = closeInteraction,
+                modifier = Modifier
+                    .padding(8.dp)
+                    .align(Alignment.TopEnd)
+                    .pressScale(closeInteraction, PressIntensity.SUBTLE)
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_close),
+                    contentDescription = stringResource(R.string.close),
+                    tint = MaterialTheme.colorScheme.onSurface
+                )
             }
         }
     }

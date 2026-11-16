@@ -206,7 +206,7 @@ class SquadFinderViewModel @Inject constructor(
         observePublicAnnouncements()
     }
 
-    private fun setPlatformFilter(platform: Platform?) {
+    private fun setPlatformFilter(platform: Platform) {
         _state.update { it.copy(platformFilter = platform) }
         observePublicAnnouncements()
     }

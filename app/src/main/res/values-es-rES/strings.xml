@@ -61,7 +61,7 @@
 
     <!-- Squad Finder Tabs -->
     <string name="squad_tab_opportunities">Reclutando</string>
-    <string name="squad_tab_my_announcement">Mi anuncio</string>
+    <string name="squad_tab_my_announcement">Anunciar</string>
     <string name="squad_tab_profile">Perfil</string>
 
     <!-- Squad Finder Notifications & UI -->
@@ -72,9 +72,6 @@
     <string name="notification_squad_connected">Conectado</string>
     <string name="notification_squad_disconnected">Desconectado</string>
     <string name="notification_action_stop">Finalizar anuncio</string>
-
-    <string name="squad_card_my_announcement">Mi anuncio</string>
-    <string name="squad_card_active">Activo</string>
     <string name="squad_card_nick_label">Nombre de usuario:</string>
     <string name="squad_card_copy_nickname">Copiar nombre de usuario</string>
     <string name="squad_card_nickname_copied">¡Usuario \'%1$s\' copiado!</string>
@@ -104,6 +101,7 @@
     <string name="squad_my_note_label">Nota opcional (ej. Radshare 4/4)</string>
     <string name="squad_my_note_placeholder">Ej: Busco farm rápido</string>
     <string name="squad_my_inherited_profile_title">Datos heredados del perfil:</string>
+    <string name="squad_my_inherited_profile_edit">Editar</string>
     <string name="squad_my_publish_button">Publicar anuncio</string>
 
     <string name="squad_profile_title">Perfil de Warframe</string>

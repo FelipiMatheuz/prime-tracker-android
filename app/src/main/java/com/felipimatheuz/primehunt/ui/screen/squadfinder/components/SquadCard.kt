@@ -77,25 +77,6 @@ fun SquadCard(
                         color = MaterialTheme.colorScheme.onSurface
                     )
                 }
-
-                // Live status indicator
-                AssistChip(
-                    onClick = { },
-                    label = {
-                        Text(
-                            text = if (announcement.isMine) stringResource(R.string.squad_card_my_announcement)
-                            else stringResource(R.string.squad_card_active),
-                            style = MaterialTheme.typography.labelSmall
-                        )
-                    },
-                    colors = AssistChipDefaults.assistChipColors(
-                        containerColor = if (announcement.isMine) {
-                            MaterialTheme.colorScheme.primaryContainer
-                        } else {
-                            MaterialTheme.colorScheme.secondaryContainer
-                        }
-                    )
-                )
             }
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -126,7 +107,7 @@ fun SquadCard(
                 IconButton(
                     onClick = {
                         val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                        val clip = ClipData.newPlainText("Warframe Nickname", announcement.nickname)
+                        val clip = ClipData.newPlainText("Warframe Username", "/w ${announcement.nickname} Hi! Invite me to your squad for ${announcement.targetName} (SquadFinder)")
                         clipboard.setPrimaryClip(clip)
                         Toast.makeText(context, nicknameCopiedMsg, Toast.LENGTH_SHORT).show()
                     },
@@ -135,7 +116,7 @@ fun SquadCard(
                         .pressScale(copyInteraction, PressIntensity.SUBTLE)
                 ) {
                     Icon(
-                        painter = painterResource(R.drawable.ic_check),
+                        painter = painterResource(R.drawable.ic_copy),
                         contentDescription = stringResource(R.string.squad_card_copy_nickname),
                         tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.size(18.dp)

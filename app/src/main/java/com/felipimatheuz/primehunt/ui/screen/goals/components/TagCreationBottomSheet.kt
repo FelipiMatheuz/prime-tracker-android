@@ -114,12 +114,12 @@ fun TagCreationBottomSheet(
                 )
             }
 
-            val creatButtonInteraction = remember { MutableInteractionSource() }
+            val createButtonInteraction = remember { MutableInteractionSource() }
             Button(
                 onClick = onCreateClick,
-                interactionSource = creatButtonInteraction,
+                interactionSource = createButtonInteraction,
                 modifier = Modifier.fillMaxWidth().pressScale(
-                    interactionSource = creatButtonInteraction,
+                    interactionSource = createButtonInteraction,
                     intensity = PressIntensity.VERY_SUBTLE,
                     enabled = isValid
                 ),
