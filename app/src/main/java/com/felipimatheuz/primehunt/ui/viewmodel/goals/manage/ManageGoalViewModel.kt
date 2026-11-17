@@ -1,8 +1,8 @@
 package com.felipimatheuz.primehunt.ui.viewmodel.goals.manage
 
-import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.compose.ui.graphics.toArgb
 import com.felipimatheuz.primehunt.domain.model.enums.GoalTargetType
 import com.felipimatheuz.primehunt.domain.model.GoalDomain
 import com.felipimatheuz.primehunt.domain.model.GoalTagDomain
@@ -60,8 +60,9 @@ class ManageGoalViewModel @Inject constructor(
             .distinctUntilChanged()
             .onEach { query ->
                 if (query.length >= 2) {
-                    val filtered = allTargets.filter {
-                        it.type == _state.value.targetType && it.name.contains(query, ignoreCase = true)
+                    val filtered = allTargets.filter { target ->
+                        target.type == _state.value.targetType &&
+                        target.name.contains(query, ignoreCase = true)
                     }.take(5)
                     _state.update { it.copy(suggestions = filtered) }
                 } else {
@@ -207,7 +208,7 @@ class ManageGoalViewModel @Inject constructor(
                     desiredQuantity = s.quantity,
                     tagId = s.selectedTag!!.id,
                     note = s.notes.ifBlank { null },
-                    manualCurrentQuantity = if (s.targetType == GoalTargetType.RELIC || s.targetType == GoalTargetType.FORMA || s.targetType == GoalTargetType.DUCAT) s.manualCurrentQuantity else null
+                    manualCurrentQuantity = if (s.targetType == GoalTargetType.RELIC || s.targetType == GoalTargetType.OTHER) s.manualCurrentQuantity else null
                 )
             } else {
                 repository.saveGoal(
@@ -216,7 +217,7 @@ class ManageGoalViewModel @Inject constructor(
                     desiredQuantity = s.quantity,
                     tagId = s.selectedTag!!.id,
                     note = s.notes.ifBlank { null },
-                    manualCurrentQuantity = if (s.targetType == GoalTargetType.RELIC || s.targetType == GoalTargetType.FORMA || s.targetType == GoalTargetType.DUCAT) s.manualCurrentQuantity else 0
+                    manualCurrentQuantity = if (s.targetType == GoalTargetType.RELIC || s.targetType == GoalTargetType.OTHER) s.manualCurrentQuantity else 0
                 )
             }
 

@@ -4,7 +4,6 @@ import com.felipimatheuz.primehunt.data.mapper.SquadMapper
 import com.felipimatheuz.primehunt.data.model.PrimeBaseData
 import com.felipimatheuz.primehunt.data.remote.dto.AnnouncementDto
 import com.felipimatheuz.primehunt.data.remote.firebase.SquadRemoteDataSource
-import com.felipimatheuz.primehunt.domain.model.enums.GoalTargetType
 import com.felipimatheuz.primehunt.domain.model.squad.Platform
 import com.felipimatheuz.primehunt.domain.model.squad.Region
 import com.felipimatheuz.primehunt.domain.model.squad.SquadAnnouncement
@@ -184,8 +183,8 @@ class SquadRepositoryImpl @Inject constructor(
         if (relic != null) return "${relic.era.name} ${relic.name}"
 
         return when (targetId) {
-            GoalTargetType.FORMA.name -> "Forma"
-            GoalTargetType.DUCAT.name -> "Ducats"
+            "forma_blueprint" -> "Forma"
+            "ducat" -> "Ducats"
             else -> targetId
         }
     }

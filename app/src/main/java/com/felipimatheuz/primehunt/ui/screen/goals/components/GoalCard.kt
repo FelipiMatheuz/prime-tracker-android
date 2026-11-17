@@ -4,6 +4,7 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -29,6 +30,7 @@ import com.felipimatheuz.primehunt.domain.model.enums.GoalStatus
 import com.felipimatheuz.primehunt.domain.model.enums.GoalTargetType
 import com.felipimatheuz.primehunt.domain.model.GoalDomain
 import com.felipimatheuz.primehunt.domain.model.GoalTagDomain
+import com.felipimatheuz.primehunt.domain.model.enums.PrimePartType
 import com.felipimatheuz.primehunt.ui.modifier.PressIntensity
 import com.felipimatheuz.primehunt.ui.modifier.pressScale
 import com.felipimatheuz.primehunt.ui.screen.components.GoalTagChip
@@ -37,7 +39,6 @@ import com.felipimatheuz.primehunt.ui.theme.PrimeTrackerTheme
 import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.seconds
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GoalCard(
     goal: GoalDomain,
@@ -47,6 +48,10 @@ fun GoalCard(
     onClick: () -> Unit
 ) {
     val isCompleted = goal.status == GoalStatus.COMPLETED
+    val internationalizedName = internationalizeTargetName(goal)
+    val isDefaultLanguage = internationalizedName.replace(":", "") == goal.targetName
+    val iconSize = if (isDefaultLanguage) 18.dp else 24.dp
+
     val completionRatio = if (goal.desiredQuantity > 0) {
         goal.currentQuantity.toFloat() / goal.desiredQuantity
     } else 0f
@@ -123,17 +128,27 @@ fun GoalCard(
                 Icon(
                     painter = painterResource(goal.targetType.icon),
                     contentDescription = stringResource(goal.targetType.label),
-                    modifier = Modifier.size(18.dp),
+                    modifier = Modifier.size(iconSize),
                     tint = if (isCompleted) Completed else MaterialTheme.colorScheme.primary
                 )
-                Text(
-                    text = goal.targetName,
-                    style = MaterialTheme.typography.titleSmall,
-                    fontWeight = FontWeight.Bold,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.weight(1f)
-                )
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = internationalizedName,
+                        style = MaterialTheme.typography.titleSmall,
+                        fontWeight = FontWeight.Bold,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                    if (!isDefaultLanguage) {
+                        Text(
+                            text = "(${goal.targetName})",
+                            style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp),
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
+                }
+
             }
 
             Text(
@@ -155,7 +170,7 @@ fun GoalCard(
                     tint = progressColor
                 )
                 Text(
-                    text = if(isCompleted) stringResource(R.string.relic_completed) else "${goal.currentQuantity} / ${goal.desiredQuantity}",
+                    text = if (isCompleted) stringResource(R.string.relic_completed) else "${goal.currentQuantity} / ${goal.desiredQuantity}",
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.SemiBold,
                     color = if (completionRatio > 0f || isCompleted) progressColor else Color.Unspecified
@@ -177,11 +192,52 @@ fun GoalCard(
     }
 }
 
+@Composable
+private fun internationalizeTargetName(goal: GoalDomain): String {
+    return when (goal.targetType) {
+        GoalTargetType.PRIME_SET, GoalTargetType.RELIC -> goal.targetName
+        GoalTargetType.OTHER -> {
+            if (goal.targetId == "forma_blueprint") {
+                stringResource(R.string.forma_blueprint)
+            } else {
+                goal.targetName
+            }
+        }
+        GoalTargetType.PRIME_PART -> {
+            normalizeRewardName(goal.targetName)
+        }
+    }
+}
+
+@Composable
+private fun normalizeRewardName(name: String): String {
+    val primeIndex = name.indexOf("Prime")
+    if (primeIndex == -1) {
+        return name
+    }
+
+    val immutablePart = name.substring(0, primeIndex + "Prime".length).trim()
+    val translatablePart = name.substring(primeIndex + "Prime".length).trim()
+    val primePart = PrimePartType.fromString(translatablePart)
+    if (primePart == PrimePartType.BLUEPRINT || primePart == PrimePartType.PRIME_SET) {
+        return "$immutablePart: $translatablePart"
+    }
+
+    return buildString {
+        append(immutablePart.replaceFirstChar { it.uppercase() })
+        append(": ")
+        append(stringResource(primePart.text))
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 fun GoalCardPreview() {
     PrimeTrackerTheme {
-        Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
             GoalCard(
                 goal = GoalDomain(
                     id = 1,
@@ -201,7 +257,7 @@ fun GoalCardPreview() {
                 ),
                 onClick = {}
             )
-            
+
             GoalCard(
                 goal = GoalDomain(
                     id = 2,

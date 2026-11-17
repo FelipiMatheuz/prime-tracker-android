@@ -4,6 +4,7 @@ import com.felipimatheuz.primehunt.data.local.dao.GoalDao
 import com.felipimatheuz.primehunt.data.local.dao.GoalTagDao
 import com.felipimatheuz.primehunt.data.local.entity.GoalEntity
 import com.felipimatheuz.primehunt.data.local.entity.GoalTagEntity
+import com.felipimatheuz.primehunt.data.mapper.toInventoryMap
 import com.felipimatheuz.primehunt.domain.model.enums.GoalStatus
 import com.felipimatheuz.primehunt.domain.model.enums.GoalTargetType
 import com.felipimatheuz.primehunt.domain.mapper.GoalMapper
@@ -90,7 +91,7 @@ class GoalRepositoryImpl @Inject constructor(
         primeDataStore.inventoryDao.observeInventory(),
         primeDataStore.baseData
     ) { goals, inventory, data ->
-        val inventoryMap = inventory.associate { it.primePartId to it.quantity }
+        val inventoryMap = inventory.toInventoryMap()
         goals.map { mapToDomain(it, inventoryMap, data) }
     }
 
@@ -100,7 +101,7 @@ class GoalRepositoryImpl @Inject constructor(
         primeDataStore.baseData
     ) { goalWithTag, inventory, data ->
         goalWithTag?.let {
-            val inventoryMap = inventory.associate { item -> item.primePartId to item.quantity }
+            val inventoryMap = inventory.toInventoryMap()
             mapToDomain(it, inventoryMap, data)
         }
     }

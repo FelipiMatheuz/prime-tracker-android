@@ -3,6 +3,7 @@ package com.felipimatheuz.primehunt.domain.usecase.cloud
 import com.felipimatheuz.primehunt.data.local.dao.GoalDao
 import com.felipimatheuz.primehunt.data.local.dao.GoalTagDao
 import com.felipimatheuz.primehunt.data.local.dao.InventoryDao
+import com.felipimatheuz.primehunt.data.mapper.toInventoryMap
 import com.felipimatheuz.primehunt.domain.repository.CloudRemoteDataSource
 import com.felipimatheuz.primehunt.ui.viewmodel.cloud.CloudActionResult
 import kotlinx.coroutines.flow.first
@@ -15,7 +16,7 @@ class UploadBackupUseCase @Inject constructor(
     private val tagDao: GoalTagDao
 ) {
     suspend operator fun invoke(userId: String): CloudActionResult {
-        val inventory = inventoryDao.observeInventory().first().associate { it.primePartId to it.quantity }
+        val inventory = inventoryDao.observeInventory().first().toInventoryMap()
         val goals = goalDao.observeAll().first().map { goal ->
             mapOf(
                 "targetType" to goal.targetType.name,

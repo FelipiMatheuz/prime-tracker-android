@@ -88,8 +88,7 @@ fun GoalsFilterBottomSheet(
                                         GoalTargetType.PRIME_SET -> R.string.goal_target_prime_set
                                         GoalTargetType.PRIME_PART -> R.string.goal_target_prime_part
                                         GoalTargetType.RELIC -> R.string.goal_target_relic
-                                        GoalTargetType.FORMA -> R.string.goal_target_forma
-                                        GoalTargetType.DUCAT -> R.string.goal_target_ducat
+                                        GoalTargetType.OTHER -> R.string.goal_target_other
                                     }
                                 )
                             )

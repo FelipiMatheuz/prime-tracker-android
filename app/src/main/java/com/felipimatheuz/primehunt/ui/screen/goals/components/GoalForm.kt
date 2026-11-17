@@ -44,6 +44,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.domain.model.enums.GoalTargetType
+import com.felipimatheuz.primehunt.domain.model.enums.PrimePartType
 import com.felipimatheuz.primehunt.domain.model.GoalTagDomain
 import com.felipimatheuz.primehunt.domain.model.TargetDomain
 import com.felipimatheuz.primehunt.ui.modifier.PressIntensity
@@ -53,6 +54,7 @@ import com.felipimatheuz.primehunt.ui.screen.components.GoalTagChip
 data class GoalFormState(
     val targetType: GoalTargetType,
     val targetQuery: String,
+    val selectedTarget: TargetDomain? = null,
     val suggestions: List<TargetDomain>,
     val quantity: Int,
     val selectedTag: GoalTagDomain?,
@@ -164,9 +166,15 @@ fun GoalForm(
             )
         }
 
+        val displayedTargetValue = if (state.readOnlyTarget || state.selectedTarget != null) {
+            internationalizeQuery(if (state.selectedTarget != null) state.selectedTarget.name else state.targetQuery, state.targetType)
+        } else {
+            state.targetQuery
+        }
+
         if (state.readOnlyTarget) {
             OutlinedTextField(
-                value = state.targetQuery,
+                value = displayedTargetValue,
                 onValueChange = {},
                 readOnly = true,
                 enabled = false,
@@ -175,7 +183,7 @@ fun GoalForm(
             )
         } else {
             AutocompleteTextField(
-                value = state.targetQuery,
+                value = displayedTargetValue,
                 onValueChange = actions.onTargetQueryChange,
                 suggestions = state.suggestions,
                 onSuggestionSelected = actions.onTargetSelected,
@@ -347,5 +355,45 @@ fun GoalForm(
                 onDone = { focusManager.clearFocus() }
             )
         )
+    }
+}
+
+@Composable
+private fun internationalizeQuery(query: String, type: GoalTargetType): String {
+    if (query.isBlank()) return query
+    return when (type) {
+        GoalTargetType.PRIME_SET, GoalTargetType.RELIC -> query
+        GoalTargetType.OTHER -> {
+            if (query.replace(":","").equals("Forma Blueprint", ignoreCase = true) || query.equals("forma_blueprint", ignoreCase = true)) {
+                stringResource(R.string.forma_blueprint)
+            } else {
+                query
+            }
+        }
+        GoalTargetType.PRIME_PART -> {
+            normalizeRewardName(query)
+        }
+    }
+}
+
+@Composable
+private fun normalizeRewardName(name: String): String {
+    val primeIndex = name.indexOf("Prime")
+    if (primeIndex == -1) {
+        return name
+    }
+
+    val immutablePart = name.substring(0, primeIndex + "Prime".length).trim()
+    val translatablePart = name.substring(primeIndex + "Prime".length).trim()
+    if (translatablePart.isEmpty()) return name
+    val primePart = PrimePartType.fromString(translatablePart)
+    if (primePart == PrimePartType.PRIME_SET) {
+        return "$immutablePart: $translatablePart"
+    }
+
+    return buildString {
+        append(immutablePart.replaceFirstChar { it.uppercase() })
+        append(": ")
+        append(stringResource(primePart.text))
     }
 }

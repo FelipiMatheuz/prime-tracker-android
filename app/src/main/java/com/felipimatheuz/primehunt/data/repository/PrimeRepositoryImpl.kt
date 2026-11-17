@@ -3,6 +3,7 @@ package com.felipimatheuz.primehunt.data.repository
 import com.felipimatheuz.primehunt.data.local.dao.*
 import com.felipimatheuz.primehunt.data.mapper.PrimeMapper
 import com.felipimatheuz.primehunt.data.mapper.RelicMapper
+import com.felipimatheuz.primehunt.data.mapper.toInventoryMap
 import com.felipimatheuz.primehunt.domain.model.PrimeCollection
 import com.felipimatheuz.primehunt.domain.model.PrimeSetDomain
 import com.felipimatheuz.primehunt.domain.model.RelicDomain
@@ -30,7 +31,7 @@ class PrimeRepositoryImpl @Inject constructor(
         primeDataStore.baseData.distinctUntilChanged(),
         primeDataStore.inventoryDao.observeInventory().distinctUntilChanged()
     ) { data, inventory ->
-        val inventoryMap = inventory.associate { it.primePartId to it.quantity }
+        val inventoryMap = inventory.toInventoryMap()
         PrimeMapper.mapToDomainSets(data, inventoryMap)
     }
 
@@ -68,7 +69,7 @@ class PrimeRepositoryImpl @Inject constructor(
         primeDataStore.inventoryDao.observeInventory().distinctUntilChanged(),
         goalRepository.observeAllWithTags().distinctUntilChanged()
     ) { data, inventory, goals ->
-        val inventoryMap = inventory.associate { it.primePartId to it.quantity }
+        val inventoryMap = inventory.toInventoryMap()
         val goalsByTarget = goals.groupBy { it.targetId }
         RelicMapper.mapToDomain(data, inventoryMap, goalsByTarget)
     }
@@ -77,7 +78,7 @@ class PrimeRepositoryImpl @Inject constructor(
         primeDataStore.baseData.distinctUntilChanged(),
         primeDataStore.inventoryDao.observeInventory().distinctUntilChanged()
     ) { data, inventory ->
-        val inventoryMap = inventory.associate { it.primePartId to it.quantity }
+        val inventoryMap = inventory.toInventoryMap()
         PrimeMapper.mapToDomainSet(id, data, inventoryMap)
     }
 

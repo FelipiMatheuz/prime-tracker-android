@@ -245,6 +245,7 @@
     <string name="goal_target_prime_set">Prime Set</string>
     <string name="goal_target_prime_part">Prime Teil</string>
     <string name="goal_target_relic">Relikt</string>
+    <string name="goal_target_other">Andere</string>
 
     <string name="empty_goals_active_title">Keine aktiven Ziele</string>
     <string name="empty_goals_active_desc">Tippe auf +, um deinen ersten Farming-Plan zu erstellen.</string>

@@ -245,6 +245,7 @@
     <string name="goal_target_prime_set">Prime 套装</string>
     <string name="goal_target_prime_part">Prime 部件</string>
     <string name="goal_target_relic">虚空遗物</string>
+    <string name="goal_target_other">其他</string>
 
     <string name="empty_goals_active_title">无活动目标</string>
     <string name="empty_goals_active_desc">点击 + 创建你的第一个刷取计划。</string>

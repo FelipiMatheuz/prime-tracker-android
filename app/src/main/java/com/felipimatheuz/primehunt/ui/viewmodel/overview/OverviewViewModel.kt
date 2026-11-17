@@ -23,6 +23,8 @@ class OverviewViewModel @Inject constructor(
     getOverviewUseCase: GetOverviewUseCase
 ) : ViewModel() {
 
+    private val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
+
     val uiState: StateFlow<OverviewState> = getOverviewUseCase()
         .map { it.toUiState() }
         .stateIn(
@@ -32,8 +34,6 @@ class OverviewViewModel @Inject constructor(
         )
 
     private fun OverviewDomainModel.toUiState(): OverviewState {
-        val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
-
         return OverviewState(
             primeSets = PrimeSetsOverviewUi(
                 progress = primeSets.progress,

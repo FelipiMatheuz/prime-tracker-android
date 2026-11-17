@@ -53,8 +53,8 @@ class GetGoalsUseCase @Inject constructor(
         }
         
         val otherTargets = listOf(
-            TargetDomain("forma_blueprint", "Forma", GoalTargetType.FORMA),
-            TargetDomain("ducat", "Ducat", GoalTargetType.DUCAT)
+            TargetDomain("forma_blueprint", "Forma: Blueprint", GoalTargetType.OTHER),
+            TargetDomain("ducat", "Ducat", GoalTargetType.OTHER)
         )
 
         setTargets + synthesizedBlueprints + partTargets + relicTargets + otherTargets

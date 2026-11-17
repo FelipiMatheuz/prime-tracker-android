@@ -67,12 +67,13 @@ object GoalMapper {
                 relicName to goal.currentQuantity
             }
 
-            GoalTargetType.FORMA -> {
-                "Forma" to goal.currentQuantity
-            }
-
-            GoalTargetType.DUCAT -> {
-                "Ducat" to goal.currentQuantity
+            GoalTargetType.OTHER -> {
+                val name = when (goal.targetId) {
+                    "forma_blueprint" -> "Forma"
+                    "ducat" -> "Ducat"
+                    else -> goal.targetId
+                }
+                name to goal.currentQuantity
             }
         }
 

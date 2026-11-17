@@ -17,7 +17,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.domain.model.TargetDomain
+import com.felipimatheuz.primehunt.domain.model.enums.GoalTargetType
+import com.felipimatheuz.primehunt.domain.model.enums.PrimePartType
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -62,8 +66,9 @@ fun AutocompleteTextField(
                     onDismissRequest = { expanded = false }
                 ) {
                     suggestions.forEach { suggestion ->
+                        val displayName = internationalizeTargetName(suggestion)
                         DropdownMenuItem(
-                            text = { Text(suggestion.name) },
+                            text = { Text(displayName) },
                             onClick = {
                                 onSuggestionSelected(suggestion)
                                 expanded = false
@@ -73,5 +78,43 @@ fun AutocompleteTextField(
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun internationalizeTargetName(target: TargetDomain): String {
+    return when (target.type) {
+        GoalTargetType.PRIME_SET, GoalTargetType.RELIC -> target.name
+        GoalTargetType.OTHER -> {
+            if (target.id == "forma_blueprint") {
+                stringResource(R.string.forma_blueprint)
+            } else {
+                target.name
+            }
+        }
+        GoalTargetType.PRIME_PART -> {
+            normalizeRewardName(target.name)
+        }
+    }
+}
+
+@Composable
+private fun normalizeRewardName(name: String): String {
+    val primeIndex = name.indexOf("Prime")
+    if (primeIndex == -1) {
+        return name
+    }
+
+    val immutablePart = name.substring(0, primeIndex + "Prime".length).trim()
+    val translatablePart = name.substring(primeIndex + "Prime".length).trim()
+    val primePart = PrimePartType.fromString(translatablePart)
+    if (primePart == PrimePartType.PRIME_SET) {
+        return "$immutablePart: $translatablePart"
+    }
+
+    return buildString {
+        append(immutablePart.replaceFirstChar { it.uppercase() })
+        append(": ")
+        append(stringResource(primePart.text))
     }
 }
