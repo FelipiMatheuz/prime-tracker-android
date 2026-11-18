@@ -33,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import com.felipimatheuz.primehunt.ui.util.TargetLocalizationHelper
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -86,8 +87,12 @@ fun SquadCreateAnnouncementContent(
                 onExpandedChange = { dropdownExpanded = !dropdownExpanded },
                 modifier = Modifier.fillMaxWidth()
             ) {
+                val selectedGoalText = selectedGoal?.let {
+                    TargetLocalizationHelper.getLocalizedTargetName(it.targetName, it.targetType, it.targetId)
+                } ?: stringResource(R.string.squad_my_select_goal)
+
                 OutlinedTextField(
-                    value = selectedGoal?.targetName ?: stringResource(R.string.squad_my_select_goal),
+                    value = selectedGoalText,
                     onValueChange = {},
                     readOnly = true,
                     label = { Text(stringResource(R.string.squad_my_goal_label)) },
@@ -108,8 +113,9 @@ fun SquadCreateAnnouncementContent(
                         )
                     } else {
                         availableGoals.forEach { goal ->
+                            val localizedGoalName = TargetLocalizationHelper.getLocalizedTargetName(goal.targetName, goal.targetType, goal.targetId)
                             DropdownMenuItem(
-                                text = { Text(goal.targetName) },
+                                text = { Text(localizedGoalName) },
                                 onClick = {
                                     selectedGoal = goal
                                     dropdownExpanded = false

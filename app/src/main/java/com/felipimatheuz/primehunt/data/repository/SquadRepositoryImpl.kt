@@ -10,6 +10,7 @@ import com.felipimatheuz.primehunt.domain.model.squad.SquadAnnouncement
 import com.felipimatheuz.primehunt.domain.model.squad.UserProfile
 import com.felipimatheuz.primehunt.domain.repository.AuthRepository
 import com.felipimatheuz.primehunt.domain.repository.SquadRepository
+import com.felipimatheuz.primehunt.domain.model.enums.PrimePartType
 import com.felipimatheuz.primehunt.domain.util.StringFormatter
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -176,15 +177,19 @@ class SquadRepositoryImpl @Inject constructor(
         val part = data.parts.firstOrNull { it.id == targetId }
         if (part != null) {
             val setName = data.sets.firstOrNull { it.id == part.primeSetId }?.name ?: ""
-            return StringFormatter.formatPartName(setName, part.part)
+            return if (part.id == part.primeSetId || part.part == PrimePartType.BLUEPRINT) {
+                StringFormatter.getBlueprintName(setName)
+            } else {
+                StringFormatter.formatPartName(setName, part.part)
+            }
         }
 
         val relic = data.relics.firstOrNull { it.id == targetId }
         if (relic != null) return "${relic.era.name} ${relic.name}"
 
         return when (targetId) {
-            "forma_blueprint" -> "Forma"
-            "ducat" -> "Ducats"
+            "forma_blueprint" -> "Forma Blueprint"
+            "ducat" -> "Ducat"
             else -> targetId
         }
     }

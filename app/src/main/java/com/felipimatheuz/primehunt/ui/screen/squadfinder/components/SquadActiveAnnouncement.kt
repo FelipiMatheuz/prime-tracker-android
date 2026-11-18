@@ -40,6 +40,7 @@ import com.felipimatheuz.primehunt.domain.model.enums.AppTheme
 import com.felipimatheuz.primehunt.domain.model.squad.Platform
 import com.felipimatheuz.primehunt.domain.model.squad.Region
 import com.felipimatheuz.primehunt.domain.model.squad.SquadAnnouncement
+import com.felipimatheuz.primehunt.ui.util.TargetLocalizationHelper
 import com.felipimatheuz.primehunt.ui.modifier.PressIntensity
 import com.felipimatheuz.primehunt.ui.modifier.pressScale
 import com.felipimatheuz.primehunt.ui.screen.components.PrimePanel
@@ -98,17 +99,28 @@ fun SquadActiveAnnouncementContent(
 
                 Spacer(modifier = Modifier.height(12.dp))
 
+                val targetType = TargetLocalizationHelper.determineTargetType(ownAnnouncement.targetId, ownAnnouncement.targetName)
+                val internationalizedName = TargetLocalizationHelper.getLocalizedTargetName(ownAnnouncement.targetName, targetType, ownAnnouncement.targetId)
+                val isDefaultLanguage = internationalizedName.replace(":", "") == ownAnnouncement.targetName
+
                 Text(
                     text = stringResource(R.string.squad_my_target_label),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Text(
-                    text = ownAnnouncement.targetName.ifEmpty { ownAnnouncement.targetId },
+                    text = internationalizedName,
                     style = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSurface
                 )
+                if (!isDefaultLanguage) {
+                    Text(
+                        text = "(${ownAnnouncement.targetName})",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
 
                 Spacer(modifier = Modifier.height(12.dp))
 

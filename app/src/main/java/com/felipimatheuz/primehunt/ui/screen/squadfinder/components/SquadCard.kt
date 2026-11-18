@@ -35,6 +35,7 @@ import com.felipimatheuz.primehunt.R
 import com.felipimatheuz.primehunt.domain.model.squad.Platform
 import com.felipimatheuz.primehunt.domain.model.squad.Region
 import com.felipimatheuz.primehunt.domain.model.squad.SquadAnnouncement
+import com.felipimatheuz.primehunt.ui.util.TargetLocalizationHelper
 import com.felipimatheuz.primehunt.ui.modifier.PressIntensity
 import com.felipimatheuz.primehunt.ui.modifier.pressScale
 import com.felipimatheuz.primehunt.ui.screen.components.PrimePanel
@@ -70,18 +71,30 @@ fun SquadCard(
                         modifier = Modifier.size(24.dp)
                     )
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = announcement.targetName.ifEmpty { announcement.targetId },
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
+                    Column {
+                        val targetType = TargetLocalizationHelper.determineTargetType(announcement.targetId, announcement.targetName)
+                        val internationalizedName = TargetLocalizationHelper.getLocalizedTargetName(announcement.targetName, targetType, announcement.targetId)
+                        val isDefaultLanguage = internationalizedName.replace(":", "") == announcement.targetName
+
+                        Text(
+                            text = internationalizedName,
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                        if (!isDefaultLanguage) {
+                            Text(
+                                text = "(${announcement.targetName})",
+                                style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                    }
                 }
             }
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Nickname & Copy Action
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
