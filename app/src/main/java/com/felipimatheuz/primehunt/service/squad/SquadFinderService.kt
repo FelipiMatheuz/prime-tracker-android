@@ -164,6 +164,6 @@ class SquadFinderService : Service() {
         const val EXTRA_PLATFORM = "extra_platform"
         const val EXTRA_REGION = "extra_region"
 
-        const val HEARTBEAT_INTERVAL_MS = 120_000L // 2 minutes
+        const val HEARTBEAT_INTERVAL_MS = 120_000L
     }
 }

@@ -67,7 +67,7 @@
     <!-- Squad Finder Notifications & UI -->
     <string name="notification_channel_squad_finder_name">Sesión de Squad Finder</string>
     <string name="notification_channel_squad_finder_desc">Notificaciones para búsqueda de escuadrón activa</string>
-    <string name="notification_squad_title">Squad Finder: %1$s</string>
+    <string name="notification_squad_title">Buscador de escuadrón: %1$s</string>
     <string name="notification_squad_status">%1$s • %2$s (%3$s)</string>
     <string name="notification_squad_connected">Conectado</string>
     <string name="notification_squad_disconnected">Desconectado</string>
